@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "fixtures": [
+    {
+      "id": "bulk-insert-owned-file",
+      "statementTypes": [
+        "BulkInsertStatement"
+      ],
+      "setupSql": "CREATE TABLE dbo.CoverageBulk(Id int NOT NULL);",
+      "sql": "BULK INSERT dbo.CoverageBulk FROM '/var/opt/mssql/data/sqlguard-coverage-bulk.csv' WITH(ROWTERMINATOR='0x0a');",
+      "expectedVerdict": "RealWrite",
+      "verifySql": "SELECT COUNT(*) FROM dbo.CoverageBulk;",
+      "beforeScalar": 0,
+      "afterScalar": 2,
+      "cleanupSql": ""
+    },
+    {
+      "id": "external-table-metadata-create",
+      "statementTypes": [
+        "CreateExternalTableStatement"
+      ],
+      "setupSql": "CREATE EXTERNAL DATA SOURCE CoverageSource WITH(LOCATION='sqlserver://example.invalid:1433');",
+      "sql": "CREATE EXTERNAL TABLE dbo.CoverageExternal(Id int) WITH(DATA_SOURCE=CoverageSource,LOCATION='fixture');",
+      "expectedVerdict": "RealWrite",
+      "verifySql": "SELECT COUNT(*) FROM sys.external_tables WHERE name=N'CoverageExternal';",
+      "beforeScalar": 0,
+      "afterScalar": 1,
+      "cleanupSql": ""
+    },
+    {
+      "id": "external-table-metadata-drop",
+      "statementTypes": [
+        "DropExternalTableStatement"
+      ],
+      "setupSql": "CREATE EXTERNAL DATA SOURCE CoverageSource WITH(LOCATION='sqlserver://example.invalid:1433');CREATE EXTERNAL TABLE dbo.CoverageExternal(Id int) WITH(DATA_SOURCE=CoverageSource,LOCATION='fixture');",
+      "sql": "DROP EXTERNAL TABLE dbo.CoverageExternal;",
+      "expectedVerdict": "RealWrite",
+      "verifySql": "SELECT COUNT(*) FROM sys.external_tables WHERE name=N'CoverageExternal';",
+      "beforeScalar": 1,
+      "afterScalar": 0,
+      "cleanupSql": ""
+    }
+  ]
+}

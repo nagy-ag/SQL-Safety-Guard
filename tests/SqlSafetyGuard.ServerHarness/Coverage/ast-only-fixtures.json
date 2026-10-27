@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "fixtures": [
+    {
+      "statementType": "DropExternalStreamStatement",
+      "expectedVerdict": "RealWrite",
+      "reason": "Generator AST node; pinned parser has no DROP EXTERNAL STREAM production."
+    },
+    {
+      "statementType": "DropExternalStreamingJobStatement",
+      "expectedVerdict": "RealWrite",
+      "reason": "Generator AST node; sp_drop_streaming_job parses as ExecuteStatement, not this node."
+    },
+    {
+      "statementType": "EventSessionStatement",
+      "expectedVerdict": "RealWrite",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter event-session subclasses."
+    },
+    {
+      "statementType": "ExternalResourcePoolStatement",
+      "expectedVerdict": "RealWrite",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter external-resource-pool subclasses."
+    },
+    {
+      "statementType": "ResourcePoolStatement",
+      "expectedVerdict": "RealWrite",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter resource-pool subclasses."
+    },
+    {
+      "statementType": "SelectStatementSnippet",
+      "expectedVerdict": "ReadOnly",
+      "reason": "Programmatically constructed SELECT snippet, not a standalone parser statement kind."
+    },
+    {
+      "statementType": "TSqlStatementSnippet",
+      "expectedVerdict": "RealWrite",
+      "reason": "Programmatically constructed raw statement snippet; not a parser production."
+    }
+  ]
+}

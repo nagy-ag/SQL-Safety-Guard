@@ -1,0 +1,1918 @@
+{
+"schemaVersion": 1,
+"fixtures": [
+{
+  "id": "expanded-create-master-key",
+  "statementTypes": [
+    "CreateMasterKeyStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-master-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = '##MS_DatabaseMasterKey##';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-master-key",
+  "statementTypes": [
+    "AlterMasterKeyStatement",
+    "CloseMasterKeyStatement",
+    "OpenMasterKeyStatement"
+  ],
+  "setupSql": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359';",
+  "sql": "ALTER MASTER KEY ADD ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master_New!7359'; CLOSE MASTER KEY; OPEN MASTER KEY DECRYPTION BY PASSWORD = 'Ssg_Coverage_Master_New!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Adds a second persisted password encryption of the database master key; reopening with that password proves it works. The current fingerprint omits sys.key_encryptions.",
+  "verifySql": "SELECT COUNT(*) FROM sys.openkeys WHERE key_name = '##MS_DatabaseMasterKey##';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Observer limitation: sys.key_encryptions is not fingerprinted; scalar verifies opening with the added password, without regenerating key material."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-master-key",
+  "statementTypes": [
+    "DropMasterKeyStatement"
+  ],
+  "setupSql": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359';",
+  "sql": "DROP MASTER KEY;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-master-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.symmetric_keys WHERE name = '##MS_DatabaseMasterKey##') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-open-master-key",
+  "statementTypes": [
+    "OpenMasterKeyStatement"
+  ],
+  "setupSql": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359'; CLOSE MASTER KEY;",
+  "sql": "OPEN MASTER KEY DECRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359';",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT COUNT(*) FROM sys.openkeys WHERE key_name = '##MS_DatabaseMasterKey##';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-close-master-key",
+  "statementTypes": [
+    "CloseMasterKeyStatement"
+  ],
+  "setupSql": "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Master!7359';",
+  "sql": "CLOSE MASTER KEY;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.openkeys WHERE key_name = '##MS_DatabaseMasterKey##') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-certificate",
+  "statementTypes": [
+    "CreateCertificateStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE CERTIFICATE CoverageCert ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Cert!7359' WITH SUBJECT = 'Disposable coverage certificate', EXPIRY_DATE = '20991231';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-certificate; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.certificates WHERE name = 'CoverageCert' AND pvt_key_encryption_type = 'PW';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-certificate",
+  "statementTypes": [
+    "AlterCertificateStatement"
+  ],
+  "setupSql": "CREATE CERTIFICATE CoverageCert ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Cert!7359' WITH SUBJECT = 'Disposable coverage certificate', EXPIRY_DATE = '20991231';",
+  "sql": "ALTER CERTIFICATE CoverageCert REMOVE PRIVATE KEY;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-certificate; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.certificates WHERE name = 'CoverageCert' AND pvt_key_encryption_type = 'NA';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-certificate",
+  "statementTypes": [
+    "DropCertificateStatement"
+  ],
+  "setupSql": "CREATE CERTIFICATE CoverageCert ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Cert!7359' WITH SUBJECT = 'Disposable coverage certificate', EXPIRY_DATE = '20991231';",
+  "sql": "DROP CERTIFICATE CoverageCert;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-certificate; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.certificates WHERE name = 'CoverageCert') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-asymmetric-key",
+  "statementTypes": [
+    "CreateAsymmetricKeyStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE ASYMMETRIC KEY CoverageAsym WITH ALGORITHM = RSA_2048 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Asym!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-asymmetric-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.asymmetric_keys WHERE name = 'CoverageAsym' AND algorithm_desc = 'RSA_2048';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-asymmetric-key",
+  "statementTypes": [
+    "AlterAsymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE ASYMMETRIC KEY CoverageAsym WITH ALGORITHM = RSA_2048 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Asym!7359';",
+  "sql": "ALTER ASYMMETRIC KEY CoverageAsym REMOVE PRIVATE KEY;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-asymmetric-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.asymmetric_keys WHERE name = 'CoverageAsym' AND pvt_key_encryption_type = 'NA';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-asymmetric-key",
+  "statementTypes": [
+    "DropAsymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE ASYMMETRIC KEY CoverageAsym WITH ALGORITHM = RSA_2048 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Asym!7359';",
+  "sql": "DROP ASYMMETRIC KEY CoverageAsym;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-asymmetric-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.asymmetric_keys WHERE name = 'CoverageAsym') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-symmetric-key",
+  "statementTypes": [
+    "CreateSymmetricKeyStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE SYMMETRIC KEY CoverageSym WITH ALGORITHM = AES_256 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-symmetric-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'CoverageSym' AND algorithm_desc = 'AES_256';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-symmetric-key",
+  "statementTypes": [
+    "AlterSymmetricKeyStatement",
+    "CloseSymmetricKeyStatement",
+    "OpenSymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE SYMMETRIC KEY CoverageSym WITH ALGORITHM = AES_256 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359'; OPEN SYMMETRIC KEY CoverageSym DECRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "sql": "ALTER SYMMETRIC KEY CoverageSym ADD ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym_Second!7359'; CLOSE SYMMETRIC KEY CoverageSym; OPEN SYMMETRIC KEY CoverageSym DECRYPTION BY PASSWORD = 'Ssg_Coverage_Sym_Second!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Adds a second persisted password encryption of the local symmetric key; reopening with the new password proves it works. The current fingerprint omits sys.key_encryptions.",
+  "verifySql": "SELECT COUNT(*) FROM sys.openkeys WHERE key_name = 'CoverageSym';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Observer limitation: sys.key_encryptions is not fingerprinted; scalar verifies opening with the newly added password."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-symmetric-key",
+  "statementTypes": [
+    "DropSymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE SYMMETRIC KEY CoverageSym WITH ALGORITHM = AES_256 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "sql": "DROP SYMMETRIC KEY CoverageSym;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-symmetric-key; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.symmetric_keys WHERE name = 'CoverageSym') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-open-symmetric-key",
+  "statementTypes": [
+    "OpenSymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE SYMMETRIC KEY CoverageSym WITH ALGORITHM = AES_256 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "sql": "OPEN SYMMETRIC KEY CoverageSym DECRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT COUNT(*) FROM sys.openkeys WHERE key_name = 'CoverageSym';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-close-symmetric-key",
+  "statementTypes": [
+    "CloseSymmetricKeyStatement"
+  ],
+  "setupSql": "CREATE SYMMETRIC KEY CoverageSym WITH ALGORITHM = AES_256 ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359'; OPEN SYMMETRIC KEY CoverageSym DECRYPTION BY PASSWORD = 'Ssg_Coverage_Sym!7359';",
+  "sql": "CLOSE SYMMETRIC KEY CoverageSym;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.openkeys WHERE key_name = 'CoverageSym') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-add-signature",
+  "statementTypes": [
+    "AddSignatureStatement"
+  ],
+  "setupSql": "CREATE CERTIFICATE CoverageCert ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Cert!7359' WITH SUBJECT = 'Disposable coverage certificate', EXPIRY_DATE = '20991231';\nGO\nCREATE PROCEDURE dbo.CoverageSigned AS SELECT 1 AS Value;\nGO\n",
+  "sql": "ADD SIGNATURE TO OBJECT::dbo.CoverageSigned BY CERTIFICATE CoverageCert WITH PASSWORD = 'Ssg_Coverage_Cert!7359';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local add-signature; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.crypt_properties WHERE major_id = OBJECT_ID('dbo.CoverageSigned') AND crypt_type = 'SPVC';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-signature",
+  "statementTypes": [
+    "DropSignatureStatement"
+  ],
+  "setupSql": "CREATE CERTIFICATE CoverageCert ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Cert!7359' WITH SUBJECT = 'Disposable coverage certificate', EXPIRY_DATE = '20991231';\nGO\nCREATE PROCEDURE dbo.CoverageSigned AS SELECT 1 AS Value;\nGO\nADD SIGNATURE TO OBJECT::dbo.CoverageSigned BY CERTIFICATE CoverageCert WITH PASSWORD = 'Ssg_Coverage_Cert!7359';",
+  "sql": "DROP SIGNATURE FROM OBJECT::dbo.CoverageSigned BY CERTIFICATE CoverageCert;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-signature; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.crypt_properties WHERE major_id = OBJECT_ID('dbo.CoverageSigned')) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-application-role",
+  "statementTypes": [
+    "AlterApplicationRoleStatement"
+  ],
+  "setupSql": "CREATE APPLICATION ROLE CoverageApp WITH PASSWORD = 'Ssg_Coverage_App!7359';",
+  "sql": "ALTER APPLICATION ROLE CoverageApp WITH NAME = CoverageAppRenamed;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-application-role; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.database_principals WHERE name = 'CoverageAppRenamed' AND type = 'A';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-authorization",
+  "statementTypes": [
+    "AlterAuthorizationStatement"
+  ],
+  "setupSql": "CREATE USER CoverageOwner WITHOUT LOGIN;\nGO\nCREATE SCHEMA CoverageOwned AUTHORIZATION dbo;\nGO",
+  "sql": "ALTER AUTHORIZATION ON SCHEMA::CoverageOwned TO CoverageOwner;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-authorization; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.schemas WHERE name = 'CoverageOwned' AND principal_id = USER_ID('CoverageOwner');",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-message-type",
+  "statementTypes": [
+    "CreateMessageTypeStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-message-type; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_message_types WHERE name = 'CoverageMessage' AND validation = 'N';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-message-type",
+  "statementTypes": [
+    "AlterMessageTypeStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE;",
+  "sql": "ALTER MESSAGE TYPE [CoverageMessage] VALIDATION = WELL_FORMED_XML;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-message-type; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_message_types WHERE name = 'CoverageMessage' AND validation = 'X';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-message-type",
+  "statementTypes": [
+    "DropMessageTypeStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE;",
+  "sql": "DROP MESSAGE TYPE [CoverageMessage];",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-message-type; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.service_message_types WHERE name = 'CoverageMessage') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-contract",
+  "statementTypes": [
+    "CreateContractStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE;",
+  "sql": "CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-contract; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_contracts WHERE name = 'CoverageContract';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-contract",
+  "statementTypes": [
+    "DropContractStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY);",
+  "sql": "DROP CONTRACT [CoverageContract];",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-contract; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.service_contracts WHERE name = 'CoverageContract') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-queue",
+  "statementTypes": [
+    "CreateQueueStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-queue; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_queues WHERE object_id = OBJECT_ID('dbo.CoverageQueue') AND is_receive_enabled = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-queue",
+  "statementTypes": [
+    "AlterQueueStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "sql": "ALTER QUEUE dbo.CoverageQueue WITH STATUS = OFF;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-queue; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_queues WHERE object_id = OBJECT_ID('dbo.CoverageQueue') AND is_receive_enabled = 0;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-queue",
+  "statementTypes": [
+    "DropQueueStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "sql": "DROP QUEUE dbo.CoverageQueue;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-queue; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN OBJECT_ID('dbo.CoverageQueue') IS NULL THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-service",
+  "statementTypes": [
+    "CreateServiceStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "sql": "CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-service; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.services WHERE name = 'CoverageService';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-service",
+  "statementTypes": [
+    "AlterServiceStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE CONTRACT [CoverageContractTwo] ([CoverageMessage] SENT BY ANY);",
+  "sql": "ALTER SERVICE [CoverageService] (ADD CONTRACT [CoverageContractTwo]);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Persists a second accepted contract on the local service; the current fingerprint omits sys.service_contract_usages.",
+  "verifySql": "SELECT COUNT(*) FROM sys.service_contract_usages WHERE service_id = (SELECT service_id FROM sys.services WHERE name = 'CoverageService') AND service_contract_id = (SELECT service_contract_id FROM sys.service_contracts WHERE name = 'CoverageContractTwo');",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Observer limitation: sys.service_contract_usages is not fingerprinted; scalar verifies added contract binding."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-service",
+  "statementTypes": [
+    "DropServiceStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]);",
+  "sql": "DROP SERVICE [CoverageService];",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-service; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.services WHERE name = 'CoverageService') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-broker-priority",
+  "statementTypes": [
+    "CreateBrokerPriorityStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]);",
+  "sql": "CREATE BROKER PRIORITY CoveragePriority FOR CONVERSATION SET (CONTRACT_NAME = [CoverageContract], LOCAL_SERVICE_NAME = [CoverageService], REMOTE_SERVICE_NAME = N'CoverageService', PRIORITY_LEVEL = 4);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-broker-priority; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.conversation_priorities WHERE name = 'CoveragePriority' AND priority = 4;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-broker-priority",
+  "statementTypes": [
+    "AlterBrokerPriorityStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE BROKER PRIORITY CoveragePriority FOR CONVERSATION SET (CONTRACT_NAME = [CoverageContract], LOCAL_SERVICE_NAME = [CoverageService], REMOTE_SERVICE_NAME = N'CoverageService', PRIORITY_LEVEL = 4);",
+  "sql": "ALTER BROKER PRIORITY CoveragePriority FOR CONVERSATION SET (PRIORITY_LEVEL = 7);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-broker-priority; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.conversation_priorities WHERE name = 'CoveragePriority' AND priority = 7;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-broker-priority",
+  "statementTypes": [
+    "DropBrokerPriorityStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE BROKER PRIORITY CoveragePriority FOR CONVERSATION SET (CONTRACT_NAME = [CoverageContract], LOCAL_SERVICE_NAME = [CoverageService], REMOTE_SERVICE_NAME = N'CoverageService', PRIORITY_LEVEL = 4);",
+  "sql": "DROP BROKER PRIORITY CoveragePriority;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-broker-priority; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.conversation_priorities WHERE name = 'CoveragePriority') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-local-route",
+  "statementTypes": [
+    "CreateRouteStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE ROUTE CoverageRoute WITH SERVICE_NAME = N'CoverageService', ADDRESS = N'LOCAL';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-local-route; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.routes WHERE name = 'CoverageRoute' AND address = 'LOCAL';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-local-route",
+  "statementTypes": [
+    "AlterRouteStatement"
+  ],
+  "setupSql": "CREATE ROUTE CoverageRoute WITH SERVICE_NAME = N'CoverageService', ADDRESS = N'LOCAL';",
+  "sql": "ALTER ROUTE CoverageRoute WITH SERVICE_NAME = N'CoverageServiceTwo', ADDRESS = N'LOCAL';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-local-route; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.routes WHERE name = 'CoverageRoute' AND remote_service_name = 'CoverageServiceTwo' AND address = 'LOCAL';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-local-route",
+  "statementTypes": [
+    "DropRouteStatement"
+  ],
+  "setupSql": "CREATE ROUTE CoverageRoute WITH SERVICE_NAME = N'CoverageService', ADDRESS = N'LOCAL';",
+  "sql": "DROP ROUTE CoverageRoute;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-local-route; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.routes WHERE name = 'CoverageRoute') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-remote-service-binding",
+  "statementTypes": [
+    "CreateRemoteServiceBindingStatement"
+  ],
+  "setupSql": "CREATE USER CoverageBrokerUser WITHOUT LOGIN; CREATE USER CoverageBrokerUserTwo WITHOUT LOGIN; CREATE CERTIFICATE CoverageBrokerCert AUTHORIZATION CoverageBrokerUser ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker!7359' WITH SUBJECT = 'Local binding metadata certificate', EXPIRY_DATE = '20991231'; CREATE CERTIFICATE CoverageBrokerCertTwo AUTHORIZATION CoverageBrokerUserTwo ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker_Two!7359' WITH SUBJECT = 'Second local binding metadata certificate', EXPIRY_DATE = '20991231';",
+  "sql": "CREATE REMOTE SERVICE BINDING CoverageBinding TO SERVICE N'CoverageService' WITH USER = CoverageBrokerUser, ANONYMOUS = ON;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-remote-service-binding; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.remote_service_bindings WHERE name = 'CoverageBinding' AND remote_principal_id = USER_ID('CoverageBrokerUser') AND is_anonymous_on = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Binding metadata only; no dialog or network destination is opened."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-remote-service-binding",
+  "statementTypes": [
+    "AlterRemoteServiceBindingStatement"
+  ],
+  "setupSql": "CREATE USER CoverageBrokerUser WITHOUT LOGIN; CREATE USER CoverageBrokerUserTwo WITHOUT LOGIN; CREATE CERTIFICATE CoverageBrokerCert AUTHORIZATION CoverageBrokerUser ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker!7359' WITH SUBJECT = 'Local binding metadata certificate', EXPIRY_DATE = '20991231'; CREATE CERTIFICATE CoverageBrokerCertTwo AUTHORIZATION CoverageBrokerUserTwo ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker_Two!7359' WITH SUBJECT = 'Second local binding metadata certificate', EXPIRY_DATE = '20991231'; CREATE REMOTE SERVICE BINDING CoverageBinding TO SERVICE N'CoverageService' WITH USER = CoverageBrokerUser, ANONYMOUS = ON;",
+  "sql": "ALTER REMOTE SERVICE BINDING CoverageBinding WITH USER = CoverageBrokerUserTwo, ANONYMOUS = OFF;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-remote-service-binding; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.remote_service_bindings WHERE name = 'CoverageBinding' AND remote_principal_id = USER_ID('CoverageBrokerUserTwo') AND is_anonymous_on = 0;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-remote-service-binding",
+  "statementTypes": [
+    "DropRemoteServiceBindingStatement"
+  ],
+  "setupSql": "CREATE USER CoverageBrokerUser WITHOUT LOGIN; CREATE USER CoverageBrokerUserTwo WITHOUT LOGIN; CREATE CERTIFICATE CoverageBrokerCert AUTHORIZATION CoverageBrokerUser ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker!7359' WITH SUBJECT = 'Local binding metadata certificate', EXPIRY_DATE = '20991231'; CREATE CERTIFICATE CoverageBrokerCertTwo AUTHORIZATION CoverageBrokerUserTwo ENCRYPTION BY PASSWORD = 'Ssg_Coverage_Broker_Two!7359' WITH SUBJECT = 'Second local binding metadata certificate', EXPIRY_DATE = '20991231'; CREATE REMOTE SERVICE BINDING CoverageBinding TO SERVICE N'CoverageService' WITH USER = CoverageBrokerUser, ANONYMOUS = ON;",
+  "sql": "DROP REMOTE SERVICE BINDING CoverageBinding;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-remote-service-binding; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.remote_service_bindings WHERE name = 'CoverageBinding') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-begin-dialog",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "BeginDialogStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]);",
+  "sql": "DECLARE @handle uniqueidentifier; BEGIN DIALOG CONVERSATION @handle FROM SERVICE [CoverageService] TO SERVICE N'CoverageService' ON CONTRACT [CoverageContract] WITH ENCRYPTION = OFF;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local begin-dialog; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.conversation_endpoints WHERE is_initiator = 1 AND service_id = (SELECT service_id FROM sys.services WHERE name = 'CoverageService');",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-begin-conversation-timer",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "BeginConversationTimerStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE TABLE dbo.CoverageDialog (Handle uniqueidentifier NOT NULL); DECLARE @handle uniqueidentifier; BEGIN DIALOG CONVERSATION @handle FROM SERVICE [CoverageService] TO SERVICE N'CoverageService' ON CONTRACT [CoverageContract] WITH ENCRYPTION = OFF; INSERT dbo.CoverageDialog VALUES (@handle);",
+  "sql": "DECLARE @handle uniqueidentifier = (SELECT Handle FROM dbo.CoverageDialog); BEGIN CONVERSATION TIMER (@handle) TIMEOUT = 86400;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Persists a long local dialog timer; the current fingerprint omits dialog_timer.",
+  "verifySql": "SELECT COUNT(*) FROM sys.conversation_endpoints WHERE conversation_handle = (SELECT Handle FROM dbo.CoverageDialog) AND dialog_timer > DATEADD(hour, 12, SYSUTCDATETIME());",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Observer limitation: dialog_timer is not fingerprinted; scalar verifies timeout was armed. No SEND or WAITFOR occurs and timeout is one day."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-move-conversation",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "MoveConversationStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE TABLE dbo.CoverageDialog (Handle uniqueidentifier NOT NULL); DECLARE @handle uniqueidentifier; BEGIN DIALOG CONVERSATION @handle FROM SERVICE [CoverageService] TO SERVICE N'CoverageService' ON CONTRACT [CoverageContract] WITH ENCRYPTION = OFF; INSERT dbo.CoverageDialog VALUES (@handle);",
+  "sql": "DECLARE @handle uniqueidentifier = (SELECT Handle FROM dbo.CoverageDialog); MOVE CONVERSATION @handle TO '11111111-2222-3333-4444-555555555555';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local move-conversation; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.conversation_endpoints WHERE conversation_handle = (SELECT Handle FROM dbo.CoverageDialog) AND conversation_group_id = '11111111-2222-3333-4444-555555555555';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-end-conversation",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "EndConversationStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE TABLE dbo.CoverageDialog (Handle uniqueidentifier NOT NULL); DECLARE @handle uniqueidentifier; BEGIN DIALOG CONVERSATION @handle FROM SERVICE [CoverageService] TO SERVICE N'CoverageService' ON CONTRACT [CoverageContract] WITH ENCRYPTION = OFF; INSERT dbo.CoverageDialog VALUES (@handle);",
+  "sql": "DECLARE @handle uniqueidentifier = (SELECT Handle FROM dbo.CoverageDialog); END CONVERSATION @handle WITH CLEANUP;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local end-conversation; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.conversation_endpoints WHERE conversation_handle = (SELECT Handle FROM dbo.CoverageDialog)) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-send-local-message",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "SendStatement"
+  ],
+  "setupSql": "CREATE MESSAGE TYPE [CoverageMessage] VALIDATION = NONE; CREATE CONTRACT [CoverageContract] ([CoverageMessage] SENT BY ANY); CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF; CREATE SERVICE [CoverageService] ON QUEUE dbo.CoverageQueue ([CoverageContract]); CREATE TABLE dbo.CoverageDialog (Handle uniqueidentifier NOT NULL); DECLARE @handle uniqueidentifier; BEGIN DIALOG CONVERSATION @handle FROM SERVICE [CoverageService] TO SERVICE N'CoverageService' ON CONTRACT [CoverageContract] WITH ENCRYPTION = OFF; INSERT dbo.CoverageDialog VALUES (@handle);",
+  "sql": "DECLARE @handle uniqueidentifier = (SELECT Handle FROM dbo.CoverageDialog); SEND ON CONVERSATION @handle MESSAGE TYPE [CoverageMessage] (0x010203);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local send-local-message; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN EXISTS (SELECT 1 FROM sys.transmission_queue WHERE conversation_handle = (SELECT Handle FROM dbo.CoverageDialog) AND message_body = 0x010203) OR EXISTS (SELECT 1 FROM dbo.CoverageQueue WHERE message_type_name = N'CoverageMessage' AND message_body = 0x010203) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Service Broker enabled in this new database; same-database LOCAL route; delivery asynchronous. Verification accepts queued transmission or local delivery."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-receive-empty-queue",
+  "statementTypes": [
+    "ReceiveStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "sql": "RECEIVE TOP (1) message_body FROM dbo.CoverageQueue;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "none; RECEIVE is a write-capable statement but the deliberately empty local queue has no message to remove.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM dbo.CoverageQueue) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Empty local queue deliberately exercises RECEIVE without WAITFOR or asynchronous arrival; no net row mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-get-empty-conversation-group",
+  "statementTypes": [
+    "DeclareVariableStatement",
+    "GetConversationGroupStatement",
+    "SelectStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageQueue WITH STATUS = ON, RETENTION = OFF;",
+  "sql": "DECLARE @group uniqueidentifier; GET CONVERSATION GROUP @group FROM dbo.CoverageQueue; SELECT @group;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none; the empty local queue yields no conversation group.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.conversation_groups WHERE service_id IN (SELECT service_id FROM sys.services WHERE service_queue_id = OBJECT_ID(N'dbo.CoverageQueue'))) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Empty local queue; no WAITFOR; only session/lock effects."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-constraint-modification",
+  "statementTypes": [
+    "AlterTableConstraintModificationStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageConstraint (Id int NOT NULL CONSTRAINT CK_CoveragePositive CHECK (Id > 0));",
+  "sql": "ALTER TABLE dbo.CoverageConstraint NOCHECK CONSTRAINT CK_CoveragePositive;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local table-constraint-modification; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.check_constraints WHERE name = 'CK_CoveragePositive' AND is_disabled = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-trigger-modification",
+  "statementTypes": [
+    "AlterTableTriggerModificationStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageTriggerTarget (Id int);\nGO\nCREATE TRIGGER dbo.CoverageTableTrigger ON dbo.CoverageTriggerTarget AFTER INSERT AS RETURN;\nGO",
+  "sql": "ALTER TABLE dbo.CoverageTriggerTarget DISABLE TRIGGER CoverageTableTrigger;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local table-trigger-modification; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.triggers WHERE name = 'CoverageTableTrigger' AND is_disabled = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-switch",
+  "statementTypes": [
+    "AlterTableSwitchStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageSwitchSource (Id int NOT NULL); CREATE TABLE dbo.CoverageSwitchTarget (Id int NOT NULL); INSERT dbo.CoverageSwitchSource VALUES (1);",
+  "sql": "ALTER TABLE dbo.CoverageSwitchSource SWITCH TO dbo.CoverageSwitchTarget;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local table-switch; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN (SELECT COUNT(*) FROM dbo.CoverageSwitchSource) = 0 AND (SELECT COUNT(*) FROM dbo.CoverageSwitchTarget) = 1 THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-set-lock-escalation",
+  "statementTypes": [
+    "AlterTableSetStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageTableOptions (Id int);",
+  "sql": "ALTER TABLE dbo.CoverageTableOptions SET (LOCK_ESCALATION = DISABLE);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local table-set-lock-escalation; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.tables WHERE object_id = OBJECT_ID('dbo.CoverageTableOptions') AND lock_escalation_desc = 'DISABLE';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Table ALTER expected to change sys.objects.modify_date; scalar checks additional table metadata."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-rebuild-rollback",
+  "statementTypes": [
+    "BeginTransactionStatement",
+    "AlterTableRebuildStatement",
+    "RollbackTransactionStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageRebuild (Id int NOT NULL); INSERT dbo.CoverageRebuild VALUES (1);",
+  "sql": "BEGIN TRANSACTION; ALTER TABLE dbo.CoverageRebuild REBUILD WITH (DATA_COMPRESSION = PAGE); ROLLBACK TRANSACTION;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "none persisted; the PAGE-compression rebuild is explicitly rolled back before verification.",
+  "verifySql": "SELECT COUNT(*) FROM sys.partitions WHERE object_id = OBJECT_ID('dbo.CoverageRebuild') AND index_id = 0 AND data_compression_desc = 'NONE';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine/edition supports PAGE compression. Real rebuild rolled back; no net catalog/row mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-table-change-tracking",
+  "statementTypes": [
+    "AlterTableChangeTrackingModificationStatement"
+  ],
+  "setupSql": "ALTER DATABASE CURRENT SET CHANGE_TRACKING = ON (CHANGE_RETENTION = 2 DAYS, AUTO_CLEANUP = ON); CREATE TABLE dbo.CoverageTracked (Id int NOT NULL PRIMARY KEY);",
+  "sql": "ALTER TABLE dbo.CoverageTracked ENABLE CHANGE_TRACKING WITH (TRACK_COLUMNS_UPDATED = ON);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local table-change-tracking; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.change_tracking_tables WHERE object_id = OBJECT_ID('dbo.CoverageTracked') AND is_track_columns_updated_on = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Change tracking supported; enabled only in CURRENT disposable database."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-partition-scheme",
+  "statementTypes": [
+    "AlterPartitionSchemeStatement"
+  ],
+  "setupSql": "CREATE PARTITION FUNCTION CoverageFunction (int) AS RANGE RIGHT FOR VALUES (10); CREATE PARTITION SCHEME CoverageScheme AS PARTITION CoverageFunction TO ([PRIMARY], [PRIMARY]);",
+  "sql": "ALTER PARTITION SCHEME CoverageScheme NEXT USED [PRIMARY];",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Persists PRIMARY as the next-used destination; the current fingerprint omits sys.destination_data_spaces.",
+  "verifySql": "SELECT COUNT(*) FROM sys.destination_data_spaces WHERE partition_scheme_id = (SELECT data_space_id FROM sys.partition_schemes WHERE name = 'CoverageScheme') AND destination_id = 3;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Observer limitation: sys.destination_data_spaces is not fingerprinted; scalar verifies new NEXT USED destination."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-xml-schema-collection",
+  "statementTypes": [
+    "AlterXmlSchemaCollectionStatement"
+  ],
+  "setupSql": "CREATE XML SCHEMA COLLECTION dbo.CoverageXml AS N'<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"><xs:element name=\"first\" type=\"xs:int\" /></xs:schema>';",
+  "sql": "ALTER XML SCHEMA COLLECTION dbo.CoverageXml ADD N'<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"><xs:element name=\"second\" type=\"xs:string\" /></xs:schema>';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-xml-schema-collection; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.xml_schema_elements WHERE xml_collection_id = XML_SCHEMA_COLLECTION_ID(N'dbo.CoverageXml') AND name = 'second';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-update-statistics",
+  "statementTypes": [
+    "UpdateStatisticsStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageStatistics (Id int NOT NULL); INSERT dbo.CoverageStatistics VALUES (1), (2); CREATE STATISTICS CoverageStat ON dbo.CoverageStatistics (Id);",
+  "sql": "UPDATE STATISTICS dbo.CoverageStatistics CoverageStat WITH FULLSCAN, NORECOMPUTE;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local update-statistics; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.stats WHERE object_id = OBJECT_ID('dbo.CoverageStatistics') AND name = 'CoverageStat' AND no_recompute = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-scoped-configuration-set",
+  "statementTypes": [
+    "AlterDatabaseScopedConfigurationSetStatement"
+  ],
+  "setupSql": "ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 1;",
+  "sql": "ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 2;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local database-scoped-configuration-set; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.database_scoped_configurations WHERE name = 'MAXDOP' AND CONVERT(int, value) = 2;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-scoped-cache-clear",
+  "statementTypes": [
+    "AlterDatabaseScopedConfigurationClearStatement"
+  ],
+  "setupSql": "",
+  "sql": "ALTER DATABASE SCOPED CONFIGURATION CLEAR PROCEDURE_CACHE;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Clears only this database plan cache; no durable catalog or row change. The scalar checks isolation and transaction invariants, not cache eviction.",
+  "verifySql": "SELECT CASE WHEN DB_ID() > 4 AND @@TRANCOUNT = 0 THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Database-local procedure cache clear has no persistent catalog/row effect; scalar checks isolation/transaction invariants, not cache contents."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-set-current",
+  "statementTypes": [
+    "AlterDatabaseSetStatement"
+  ],
+  "setupSql": "",
+  "sql": "ALTER DATABASE CURRENT SET AUTO_CREATE_STATISTICS ON;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local database-set-current; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CONVERT(int, is_auto_create_stats_on) FROM sys.databases WHERE database_id = DB_ID();",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-set-command-lock-timeout",
+  "statementTypes": [
+    "SetCommandStatement"
+  ],
+  "setupSql": "",
+  "sql": "SET LOCK_TIMEOUT 1500;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT @@LOCK_TIMEOUT;",
+  "expectedVerifyScalar": 1500,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-set-identity-insert",
+  "statementTypes": [
+    "SetIdentityInsertStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageIdentity (Id int IDENTITY(1,1) NOT NULL); INSERT dbo.CoverageIdentity DEFAULT VALUES;",
+  "sql": "SET IDENTITY_INSERT dbo.CoverageIdentity ON;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "BEGIN TRANSACTION; INSERT dbo.CoverageIdentity (Id) VALUES (0); DECLARE @ok int = CASE WHEN EXISTS (SELECT 1 FROM dbo.CoverageIdentity WHERE Id = 0) THEN 1 ELSE 0 END; ROLLBACK TRANSACTION; SET IDENTITY_INSERT dbo.CoverageIdentity OFF; SELECT @ok;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Verifier proves IDENTITY_INSERT ON with explicit zero insert rolled back; zero avoids advancing identity seed. Session setting reset before observation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-primary-xml-index",
+  "statementTypes": [
+    "CreateXmlIndexStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON; SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON; SET NUMERIC_ROUNDABORT OFF; CREATE TABLE dbo.CoverageXmlIndex (Id int NOT NULL CONSTRAINT PK_CoverageXmlIndex PRIMARY KEY CLUSTERED, Payload xml);",
+  "sql": "CREATE PRIMARY XML INDEX CoveragePrimaryXml ON dbo.CoverageXmlIndex (Payload);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-primary-xml-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.xml_indexes WHERE object_id = OBJECT_ID('dbo.CoverageXmlIndex') AND name = 'CoveragePrimaryXml' AND using_xml_index_id IS NULL;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-secondary-xml-index",
+  "statementTypes": [
+    "CreateXmlIndexStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON; SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON; SET NUMERIC_ROUNDABORT OFF; CREATE TABLE dbo.CoverageXmlIndex (Id int NOT NULL CONSTRAINT PK_CoverageXmlIndex PRIMARY KEY CLUSTERED, Payload xml); CREATE PRIMARY XML INDEX CoveragePrimaryXml ON dbo.CoverageXmlIndex (Payload);",
+  "sql": "CREATE XML INDEX CoverageSecondaryXml ON dbo.CoverageXmlIndex (Payload) USING XML INDEX CoveragePrimaryXml FOR PATH;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-secondary-xml-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.xml_indexes WHERE object_id = OBJECT_ID('dbo.CoverageXmlIndex') AND name = 'CoverageSecondaryXml' AND secondary_type_desc = 'PATH';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-selective-xml-index",
+  "statementTypes": [
+    "CreateSelectiveXmlIndexStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON; SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON; SET NUMERIC_ROUNDABORT OFF; CREATE TABLE dbo.CoverageXmlIndex (Id int NOT NULL CONSTRAINT PK_CoverageXmlIndex PRIMARY KEY CLUSTERED, Payload xml);",
+  "sql": "CREATE SELECTIVE XML INDEX CoverageSelectiveXml ON dbo.CoverageXmlIndex (Payload) FOR (CoveragePath = '/root/value' AS XQUERY 'xs:string' SINGLETON);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-selective-xml-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.CoverageXmlIndex') AND name = 'CoverageSelectiveXml';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Selective XML indexing supported and already enabled for disposable database on builds requiring opt-in."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-spatial-index",
+  "statementTypes": [
+    "CreateSpatialIndexStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON; SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON; SET NUMERIC_ROUNDABORT OFF; CREATE TABLE dbo.CoverageSpatial (Id int NOT NULL PRIMARY KEY CLUSTERED, Shape geometry);",
+  "sql": "CREATE SPATIAL INDEX CoverageSpatialIndex ON dbo.CoverageSpatial (Shape) USING GEOMETRY_GRID WITH (BOUNDING_BOX = (-100, -100, 100, 100));",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-spatial-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.spatial_indexes WHERE object_id = OBJECT_ID('dbo.CoverageSpatial') AND name = 'CoverageSpatialIndex';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Spatial data types/indexing supported; empty table avoids CLR spatial value hydration by snapshot."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-columnstore-index",
+  "statementTypes": [
+    "CreateColumnStoreIndexStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageColumnstore (Id int NOT NULL, Amount int); INSERT dbo.CoverageColumnstore VALUES (1, 10);",
+  "sql": "CREATE NONCLUSTERED COLUMNSTORE INDEX CoverageColumnstoreIndex ON dbo.CoverageColumnstore (Id, Amount);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-columnstore-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.CoverageColumnstore') AND name = 'CoverageColumnstoreIndex' AND type = 6;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine/edition supports nonclustered columnstore indexes."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-clustered-columnstore-index",
+  "statementTypes": [
+    "CreateColumnStoreIndexStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageClusteredColumnstore (Id int NOT NULL); INSERT dbo.CoverageClusteredColumnstore VALUES (1);",
+  "sql": "CREATE CLUSTERED COLUMNSTORE INDEX CoverageClusteredColumnstoreIndex ON dbo.CoverageClusteredColumnstore;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-clustered-columnstore-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.CoverageClusteredColumnstore') AND type = 5;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine/edition supports clustered columnstore indexes."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-json-index",
+  "statementTypes": [
+    "CreateJsonIndexStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON; SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON; SET NUMERIC_ROUNDABORT OFF; CREATE TABLE dbo.CoverageJsonIndex (Id int NOT NULL PRIMARY KEY CLUSTERED, Payload json);",
+  "sql": "CREATE JSON INDEX CoverageJsonIndex ON dbo.CoverageJsonIndex (Payload);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-json-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.CoverageJsonIndex') AND name = 'CoverageJsonIndex' AND type = 9;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine actually supports native json and CREATE JSON INDEX; compatibility level 170 and required preview opt-in before setup. Unsupported feature is a prerequisite failure, never a fabricated pass."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-vector-index",
+  "statementTypes": [
+    "CreateVectorIndexStatement"
+  ],
+  "setupSql": "ALTER DATABASE SCOPED CONFIGURATION SET PREVIEW_FEATURES = ON; CREATE TABLE dbo.CoverageVectorIndex (Id int NOT NULL PRIMARY KEY CLUSTERED, Embedding vector(3)); INSERT dbo.CoverageVectorIndex SELECT value, CAST(CONCAT('[', CONVERT(varchar(12), value), ',1,1]') AS vector(3)) FROM GENERATE_SERIES(1,100);",
+  "sql": "CREATE VECTOR INDEX CoverageVectorIndex ON dbo.CoverageVectorIndex (Embedding) WITH (METRIC = 'cosine', TYPE = 'DiskANN', MAXDOP = 1);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-vector-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.vector_indexes WHERE object_id = OBJECT_ID('dbo.CoverageVectorIndex') AND name = 'CoverageVectorIndex';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "SQL Server 2025 build actually supports CREATE VECTOR INDEX, compatibility 170. Setup enables database-local PREVIEW_FEATURES and supplies 100 non-null vectors.",
+    "Snapshot provider must support reading vector values; unsupported provider/engine is a prerequisite failure."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-fulltext-catalog",
+  "statementTypes": [
+    "CreateFullTextCatalogStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-fulltext-catalog; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_catalogs WHERE name = 'CoverageFullText';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-fulltext-catalog",
+  "statementTypes": [
+    "AlterFullTextCatalogStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;",
+  "sql": "ALTER FULLTEXT CATALOG CoverageFullText AS DEFAULT;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-fulltext-catalog; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_catalogs WHERE name = 'CoverageFullText' AND is_default = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-fulltext-catalog",
+  "statementTypes": [
+    "DropFullTextCatalogStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;",
+  "sql": "DROP FULLTEXT CATALOG CoverageFullText;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-fulltext-catalog; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.fulltext_catalogs WHERE name = 'CoverageFullText') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-fulltext-stoplist",
+  "statementTypes": [
+    "CreateFullTextStopListStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE FULLTEXT STOPLIST CoverageStoplist;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-fulltext-stoplist; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_stoplists WHERE name = 'CoverageStoplist';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-fulltext-stoplist",
+  "statementTypes": [
+    "AlterFullTextStopListStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT STOPLIST CoverageStoplist;",
+  "sql": "ALTER FULLTEXT STOPLIST CoverageStoplist ADD 'coverageword' LANGUAGE 1033;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-fulltext-stoplist; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_stopwords WHERE stoplist_id = (SELECT stoplist_id FROM sys.fulltext_stoplists WHERE name = 'CoverageStoplist') AND stopword = 'coverageword' AND language_id = 1033;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-fulltext-stoplist",
+  "statementTypes": [
+    "DropFullTextStopListStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT STOPLIST CoverageStoplist;",
+  "sql": "DROP FULLTEXT STOPLIST CoverageStoplist;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-fulltext-stoplist; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.fulltext_stoplists WHERE name = 'CoverageStoplist') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-fulltext-index",
+  "statementTypes": [
+    "CreateFullTextIndexStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;CREATE TABLE dbo.CoverageFullText (Id int NOT NULL CONSTRAINT PK_CoverageFullText PRIMARY KEY, Body nvarchar(100));",
+  "sql": "CREATE FULLTEXT INDEX ON dbo.CoverageFullText (Body LANGUAGE 1033) KEY INDEX PK_CoverageFullText ON CoverageFullText WITH CHANGE_TRACKING OFF, NO POPULATION;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-fulltext-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_indexes WHERE object_id = OBJECT_ID('dbo.CoverageFullText') AND is_enabled = 1 AND change_tracking_state = 'O';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-fulltext-index",
+  "statementTypes": [
+    "AlterFullTextIndexStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;CREATE TABLE dbo.CoverageFullText (Id int NOT NULL CONSTRAINT PK_CoverageFullText PRIMARY KEY, Body nvarchar(100));CREATE FULLTEXT INDEX ON dbo.CoverageFullText (Body LANGUAGE 1033) KEY INDEX PK_CoverageFullText ON CoverageFullText WITH CHANGE_TRACKING OFF, NO POPULATION;",
+  "sql": "ALTER FULLTEXT INDEX ON dbo.CoverageFullText DISABLE;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-fulltext-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.fulltext_indexes WHERE object_id = OBJECT_ID('dbo.CoverageFullText') AND is_enabled = 0;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-fulltext-index",
+  "statementTypes": [
+    "DropFullTextIndexStatement"
+  ],
+  "setupSql": "CREATE FULLTEXT CATALOG CoverageFullText WITH ACCENT_SENSITIVITY = OFF;CREATE TABLE dbo.CoverageFullText (Id int NOT NULL CONSTRAINT PK_CoverageFullText PRIMARY KEY, Body nvarchar(100));CREATE FULLTEXT INDEX ON dbo.CoverageFullText (Body LANGUAGE 1033) KEY INDEX PK_CoverageFullText ON CoverageFullText WITH CHANGE_TRACKING OFF, NO POPULATION;",
+  "sql": "DROP FULLTEXT INDEX ON dbo.CoverageFullText;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-fulltext-index; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.fulltext_indexes WHERE object_id = OBJECT_ID('dbo.CoverageFullText')) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-search-property-list",
+  "statementTypes": [
+    "CreateSearchPropertyListStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE SEARCH PROPERTY LIST CoverageProperties;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-search-property-list; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.registered_search_property_lists WHERE name = 'CoverageProperties';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-search-property-list",
+  "statementTypes": [
+    "AlterSearchPropertyListStatement"
+  ],
+  "setupSql": "CREATE SEARCH PROPERTY LIST CoverageProperties;",
+  "sql": "ALTER SEARCH PROPERTY LIST CoverageProperties ADD 'CoverageTitle' WITH (PROPERTY_SET_GUID = 'f29f85e0-4ff9-1068-ab91-08002b27b3d9', PROPERTY_INT_ID = 2, PROPERTY_DESCRIPTION = 'Coverage title');",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-search-property-list; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.registered_search_properties WHERE property_list_id = (SELECT property_list_id FROM sys.registered_search_property_lists WHERE name = 'CoverageProperties') AND property_name = 'CoverageTitle' AND property_int_id = 2;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-search-property-list",
+  "statementTypes": [
+    "DropSearchPropertyListStatement"
+  ],
+  "setupSql": "CREATE SEARCH PROPERTY LIST CoverageProperties;",
+  "sql": "DROP SEARCH PROPERTY LIST CoverageProperties;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-search-property-list; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.registered_search_property_lists WHERE name = 'CoverageProperties') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Full-Text Search installed (FULLTEXTSERVICEPROPERTY IsFullTextInstalled = 1); no population requested."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-security-policy",
+  "statementTypes": [
+    "CreateSecurityPolicyStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; CREATE TABLE dbo.CoveragePolicyTable (TenantId int NOT NULL);\nGO\nCREATE FUNCTION dbo.CoveragePolicyPredicate(@tenant int) RETURNS TABLE WITH SCHEMABINDING AS RETURN SELECT 1 AS allowed WHERE @tenant = 1;\nGO\n",
+  "sql": "CREATE SECURITY POLICY dbo.CoveragePolicy ADD FILTER PREDICATE dbo.CoveragePolicyPredicate(TenantId) ON dbo.CoveragePolicyTable WITH (STATE = OFF);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local create-security-policy; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.security_policies WHERE object_id = OBJECT_ID('dbo.CoveragePolicy') AND is_enabled = 0;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine supports row-level security; protected table stays empty so admin/user snapshots see identical rows."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-alter-security-policy",
+  "statementTypes": [
+    "AlterSecurityPolicyStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; CREATE TABLE dbo.CoveragePolicyTable (TenantId int NOT NULL);\nGO\nCREATE FUNCTION dbo.CoveragePolicyPredicate(@tenant int) RETURNS TABLE WITH SCHEMABINDING AS RETURN SELECT 1 AS allowed WHERE @tenant = 1;\nGO\nCREATE SECURITY POLICY dbo.CoveragePolicy ADD FILTER PREDICATE dbo.CoveragePolicyPredicate(TenantId) ON dbo.CoveragePolicyTable WITH (STATE = OFF);",
+  "sql": "ALTER SECURITY POLICY dbo.CoveragePolicy WITH (STATE = ON);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local alter-security-policy; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.security_policies WHERE object_id = OBJECT_ID('dbo.CoveragePolicy') AND is_enabled = 1;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine supports row-level security; protected table stays empty so admin/user snapshots see identical rows."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-security-policy",
+  "statementTypes": [
+    "DropSecurityPolicyStatement"
+  ],
+  "setupSql": "SET ANSI_NULLS ON; SET QUOTED_IDENTIFIER ON; CREATE TABLE dbo.CoveragePolicyTable (TenantId int NOT NULL);\nGO\nCREATE FUNCTION dbo.CoveragePolicyPredicate(@tenant int) RETURNS TABLE WITH SCHEMABINDING AS RETURN SELECT 1 AS allowed WHERE @tenant = 1;\nGO\nCREATE SECURITY POLICY dbo.CoveragePolicy ADD FILTER PREDICATE dbo.CoveragePolicyPredicate(TenantId) ON dbo.CoveragePolicyTable WITH (STATE = OFF);",
+  "sql": "DROP SECURITY POLICY dbo.CoveragePolicy;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-security-policy; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN OBJECT_ID('dbo.CoveragePolicy') IS NULL THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Engine supports row-level security; protected table stays empty so admin/user snapshots see identical rows."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-add-sensitivity-classification",
+  "statementTypes": [
+    "AddSensitivityClassificationStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageClassify (Secret nvarchar(20));",
+  "sql": "ADD SENSITIVITY CLASSIFICATION TO dbo.CoverageClassify.Secret WITH (LABEL = 'Confidential', INFORMATION_TYPE = 'Coverage', RANK = HIGH);",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local add-sensitivity-classification; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT COUNT(*) FROM sys.sensitivity_classifications WHERE major_id = OBJECT_ID('dbo.CoverageClassify') AND minor_id = COLUMNPROPERTY(OBJECT_ID('dbo.CoverageClassify'), 'Secret', 'ColumnId') AND label = 'Confidential' AND rank = 30;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "SQL Server 2019+ supports sensitivity classification with RANK."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-sensitivity-classification",
+  "statementTypes": [
+    "DropSensitivityClassificationStatement"
+  ],
+  "setupSql": "CREATE TABLE dbo.CoverageClassify (Secret nvarchar(20));ADD SENSITIVITY CLASSIFICATION TO dbo.CoverageClassify.Secret WITH (LABEL = 'Confidential', INFORMATION_TYPE = 'Coverage', RANK = HIGH);",
+  "sql": "DROP SENSITIVITY CLASSIFICATION FROM dbo.CoverageClassify.Secret;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Database-local drop-sensitivity-classification; scalar asserts the catalog or data result.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.sensitivity_classifications WHERE major_id = OBJECT_ID('dbo.CoverageClassify')) THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "SQL Server 2019+ supports sensitivity classification with RANK."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-event-notification",
+  "statementTypes": [
+    "CreateEventNotificationStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageNotificationQueue; CREATE SERVICE CoverageNotificationService ON QUEUE dbo.CoverageNotificationQueue ([http://schemas.microsoft.com/SQL/Notifications/PostEventNotification]);",
+  "sql": "CREATE EVENT NOTIFICATION CoverageNotification ON DATABASE FOR CREATE_TABLE TO SERVICE 'CoverageNotificationService', 'current database';",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Creates a database-local event notification and its exclusive local Broker conversation; no event message is deliberately generated.",
+  "verifySql": "SELECT COUNT(*) FROM sys.event_notifications WHERE name = 'CoverageNotification' AND parent_class = 0;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Database-local DDL event notification and local Broker service; no event is generated after registration.",
+    "Event notification metadata is asserted by verifySql; opening or ending its exclusive local Broker conversation is observed through sys.conversation_endpoints. No matching DDL event is fired."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-event-notification",
+  "statementTypes": [
+    "DropEventNotificationStatement"
+  ],
+  "setupSql": "CREATE QUEUE dbo.CoverageNotificationQueue; CREATE SERVICE CoverageNotificationService ON QUEUE dbo.CoverageNotificationQueue ([http://schemas.microsoft.com/SQL/Notifications/PostEventNotification]);CREATE EVENT NOTIFICATION CoverageNotification ON DATABASE FOR CREATE_TABLE TO SERVICE 'CoverageNotificationService', 'current database';",
+  "sql": "DROP EVENT NOTIFICATION CoverageNotification ON DATABASE;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Drops the database-local event notification and ends its exclusive Broker conversation.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.event_notifications WHERE name = 'CoverageNotification') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Database-local DDL event notification and local Broker service only.",
+    "Event notification metadata is asserted by verifySql; opening or ending its exclusive local Broker conversation is observed through sys.conversation_endpoints. No matching DDL event is fired."
+  ],
+  "expectedVisibleChange": true,
+  "expectedPersistedChange": true,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-create-external-file-format",
+  "statementTypes": [
+    "CreateExternalFileFormatStatement"
+  ],
+  "setupSql": "",
+  "sql": "CREATE EXTERNAL FILE FORMAT CoverageFormat WITH (FORMAT_TYPE = DELIMITEDTEXT, FORMAT_OPTIONS (FIELD_TERMINATOR = '|'));",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Creates only database-local external-file-format metadata; no external source, path, table, credential, or I/O. The current fingerprint omits sys.external_file_formats.",
+  "verifySql": "SELECT COUNT(*) FROM sys.external_file_formats WHERE name = 'CoverageFormat' AND field_terminator = '|';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "PolyBase external-file-format DDL supported by installed engine; metadata definition only: no external data source, table, path, credential or I/O.",
+    "Observer limitation: sys.external_file_formats is not fingerprinted; scalar checks the persistent metadata mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-drop-external-file-format",
+  "statementTypes": [
+    "DropExternalFileFormatStatement"
+  ],
+  "setupSql": "CREATE EXTERNAL FILE FORMAT CoverageFormat WITH (FORMAT_TYPE = DELIMITEDTEXT, FORMAT_OPTIONS (FIELD_TERMINATOR = '|'));",
+  "sql": "DROP EXTERNAL FILE FORMAT CoverageFormat;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Drops only database-local external-file-format metadata; the current fingerprint omits sys.external_file_formats.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.external_file_formats WHERE name = 'CoverageFormat') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "PolyBase external-file-format DDL supported by installed engine; metadata only; no external source or I/O.",
+    "Observer limitation: sys.external_file_formats is not fingerprinted; scalar checks the persistent metadata mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-add-empty-filegroup",
+  "statementTypes": [
+    "AlterDatabaseAddFileGroupStatement"
+  ],
+  "setupSql": "",
+  "sql": "ALTER DATABASE CURRENT ADD FILEGROUP CoverageEmptyFilegroup;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Adds an empty ROWS filegroup in this database without adding any file; the current fingerprint omits sys.filegroups.",
+  "verifySql": "SELECT COUNT(*) FROM sys.filegroups WHERE name = 'CoverageEmptyFilegroup';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "CURRENT is the disposable database; empty ROWS filegroup metadata only: no files are added, removed, renamed or accessed.",
+    "Observer limitation: sys.filegroups is not fingerprinted; scalar checks the persistent metadata mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-modify-empty-filegroup",
+  "statementTypes": [
+    "AlterDatabaseModifyFileGroupStatement"
+  ],
+  "setupSql": "ALTER DATABASE CURRENT ADD FILEGROUP CoverageEmptyFilegroup;",
+  "sql": "ALTER DATABASE CURRENT MODIFY FILEGROUP CoverageEmptyFilegroup NAME = CoverageRenamedFilegroup;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Renames an empty filegroup in this database without touching files; the current fingerprint omits sys.filegroups.",
+  "verifySql": "SELECT COUNT(*) FROM sys.filegroups WHERE name = 'CoverageRenamedFilegroup';",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "CURRENT is the disposable database; empty ROWS filegroup metadata only: no files are added, removed, renamed or accessed.",
+    "Observer limitation: sys.filegroups is not fingerprinted; scalar checks the persistent metadata mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-remove-empty-filegroup",
+  "statementTypes": [
+    "AlterDatabaseRemoveFileGroupStatement"
+  ],
+  "setupSql": "ALTER DATABASE CURRENT ADD FILEGROUP CoverageEmptyFilegroup;",
+  "sql": "ALTER DATABASE CURRENT REMOVE FILEGROUP CoverageEmptyFilegroup;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Removes the empty filegroup, which has never contained a file; the current fingerprint omits sys.filegroups.",
+  "verifySql": "SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM sys.filegroups WHERE name = 'CoverageEmptyFilegroup') THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "CURRENT is the disposable database; empty ROWS filegroup metadata only: no files are added, removed, renamed or accessed.",
+    "Observer limitation: sys.filegroups is not fingerprinted; scalar checks the persistent metadata mutation."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-collate-current",
+  "statementTypes": [
+    "AlterDatabaseCollateStatement"
+  ],
+  "setupSql": "ALTER DATABASE CURRENT COLLATE Latin1_General_100_CI_AS;",
+  "sql": "ALTER DATABASE CURRENT COLLATE Latin1_General_100_BIN2;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Persists this otherwise empty database default collation; the current fingerprint omits database collation.",
+  "verifySql": "SELECT CASE WHEN CONVERT(nvarchar(128), DATABASEPROPERTYEX(DB_NAME(), 'Collation')) = N'Latin1_General_100_BIN2' THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Fresh empty database without user tables/schema-bound modules; current database only; target built-in collation available.",
+    "Observer limitation: database collation is not included in the fingerprint; scalar checks its persistent change."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-database-checkpoint",
+  "statementTypes": [
+    "CheckpointStatement"
+  ],
+  "setupSql": "",
+  "sql": "CHECKPOINT;",
+  "expectedVerdict": "RealWrite",
+  "expectedPermanentEffect": "Requests a checkpoint only in the current disposable database; no logical catalog or row change. The scalar does not claim to prove a physical flush.",
+  "verifySql": "SELECT CASE WHEN DB_ID() > 4 AND @@TRANCOUNT = 0 THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "Database-local CHECKPOINT requires db_owner; flushes dirty pages without a durable logical catalog/data delta. Scalar checks isolation/transaction invariants only, not that a page was flushed."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-session-offsets-reset",
+  "statementTypes": [
+    "SetOffsetsStatement"
+  ],
+  "setupSql": "",
+  "sql": "SET OFFSETS SELECT, FROM, ORDER OFF;",
+  "expectedVerdict": "Unknown",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT CASE WHEN DB_ID() > 4 AND @@TRANCOUNT = 0 THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "SET OFFSETS OFF is a parse-time DB-Library compatibility session setting. SqlClient exposes no scalar OFFSETS property; verifier checks isolation and zero transaction count only. No persistent effect is claimed."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+},
+{
+  "id": "expanded-session-lineno-reset",
+  "statementTypes": [
+    "LineNoStatement"
+  ],
+  "setupSql": "",
+  "sql": "LINENO 1;",
+  "expectedVerdict": "ReadOnly",
+  "expectedPermanentEffect": "none",
+  "verifySql": "SELECT CASE WHEN DB_ID() > 4 AND @@TRANCOUNT = 0 THEN 1 ELSE 0 END;",
+  "expectedVerifyScalar": 1,
+  "prerequisites": [
+    "Fresh randomly named disposable database; db_owner WITHOUT LOGIN; no ambient transaction.",
+    "Same connection for setup, test, verification; GO separates batches.",
+    "LINENO 1 resets only batch error numbering. SqlClient exposes no scalar current LINENO property; verifier checks isolation/transaction invariants, not an induced error."
+  ],
+  "expectedVisibleChange": false,
+  "expectedPersistedChange": false,
+  "expectedTransactionCount": 0
+}
+]
+}

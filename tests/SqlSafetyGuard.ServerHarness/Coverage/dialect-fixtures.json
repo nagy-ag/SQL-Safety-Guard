@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "fixtures": [
+    {
+      "statementType": "GrantStatement80",
+      "dialect": "80",
+      "sql": "GRANT SELECT ON dbo.Coverage TO public;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 0
+    },
+    {
+      "statementType": "DenyStatement80",
+      "dialect": "80",
+      "sql": "DENY SELECT ON dbo.Coverage TO public;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 0
+    },
+    {
+      "statementType": "RevokeStatement80",
+      "dialect": "80",
+      "sql": "REVOKE SELECT ON dbo.Coverage FROM public;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 0
+    },
+    {
+      "statementType": "DiskStatement",
+      "dialect": "80",
+      "sql": "DISK INIT NAME='DEVICE1',PHYSNAME='c:\\sql80\\data\\device1.dat',VDEVNO=1,SIZE=6144;",
+      "expectedVerdict": "Unknown",
+      "defaultParserErrors": 1
+    },
+    {
+      "statementType": "RaiseErrorLegacyStatement",
+      "dialect": "80",
+      "sql": "RAISERROR 50001 'legacy message';",
+      "expectedVerdict": "Unknown",
+      "defaultParserErrors": 1
+    },
+    {
+      "statementType": "CreateExternalFunctionStatement",
+      "dialect": "FabricDW",
+      "sql": "CREATE FUNCTION dbo.MyExternalFn AS EXTERNAL FUNCTION mySet.myFn;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 1
+    },
+    {
+      "statementType": "AlterExternalFunctionStatement",
+      "dialect": "FabricDW",
+      "sql": "ALTER FUNCTION dbo.MyExternalFn AS EXTERNAL FUNCTION mySet.myFn;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 1
+    },
+    {
+      "statementType": "CreateOrAlterExternalFunctionStatement",
+      "dialect": "FabricDW",
+      "sql": "CREATE OR ALTER FUNCTION dbo.MyExternalFn AS EXTERNAL FUNCTION mySet.myFn;",
+      "expectedVerdict": "RealWrite",
+      "defaultParserErrors": 3
+    },
+    {
+      "statementType": "AlterTableAddClusterByStatement",
+      "dialect": "FabricDW",
+      "sql": "ALTER TABLE Customers WITH (CLUSTER BY (CustomerID));",
+      "expectedVerdict": "Unknown",
+      "defaultParserErrors": 1
+    }
+  ]
+}

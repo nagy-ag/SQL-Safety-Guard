@@ -1,5 +1,30 @@
 # Real-server harness
 
+## Strict curated coverage (recommended)
+
+Current evidence: [334-kind verification](../../docs/verification/2026-10-27-all-kinds/README.md) records 267 live-passed kinds, three failed-only kinds and 64 not live tested, separately from all-kind static coverage.
+
+Use `--coverage tests/SqlSafetyGuard.ServerHarness/Coverage` for the explicit 334-kind inventory and
+curated runtime assertions. See [the strict corpus contract](Coverage/README.md) for the command,
+isolation, observer limitations and completion gate. Strict mode uses a fresh uniquely named
+database per fixture; errors are failures, not successful evidence. It does not reset existing
+`SqlGuard_Prod` / `SqlGuard_Dev`, modify SSMS settings, or use computer automation.
+
+## All-kind evidence and isolated server tests
+
+The corpus also includes static tests for all 334 concrete kinds, optional privileged Docker-only
+runtime corpora, an owned-session KILL / owned-container SHUTDOWN runner, and a combined
+per-kind evidence generator. Read [the corpus instructions](Coverage/README.md) before running
+them. Partial live coverage, alternate dialect tests, and AST-only tests are reported separately;
+none is silently promoted into all-kind live verification.
+
+## Legacy discovery mode
+
+The following describes the older string-discovery runner, **not strict mode**. Discovery may encounter
+invalid/inapplicable SQL and record execution errors without failing every case. Its zero exit code
+is not proof that every discovered statement executed successfully. It also recreates named sandbox
+databases and performs broader tempdb cleanup: do not run it against sandboxes you want to preserve.
+
 Checks the analyzer against what SQL Server actually does. Each T-SQL case is analyzed, then **executed** on a
 throwaway sandbox, and a fingerprint of the sandbox shows whether anything permanent changed. A case the analyzer
 calls green that changed something is a **false green**, the one failure that matters most for this extension.

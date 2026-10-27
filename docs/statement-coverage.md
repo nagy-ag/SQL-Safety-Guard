@@ -10,9 +10,18 @@ appendix preserves that inventory with updated handling notes. Recognizing a sta
 correct target resolution, argument semantics, reachability or runtime behavior. Unrecognized statement types
 are conservatively red, while opaque execution and analysis limits are yellow.
 
-The soundness/rules changes are checked by automated analyzer, policy, resource-budget and installer regressions,
-and the VSIX is compiled in Release. They have **not** been exercised in SSMS or against a live SQL Server in this
-implementation worktree. Earlier smoke-test claims in the README are explicitly historical.
+The soundness/rules changes are checked by automated analyzer, policy, resource-budget and installer regressions.
+The October 27, 2026 combined verification accounts for **all 334 kinds statically**: 318 default-parser SQL
+cases, nine alternate-dialect cases, and seven constructed-AST-only helper/snippet nodes. **267 kinds have
+passing representative live execution**, three have failed attempts only, and 64 have no live execution evidence.
+The six authoritative runtime reports contain 293 fixture executions: 289 passes and four failed attempts
+(including one subsequently corrected Resource Governor setup). The final unit suite passes **793/793** tests.
+See the [combined execution evidence and limitations](verification/2026-10-27-all-kinds/README.md),
+[per-kind matrix](verification/2026-10-27-all-kinds/statement-matrix.md), and
+[reproducible runners](../tests/SqlSafetyGuard.ServerHarness/Coverage/README.md). The earlier
+[118-fixture / 103-kind report](verification/2026-10-27-strict-coverage.md) is historical, not the current total.
+These results do not prove every clause combination or every possible side effect. SSMS UI acceptance is
+documented separately in [release acceptance](release-acceptance.md); headless policy tests do not replace it.
 
 ## By category
 
