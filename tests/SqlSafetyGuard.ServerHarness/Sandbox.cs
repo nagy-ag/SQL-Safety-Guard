@@ -241,7 +241,7 @@ internal sealed class Sandbox : IDisposable
             parts.AddRange(Lines($"SELECT 'O', s.name, o.name, o.type, CONVERT(varchar(30), o.modify_date, 126) FROM {d}.sys.objects o JOIN {d}.sys.schemas s ON s.schema_id = o.schema_id WHERE o.is_ms_shipped = 0 AND o.type NOT IN ('IT','S','SQ')"));
             parts.AddRange(Lines($"SELECT 'C', OBJECT_SCHEMA_NAME(c.object_id, {id}), OBJECT_NAME(c.object_id, {id}), c.name, c.system_type_id, c.max_length, c.is_nullable, c.is_identity FROM {d}.sys.columns c JOIN {d}.sys.objects o ON o.object_id = c.object_id WHERE o.is_ms_shipped = 0"));
             parts.AddRange(Lines($"SELECT 'I', OBJECT_NAME(i.object_id, {id}), i.name, i.type, i.is_disabled FROM {d}.sys.indexes i JOIN {d}.sys.objects o ON o.object_id = i.object_id WHERE o.is_ms_shipped = 0 AND i.type > 0"));
-            parts.AddRange(Lines($"SELECT 'Q', SCHEMA_NAME(schema_id), name, CONVERT(varchar(40), current_value), CONVERT(varchar(40), increment) FROM {d}.sys.sequences"));
+            parts.AddRange(Lines($"SELECT 'Q', SCHEMA_NAME(schema_id), name, CONVERT(varchar(40), current_value), CONVERT(varchar(40), last_used_value), CONVERT(varchar(40), increment) FROM {d}.sys.sequences"));
             parts.AddRange(Lines($"SELECT 'S', name FROM {d}.sys.schemas"));
             parts.AddRange(Lines($"SELECT 'P', name, type, default_schema_name FROM {d}.sys.database_principals"));
             parts.AddRange(Lines($"SELECT 'R', USER_NAME(role_principal_id), member_principal_id FROM {d}.sys.database_role_members"));

@@ -28,6 +28,7 @@ foreach (var dir in options.Tests)
 foreach (var dir in options.Samples.Concat(options.Sql))
     cases.AddRange(Corpus.FromSqlFiles(Directory.EnumerateFiles(dir, "*.sql", SearchOption.AllDirectories)));
 cases.AddRange(Generator.All());
+cases.AddRange(Variants.All());
 cases.Add(new Case("gen:red-crossdb-dev", "generated", "UPDATE SqlGuard_Dev.dbo.Orders SET Qty = Qty + 1 WHERE Id = 1;"));
 cases.Add(new Case("gen:green-crossdb-read", "generated", "SELECT COUNT(*) FROM SqlGuard_Dev.dbo.Orders AS d JOIN SqlGuard_Prod.dbo.Orders AS p ON p.Id = d.Id;"));
 cases = Corpus.Dedupe(cases);

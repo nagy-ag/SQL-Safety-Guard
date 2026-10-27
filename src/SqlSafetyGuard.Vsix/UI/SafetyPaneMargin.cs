@@ -191,7 +191,8 @@ namespace SqlSafetyGuard.UI
             bool isSelection = _analyzedSelection.HasValue && span.Length != snapshot.Length;
 
             var uiTime = Stopwatch.StartNew();
-            if (!RefreshSettings())
+            var package = TryGetPackage();
+            if (package == null || !RefreshSettings())
             {
                 _control.ShowPlaceholder("Starting…", "SQL Safety Guard is still loading.");
                 Schedule("package");
@@ -211,7 +212,7 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"analyze #{version} reason={_reason} chars={text.Length} selection={isSelection} " +
                             $"server={(connection.Server == null ? "unknown" : "known")} uiThreadMs={uiTime.ElapsedMilliseconds}");
 
-            _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            _ = package.JoinableTaskFactory.RunAsync(async () =>
             {
                 try
                 {
