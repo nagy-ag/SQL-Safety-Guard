@@ -117,11 +117,7 @@ namespace SqlSafetyGuard.Guard
 
             var result = check.Result;
             return GuardDecision.ShouldCancel(settings, result,
-                () =>
-                {
-                    _package.RefreshHealth(settings, successfulCheck: true);
-                    _package.UpdateResultsIfOpen(snapshot, result);
-                },
+                () => _package.RefreshHealth(settings, successfulCheck: true),
                 () =>
                 {
                     var dialog = new ConfirmExecutionDialog(result, snapshot, connection, settings, options.ShowServerAndDatabase);

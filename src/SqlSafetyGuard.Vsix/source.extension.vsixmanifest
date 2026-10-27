@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558" Version="1.0.0" Language="en-US" Publisher="SQL Safety Guard" />
+    <Identity Id="SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558" Version="1.1.0" Language="en-US" Publisher="SQL Safety Guard" />
     <DisplayName>SQL Safety Guard</DisplayName>
     <Description xml:space="preserve">Analyzes T-SQL before it runs in SQL Server Management Studio and tells you whether it changes real data or only reads / touches temp objects. Adds an "Analyze Query Safety" command and an F5 guard that prompts before real writes.</Description>
     <Icon>Resources\Icon.png</Icon>

@@ -26,24 +26,13 @@
         <CommandFlag>TextOnly</CommandFlag>
         <Strings>
           <ButtonText>Analyze Query Safety</ButtonText>
-          <ToolTipText>Analyze query safety without executing it (selection, or the whole window)</ToolTipText>
+          <ToolTipText>Show the safety pane and re-analyze now, without executing (selection, or the whole window)</ToolTipText>
           <CommandName>AnalyzeQuerySafety</CommandName>
           <CanonicalName>.SqlSafetyGuard.AnalyzeQuerySafety</CanonicalName>
           <LocCanonicalName>.SqlSafetyGuard.AnalyzeQuerySafety</LocCanonicalName>
         </Strings>
       </Button>
 
-      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidShowResults" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
-        <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>SQL Safety Guard Results</ButtonText>
-          <CommandName>SqlSafetyGuardResults</CommandName>
-          <CanonicalName>.SqlSafetyGuard.ShowResults</CanonicalName>
-          <LocCanonicalName>.SqlSafetyGuard.ShowResults</LocCanonicalName>
-        </Strings>
-      </Button>
     </Buttons>
   </Commands>
 
@@ -65,7 +54,6 @@
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
       <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />
-      <IDSymbol name="cmdidShowResults" value="0x0101" />
     </GuidSymbol>
 
     <!-- SSMS 22 SQLEditors.dll command table (decompiled with vsct.exe): toolbar "SQL Editor" -->

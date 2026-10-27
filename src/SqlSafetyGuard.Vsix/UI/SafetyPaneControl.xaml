@@ -1,0 +1,151 @@
+<UserControl x:Class="SqlSafetyGuard.UI.SafetyPaneControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             Background="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
+             Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
+             FontSize="12">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BadgeBrush" Color="#C62828" />
+
+        <Style x:Key="PaneItem" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd" Background="Transparent" BorderThickness="3,0,0,0" BorderBrush="Transparent" Padding="8,4">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemInactiveBrushKey}}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemActiveBrushKey}}" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemActiveTextBrushKey}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="GroupTemplate">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="9" Height="9" Fill="{Binding Marker}" Margin="0,0,7,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                    <Border Background="{StaticResource BadgeBrush}" CornerRadius="2" Margin="6,0,0,0" Padding="4,0" VerticalAlignment="Center"
+                            Visibility="{Binding AllRowsVisibility}">
+                        <TextBlock Text="ALL ROWS" Foreground="White" FontSize="9.5" FontWeight="Bold" />
+                    </Border>
+                </StackPanel>
+                <TextBlock Text="{Binding Subtitle}" Opacity="0.75" Margin="16,1,0,0" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <!-- Drag the left edge to resize. -->
+        <Thumb x:Name="Grip" DockPanel.Dock="Left" Width="4" Cursor="SizeWE" DragDelta="OnGripDragDelta">
+            <Thumb.Template>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="Transparent" BorderThickness="1,0,0,0"
+                            BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+                </ControlTemplate>
+            </Thumb.Template>
+        </Thumb>
+
+        <!-- Collapsed: a thin coloured strip; click to expand. -->
+        <Border x:Name="CollapsedStrip" Visibility="Collapsed" Cursor="Hand" Background="Transparent"
+                MouseLeftButtonUp="OnToggleClicked" ToolTip="Show the SQL Safety Guard pane">
+            <StackPanel>
+                <Ellipse x:Name="CollapsedDot" Width="12" Height="12" Margin="0,10,0,8" Fill="Gray" />
+                <TextBlock Text="Safety" HorizontalAlignment="Center">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <DockPanel x:Name="Expanded">
+            <!-- Summary -->
+            <Border DockPanel.Dock="Top" Padding="10,8" BorderThickness="0,0,0,1"
+                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                <DockPanel>
+                    <TextBlock x:Name="CollapseButton" DockPanel.Dock="Right" Text="»" FontSize="15" Margin="8,-3,0,0" Cursor="Hand" Opacity="0.7"
+                               ToolTip="Collapse the pane" MouseLeftButtonUp="OnToggleClicked" />
+                    <Grid DockPanel.Dock="Left" Width="20" Height="20" Margin="0,1,9,0" VerticalAlignment="Top">
+                        <Ellipse x:Name="VerdictDot" Fill="Gray" />
+                        <TextBlock x:Name="VerdictGlyph" Text="!" Foreground="White" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                    <StackPanel>
+                        <TextBlock x:Name="Headline" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        <TextBlock x:Name="SubText" Opacity="0.75" TextWrapping="Wrap" Margin="0,2,0,0" />
+                        <TextBlock x:Name="ConnectionText" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,3,0,0" Visibility="Collapsed" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Safe statements, collapsed by default -->
+            <StackPanel DockPanel.Dock="Bottom">
+                <Border BorderThickness="0,1,0,0" Padding="10,6" Cursor="Hand" Background="Transparent" MouseLeftButtonUp="OnSafeHeaderClicked"
+                        BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                    <TextBlock x:Name="SafeHeader" />
+                </Border>
+                <ItemsControl x:Name="SafeList" Visibility="Collapsed" Margin="10,0,10,8" MaxHeight="160">
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"><ItemsPresenter /></ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,1">
+                                <Ellipse Width="7" Height="7" Fill="{Binding Marker}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding SafeText}" Opacity="0.8" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Detail card for the selected object -->
+            <Border x:Name="DetailCard" DockPanel.Dock="Bottom" Margin="10,6,10,10" Padding="10,8" BorderThickness="1" Visibility="Collapsed"
+                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                <StackPanel>
+                    <TextBlock x:Name="DetailTitle" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4" />
+                    <ItemsControl x:Name="DetailItems">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,3">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="7" Height="7" Fill="{Binding Marker}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Header}" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Note}" Opacity="0.75" TextWrapping="Wrap" Margin="13,1,0,0" Visibility="{Binding NoteVisibility}" />
+                                    <Border Margin="13,3,0,0" Padding="6,2" BorderThickness="1"
+                                            BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                                        <TextBlock Text="{Binding Snippet}" FontFamily="Consolas" TextTrimming="CharacterEllipsis" />
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="Double-click an object to put the caret there." Opacity="0.6" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Margin="10,10" Opacity="0.7" TextWrapping="Wrap" Visibility="Collapsed"
+                       Text="Nothing here writes to a permanent object." />
+
+            <ListBox x:Name="GroupList" Background="Transparent" BorderThickness="0"
+                     Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
+                     ItemContainerStyle="{StaticResource PaneItem}" ItemTemplate="{StaticResource GroupTemplate}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
+        </DockPanel>
+    </DockPanel>
+</UserControl>

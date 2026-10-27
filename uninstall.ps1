@@ -25,4 +25,6 @@ if (Remove-ManualCopies -Ssms $ssms) {
     Write-Host 'Removed manually copied extension files.' -ForegroundColor Green
 }
 
+if (Update-SsmsConfiguration -Ssms $ssms) { Write-Host 'Extension cache refreshed.' -ForegroundColor Green }
+
 Write-Host 'Done. Restart SSMS.'
