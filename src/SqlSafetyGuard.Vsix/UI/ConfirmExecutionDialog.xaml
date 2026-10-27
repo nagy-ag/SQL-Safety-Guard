@@ -1,0 +1,77 @@
+<platformUi:DialogWindow x:Class="SqlSafetyGuard.UI.ConfirmExecutionDialog"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                         xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+                         Title="SQL Safety Guard"
+                         Width="660" SizeToContent="Height" MaxHeight="720"
+                         ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+                         Background="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelBrushKey}}"
+                         Foreground="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}">
+    <platformUi:DialogWindow.Resources>
+        <DataTemplate x:Key="FindingTemplate">
+            <Grid Margin="2,3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MinWidth="72" SharedSizeGroup="LineNumber" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Action" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Ellipse Width="10" Height="10" Margin="0,4,10,0" VerticalAlignment="Top" Fill="{Binding Marker}" />
+                <TextBlock Grid.Column="1" Text="{Binding LineText}" Margin="0,0,12,0" />
+                <TextBlock Grid.Column="2" Text="{Binding Action}" FontWeight="SemiBold" Margin="0,0,10,0" />
+                <TextBlock Grid.Column="3" TextWrapping="Wrap">
+                    <Run Text="{Binding Target, Mode=OneWay}" /><Run Text="{Binding NoteSuffix, Mode=OneWay}" FontStyle="Italic" />
+                </TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,2,0,0" TextWrapping="Wrap"
+                           FontWeight="Bold" Text="{Binding AllRowsText}" Visibility="{Binding AllRowsVisibility}" />
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="FindingList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowBorderBrushKey}}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ItemTemplate" Value="{StaticResource FindingTemplate}" />
+            <Setter Property="Grid.IsSharedSizeScope" Value="True" />
+        </Style>
+    </platformUi:DialogWindow.Resources>
+
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal">
+                <Border x:Name="HeaderBadge" Width="14" Height="14" CornerRadius="7" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <TextBlock x:Name="HeaderText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" MaxWidth="590" />
+            </StackPanel>
+            <TextBlock x:Name="SubText" Margin="0,8,0,0" TextWrapping="Wrap" />
+            <TextBlock x:Name="ConnectionText" Margin="0,6,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+            <Button x:Name="RunButton" Content="_Run anyway" MinWidth="110" Margin="0,0,8,0" Click="OnRunAnyway"
+                    Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+            <!-- Cancel is the safe default: the accent border marks it as the default button in every theme
+                 (the themed button style alone shows no difference in dark themes). -->
+            <Button x:Name="CancelButton" Content="Cancel" MinWidth="110" IsDefault="True" IsCancel="True"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}"
+                    Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+        </StackPanel>
+
+        <TextBlock x:Name="FooterText" DockPanel.Dock="Bottom" Margin="0,8,0,0" Opacity="0.75" TextWrapping="Wrap"
+                   Text="Double-click a line to cancel and jump to it in the editor." />
+
+        <StackPanel>
+            <ListBox x:Name="FindingsList" Margin="0,12,0,0" MaxHeight="300" Style="{StaticResource FindingList}"
+                     MouseDoubleClick="OnFindingDoubleClick" />
+            <TextBlock x:Name="BlockedHeader" Margin="0,12,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed"
+                       Text="In a batch with a syntax error: these won't run now, but will once the error is fixed" />
+            <ListBox x:Name="BlockedList" Margin="0,6,0,0" MaxHeight="200" Style="{StaticResource FindingList}" Opacity="0.85"
+                     Visibility="Collapsed" MouseDoubleClick="OnFindingDoubleClick" />
+        </StackPanel>
+    </DockPanel>
+</platformUi:DialogWindow>

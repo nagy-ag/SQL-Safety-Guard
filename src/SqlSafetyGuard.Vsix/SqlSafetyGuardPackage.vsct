@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+  <Include href="KnownImageIds.vsct" />
+
+  <Commands package="guidSqlSafetyGuardPackage">
+    <Groups>
+      <!-- Tools menu -->
+      <Group guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+      <!-- SSMS "SQL Editor" toolbar, right after the Execute group (IDG_SQLWB_QUERY_EXEC_TOOLBAR = 0x0300) -->
+      <Group guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" priority="0x0350">
+        <Parent guid="guidSsmsQueryEditorGroup" id="IDM_SQLWB_TOOL_QUERY" />
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" priority="0x0100" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Analyze Query Safety</ButtonText>
+          <ToolTipText>Analyze query safety without executing it (selection, or the whole window)</ToolTipText>
+          <CommandName>AnalyzeQuerySafety</CommandName>
+          <CanonicalName>.SqlSafetyGuard.AnalyzeQuerySafety</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.AnalyzeQuerySafety</LocCanonicalName>
+        </Strings>
+      </Button>
+
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidShowResults" priority="0x0100" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1" />
+        <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>SQL Safety Guard Results</ButtonText>
+          <CommandName>SqlSafetyGuardResults</CommandName>
+          <CanonicalName>.SqlSafetyGuard.ShowResults</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.ShowResults</LocCanonicalName>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <CommandPlacements>
+    <CommandPlacement guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" priority="0x0100">
+      <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" />
+    </CommandPlacement>
+  </CommandPlacements>
+
+  <KeyBindings>
+    <!-- Ctrl+Shift+A is Project.AddNewItem (Global) in SSMS 22, so Ctrl+Shift+F5 is used. Scoped to the SQL Query Editor. -->
+    <KeyBinding guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" editor="guidSsmsSqlEditor" key1="VK_F5" mod1="Control Shift" />
+  </KeyBindings>
+
+  <Symbols>
+    <GuidSymbol name="guidSqlSafetyGuardPackage" value="{71fd7bec-2851-4c61-92a4-4f2435cbd7a1}" />
+
+    <GuidSymbol name="guidSqlSafetyGuardCmdSet" value="{84195f28-a147-4898-bcad-b1ad3c744ae2}">
+      <IDSymbol name="ToolsMenuGroup" value="0x1020" />
+      <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
+      <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />
+      <IDSymbol name="cmdidShowResults" value="0x0101" />
+    </GuidSymbol>
+
+    <!-- SSMS 22 SQLEditors.dll command table (decompiled with vsct.exe): toolbar "SQL Editor" -->
+    <GuidSymbol name="guidSsmsQueryEditorGroup" value="{33f13ac3-80bb-4ecb-85bc-225435603a5e}">
+      <IDSymbol name="IDM_SQLWB_TOOL_QUERY" value="0x0001" />
+    </GuidSymbol>
+
+    <!-- SSMS SQL editor factory: the "SQL Query Editor" key binding scope -->
+    <GuidSymbol name="guidSsmsSqlEditor" value="{b5a506eb-11be-4782-9a18-21265c2ca0b4}" />
+  </Symbols>
+</CommandTable>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558" Version="1.0.0" Language="en-US" Publisher="SQL Safety Guard" />
+    <DisplayName>SQL Safety Guard</DisplayName>
+    <Description xml:space="preserve">Analyzes T-SQL before it runs in SQL Server Management Studio and tells you whether it changes real data or only reads / touches temp objects. Adds an "Analyze Query Safety" command and an F5 guard that prompts before real writes.</Description>
+    <Icon>Resources\Icon.png</Icon>
+    <Tags>SSMS, T-SQL, safety, SQL Server</Tags>
+  </Metadata>
+  <Installation>
+    <!-- SSMS 21+ registers as product Microsoft.VisualStudio.Ssms (same id as Microsoft's own SSMS 22 extensions). -->
+    <InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.2,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+  </Assets>
+</PackageManifest>
