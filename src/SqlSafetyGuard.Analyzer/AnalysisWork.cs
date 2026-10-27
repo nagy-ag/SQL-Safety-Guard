@@ -42,7 +42,9 @@ namespace SqlSafetyGuard.Analyzer
             using (var reader = new CheckedReader(text))
             {
                 var tokens = parser.GetTokenStream(reader, out errors);
-                int parentheses = 0, blocks = 0, conditions = 0, elseConditions = 0, statementTokens = 0;
+                // Flat lists (IN lists, VALUES rows, columns) and long operator chains parse and walk without deep recursion,
+                // so statement length is not budgeted; nesting that recurses is, here and by the walker's depth limit.
+                int parentheses = 0, blocks = 0, conditions = 0, elseConditions = 0;
                 TSqlTokenType previous = TSqlTokenType.EndOfFile;
                 foreach (var token in tokens)
                 {
@@ -50,11 +52,7 @@ namespace SqlSafetyGuard.Analyzer
                     if (token.TokenType == TSqlTokenType.WhiteSpace || token.TokenType == TSqlTokenType.SingleLineComment ||
                         token.TokenType == TSqlTokenType.MultilineComment) continue;
                     if (parentheses == 0 && StartsAction(token.TokenType))
-                    {
-                        statementTokens = 0;
                         conditions = 0;
-                    }
-                    statementTokens++;
                     if (previous == TSqlTokenType.Begin && (token.TokenType == TSqlTokenType.Transaction || token.TokenType == TSqlTokenType.Tran ||
                         token.TokenType == TSqlTokenType.Distributed)) blocks = Math.Max(0, blocks - 1);
                     if (token.TokenType == TSqlTokenType.LeftParenthesis) parentheses++;
@@ -68,8 +66,7 @@ namespace SqlSafetyGuard.Analyzer
                     }
                     if (token.TokenType == TSqlTokenType.While) conditions++;
                     if (token.TokenType == TSqlTokenType.Go) { conditions = 0; elseConditions = 0; blocks = 0; }
-                    if (token.TokenType == TSqlTokenType.Go || token.TokenType == TSqlTokenType.Semicolon) statementTokens = 0;
-                    if (parentheses > 256 || blocks > 256 || conditions > 512 || elseConditions > 512 || statementTokens > 20000)
+                    if (parentheses > 256 || blocks > 256 || conditions > 512 || elseConditions > 512)
                         throw new AnalysisLimitException("too complex to analyze: nesting/control-flow budget exceeded");
                     previous = token.TokenType;
                 }

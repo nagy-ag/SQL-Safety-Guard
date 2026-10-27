@@ -215,6 +215,35 @@ DROP TABLE #work{index}");
         Assert.Equal(Verdict.Unknown, SqlSafetyAnalyzer.Analyze(sql).Overall);
     }
 
+    [Fact]
+    public void NestingThatDefeatsTokenCountsIsRejectedWithoutStackOverflow()
+    {
+        // Each IF ... SELECT resets the token-level counters, but the walker still recurses per level.
+        var sql = string.Concat(Enumerable.Repeat("IF 1=1 SELECT 1 ELSE WHILE 1=0 ", 40000)) + "SELECT 1";
+        var result = SqlSafetyAnalyzer.Analyze(sql);
+        Assert.Equal(Verdict.Unknown, result.Overall);
+        Assert.Contains(result.Findings, finding => finding.Note.Contains("nested too deeply"));
+    }
+
+    [Fact]
+    public void LongFlatListsKeepDetailedFindings()
+    {
+        var ids = string.Join(",", Enumerable.Range(1, 10000));
+        var inList = SqlSafetyAnalyzer.Analyze($"SELECT * FROM dbo.Orders WHERE Id IN ({ids});\nUPDATE dbo.Orders SET Qty = 1 WHERE Id = 7;");
+        Assert.Equal(Verdict.RealWrite, inList.Overall);
+        Assert.Contains(inList.Findings, finding => finding.Action == "UPDATE" && finding.Verdict == Verdict.RealWrite);
+
+        var values = string.Join(",\n", Enumerable.Range(1, 4000).Select(i => $"({i}, 'x{i}')"));
+        Assert.Equal(Verdict.TempOnly,
+            SqlSafetyAnalyzer.Analyze($"CREATE TABLE #t (Id int, N varchar(10)); INSERT INTO #t VALUES {values};").Overall);
+
+        var columns = string.Join(", ", Enumerable.Range(1, 3000).Select(i => $"ISNULL(a.c{i}, b.c{i}) AS c{i}"));
+        Assert.Equal(Verdict.ReadOnly, SqlSafetyAnalyzer.Analyze($"SELECT {columns} FROM dbo.A a JOIN dbo.B b ON b.Id = a.Id;").Overall);
+
+        var chain = string.Join(" OR ", Enumerable.Range(0, 20000).Select(i => $"a={i}"));
+        Assert.Equal(Verdict.ReadOnly, SqlSafetyAnalyzer.Analyze("SELECT * FROM dbo.T WHERE " + chain).Overall);
+    }
+
     [Theory]
     [InlineData("IF @flag = 1 RETURN; SELECT 1", true)]
     [InlineData("IF @flag = 1 RETURN; BEGIN TRAN; COMMIT; SELECT 1", true)]

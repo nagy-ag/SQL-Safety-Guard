@@ -31,6 +31,8 @@ namespace SqlSafetyGuard.Analyzer
 
         /// <summary>Transaction nesting across the whole text (a transaction outlives GO batches).</summary>
         private TransactionState _transactions = new TransactionState();
+        private const int MaxStatementDepth = 1000;
+        private int _statementDepth;
 
         /// <summary>True inside an IF whose condition checks @@TRANCOUNT or XACT_STATE().</summary>
         private bool _transactionGuard;
@@ -467,9 +469,20 @@ namespace SqlSafetyGuard.Analyzer
 
         private void WalkStatement(TSqlStatement statement, Scope scope)
         {
-            var terminated = _transactions.Terminated ? _transactions.Copy() : null;
-            WalkStatementCore(statement, scope);
-            if (terminated != null) _transactions = terminated;
+            // The walker recurses per nesting level; ScriptDom parses far deeper than a 64 MiB stack can walk, and a
+            // stack overflow can't be caught (it would kill SSMS). Real scripts nest a few dozen levels at most.
+            if (++_statementDepth > MaxStatementDepth)
+                throw new AnalysisLimitException("too complex to analyze: statements nested too deeply");
+            try
+            {
+                var terminated = _transactions.Terminated ? _transactions.Copy() : null;
+                WalkStatementCore(statement, scope);
+                if (terminated != null) _transactions = terminated;
+            }
+            finally
+            {
+                _statementDepth--;
+            }
         }
 
         private void WalkStatementCore(TSqlStatement statement, Scope scope)
