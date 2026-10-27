@@ -22,6 +22,8 @@
         <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
         <CommandFlag>IconIsMoniker</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>TextOnly</CommandFlag>
         <Strings>
           <ButtonText>Analyze Query Safety</ButtonText>
           <ToolTipText>Analyze query safety without executing it (selection, or the whole window)</ToolTipText>

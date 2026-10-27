@@ -9,36 +9,40 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace SqlSafetyGuard.Services
 {
+    internal sealed class ConnectionContext
+    {
+        public string Server { get; set; }
+        public string Database { get; set; }
+        public string Description => $"Server: {Server ?? "server unknown"}   ·   Database: {Database ?? "database unknown"}";
+    }
+
     /// <summary>
     /// Best-effort lookup of the active query window's server and database. Relies on undocumented SSMS
-    /// internals, so every failure simply returns null and the dialog hides the line.
+    /// internals, so unavailable fields remain explicitly unknown and use global settings.
     /// </summary>
     internal static class ConnectionInfoReader
     {
         private const string ServiceCacheTypeName = "Microsoft.SqlServer.Management.UI.VSIntegration.ServiceCache";
 
-        public static string TryDescribe(IServiceProvider serviceProvider)
+        public static ConnectionContext TryRead(IServiceProvider serviceProvider)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            string server = null, database = null;
             try
             {
-                string server = null, initialDatabase = null;
-                ReadConnectionInfo(ref server, ref initialDatabase);
-                var database = ReadDatabaseCombo(serviceProvider) ?? initialDatabase;
-
-                if (string.IsNullOrWhiteSpace(server) && string.IsNullOrWhiteSpace(database))
-                    return null;
-                if (string.IsNullOrWhiteSpace(database))
-                    return $"Server: {server}";
-                if (string.IsNullOrWhiteSpace(server))
-                    return $"Database: {database}";
-                return $"Server: {server}   ·   Database: {database}";
+                ReadConnectionInfo(ref server, ref database);
             }
             catch (Exception ex)
             {
                 OutputLog.Info($"Server/database lookup unavailable ({ex.GetType().Name}).");
-                return null;
             }
+            try { database = ReadDatabaseCombo(serviceProvider) ?? database; }
+            catch (Exception ex) { OutputLog.Info($"Database combo unavailable ({ex.GetType().Name})."); }
+            return new ConnectionContext
+            {
+                Server = string.IsNullOrWhiteSpace(server) ? null : server,
+                Database = string.IsNullOrWhiteSpace(database) ? null : database,
+            };
         }
 
         /// <summary>ServiceCache.ScriptFactory.CurrentlyActiveWndConnectionInfo.UIConnectionInfo (SSMS internals).</summary>

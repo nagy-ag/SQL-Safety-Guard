@@ -26,6 +26,13 @@ namespace SqlSafetyGuard.Guard
         private CommandEvents _events; // Must be kept alive, or the COM event sink is garbage collected.
         private bool _running;
 
+        private sealed class ExecutionCheck
+        {
+            public GuardSettings Settings;
+            public AnalysisResult Result;
+            public bool Cancelled;
+        }
+
         public ExecuteGuard(SqlSafetyGuardPackage package)
         {
             _package = package;
@@ -59,16 +66,17 @@ namespace SqlSafetyGuard.Guard
             if (_running)
                 return;
 
+            var check = new ExecutionCheck();
             try
             {
                 _running = true;
-                cancelDefault = ShouldCancel();
+                cancelDefault = ShouldCancel(check);
             }
             catch (Exception ex)
             {
-                // Fail open: an extension bug must never block SSMS.
-                OutputLog.Error("The F5 guard failed, so the query ran without a check.", ex);
-                cancelDefault = false;
+                cancelDefault = check.Cancelled || GuardDecision.CancelAfterFailure(check.Settings, check.Result);
+                try { _package.ReportGuardFailure(ex); }
+                catch { }
             }
             finally
             {
@@ -77,12 +85,16 @@ namespace SqlSafetyGuard.Guard
         }
 
         /// <summary>Returns true to stop the execution.</summary>
-        private bool ShouldCancel()
+        private bool ShouldCancel(ExecutionCheck check)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var options = _package.Options;
-            if (options.GuardMode == GuardMode.Off)
+            var connection = ConnectionInfoReader.TryRead(_package);
+            var settings = _package.ResolveSettings(connection, out var rules);
+            check.Settings = settings;
+            _package.RefreshHealth(settings);
+            if (settings.Mode == ExecutionMode.Off)
                 return false;
 
 #if DEBUG
@@ -95,36 +107,33 @@ namespace SqlSafetyGuard.Guard
             if (snapshot == null || string.IsNullOrWhiteSpace(snapshot.Text))
                 return false;
 
-            switch (AnalysisRunner.Run(snapshot.Text, _package.CreateAnalyzerOptions(), out var result))
+            switch (AnalysisRunner.Run(snapshot.Text, _package.CreateAnalyzerOptions(connection, settings, rules), out check.Result))
             {
-                case AnalysisOutcome.TooLarge:
-                    OutputLog.Warning($"Script is larger than {AnalysisRunner.MaxTextLength / (1024 * 1024)} MB; it ran without a safety check.");
-                    return false;
                 case AnalysisOutcome.Cancelled:
+                    check.Cancelled = true;
                     OutputLog.Info("Analysis was cancelled; the query was not executed.");
                     return true;
             }
 
-            _package.UpdateResultsIfOpen(snapshot, result);
-
-            bool warn = options.GuardMode == GuardMode.WarnOnRedOnly
-                ? result.Overall == Verdict.RealWrite
-                : !result.IsGreen;
-            if (!warn)
-                return false;
-
-            var connection = options.ShowServerAndDatabase ? ConnectionInfoReader.TryDescribe(_package) : null;
-            var dialog = new ConfirmExecutionDialog(result, snapshot, connection, options.GuardMode);
-            bool runAnyway = dialog.ShowModal() == true;
-
-            OutputLog.Info(runAnyway
-                ? $"Run anyway: {result.Summary}."
-                : $"Execution cancelled: {result.Summary}.");
-
-            if (!runAnyway && dialog.NavigateTo != null)
-                SqlEditorAccess.Navigate(snapshot, dialog.NavigateTo.StartOffset);
-
-            return !runAnyway;
+            var result = check.Result;
+            return GuardDecision.ShouldCancel(settings, result,
+                () =>
+                {
+                    _package.RefreshHealth(settings, successfulCheck: true);
+                    _package.UpdateResultsIfOpen(snapshot, result);
+                },
+                () =>
+                {
+                    var dialog = new ConfirmExecutionDialog(result, snapshot, connection, settings, options.ShowServerAndDatabase);
+                    bool runAnyway = dialog.ShowModal() == true;
+                    OutputLog.Info(runAnyway ? $"Run anyway: {result.Summary}." : $"Execution cancelled: {result.Summary}.");
+                    if (!runAnyway && dialog.NavigateTo != null)
+                    {
+                        try { SqlEditorAccess.Navigate(snapshot, dialog.NavigateTo.StartOffset); }
+                        catch (Exception ex) { _package.ReportGuardFailure(ex); }
+                    }
+                    return runAnyway;
+                }, _package.ReportGuardFailure);
         }
     }
 }

@@ -1,10 +1,11 @@
 using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.VisualStudio.PlatformUI;
 using SqlSafetyGuard.Analyzer;
-using SqlSafetyGuard.Options;
 using SqlSafetyGuard.Services;
 
 namespace SqlSafetyGuard.UI
@@ -13,10 +14,27 @@ namespace SqlSafetyGuard.UI
     public partial class ConfirmExecutionDialog : DialogWindow
     {
         private const int MaxListedFindings = 500;
+        private readonly bool _requiresTyping;
+        private readonly string _database;
 
-        internal ConfirmExecutionDialog(AnalysisResult result, QuerySnapshot snapshot, string connection, GuardMode mode)
+        internal ConfirmExecutionDialog(AnalysisResult result, QuerySnapshot snapshot, ConnectionContext connection, GuardSettings settings, bool showConnection)
         {
             InitializeComponent();
+            _requiresTyping = settings.NeedsTypedConfirmation(result);
+            _database = connection.Database;
+            EnvironmentText.Text = settings.Environment;
+            var label = settings.Environment ?? string.Empty;
+            EnvironmentBanner.Background = label.IndexOf("prod", StringComparison.OrdinalIgnoreCase) >= 0 ? Brushes.DarkRed :
+                label.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0 ? Brushes.DarkGoldenrod :
+                label.IndexOf("dev", StringComparison.OrdinalIgnoreCase) >= 0 ? Brushes.DarkGreen : Brushes.SteelBlue;
+            TargetSwitchText.Visibility = result.Findings.Any(finding => finding.Action == "TARGET SWITCH") ? Visibility.Visible : Visibility.Collapsed;
+            if (_requiresTyping)
+            {
+                TypedConfirmationPanel.Visibility = Visibility.Visible;
+                TypedConfirmationText.Text = _database == null ? "The database is unknown. Cancel, verify the connection, and retry; typed confirmation is unavailable." :
+                    $"Whole-target red change: type the exact initial database name ({_database}) to enable Run anyway.";
+                RunButton.IsEnabled = false;
+            }
 
             var warnings = result.Warnings.Select(f => new FindingRow(f, snapshot)).ToList();
             var runNow = warnings.Where(w => w.WillRun).ToList();
@@ -35,9 +53,9 @@ namespace SqlSafetyGuard.UI
             if (blocked.Count > 0)
                 SubText.Text += " Some statements are in a batch with a syntax error: SQL Server won't run that batch now, but will once it's fixed.";
 
-            if (!string.IsNullOrEmpty(connection))
+            if (showConnection || connection.Server == null || connection.Database == null)
             {
-                ConnectionText.Text = connection;
+                ConnectionText.Text = connection.Description;
                 ConnectionText.Visibility = Visibility.Visible;
             }
 
@@ -61,7 +79,14 @@ namespace SqlSafetyGuard.UI
 
         private void OnRunAnyway(object sender, RoutedEventArgs e)
         {
+            if (_requiresTyping && !GuardSettings.ConfirmationMatches(_database, DatabaseConfirmation.Text)) return;
             DialogResult = true;
+        }
+
+        private void OnConfirmationChanged(object sender, TextChangedEventArgs e)
+        {
+            if (RunButton != null)
+                RunButton.IsEnabled = !_requiresTyping || GuardSettings.ConfirmationMatches(_database, DatabaseConfirmation.Text);
         }
 
         private void OnFindingDoubleClick(object sender, MouseButtonEventArgs e)
