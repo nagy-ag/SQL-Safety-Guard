@@ -47,6 +47,8 @@ namespace SqlSafetyGuard.Analyzer
     {
         private readonly Dictionary<string, CommonTableExpression> _ctes =
             new Dictionary<string, CommonTableExpression>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, List<BaseTarget>> _resolvedCtes =
+            new Dictionary<string, List<BaseTarget>>(StringComparer.OrdinalIgnoreCase);
 
         public TargetResolver(WithCtesAndXmlNamespaces with)
         {
@@ -70,7 +72,7 @@ namespace SqlSafetyGuard.Analyzer
                 {
                     var name = named.SchemaObject;
                     var id = SinglePartName(name);
-                    if (id != null && !Classifier.IsTempName(id))
+                    if (id != null)
                     {
                         var exposed = FindExposedTable(from, id);
                         if (exposed != null && !ReferenceEquals(exposed, named))
@@ -107,6 +109,7 @@ namespace SqlSafetyGuard.Analyzer
         /// <summary>Base tables behind a table source (alias target, CTE, derived table, join).</summary>
         private List<BaseTarget> ResolveSource(TableReference source, IEnumerable<string> via, HashSet<string> visitingCtes)
         {
+            AnalysisWork.Check();
             var result = new List<BaseTarget>();
             var viaList = via.ToList();
 
@@ -117,13 +120,24 @@ namespace SqlSafetyGuard.Analyzer
                     var id = SinglePartName(named.SchemaObject);
                     if (id != null && _ctes.TryGetValue(id, out var cte))
                     {
+                        if (_resolvedCtes.TryGetValue(id, out var cached))
+                        {
+                            result.AddRange(cached.Select(target => new BaseTarget(target.Kind, target.Fragment, target.Name,
+                                viaList.Concat(target.Via).Distinct(), target.Note)));
+                            break;
+                        }
                         if (!visitingCtes.Add(id))
                         {
                             // Recursive CTE reference: its rows come from the anchor part, already collected.
                             break;
                         }
 
-                        result.AddRange(ResolveQuery(cte.QueryExpression, viaList.Concat(new[] { "via CTE " + id }), visitingCtes));
+                        if (visitingCtes.Count > 256)
+                            throw new AnalysisLimitException("too complex to analyze: CTE nesting budget exceeded");
+                        var resolved = Deduplicate(ResolveQuery(cte.QueryExpression, new[] { "via CTE " + id }, visitingCtes));
+                        _resolvedCtes[id] = resolved;
+                        result.AddRange(resolved.Select(target => new BaseTarget(target.Kind, target.Fragment, target.Name,
+                            viaList.Concat(target.Via).Distinct(), target.Note)));
                         visitingCtes.Remove(id);
                         break;
                     }
@@ -162,11 +176,18 @@ namespace SqlSafetyGuard.Analyzer
                     break;
             }
 
-            return result;
+            return Deduplicate(result);
         }
+
+        private static List<BaseTarget> Deduplicate(IEnumerable<BaseTarget> targets) => targets
+            .GroupBy(target => target.Kind + ":" + (target.Name != null
+                ? string.Concat(target.Name.Identifiers.Select(identifier => identifier.Value.Length + ":" + identifier.Value))
+                : target.Fragment?.StartOffset.ToString()), StringComparer.OrdinalIgnoreCase)
+            .Select(group => group.First()).ToList();
 
         private List<BaseTarget> ResolveQuery(QueryExpression query, IEnumerable<string> via, HashSet<string> visitingCtes)
         {
+            AnalysisWork.Check();
             var result = new List<BaseTarget>();
             switch (query)
             {

@@ -7,7 +7,7 @@ public class AllowListTests
     [Theory]
     [InlineData("Staging_*", null, null, "dbo", "Staging_Import", true)]
     [InlineData("Staging_*", null, null, "etl", "staging_import", true)]
-    [InlineData("dbo.Staging_*", null, null, null, "Staging_Import", true)]
+    [InlineData("dbo.Staging_*", null, null, null, "Staging_Import", false)]
     [InlineData("dbo.Staging_*", null, null, "etl", "Staging_Import", false)]
     [InlineData("[dbo].[Staging_*]", null, null, "dbo", "Staging_X", true)]
     [InlineData("etl.*", null, null, "ETL", "Anything", true)]
@@ -15,9 +15,14 @@ public class AllowListTests
     [InlineData("dbo.Tmp?", null, null, "dbo", "Tmp12", false)]
     [InlineData("Sandbox.dbo.*", null, "Sandbox", "dbo", "T", true)]
     [InlineData("Sandbox.dbo.*", null, null, "dbo", "T", false)]
-    [InlineData("Sandbox.*.*", null, "sandbox", null, "T", true)]
+    [InlineData("Sandbox.*.*", null, "sandbox", null, "T", false)]
     [InlineData("srv.Sandbox.dbo.*", "srv", "Sandbox", "dbo", "T", true)]
     [InlineData("Orders", null, null, "dbo", "Orders_Backup", false)]
+    [InlineData("dbo.[ Safe]", null, null, "dbo", "Safe", false)]
+    [InlineData("dbo.[Safe ]", null, null, "dbo", "Safe", false)]
+    [InlineData("dbo.[Safe\n]", null, null, "dbo", "Safe", false)]
+    [InlineData(" dbo . [ Safe] ", null, null, "dbo", " Safe", true)]
+    [InlineData("dbo.\"Safe \"", null, null, "dbo", "Safe ", true)]
     public void Matches(string pattern, string? server, string? database, string? schema, string name, bool expected)
     {
         var list = new AllowList(new[] { pattern });

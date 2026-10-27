@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
@@ -31,6 +32,7 @@ namespace SqlSafetyGuard.Analyzer
     internal sealed class Scope
     {
         private const int MaxTargetTextLength = 200;
+        private int[] _lineStarts;
 
         private Scope(string text, string displayText, int offsetDelta, int lineDelta, Position? reportAt, int dynamicDepth, int? blockingErrorLine,
             IReadOnlyDictionary<string, string> variables)
@@ -60,18 +62,20 @@ namespace SqlSafetyGuard.Analyzer
 
         public int DynamicDepth { get; }
 
-                public bool IsDynamic => DynamicDepth > 0;
+        public bool IsDynamic => DynamicDepth > 0;
 
         /// <summary>SQLCMD :setvar values (null when the script has none).</summary>
         public IReadOnlyDictionary<string, string> Variables { get; }
 
         /// <summary>"$(Table)" with known :setvar values substituted, or null when nothing changes.</summary>
-        public string SubstituteVariables(string text)
+        public string SubstituteVariables(string text, int offset)
         {
             if (Variables == null || string.IsNullOrEmpty(text) || text.IndexOf("$(", System.StringComparison.Ordinal) < 0)
                 return null;
+            int start = DisplayText.IndexOf(text, Math.Max(0, offset - OffsetDelta), StringComparison.Ordinal);
+            if (start < 0) return null;
             var result = Regex.Replace(text, @"\$\((?<name>[A-Za-z_][A-Za-z0-9_]*)\)",
-                m => Variables.TryGetValue(m.Groups["name"].Value, out var value) ? value : m.Value);
+                m => Variables.TryGetValue((OffsetDelta + start + m.Index).ToString(System.Globalization.CultureInfo.InvariantCulture), out var value) ? value : m.Value);
             return result == text ? null : result;
         }
 
@@ -109,7 +113,23 @@ namespace SqlSafetyGuard.Analyzer
         /// <summary>Position of an offset in this scope's text.</summary>
         public Position PositionOfOffset(int offset, int length = 0)
         {
-            TextPosition.FromOffset(Text, offset, out var line, out var column);
+            if (_lineStarts == null)
+            {
+                var starts = new List<int> { 0 };
+                for (int index = 0; index < Text.Length; index++)
+                {
+                    if (Text[index] == '\r')
+                    {
+                        if (index + 1 < Text.Length && Text[index + 1] == '\n') index++;
+                        starts.Add(index + 1);
+                    }
+                    else if (Text[index] == '\n') starts.Add(index + 1);
+                }
+                _lineStarts = starts.ToArray();
+            }
+            int found = Array.BinarySearch(_lineStarts, offset);
+            int line = found >= 0 ? found + 1 : ~found;
+            int column = offset - _lineStarts[Math.Max(0, line - 1)] + 1;
             return PositionOf(line, column, offset, length);
         }
 

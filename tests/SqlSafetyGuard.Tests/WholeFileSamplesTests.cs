@@ -94,7 +94,7 @@ public class WholeFileSamplesTests
         Assert.False(result.Findings.Single(f => f.Line == LineOf("SET X = 2")).WillRun);
 
         // Batch 5: SQLCMD.
-        var sqlcmdUpdate = result.Findings.Single(f => f.Line == LineOf("UPDATE $(TargetTable)"));
+        var sqlcmdUpdate = result.Findings.Single(f => f.Action == "UPDATE" && f.Line == LineOf("UPDATE $(TargetTable)"));
         Assert.Equal("dbo.Orders", sqlcmdUpdate.ResolvedTarget);
         Assert.True(sqlcmdUpdate.WillRun);
         Assert.Contains(result.Findings, f => f.Action == ":r" && f.Verdict == Verdict.Unknown);

@@ -81,7 +81,7 @@ DROP TABLE #batch2;
     [InlineData("WITH c AS (SELECT a.* FROM #a a JOIN #b b ON b.Id = a.Id) UPDATE c SET x = 1", Verdict.TempOnly)]
     [InlineData("WITH c AS (SELECT a.* FROM #a a JOIN dbo.Orders o ON o.Id = a.Id) UPDATE c SET x = 1", Verdict.RealWrite)]
     [InlineData("INSERT #a EXEC dbo.usp_GetOrders", Verdict.Unknown)]
-    [InlineData("SELECT * INTO tempdb.dbo.scratch FROM #a", Verdict.TempOnly)]
+    [InlineData("SELECT * INTO tempdb.dbo.scratch FROM #a", Verdict.RealWrite)]
     public void MixedTempAndPermanent(string sql, Verdict expected)
     {
         Assert.Equal(expected, SqlSafetyAnalyzer.Analyze(sql).Overall);

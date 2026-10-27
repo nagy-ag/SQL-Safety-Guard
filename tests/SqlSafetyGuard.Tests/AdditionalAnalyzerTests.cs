@@ -175,7 +175,7 @@ public class AdditionalAnalyzerTests
     [InlineData("DROP INDEX ix ON dbo.X", Verdict.RealWrite)]
     [InlineData("DROP TABLE #a, dbo.B", Verdict.RealWrite)]
     [InlineData("TRUNCATE TABLE dbo.Orders", Verdict.RealWrite)]
-    [InlineData("SELECT * INTO tempdb.dbo.x FROM dbo.Orders", Verdict.TempOnly)]
+    [InlineData("SELECT * INTO tempdb.dbo.x FROM dbo.Orders", Verdict.RealWrite)]
     [InlineData("INSERT INTO ##global SELECT 1", Verdict.TempOnly)]
     public void TableDdlAndTruncate(string sql, Verdict expected)
     {
@@ -256,7 +256,7 @@ public class AdditionalAnalyzerTests
     [Fact]
     public void AllowList_AppliesToTruncateAndSelectInto()
     {
-        Assert.Equal(Verdict.AllowListed, Analyze("TRUNCATE TABLE dbo.Staging_A; SELECT * INTO Staging_B FROM dbo.Orders", "dbo.Staging_*").Overall);
+        Assert.Equal(Verdict.AllowListed, Analyze("TRUNCATE TABLE dbo.Staging_A; SELECT * INTO dbo.Staging_B FROM dbo.Orders", "dbo.Staging_*").Overall);
     }
 
     [Fact]
