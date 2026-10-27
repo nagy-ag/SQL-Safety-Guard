@@ -41,12 +41,21 @@ namespace SqlSafetyGuard.UI
 
         public string Snippet { get; }
 
-        public string Header => $"Line {EditorLine} · {Finding.Action}" +
-                                (Finding.AffectsAllRows ? (Finding.Action == "TRUNCATE TABLE" ? " · removes every row" : " · no WHERE, every row") : string.Empty);
+        public string Header => $"Line {EditorLine} · {Finding.Action}";
 
-        public string Note => Finding.Note;
+        /// <summary>The whole-target warning (same wording as the F5 dialog) followed by the analyzer's note.</summary>
+        public string Note
+        {
+            get
+            {
+                if (!Finding.AffectsAllRows)
+                    return Finding.Note;
+                bool noteRepeatsSummary = string.IsNullOrEmpty(Finding.Note) || Finding.Note.Contains(Finding.CteOrDerivedTableLimitNote);
+                return noteRepeatsSummary ? Finding.AllRowsSummary : Finding.AllRowsSummary + " · " + Finding.Note;
+            }
+        }
 
-        public Visibility NoteVisibility => string.IsNullOrEmpty(Finding.Note) ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility NoteVisibility => string.IsNullOrEmpty(Note) ? Visibility.Collapsed : Visibility.Visible;
 
         public Brush Marker => VerdictBrushes.For(Finding.Verdict);
 
@@ -81,6 +90,11 @@ namespace SqlSafetyGuard.UI
         public Brush Marker => VerdictBrushes.For(Verdict);
 
         public Visibility AllRowsVisibility => Findings.Any(f => f.Finding.AffectsAllRows) ? Visibility.Visible : Visibility.Collapsed;
+
+        /// <summary>DROP for dropped objects; ALL ROWS for TRUNCATE and UPDATE/DELETE that can change every row.</summary>
+        public string BadgeText => Findings.Any(f => f.Finding.AffectsAllRows && !f.Finding.Action.StartsWith("DROP ", StringComparison.Ordinal))
+            ? "ALL ROWS"
+            : "DROP";
 
         public string Subtitle
         {

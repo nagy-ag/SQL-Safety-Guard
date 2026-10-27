@@ -109,7 +109,8 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
     analyze"), what F5 will do (runs without asking / will ask first / asks you to type the database name / guard is
     off), and the server, database and environment label once SSMS exposes them for the window.
   - Below it, the **yellow/red objects**, grouped by table or procedure and sorted by risk, with their actions and
-    lines and an **ALL ROWS** badge for unfiltered UPDATE/DELETE and TRUNCATE. Green statements are collapsed into
+    lines, an **ALL ROWS** badge for TRUNCATE and UPDATE/DELETE that can change every row, and a **DROP** badge for
+    dropped objects (same rules and wording as the F5 dialog). Green statements are collapsed into
     *Temp operations and reads*.
   - **Click** an object to highlight its statements in the editor and see them in the detail card; **double-click**
     or **Enter** moves the caret there. Moving the caret into a yellow/red statement selects it in the pane.

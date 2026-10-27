@@ -37,7 +37,7 @@
                     <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
                     <Border Background="{StaticResource BadgeBrush}" CornerRadius="2" Margin="6,0,0,0" Padding="4,0" VerticalAlignment="Center"
                             Visibility="{Binding AllRowsVisibility}">
-                        <TextBlock Text="ALL ROWS" Foreground="White" FontSize="9.5" FontWeight="Bold" />
+                        <TextBlock Text="{Binding BadgeText}" Foreground="White" FontSize="9.5" FontWeight="Bold" />
                     </Border>
                 </StackPanel>
                 <TextBlock Text="{Binding Subtitle}" Opacity="0.75" Margin="16,1,0,0" TextTrimming="CharacterEllipsis" />
