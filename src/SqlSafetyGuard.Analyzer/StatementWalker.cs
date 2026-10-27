@@ -597,7 +597,7 @@ namespace SqlSafetyGuard.Analyzer
                     var spec = update.UpdateSpecification;
                     var resolver = new TargetResolver(update.WithCtesAndXmlNamespaces);
                     AddDmlWrite(scope, update, "UPDATE", spec.Target, resolver.ResolveWriteTarget(spec.Target, spec.FromClause),
-                        new RowFilter(spec.WhereClause, spec.FromClause, spec.TopRowFilter));
+                        new RowFilter(spec.Target, spec.WhereClause, spec.FromClause, spec.TopRowFilter));
                     AddOutputInto(scope, spec.OutputIntoClause);
                     AddHiddenSideEffects(scope, update, update);
                     return;
@@ -607,7 +607,7 @@ namespace SqlSafetyGuard.Analyzer
                     var spec = delete.DeleteSpecification;
                     var resolver = new TargetResolver(delete.WithCtesAndXmlNamespaces);
                     AddDmlWrite(scope, delete, "DELETE", spec.Target, resolver.ResolveWriteTarget(spec.Target, spec.FromClause),
-                        new RowFilter(spec.WhereClause, spec.FromClause, spec.TopRowFilter));
+                        new RowFilter(spec.Target, spec.WhereClause, spec.FromClause, spec.TopRowFilter));
                     AddOutputInto(scope, spec.OutputIntoClause);
                     AddHiddenSideEffects(scope, delete, delete);
                     return;
@@ -725,8 +725,8 @@ namespace SqlSafetyGuard.Analyzer
             {
                 var resolver = new TargetResolver(with);
                 FromClause from = (modification as UpdateSpecification)?.FromClause ?? (modification as DeleteSpecification)?.FromClause;
-                var filter = modification is UpdateSpecification update ? new RowFilter(update.WhereClause, update.FromClause, update.TopRowFilter) :
-                    modification is DeleteSpecification delete ? new RowFilter(delete.WhereClause, delete.FromClause, delete.TopRowFilter) : null;
+                var filter = modification is UpdateSpecification update ? new RowFilter(update.Target, update.WhereClause, update.FromClause, update.TopRowFilter) :
+                    modification is DeleteSpecification delete ? new RowFilter(delete.Target, delete.WhereClause, delete.FromClause, delete.TopRowFilter) : null;
                 AddDmlWrite(scope, modification, modification is DeleteSpecification ? "DELETE" : modification is UpdateSpecification ? "UPDATE" :
                     modification is MergeSpecification ? "MERGE" : "INSERT", modification.Target, resolver.ResolveWriteTarget(modification.Target, from), filter);
                 AddOutputInto(scope, modification.OutputIntoClause);
@@ -1012,11 +1012,15 @@ namespace SqlSafetyGuard.Analyzer
         /// <summary>How an UPDATE/DELETE limits its rows; null for statements where that doesn't apply.</summary>
         private sealed class RowFilter
         {
-            public RowFilter(WhereClause where, FromClause from, TopRowFilter top)
+            public RowFilter(TableReference target, WhereClause where, FromClause from, TopRowFilter top)
             {
                 HasWhere = where != null;
                 HasFrom = from != null;
                 HasTop = top != null;
+                TopIsPercent = top != null && top.Percent;
+                // A target missing from the FROM is cross-joined with it, so a join elsewhere limits nothing.
+                HasRestrictingJoin = from != null && from.TableReferences.Any(RestrictsRows) &&
+                    from.TableReferences.SelectMany(NamedTables).Any(source => IsSameTable(target, source));
             }
 
             public bool HasWhere { get; }
@@ -1024,6 +1028,70 @@ namespace SqlSafetyGuard.Analyzer
             public bool HasFrom { get; }
 
             public bool HasTop { get; }
+
+            /// <summary>TOP (n) PERCENT: TOP (100) PERCENT is every row, so it doesn't count as a limit.</summary>
+            public bool TopIsPercent { get; }
+
+            /// <summary>
+            /// An INNER JOIN or CROSS APPLY on the join chain. Only the preserved side of an outer join, CROSS JOIN or
+            /// OUTER APPLY is followed: an inner join nested inside the optional side doesn't limit the target's rows.
+            /// </summary>
+            public bool HasRestrictingJoin { get; }
+
+            private static bool RestrictsRows(TableReference reference)
+            {
+                switch (reference)
+                {
+                    case QualifiedJoin join:
+                        switch (join.QualifiedJoinType)
+                        {
+                            case QualifiedJoinType.Inner:
+                                return true;
+                            case QualifiedJoinType.LeftOuter:
+                                return RestrictsRows(join.FirstTableReference);
+                            case QualifiedJoinType.RightOuter:
+                                return RestrictsRows(join.SecondTableReference);
+                            default:
+                                return false;
+                        }
+                    case UnqualifiedJoin join:
+                        return join.UnqualifiedJoinType == UnqualifiedJoinType.CrossApply || RestrictsRows(join.FirstTableReference);
+                    case JoinParenthesisTableReference parenthesis:
+                        return RestrictsRows(parenthesis.Join);
+                    default:
+                        return false;
+                }
+            }
+
+            private static IEnumerable<NamedTableReference> NamedTables(TableReference reference)
+            {
+                switch (reference)
+                {
+                    case NamedTableReference named:
+                        return new[] { named };
+                    case JoinTableReference join:
+                        return NamedTables(join.FirstTableReference).Concat(NamedTables(join.SecondTableReference));
+                    case JoinParenthesisTableReference parenthesis:
+                        return NamedTables(parenthesis.Join);
+                    default:
+                        return Enumerable.Empty<NamedTableReference>();
+                }
+            }
+
+            private static bool IsSameTable(TableReference target, NamedTableReference source)
+            {
+                if (!(target is NamedTableReference named))
+                    return false;
+                var name = named.SchemaObject;
+                if (source.Alias != null)
+                    return name.SchemaIdentifier == null && Same(name.BaseIdentifier, source.Alias);
+                var other = source.SchemaObject;
+                return Same(name.BaseIdentifier, other.BaseIdentifier) &&
+                    (name.SchemaIdentifier == null || other.SchemaIdentifier == null || Same(name.SchemaIdentifier, other.SchemaIdentifier));
+            }
+
+            private static bool Same(Identifier a, Identifier b) =>
+                a != null && b != null && string.Equals(a.Value, b.Value, StringComparison.OrdinalIgnoreCase);
         }
 
         private void AddDmlWrite(Scope scope, TSqlFragment at, string action, TableReference target, List<BaseTarget> bases, RowFilter filter = null)
@@ -1033,20 +1101,29 @@ namespace SqlSafetyGuard.Analyzer
             {
                 Verdict verdict;
                 var notes = new List<string>();
+                // allRows drives the bold dialog line and typed confirmation, so it stays set unless a TOP (n) or an
+                // inner join visibly limits the rows. A CTE or derived table may or may not filter: stay conservative.
                 bool allRows = filter != null && !filter.HasWhere;
                 if (filter != null && !filter.HasWhere)
                 {
-                    if (filter.HasTop)
-                        notes.Add("no WHERE: limited only by TOP");
-                    else if (filter.HasFrom)
-                        notes.Add("no WHERE: rows limited only by the FROM/JOIN");
-                    else if (baseTarget.Via.Count > 0)
-                        notes.Add("no WHERE: rows limited only by the CTE or derived table");
-                    else
+                    if (filter.HasTop && !filter.TopIsPercent)
                     {
-                        notes.Add("no WHERE: affects every row");
-                        allRows = true;
+                        notes.Add("no WHERE: limited only by TOP");
+                        allRows = false;
                     }
+                    else if (filter.HasTop)
+                        notes.Add("no WHERE: limited only by TOP PERCENT");
+                    else if (filter.HasRestrictingJoin)
+                    {
+                        notes.Add("no WHERE: rows limited only by the JOIN");
+                        allRows = false;
+                    }
+                    else if (filter.HasFrom)
+                        notes.Add("no WHERE: the FROM has no inner join limiting the rows");
+                    else if (baseTarget.Via.Count > 0)
+                        notes.Add(Finding.CteOrDerivedTableLimitNote);
+                    else
+                        notes.Add("no WHERE: affects every row");
                 }
 
                 notes.AddRange(baseTarget.Via);

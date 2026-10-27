@@ -119,7 +119,8 @@ Tests: `AnalysisResourceTests`, `EnvironmentRuleTests.OversizedScriptsFollowExpl
 
 Environment rules are first-match, case-insensitive server/database patterns; unknown connection context uses
 **global** settings. Per-rule allow/trust entries add to global lists. Typed database confirmation applies to
-whole-target red UPDATE/DELETE without WHERE (conservatively TOP/join/CTE variants too), TRUNCATE and any red
+red UPDATE/DELETE without WHERE unless a `TOP (n)` or an inner join on the target limits the rows (CTE, derived
+table, `TOP ... PERCENT` and outer/cross-join-only variants still count as whole-target), TRUNCATE and any red
 DROP action. It does not validate which database a target switch will reach. See README for the rule format.
 
 Presentation failures cannot authorize an already computed red/yellow warning, and a failed dialog cancels.

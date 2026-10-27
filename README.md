@@ -206,8 +206,10 @@ Rule allow-lists and trusted procedures **add to** the global lists; they do not
 lists if production rules must be restrictive. List entries within a rule are semicolon-separated. The text
 format has no escaping for field/list delimiters (`|` and `;`).
 
-Typed confirmation applies to red UPDATE/DELETE without WHERE (conservatively also TOP/join/CTE variants),
-TRUNCATE and DROP TABLE/PROCEDURE. It does not require typing for temp-only or allow-listed changes.
+Typed confirmation applies to red UPDATE/DELETE without WHERE, TRUNCATE and DROP TABLE/PROCEDURE. An UPDATE/DELETE
+whose rows a `TOP (n)` or an INNER JOIN / CROSS APPLY on the target visibly limits (the usual
+`UPDATE t ... FROM dbo.T t JOIN #ids ...`) is still red but needs no typing. Unproven limits keep typing: a CTE or
+derived table, `TOP ... PERCENT`, a FROM with only outer/cross joins, or a target missing from the FROM. It does not require typing for temp-only or allow-listed changes.
 The environment policy is selected from the **initial connection only**: `USE`, `USE FEDERATION` and `:connect`
 add a TARGET SWITCH warning and dialog notice, and invalidate contextual allow/trusted lists for the analysis;
 rules are not re-selected mid-script. A Development/Off rule can therefore leave a script switching to
@@ -312,8 +314,10 @@ stack, not the SSMS UI stack. Cancellation is checked during tokenization, parsi
   - Broken batches over 32 Ki characters skip repeated reparsing and use the whole-batch NOT ANALYZED/possible-write
     fallback. This avoids quadratic recovery on thousands of broken statements, at the cost of detailed target
     classification. Smaller batches that exhaust recovery use the same fallback.
-- **UPDATE/DELETE without WHERE** gets "no WHERE: affects every row", shown in bold in the F5 dialog. If a
-  JOIN, TOP or CTE limits the rows instead, the note says so. `TRUNCATE` gets "removes every row".
+- **UPDATE/DELETE without WHERE** gets "no WHERE: affects every row" and a bold "can affect every row" line in the
+  F5 dialog. If an inner join or `TOP (n)` limits the rows instead, the note says so and the bold line is not shown.
+  A CTE or derived table gets a bold line saying only it limits the rows. `TRUNCATE` gets "removes every row" and
+  DROP gets "drops ...".
 - **SQLCMD mode** (`:setvar`, `$(var)`, `:r`, `:connect`, `:on error`, `!!`). The guard reads whether
   **Query > SQLCMD Mode** is on for the window being executed or analyzed. It asks for the same command status SSMS
   uses to draw the menu check mark (`Query.SQLCMDMode`, `{52692960-…}:17`); nothing is sent to the server.
