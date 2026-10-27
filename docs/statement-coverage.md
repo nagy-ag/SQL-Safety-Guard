@@ -1,97 +1,129 @@
 # T-SQL statement coverage
 
-This document answers one question: of everything that can appear in a T-SQL query, what does SQL Safety Guard
-handle, and how?
+This is an implementation inventory, not a proof that SQL Safety Guard can predict every SQL Server side effect.
+The analyzer uses ScriptDom 180.x (`TSql180Parser`) and does not connect to SQL Server for metadata or execution.
 
-## How this was checked
+## Scope of verification
 
-1. **What exists:** the extension parses with Microsoft's own T-SQL parser, ScriptDom 180.x (`TSql180Parser`),
-   which has one class per kind of statement. A reflection scan of that library found **334 concrete statement
-   kinds**. That's the complete list of statements SQL Server / Azure SQL syntax allows, including SQL Server 2025
-   additions such as `CREATE VECTOR INDEX`, `CREATE JSON INDEX` and `CREATE EXTERNAL MODEL`.
-2. **What we do with each:** every kind was traced through the analyzer (`StatementWalker`, `Classifier`).
-3. **Reality check:** about 100 real statements across all categories were run through the analyzer, comparing
-   the verdict with what the statement actually does. All of them parsed.
+An earlier reflection inventory found **334 concrete statement kinds** in the pinned ScriptDom library. The
+appendix preserves that inventory with updated handling notes. Recognizing a statement class does not establish
+correct target resolution, argument semantics, reachability or runtime behavior. Unrecognized statement types
+are conservatively red, while opaque execution and analysis limits are yellow.
 
-First review 2026-10-26. The false alarms and under-warnings it found have since been fixed (see "Findings").
+The soundness/rules changes are checked by automated analyzer, policy, resource-budget and installer regressions,
+and the VSIX is compiled in Release. They have **not** been exercised in SSMS or against a live SQL Server in this
+implementation worktree. Earlier smoke-test claims in the README are explicitly historical.
 
-## Summary
-
-| How it's handled | Statement kinds | Meaning |
-|---|---|---|
-| **Deep handling** | 42 | Read in detail. DML (SELECT/INSERT/UPDATE/DELETE/MERGE, BULK INSERT, TRUNCATE): targets resolved through aliases/CTEs/derived tables and classified temp/allow-listed/real, OUTPUT INTO, no-WHERE detection. Table/index/statistics DDL: temp or real. Control flow (IF/WHILE/BEGIN…END/TRY…CATCH/WAITFOR): walked into. EXEC: read-only and known-writing system procedures, literal dynamic SQL. DBCC: per command. Transactions: tracked across the script. |
-| **Green list** | 38 | Never change data: SET options, DECLARE, cursors, PRINT/RAISERROR/THROW, USE, RETURN/BREAK/CONTINUE/GOTO, EXECUTE AS/REVERT, READTEXT, OPEN/CLOSE keys, LINENO, GET CONVERSATION GROUP, USE FEDERATION. |
-| **Yellow** | 4 | Effect can't be seen: BACKUP DATABASE/LOG, UPDATE STATISTICS, CHECKPOINT. |
-| **Red by default** | 250 | Everything else. Apart from about 5 parser-internal classes that never appear in a script, these all really change something: every CREATE/ALTER/DROP of an object, GRANT/REVOKE/DENY, RESTORE, KILL, SHUTDOWN, RECONFIGURE, Service Broker SEND/RECEIVE/…, WRITETEXT/UPDATETEXT, COPY INTO. |
-
-**Bottom line:** every statement kind is handled; nothing passes silently.
-- Anything not specifically recognized is red. That errs toward warning, so an unknown statement can't be wrongly
-  shown as safe.
-- After the fixes, the remaining gaps are the ones that need the server's metadata (end of this document).
-
-## By category (from the real-statement check)
+## By category
 
 | Category | Examples | Result |
 |---|---|---|
-| Reads | `SELECT`, `READTEXT`, `SELECT … FROM sys.dm_*`, `OPENJSON`, `OPENROWSET(BULK …)` | Green. |
-| Data changes | `INSERT`, `UPDATE`, `DELETE`, `MERGE`, `SELECT INTO`, `BULK INSERT`, `INSERT … OUTPUT`, `UPDATETEXT`, `WRITETEXT`, `COPY INTO` | Red, or green for temp/allow-listed targets. Aliases, CTEs, derived tables, OUTPUT INTO, no-WHERE all handled. |
-| Table & index DDL | `CREATE/ALTER/DROP TABLE`, `CREATE/ALTER/DROP INDEX`, `CREATE/DROP STATISTICS`, `ALTER TABLE … SWITCH/REBUILD` | Red; temp objects green. |
-| Other object DDL | sequences, synonyms, types, schemas, databases, partitions, full-text, XML/spatial/vector/JSON indexes, external objects | Red. |
-| Modules | `CREATE/ALTER/DROP PROCEDURE/FUNCTION/TRIGGER/VIEW`, `CREATE OR ALTER …` | Red; the body isn't treated as running. |
-| Security | `GRANT/REVOKE/DENY`, logins, users, roles, keys, certificates, `ALTER AUTHORIZATION` | Red. `OPEN/CLOSE SYMMETRIC KEY`, `OPEN/CLOSE MASTER KEY`, `EXECUTE AS`/`REVERT` green (session only). |
-| Transactions | `BEGIN/COMMIT/ROLLBACK/SAVE TRAN`, `SET IMPLICIT_TRANSACTIONS` | Green when balanced. A `COMMIT` of a transaction started outside the text is yellow. A transaction left open at the end (explicit or implicit) gets a yellow **OPEN TRANSACTION** row. |
-| Session settings | `SET NOCOUNT/NOEXEC/IDENTITY_INSERT/LANGUAGE/CONTEXT_INFO`, isolation level, `USE`, `LINENO` | Green. |
-| Control flow | `IF/ELSE`, `WHILE`, `BEGIN…END`, `TRY…CATCH`, `WAITFOR`, `RETURN`, `GOTO`, `RAISERROR`, `THROW` | Walked into; writes inside branches are found. |
-| Cursors & variables | `DECLARE/OPEN/FETCH/CLOSE/DEALLOCATE`, `UPDATE … WHERE CURRENT OF`, table variables | Handled. |
-| Procedures & dynamic SQL | `EXEC proc`, `EXEC sp_help`, `sp_rename`, `xp_cmdshell`, `sp_executesql N'…'`, `EXEC(…) AT srv` | Unknown procedures yellow; read-only system procedures green; about 70 known-writing system procedures red, with the reason; literal dynamic SQL analyzed. |
-| Service Broker | `SEND`, `RECEIVE`, `WAITFOR(RECEIVE…)`, `BEGIN DIALOG`, `END CONVERSATION`, `GET CONVERSATION GROUP` | Red (they change queues); `GET CONVERSATION GROUP` green. |
-| Server & maintenance | `DBCC`, `BACKUP`, `RESTORE`, `CHECKPOINT`, `KILL`, `SHUTDOWN`, `RECONFIGURE` | DBCC per command (below). BACKUP/CHECKPOINT/UPDATE STATISTICS yellow; RESTORE/KILL/SHUTDOWN/RECONFIGURE red. |
-| Inside expressions | `NEXT VALUE FOR`, `OPENQUERY/OPENROWSET/OPENDATASOURCE` as a source, scalar functions, 4-part-name reads | Sequences red, remote pass-through yellow, remote table reads green. Scalar functions green (see "Out of reach"). |
-| Script-level | `GO` batches, syntax errors, SQLCMD lines, literal dynamic SQL (3 levels) | Covered (see README: recovery, "won't run now", SQLCMD mode detection). |
+| Reads | `SELECT`, `READTEXT`, `OPENJSON`, `OPENROWSET(BULK …)` | Green unless a recognized expression/source side effect is present. |
+| Data changes | `INSERT/UPDATE/DELETE/MERGE`, `SELECT INTO`, `BULK INSERT`, `OUTPUT INTO` | Targets resolved through aliases/CTEs/derived tables, then temp/allow-listed/real. Composable DML sources and their OUTPUT targets are independently classified. |
+| Table & index DDL | `CREATE/ALTER/DROP TABLE`, table-targeted index/statistics DDL | Permanent targets red; recognized temp targets green. DDL does not use the table allow-list. |
+| Modules | `CREATE/ALTER/CREATE OR ALTER/DROP PROCEDURE` | Temporary procedures (`#p`/`##p`) green; permanent procedures red. Definition bodies do not execute and are not walked. Function/trigger/view definitions remain red. |
+| Other object/security DDL | sequences, databases, external objects, `GRANT/REVOKE/DENY`, logins/users/roles | Red by default. Session-only key opening/closing and `EXECUTE AS/REVERT` are green. |
+| Transactions | `BEGIN/COMMIT/ROLLBACK/SAVE TRAN`, `SET IMPLICIT_TRANSACTIONS` | Parsed, conservative state tracking. A possibly open transaction or commit of outside work is yellow; balanced visible transactions are green. |
+| Session settings | `SET NOCOUNT`, isolation level, `LINENO` | Green. `USE`/`USE FEDERATION` are yellow target switches, not trusted as unchanged context. |
+| Control flow | `IF/ELSE`, `WHILE`, `BEGIN…END`, `TRY…CATCH`, `WAITFOR`, `RETURN/GOTO/THROW` | Contained writes are analyzed; transaction closure must not depend on unreachable/uncertain paths. ELSE-IF chains are iterative. |
+| Cursors & variables | `DECLARE/OPEN/FETCH/CLOSE/DEALLOCATE`, table variables | Session-only operations green; hidden expression effects scanned; cursor-target writes classified separately. |
+| Procedures/dynamic SQL | `EXEC proc`, `sp_help`, `sp_rename`, `sp_executesql`, `EXEC(…) AT srv` | Unknown ordinary procedures yellow; namespace-gated built-ins and explicit trusted entries green/red as appropriate. Literal dynamic SQL analyzed to three levels; runtime/remote SQL yellow. |
+| Service Broker | `SEND/RECEIVE`, `BEGIN DIALOG`, `END CONVERSATION` | Red; `GET CONVERSATION GROUP` remains green. |
+| Server/maintenance | `DBCC`, `BACKUP`, `RESTORE`, `CHECKPOINT`, `KILL` | DBCC arguments parsed (below). BACKUP/CHECKPOINT/UPDATE STATISTICS yellow; RESTORE/KILL/SHUTDOWN/RECONFIGURE red. |
+| Inside expressions | `NEXT VALUE FOR`, remote pass-through sources, scalar functions, four-part reads | Sequences red, pass-through yellow, ordinary remote-table reads green. Scalar/CLR function effects are not resolved. |
+| SQLCMD | `:setvar`, `$(var)`, `:exit(query)`, `:connect`, `:r`, `!!` | Mode-on/unknown preprocessing preserves offsets. Every substitution is yellow minimum; directives that execute/include unknown text are yellow. Mode-off text is parsed as sent. |
 
-## Findings (all fixed)
+## Semantic safeguards
 
-### False alarms: 9, fixed
+### Targets and trusted names
 
-`READTEXT` · `OPEN SYMMETRIC KEY` · `CLOSE SYMMETRIC KEY` · `OPEN MASTER KEY` · `CLOSE MASTER KEY` · `LINENO` ·
-`GET CONVERSATION GROUP` · `USE FEDERATION` are now green. `DROP STATISTICS` now follows the temp rules (green on
-a #temp table). Tests: `FalseAlarmTests`.
+- Aliases/CTEs resolve **before** spelling-based temp checks: `UPDATE [#t] … FROM dbo.Orders AS [#t]` is red even
+  if a real temp table of that name exists. CTE resolution is memoized, deduplicated, cycle-checked and bounded.
+- `INSERT INTO #audit … FROM (DELETE dbo.Customers OUTPUT deleted.Id) AS c` is red for the inner DELETE.
+  Nested OUTPUT INTO targets are classified too. A temp outer target never suppresses an inner real write.
+- Permanent `tempdb.dbo.X` targets are red by default. `TempdbIsTemp` is an explicit opt-in, exposed in Options;
+  actual `#temp`/`##temp` names and table variables remain temp-only.
+- Allow-list matches use strict whole-part anchors; omitted server parts never match linked-server targets.
+  Omitted database parts match unqualified or known-current-database targets only. Schema-less query names
+  match one-part patterns only unless a default schema is supplied. The VSIX does not discover that schema.
+  Wildcard-only/invalid patterns are ignored with SETTINGS WARNING findings.
+- Trusted procedures require schema-qualified patterns, with wildcards only in the last part. They assert
+  read-only behavior without inspecting bodies. Global and per-environment trust lists are additive.
+- Built-in recognition only accepts unqualified, sys/dbo, master.sys/master.dbo (and explicitly recognized msdb)
+  namespaces. `OtherDb.custom.sp_executesql` is an ordinary unknown procedure. `sp_spaceused` with true or unknown
+  `@updateusage` (also positional argument two) is red.
+- `USE`/`USE FEDERATION`/`:connect` produce TARGET SWITCH warnings and disable contextual allow/trusted matches
+  throughout the analysis. Environment mode is selected from the initial connection, not reselected per statement.
 
-### Under-warnings: fixed
+Tests: `SoundnessRegressionTests`, `AllowListTests`, `TempTableTests`, `EnvironmentRuleTests`,
+`SystemProcedureTests`, `AdditionalAnalyzerTests`, `RecoveryTests` and existing DML/sample suites.
 
-1. **Transactions** are tracked across the whole script, including GO batches and literal dynamic SQL.
-   - A `COMMIT` with no open transaction in the text is yellow: "commits a transaction started outside this text:
-     uncommitted changes from an earlier run become permanent".
-   - A `BEGIN TRAN` without a matching COMMIT/ROLLBACK, or `SET IMPLICIT_TRANSACTIONS ON` followed by changes and
-     no COMMIT, gets a yellow **OPEN TRANSACTION** row at the place the transaction started.
-   - The common patterns don't warn: `IF … COMMIT ELSE ROLLBACK`, TRY/CATCH with `IF @@TRANCOUNT > 0 ROLLBACK;
-     THROW;`, and savepoints. Statements in a batch with a syntax error don't count, because they don't run.
-   - Tests: `TransactionTests`.
-2. **Known-writing system procedures** (about 70) are red with a reason: `sp_rename`, `sp_configure`, `xp_cmdshell`,
-   `sp_send_dbmail`, role/login/user procedures, SQL Agent job procedures, `sp_MSforeachtable`, …. The list of
-   read-only procedures also grew (`sp_readerrorlog`, `sp_help_job`, `sp_set_session_context`, …). Tests:
-   `SystemProcedureTests`.
-3. **DBCC per command:**
-   - Read-only commands are green: `SHOW_STATISTICS`, `INPUTBUFFER`, `OPENTRAN`, `SQLPERF`, `USEROPTIONS`,
-     `TRACESTATUS`, and `CHECKDB/CHECKTABLE/…` without REPAIR.
-   - Changing ones are red with a reason: `FREEPROCCACHE`, `DROPCLEANBUFFERS`, `SHRINKFILE/DATABASE`, `TRACEON/OFF`,
-     `CHECKIDENT` (unless `NORESEED`), any `REPAIR_*`, and others.
-   - The rest stay yellow.
-   - Tests: `DbccTests`.
+### DBCC arguments, not display substrings
 
-Samples: `01-try-these.sql` examples #30–#36.
+- Read-only commands include `SHOW_STATISTICS`, `INPUTBUFFER`, `OPENTRAN`, `USEROPTIONS`, `TRACESTATUS` and
+  `CHECKDB/CHECKTABLE/…` without repair arguments. An object called `dbo.REPAIR_Archive` is not a repair option.
+- `CHECKIDENT` is red unless an actual parsed NORESEED argument establishes the read-only form. NORESEED in a
+  table name or comment cannot override RESEED.
+- Repair arguments and `SQLPERF(…, CLEAR)` are red, including quoted CLEAR literals. Long comments/display
+  truncation do not hide arguments. Other recognized cache/shrink/trace-changing commands are red; remaining
+  commands stay yellow.
 
-### Out of reach without the server
+Tests: `DbccTests`, `SoundnessRegressionTests.DbccUsesParsedArgumentsBeyondDisplayTruncation` and data-driven
+`RealWritesAreNeverGreen` / `OrdinaryReadsRemainReadOnly` cases.
 
-- Triggers fired by a write.
-- What a procedure does.
-- Which table a view or synonym points to.
-- Whether a scalar function is CLR, and so could have side effects.
-- How many rows are affected.
+### Conservative transactions and SQLCMD
 
-All of these need the server's metadata. That's the optional server-aware mode from the improvement list.
+- A COMMIT with no visible BEGIN may commit outside work and is yellow. A transaction possibly open at the end
+  gets OPEN TRANSACTION. Literal dynamic SQL shares tracking; broken batches do not execute for tracking purposes.
+- Parsed `@@TRANCOUNT`/`XACT_STATE()` expressions, not substring occurrences in strings/comments, identify guards.
+  Unreachable branches, loops that may run zero times and statements after RETURN cannot close a transaction.
+  GO repeat counts and uncertain control transfer add uncertainty rather than proving closure.
+- With implicit transactions on, an explicit BEGIN can produce two levels; one COMMIT leaves a warning. A
+  tableless `SELECT 1` does not start an implicit transaction. This is not a session-aware/control-flow simulator.
+- SQLCMD variables are **not expanded for semantic trust**. Every `$(…)` is at least yellow, including strings,
+  concatenated identifiers, unknown-at-that-point values and statement-injecting values. Ordered `:setvar` values
+  provide display hints only. `:exit(query)` is yellow because it can execute text; included files are not opened.
 
-## Appendix: all 334 statement kinds
+Tests: `TransactionTests`, `SoundnessRegressionTests.PossiblyOpenTransactionsAreReported`,
+`TransactionUncertaintyIsNotGreen`, `UnexpandedSqlCmdExecutionIsNeverGreen` and
+`SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal`; `RecoveryTests` covers SQLCMD modes.
+
+## Bounded analysis and recovery
+
+- Parsing/traversal use a dedicated background thread with a **64 MiB reserved stack**. Cancellation propagates
+  into text/token reads and traversal. A shared 40-million-work-unit / 10-second budget bounds total analysis.
+- Preflight rejects more than 256 nested parentheses or BEGIN/CASE blocks, 512 IF tokens per GO batch, or
+  20,000 significant tokens per statement. CTE target resolution also has a depth cap of 256. Exceeding a budget
+  yields yellow NOT ANALYZED (too complex), not a safe result or a claim about SQL Server validity.
+- The size limit is 5,242,880 characters (roughly 10 MiB UTF-16). Oversize returns yellow NOT ANALYZED with a size,
+  prompting under default YellowRed policy. Red-only/Off are explicit user overrides.
+- Smaller broken batches use at most 25 recovery passes / 3 seconds, preserving editor positions. Broken batches
+  over 32 Ki characters instead use NOT ANALYZED and tokenized possible-write findings. This scales roughly
+  linearly but does **not** recover detailed target classification for every statement. Recovery is heuristic.
+- Resource regressions cover chained ELSE-IF, deeply nested valid/invalid text, doubling CTE graphs, cancellation,
+  realistic 1,000/5,000-line scripts, a 20,000-character line and 3,000 broken statements. Timing assertions are
+  generous regression bounds, not SSMS UI latency guarantees.
+
+Tests: `AnalysisResourceTests`, `EnvironmentRuleTests.OversizedScriptsFollowExplicitModePolicy` and `RecoveryTests`.
+
+## Execution policy and remaining limits
+
+Environment rules are first-match, case-insensitive server/database patterns; unknown connection context uses
+**global** settings. Per-rule allow/trust entries add to global lists. Typed database confirmation applies to
+whole-target red UPDATE/DELETE without WHERE (conservatively TOP/join/CTE variants too), TRUNCATE and DROP
+TABLE/PROCEDURE. It does not validate which database a target switch will reach. See README for the rule format.
+
+Presentation failures cannot authorize an already computed red/yellow warning, and a failed dialog cancels.
+Failures before classification remain fail-open-but-visible (degraded health, log and attempted once/session
+InfoBar). Off and red-only policy intentionally skip some warnings. These are usability safeguards, **not a
+security boundary**.
+
+The analyzer cannot see triggers, arbitrary procedure/CLR function side effects, view/synonym base metadata,
+actual transaction session state or affected-row counts. User trust settings and resource/recovery limits add
+other uncertainty. New SQL grammar and SSMS internals require continuing review and runtime validation; server
+metadata alone would not close every gap.
+
+## Appendix: reviewed ScriptDom inventory (334 kinds)
 
 "deep" = read in detail; "green list" / "yellow" = classified by type; "red (default)" = treated as a real
 change because it isn't a known read-only or opaque statement.
@@ -146,7 +178,7 @@ change because it isn't a known read-only or opaque statement.
 | `AlterMessageType` | red (default) | default: real write |  |
 | `AlterPartitionFunction` | red (default) | default: real write |  |
 | `AlterPartitionScheme` | red (default) | default: real write |  |
-| `AlterProcedure` | red (default) | definition change (body not walked) |  |
+| `AlterProcedure` | deep | temp procedure or real definition change (body not walked) |  |
 | `AlterQueue` | red (default) | default: real write |  |
 | `AlterRemoteServiceBinding` | red (default) | default: real write |  |
 | `AlterResourceGovernor` | red (default) | default: real write |  |
@@ -249,12 +281,12 @@ change because it isn't a known read-only or opaque statement.
 | `CreateMessageType` | red (default) | default: real write |  |
 | `CreateOrAlterExternalFunction` | red (default) | default: real write |  |
 | `CreateOrAlterFunction` | red (default) | definition change (body not walked) |  |
-| `CreateOrAlterProcedure` | red (default) | definition change (body not walked) |  |
+| `CreateOrAlterProcedure` | deep | temp procedure or real definition change (body not walked) |  |
 | `CreateOrAlterTrigger` | red (default) | definition change (body not walked) |  |
 | `CreateOrAlterView` | red (default) | definition change (body not walked) |  |
 | `CreatePartitionFunction` | red (default) | default: real write |  |
 | `CreatePartitionScheme` | red (default) | default: real write |  |
-| `CreateProcedure` | red (default) | definition change (body not walked) |  |
+| `CreateProcedure` | deep | temp procedure or real definition change (body not walked) |  |
 | `CreateQueue` | red (default) | default: real write |  |
 | `CreateRemoteServiceBinding` | red (default) | default: real write |  |
 | `CreateResourcePool` | red (default) | default: real write |  |
@@ -287,7 +319,7 @@ change because it isn't a known read-only or opaque statement.
 | `CreateWorkloadGroup` | red (default) | default: real write |  |
 | `CreateXmlIndex` | red (default) | default: real write |  |
 | `CreateXmlSchemaCollection` | red (default) | default: real write |  |
-| `Dbcc` | deep | per command: read-only green, changing red (also REPAIR, CHECKIDENT reseed), others yellow |  |
+| `Dbcc` | deep | parsed command/arguments: read-only green, repairs/reseed/SQLPERF CLEAR red, others yellow |  |
 | `DeallocateCursor` | green list | read-only list |  |
 | `DeclareCursor` | green list | read-only list |  |
 | `DeclareTableVariable` | green list | read-only list |  |
@@ -335,7 +367,7 @@ change because it isn't a known read-only or opaque statement.
 | `DropMessageType` | red (default) | default: real write |  |
 | `DropPartitionFunction` | red (default) | default: real write |  |
 | `DropPartitionScheme` | red (default) | default: real write |  |
-| `DropProcedure` | red (default) | default: real write |  |
+| `DropProcedure` | deep | temp or real, per procedure |  |
 | `DropQueue` | red (default) | default: real write |  |
 | `DropRemoteServiceBinding` | red (default) | default: real write |  |
 | `DropResourcePool` | red (default) | default: real write |  |
@@ -427,8 +459,8 @@ change because it isn't a known read-only or opaque statement.
 | `Update` | deep | DML: target resolved (alias/CTE/derived) + classified; no-WHERE; side effects scanned |  |
 | `UpdateStatistics` | yellow | opaque: yellow |  |
 | `UpdateText` | red (default) | default: real write |  |
-| `UseFederation` | green list | read-only list |  |
-| `Use` | green list | read-only list |  |
+| `UseFederation` | yellow | TARGET SWITCH; invalidates contextual trust |  |
+| `Use` | yellow | TARGET SWITCH; invalidates contextual trust |  |
 | `WaitFor` | deep | walked (inner RECEIVE etc.) or read-only |  |
 | `While` | deep | walked: condition scanned, body walked |  |
 | `WriteText` | red (default) | default: real write |  |

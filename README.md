@@ -6,12 +6,16 @@ and tells you whether it changes real data or only reads / touches temp objects.
 - **Analyze Query Safety**: Tools menu, SQL Editor toolbar button, or **Ctrl+Shift+F5**. Analyzes the selection,
   or the whole window if nothing is selected, and shows a results tool window. **Never executes anything.**
 - **F5 guard**: when you execute (F5, Ctrl+E, Alt+X, the Execute button), the exact text SSMS is about to run is
-  analyzed. **Green runs with no interruption**; yellow/red shows a confirmation dialog first.
+  analyzed. **Green runs with no interruption**; yellow/red shows a confirmation dialog first by default.
+- **Environment rules**: first-match server/database rules choose an environment label, warning mode, additive
+  allow/trusted lists and optional typed database confirmation for whole-target red changes.
+- **Visible guard health**: the SQL Editor toolbar caption and status bar show on/off, environment, unknown
+  server or degraded state. A failed check also attempts a once-per-session, non-modal warning InfoBar.
 
 | Verdict | Colour | Meaning |
 |---|---|---|
-| Read-only | 🟢 | SELECT, variable/session/transaction/control statements, read-only system procs |
-| Temp only | 🟢 | Writes only to `#temp`, `##temp`, `@table` variables or `tempdb` objects |
+| Read-only | 🟢 | SELECT, variable/session/control statements, balanced transactions, read-only/trusted procs |
+| Temp only | 🟢 | Writes only to temporary tables/procedures or table variables; permanent tempdb objects require opt-in |
 | Allow-listed | 🟢 | Writes only to tables matching your allow-list |
 | Unknown | 🟡 | Can't see what runs: EXEC of procedures, runtime dynamic SQL, `INSERT ... EXEC`, DBCC/BACKUP/…, parse errors |
 | Real write | 🔴 | Any change to a permanent object (DML, DDL, security, remote writes) |
@@ -24,7 +28,7 @@ and tells you whether it changes real data or only reads / touches temp objects.
 | Path | What |
 |---|---|
 | `src/SqlSafetyGuard.Analyzer` | netstandard2.0 class library, no SSMS dependency. All parsing/classification (ScriptDom). |
-| `tests/SqlSafetyGuard.Tests` | xUnit tests: the 23 required cases plus edge cases (103 tests). |
+| `tests/SqlSafetyGuard.Tests` | xUnit analyzer, policy, resource-budget and installer regression tests. |
 | `src/SqlSafetyGuard.Vsix` | The SSMS extension: package, commands, F5 guard, dialog, tool window, options page (net472). |
 | `install.ps1` / `uninstall.ps1` | Find SSMS 22, install/remove the VSIX. Shared helpers in `scripts/SsmsCommon.ps1`. |
 | `SqlSafetyGuard.sln` | Opens in Visual Studio 2026. |
@@ -54,8 +58,9 @@ Close SSMS, then from the repository folder:
 .\install.ps1
 ```
 
-The script finds SSMS 22 with `vswhere` (product `Microsoft.VisualStudio.Product.Ssms`), removes any previous version,
-and runs **SSMS's own `VSIXInstaller.exe`** against the SSMS setup instance:
+The script finds the newest SSMS 22 with `vswhere` (product `Microsoft.VisualStudio.Product.Ssms`, versions compared
+numerically), validates the package, removes any previous version, and runs **SSMS's own `VSIXInstaller.exe`**
+against the SSMS setup instance:
 
 ```
 "<SSMS>\Common7\IDE\VSIXInstaller.exe" /quiet /instanceIds:<instanceId> SqlSafetyGuard.vsix
@@ -70,7 +75,14 @@ Options: `-VsixPath <path>` to install a specific build (e.g. the Debug one); `-
 extract the VSIX by hand into `<SSMS>\Common7\IDE\Extensions\SqlSafetyGuard` and touch
 `extensions.configurationchanged`.
 
-What was verified on SSMS 22.11.2 (VS shell 18.11):
+The copy path rejects unsafe archive paths (including traversal, rooted/alternate-stream paths and duplicate
+entries), validates the manifest and required assemblies, and extracts into a sibling staging directory **before**
+moving the current install. A failed replacement restores the backup. The VSIXInstaller path aborts a failed
+uninstall and reports failed upgrades with recovery instructions. **Keep the previous working VSIX**: if the new
+install fails after uninstall, reinstall it with `.\install.ps1 -VsixPath <previous.vsix>`. Installer log paths are
+quoted even when TEMP contains spaces. Uninstall failures propagate a nonzero exit instead of printing success.
+
+Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current soundness/rules changes:
 
 - ✅ VSIXInstaller per-user install (`install.ps1`): loads, all features work.
 - ✅ Double-clicking the `.vsix`: same per-user install.
@@ -92,16 +104,24 @@ What was verified on SSMS 22.11.2 (VS shell 18.11):
   results. If the window is hidden, it catches up when you show it again.
 - **F5 guard**: a yellow/red query shows a dialog listing only the yellow/red findings (line, action, target, e.g.
   `o → dbo.Orders (via alias o)`), plus the server and database. **Cancel** is the default (Enter/Esc). **Run anyway**
-  lets that execution continue. Double-clicking a finding cancels and jumps to it.
+  lets that execution continue; it has no access key. The environment has a prominent coloured banner
+  (Production red, Test amber, Development green, other labels blue). With typed confirmation enabled, a
+  whole-target red finding requires the **exact initial database name**, including case, before Run anyway enables.
+  If that database is unknown, cancel and verify the connection first. Double-clicking a finding cancels and jumps to it.
+- **Guard state** stays in the toolbar caption even when the status bar is temporarily used by SSMS. A check
+  failure marks it degraded and attempts a once-per-session InfoBar as well as logging. A successful guard check
+  clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
-Verified on SSMS 22.11.2 by real interaction:
+Historical interaction checks on SSMS 22.11.2, before the current changes (not a runtime verification of the new UI):
 - Commands: the Tools menu item, the toolbar button, Ctrl+Shift+F5, and View > Other Windows (reopens the tool
   window after it has been closed).
 - Jumping to code: mouse double-click and Enter on a grid row; double-click on a finding in the F5 dialog.
 - Settings: changed in the Options dialog, kept after an SSMS restart, and applied (red-only mode, allow-list,
   hidden server/database line).
-- Size limit: scripts over 5 MB run unchecked with a log message; the Analyze command reports "larger than 5 MB".
+
+The current analyzer/policy/installer changes are regression-tested and the Release VSIX is compiled; the new
+health indicator, InfoBar, cancellation and confirmation UI still need an SSMS smoke test.
 
 ### Try it
 
@@ -133,18 +153,78 @@ characters such as `\`. To change it: **Tools > Options > Environment > Keyboard
 | Setting | Default | |
 |---|---|---|
 | F5 guard | Warn on yellow and red | Off / Warn on red only / Warn on yellow and red |
-| Show server and database in the dialog | On | Hidden silently if it can't be read |
+| Show server and database in the dialog | On | Unknown fields always remain visible and use global settings |
 | Safe tables allow-list | empty | One pattern per line; `--` lines are comments |
+| Treat permanent tempdb objects as temporary | Off | Explicit opt-in; `#temp` / `##temp` remain green regardless |
+| Trusted read-only procedures | empty | Schema-qualified patterns; wildcards only in the final part |
+| Require typed confirmation globally | Off | Exact database name for whole-target red changes |
+| Server / environment rules | empty | First matching rule overrides mode, environment and typed-confirmation setting |
 
-Allow-list patterns are case-insensitive, support `*` and `?`, and ignore brackets.
+### Safe tables allow-list
 
-- `Staging_*` matches the object name in any schema.
-- `dbo.Staging_*` matches schema.object. A query that omits the schema counts as `dbo`.
-- `Sandbox.dbo.*` matches database.schema.object. It only matches names written with a database part, because the
-  current database isn't known to the analyzer.
+Patterns are case-insensitive, support `*` and `?`, and match **entire identifier parts**, not substrings.
+Brackets/double quotes delimit parts; escaped delimiters and quoted whitespace are preserved. One entry per
+line (semicolon-separated entries also work); `--` and `#` lines are comments. Wildcard-only entries such as
+`*` or `*.*` are ignored with a visible settings warning.
+
+- `Staging_*` matches the object name in any schema, including a schema-less name.
+- `dbo.Staging_*` requires a resolved `dbo` schema. **No implicit dbo assumption**: a schema-less query name
+  matches only a one-part pattern unless the caller supplies a known default schema. The VSIX does not discover
+  the login's default schema, so qualify your query names when relying on schema-qualified entries.
+- A pattern with no database part matches unqualified names or names explicitly qualified with the **known
+  current database**. It does not match another database, or an explicit database when the current one is unknown.
+- `Sandbox.dbo.*` matches explicit Sandbox names, or unqualified database names when the known current database
+  is Sandbox. It still requires a resolved schema.
+- A pattern with no server part **never** matches a linked-server-qualified target. To trust that explicitly,
+  use all four parts, e.g. `Reporting.Sandbox.dbo.Staging_*`.
 
 The allow-list applies to INSERT/UPDATE/DELETE/MERGE/TRUNCATE/SELECT INTO/OUTPUT INTO/BULK INSERT targets, not to
 DDL (CREATE/ALTER/DROP TABLE stays red).
+
+### Environment rules
+
+One rule per line, with five required fields and two optional lists:
+
+```text
+server pattern | database pattern | environment label | Off/Red/YellowRed | typed true/false | allow-list | trusted procedures
+```
+
+`*` and `?` in server/database patterns are case-insensitive; blank database means any **known** database.
+The **first matching rule wins**. Blank lines and `--` comments are ignored; bad lines are ignored with a settings
+warning in analysis and the health indicator, rather than crashing. No match, or unknown server **or database**,
+uses global settings. Unknown is never inferred to mean Off or Development.
+
+```text
+PROD-SQL* | | Production | YellowRed | true | dbo.Staging_* | dbo.sp_WhoIsActive;master.dbo.sp_Blitz*
+TEST-* | Sandbox* | Test | Red | false | dbo.Test_* |
+DEV-* | | Development | Off | false
+```
+
+`Off` skips execution checks, `Red` prompts only on real writes, `YellowRed` prompts on yellow and red.
+Rule allow-lists and trusted procedures **add to** the global lists; they do not replace them. Use narrow global
+lists if production rules must be restrictive. List entries within a rule are semicolon-separated. The text
+format has no escaping for field/list delimiters (`|` and `;`).
+
+Typed confirmation applies to red UPDATE/DELETE without WHERE (conservatively also TOP/join/CTE variants),
+TRUNCATE and DROP TABLE/PROCEDURE. It does not require typing for temp-only or allow-listed changes.
+The environment policy is selected from the **initial connection only**: `USE`, `USE FEDERATION` and `:connect`
+add a TARGET SWITCH warning and dialog notice, and invalidate contextual allow/trusted lists for the analysis;
+rules are not re-selected mid-script. A Development/Off rule can therefore leave a script switching to
+production unchecked. Do not mix environments in one script; this is not server-aware enforcement.
+
+### Trusted procedures
+
+Entries such as `dbo.sp_WhoIsActive` or `master.dbo.sp_Blitz*` assert that a procedure is read-only; the guard
+does not inspect its body. Successful matches get green **trusted procedure** findings. Entries require 2–4
+parts and wildcards are allowed **only in the final procedure-name part**. Database/server qualification follows
+the same rules as the table allow-list.
+
+`dbo.sp_WhoIsActive` matches `EXEC dbo.sp_WhoIsActive`, but matches `EXEC sp_WhoIsActive` only when the analyzer's
+caller supplies a known `dbo` default schema. In the VSIX, use the schema-qualified call. This avoids silently
+trusting a same-named procedure in another schema. Built-in system procedure recognition is separate: only
+unqualified, sys/dbo, or master.sys/master.dbo names (plus explicitly recognized msdb system procedures) use the
+built-in lists. An unrelated `OtherDb.custom.sp_executesql` is an ordinary unknown procedure, not dynamic SQL.
+`sp_spaceused` with true or unknown `@updateusage` is red; its normal read-only form remains green.
 
 ## Debug
 
@@ -157,7 +237,8 @@ DDL (CREATE/ALTER/DROP TABLE stays red).
    `SSMS.exe -log <file>.xml` writes an activity log that shows whether `SqlSafetyGuardPackage` loaded.
 4. To test the fail-open path, start SSMS (Debug build installed) with the environment variable
    `SQLSAFETYGUARD_FAULT_INJECTION=1`. The guard then throws on every execute; the query must still run, and the
-   Output pane logs `ERROR The F5 guard failed…`. The switch is compiled out of Release builds.
+   Output pane logs `ERROR SQL Safety Guard failed…` and the toolbar shows degraded health. A non-modal InfoBar is
+   attempted once per session. The switch is compiled out of Release builds.
 
 Visual Studio's own "deploy to experimental instance" is turned off (`DeployExtension=false`): that would target
 Visual Studio, not SSMS.
@@ -192,13 +273,18 @@ removes any `-Copy` install folder. Alternatively, use **Extensions > Manage Ext
 
 ### Analyzer
 
-`SqlSafetyAnalyzer.Analyze(sql, options)` parses with the **newest `TSqlNNNParser`** in the loaded ScriptDom
+`SqlSafetyAnalyzer.Analyze(sql, options, cancellationToken)` parses with the **newest `TSqlNNNParser`** in the loaded ScriptDom
 assembly, found by reflection (`TSql180Parser` with ScriptDom 180.x, so SQL Server 2025 syntax parses). It walks
-every statement recursively (BEGIN/END, IF/ELSE, WHILE, TRY/CATCH, all GO batches) and classifies each one.
+statement containers (BEGIN/END, IF/ELSE, WHILE, TRY/CATCH, all GO batches) and classifies their contents. ELSE-IF
+chains are walked iteratively. Parsing and walking run on a dedicated background thread with a 64 MiB reserved
+stack, not the SSMS UI stack. Cancellation is checked during tokenization, parsing and traversal.
 
 - Targets are resolved through **aliases** (`UPDATE o … FROM dbo.Orders o`), **CTEs** (recursively, CTE → CTE,
-  with a cycle guard), and **derived tables**. If any base table is permanent, the finding is red.
-- `OUTPUT … INTO` targets are classified separately. `INSERT … EXEC` adds an Unknown finding.
+  with a cycle/depth guard and per-CTE memoization), and **derived tables**. Base targets are deduplicated. Alias
+  and CTE resolution comes before the temp-name rule: a `[#t]` alias for `dbo.Orders` is still a real write.
+- **Composable DML** in derived table sources is classified independently of its outer target. Inserting into
+  `#audit` from `(DELETE dbo.Customers OUTPUT deleted.Id)` is red. Nested `OUTPUT … INTO` targets are classified
+  separately too. `INSERT … EXEC` adds an Unknown finding.
 - **Literal dynamic SQL** (`EXEC('…')`, `EXEC('a' + 'b')`, `sp_executesql N'…'`) is parsed recursively, up to 3
   levels deep. Its findings are reported at the EXEC's line with the note "inside dynamic SQL". Anything built
   at runtime is Unknown.
@@ -210,8 +296,8 @@ every statement recursively (BEGIN/END, IF/ELSE, WHILE, TRY/CATCH, all GO batche
   - `NEXT VALUE FOR` is a Real write: it advances the sequence, and `ROLLBACK` doesn't undo it.
   - Not flagged: `OPENROWSET(BULK …)`, which only reads a file; four-part-name reads (`srv.db.dbo.t`), which read
     a remote table; and a `DEFAULT (NEXT VALUE FOR …)` in `CREATE TABLE`, which doesn't run anything.
-- **Syntax errors don't hide anything.** SQL Server compiles each `GO` batch as a whole, so a batch with a syntax
-  error runs none of its statements. Every batch is analyzed on its own, and inside a broken batch:
+- **Syntax-error recovery is bounded and conservative.** Each `GO` batch is parsed separately. Findings recovered
+  from a broken batch are marked non-executable until that batch's syntax is fixed:
   - The statement with the error is blanked (line breaks kept, so every line and column number stays right) and
     the batch is parsed again, up to 25 times or 3 seconds. Everything around the error is analyzed normally.
   - Those statements are labelled "won't run now: this batch has a syntax error at line N" and shown dimmed. They
@@ -222,7 +308,9 @@ every statement recursively (BEGIN/END, IF/ELSE, WHILE, TRY/CATCH, all GO batche
     Everything after it in that batch is treated as its body, which is what SQL Server would do.
   - What couldn't be parsed is listed as **NOT ANALYZED** (e.g. "line 86"). That text is scanned for write
     keywords (outside comments and strings), and each hit becomes a yellow "possible UPDATE" row.
-  - If recovery doesn't converge, the whole batch is reported as not analyzed and scanned the same way.
+  - Broken batches over 32 Ki characters skip repeated reparsing and use the whole-batch NOT ANALYZED/possible-write
+    fallback. This avoids quadratic recovery on thousands of broken statements, at the cost of detailed target
+    classification. Smaller batches that exhaust recovery use the same fallback.
 - **UPDATE/DELETE without WHERE** gets "no WHERE: affects every row", shown in bold in the F5 dialog. If a
   JOIN, TOP or CTE limits the rows instead, the note says so. `TRUNCATE` gets "removes every row".
 - **SQLCMD mode** (`:setvar`, `$(var)`, `:r`, `:connect`, `:on error`, `!!`). The guard reads whether
@@ -235,9 +323,11 @@ every statement recursively (BEGIN/END, IF/ELSE, WHILE, TRY/CATCH, all GO batche
     - The analyzer parses a temporary same-length copy of the script with the SQLCMD lines blanked and each
       `$(var)` replaced by a placeholder. Line and column numbers still match the editor, and the copy is
       discarded after the check.
-    - Targets show their values, e.g. `$(TargetTable) → dbo.Orders`, and a variable holding a `#temp` name counts
-      as temp.
-    - `:r` (another file, not read) and `!!` (an operating-system command) are yellow; `:connect` gets a note.
+    - **Every `$(…)` substitution adds Unknown**, even a value that looks like a safe name. The analyzer does not
+      execute SQLCMD's expansion rules: values can inject statements, concatenate identifiers or escape strings.
+      Ordered `:setvar` definitions supply display hints only; later definitions never rewrite earlier hints.
+    - `:r` (another file, not read), `!!` (an operating-system command), and `:exit(query)` (which can execute a
+      statement) are yellow. `:connect` adds a TARGET SWITCH warning, like `USE`.
   - Either way, nothing is executed and no file is opened. SSMS still sends your original text.
 
 ### F5 guard
@@ -263,23 +353,25 @@ intercepted twice, and a re-entrancy flag guards the handler anyway. Tested: the
 
 Safety rules:
 
-- The guard **fails open**. If anything throws, the query runs and the exception goes to the Output pane. Verified
-  with the Debug-only fault switch (see [Debug](#debug)).
-- The tool window and dialog use Visual Studio theme colours. Checked in all 13 themes SSMS 22 lets you pick
+- A failure **before classification fails open visibly**: the Output pane logs it, the guard becomes degraded,
+  and a once-per-session InfoBar is attempted. After a red/yellow result is computed, tool-window, logging or
+  wait-dialog cleanup failures cannot authorize execution. A failed confirmation dialog cancels that execution.
+- The tool window and dialog use Visual Studio theme colours. The previous UI was checked in all 13 themes SSMS 22 lets you pick
   (`environment.visualExperience.colorTheme`): Light, Cool Breeze, Icy Mint, Sunny Day, Juicy Plum, Mango Paradise,
   Bubblegum, Silky Pink, Dark, Cool Slate, Moonlight Glow, Mystical Forest and Spicy Red. The Light/Dark (Extra
   Contrast) and High Contrast themes can't be selected through that setting; they follow the Windows contrast
   setting and weren't tested. The Cancel button has an accent border, so it reads as the default button in dark
   themes too.
-- The "Analyzing query safety…" wait dialog is the Visual Studio threaded wait dialog. In SSMS 22 it runs out of
-  process (in `DevHub.exe`), so it stays responsive while SSMS's UI thread waits for the analysis. Its Cancel button
-  was tested: the execution is cancelled and the Output pane logs "Analysis was cancelled; the query was not
-  executed."
-- Scripts up to 100 KB are analyzed inline (well under 0.2 s).
-- Scripts from 100 KB to 5 MB are analyzed on a background thread behind a cancellable "Analyzing query safety…"
-  wait dialog. ScriptDom on .NET Framework takes about 2 s per MB; a 1 MB script prompted in about 3 s.
-  Cancelling that wait dialog cancels the execution.
-- Scripts over 5 MB are not analyzed. They run, and a message goes to the Output pane.
+- **All execution analysis runs off the UI thread**, behind the Visual Studio threaded wait dialog (shown after
+  300 ms). Cancel propagates to the analyzer and cancels execution. If the VS wait-dialog service is unavailable,
+  analysis still uses a background thread, but no cancellable wait UI can be shown.
+- Resource budgets return an Unknown **too complex to analyze** finding instead of attempting unbounded parsing:
+  256 nested parentheses or BEGIN/CASE blocks, 512 IF tokens per GO batch, 20,000 significant tokens per statement,
+  256 CTE-resolution depth, and a shared 40-million-work-unit / 10-second budget. These are conservative limits,
+  not SQL Server syntax limits. A valid complex script can therefore be yellow.
+- Scripts over **5,242,880 characters** (about 10 MiB of UTF-16 text) return a yellow **too large to analyze (N MB)**
+  finding. They prompt in the default YellowRed mode; explicit Red-only and Off modes still apply. The old
+  100 Ki-character threshold only controls a tool-window loading placeholder, not UI-thread analysis.
 
 ### Server/database line (undocumented)
 
@@ -288,7 +380,9 @@ Safety rules:
 - Database is the current value of the SQL Editor's **Available Databases** combo, read through the standard VS
   combo protocol (`Exec` with no input and an output VARIANT), so it reflects `USE` statements that already ran.
   If the combo can't be read, the connection's initial database is used.
-- Any failure hides the line. Verified working on SSMS 22.11.2 with `.\SQLEXPRESS`.
+- Unknown fields are shown explicitly, and unknown connection context uses global settings, never an inferred
+  Development/Off rule. The connection-reading mechanism was previously verified on SSMS 22.11.2 with `.\SQLEXPRESS`;
+  the new policy and health UI still need runtime validation there.
 
 ## Limitations
 
@@ -300,14 +394,14 @@ Safety rules:
 - **SQLCMD:**
   - If the SQLCMD Mode state can't be read (for example, a future SSMS changes the command), SQLCMD lines are
     interpreted as if the mode were on, which errs toward showing writes.
-  - Variables that aren't set with `:setvar` in the script (for example ones set in SSMS options) show as
-    `$(Name)` and count as permanent names.
+  - Variable substitution is not expanded for semantic classification. Every substitution is at least yellow,
+    including inside strings and values supplied by SSMS options. Original editor positions are preserved.
   - Files included with `:r` are not read.
 - **Characters the T-SQL tokenizer rejects** (such as a stray `\`) are skipped, and analysis resumes after them, so
   they can't hide a later `GO` or write.
 - **Recovery around syntax errors is a heuristic.** It splits statements by keywords, so an unusual statement can
   make it blank more text than necessary. Anything blanked is listed as NOT ANALYZED and scanned for write
-  keywords, so nothing disappears silently.
+  keywords. Large broken batches deliberately use this coarse fallback instead of recovering every statement.
 - Only text run through `Query.Execute` from a `.sql`/SQL editor is guarded. Not guarded: MDX/DMX/XMLA editors,
   Object Explorer actions (Edit Top 200 Rows, scripting wizards, dialogs), Copilot-run queries, and other
   extensions.
@@ -316,15 +410,19 @@ Safety rules:
 - `KILL`, `SHUTDOWN`, `RECONFIGURE`, `RESTORE`, Service Broker statements (`SEND`, `RECEIVE`, …) and any other
   statement type not listed above are red (conservative). BACKUP, UPDATE STATISTICS, CHECKPOINT and unrecognized
   DBCC commands are yellow; DBCC is otherwise judged per command (read-only green, changing red).
-  [docs/statement-coverage.md](docs/statement-coverage.md) lists all 334 statement kinds and how each is handled.
+  [docs/statement-coverage.md](docs/statement-coverage.md) records the reviewed ScriptDom statement inventory and
+  important semantic/resource limits; an inventory is not a proof of soundness.
 - **Transactions are tracked by reading the text, not the session.** A `COMMIT` with no `BEGIN TRAN` in the text is
   yellow, because it may commit work an earlier run left open. A transaction still open at the end gets an
   OPEN TRANSACTION row. The guard can't see whether your session actually has an open transaction right now.
-  IF branches that check `@@TRANCOUNT`/`XACT_STATE()` are treated as closing the transaction; other IFs assume the
-  more open branch.
+  Parsed `@@TRANCOUNT`/`XACT_STATE()` predicates are distinguished from strings/comments. Unreachable branches,
+  zero-iteration loops and statements after RETURN cannot close a possibly open transaction. GO repetition and
+  uncertain control transfers are conservative. With implicit transactions on, explicit BEGIN can add two levels;
+  a tableless `SELECT 1` does not open one. This is not a full control-flow or SQL Server session simulator.
 - Box (column) selections are analyzed as the selected text; the reported line numbers assume a normal selection.
-- Allow-list patterns with a database part only match names that include the database (the `USE` context isn't
-  known).
+- Allow/trusted lists require known database/default-schema context when qualification is omitted. The VSIX does
+  not discover the login's default schema. Target switches disable contextual trust for the entire analysis, but
+  do not re-select environment mode mid-script. Trust entries are user assertions, not verified procedure bodies.
 - Microsoft does not officially support third-party SSMS extensions. A future SSMS update could change the command
   IDs or internals used here: the toolbar group, the database combo, and `ServiceCache`. The guard fails open if
   that happens.
