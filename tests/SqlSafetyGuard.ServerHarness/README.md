@@ -13,6 +13,8 @@ calls green that changed something is a **false green**, the one failure that ma
   `UPDATE ... FROM` joins, `MERGE` into temp tables, TRY/CATCH, table variables, and a SELECT with 30 joins and a
   WHERE clause on a single 25,000-character line. `gen:green-*` must be green, write nothing and run with no errors.
   `gen:red-*` bury one real write in the middle and must be non-green and write.
+- Semicolon-free scripts with 100, 330 and 700 temp-table processing steps (up to 9,102 lines), both without
+  permanent writes and with a buried permanent UPDATE. Early-return cases check the continuing transaction path.
 
 ## Sandbox and safety
 
@@ -45,7 +47,8 @@ dotnet run --project tests\SqlSafetyGuard.ServerHarness -- `
     --tests tests\SqlSafetyGuard.Tests --samples samples --server .\SQLEXPRESS --out harness-out
 ```
 
-The analyzer is loaded by path, so you can point `--analyzer` at any branch's build. Other options: `--sql <dir>`
+The analyzer is loaded by path, so you can point `--analyzer` at any branch's build. Repeat `--tests <dir>` to
+include independent review corpora alongside the main unit tests. Other options: `--sql <dir>`
 for extra `.sql` files, `--filter <text>`, `--limit <n>`, `--timeout <seconds per batch>` (default 10).
 The exit code is 0 when there are no false greens, analyzer crashes or failed expectations. `harness-out\report.md`
 lists the problems, the generated-script table, non-green cases that ran cleanly and changed nothing (to review for

@@ -18,6 +18,15 @@ internal static class Generator
         yield return new Case("gen:green-9000", "generated", Script(9000));
         yield return new Case("gen:green-longline", "generated", "SET NOCOUNT ON;\n" + LongLine(25_000) + "\n");
         yield return new Case("gen:green-nogo-2000", "generated", Script(2000, goEvery: 0));
+        foreach (int steps in new[] { 100, 330, 700 })
+        {
+            yield return new Case($"gen:green-semicolon-free-{steps}", "generated", SemicolonFree(steps, false));
+            yield return new Case($"gen:red-semicolon-free-{steps}", "generated", SemicolonFree(steps, true));
+        }
+        yield return new Case("gen:green-early-return", "generated",
+            "DECLARE @flag bit = 0; IF @flag = 1 RETURN; SELECT 1;");
+        yield return new Case("gen:red-early-return-open-transaction", "generated",
+            "DECLARE @flag bit = 0; IF @flag = 1 RETURN; BEGIN TRAN; UPDATE dbo.Orders SET Qty = Qty + 1 WHERE Id = 7;");
 
         yield return new Case("gen:red-buried-update-5000", "generated", Script(5000, buried:
             "UPDATE o\nSET o.Qty = o.Qty + 1\nFROM dbo.Orders AS o\nJOIN #t3 AS t ON t.Id = o.Id\nWHERE t.Qty >= 0;\n"));
@@ -36,6 +45,30 @@ internal static class Generator
     public static bool ExpectGreen(Case c) => c.Id.StartsWith("gen:green", StringComparison.Ordinal);
 
     public static bool ExpectWrite(Case c) => c.Id.StartsWith("gen:red", StringComparison.Ordinal);
+
+    private static string SemicolonFree(int steps, bool write)
+    {
+        var sql = new StringBuilder("SET NOCOUNT ON\n");
+        for (int index = 0; index < steps; index++)
+        {
+            if (write && index == steps / 2)
+                sql.AppendLine("UPDATE dbo.Orders SET Qty = Qty + 1 WHERE Id = 7");
+            sql.AppendLine($@"IF OBJECT_ID('tempdb..#work{index}') IS NOT NULL DROP TABLE #work{index}
+SELECT o.Id, o.Qty
+INTO #work{index}
+FROM dbo.Orders o
+JOIN dbo.Customers c ON c.Id = o.CustomerId
+WHERE o.Qty >= 0
+UPDATE work SET Qty = source.Qty
+FROM #work{index} work
+JOIN dbo.Orders source ON source.Id = work.Id
+IF EXISTS (SELECT 1 FROM #work{index} WHERE Qty > 100)
+    UPDATE #work{index} SET Qty = Qty - 1 WHERE Qty > 100
+SELECT COUNT(*) FROM #work{index}
+DROP TABLE #work{index}");
+        }
+        return sql.ToString();
+    }
 
     private static string Script(int lines, string? buried = null, int goEvery = 20, bool noCommit = false)
     {
