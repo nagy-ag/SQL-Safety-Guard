@@ -13,12 +13,12 @@ Write-Host "SSMS $($ssms.Version) at $($ssms.InstallPath) (instance $($ssms.Inst
 Assert-SsmsNotRunning
 
 $installer = Join-Path $ssms.InstallPath 'Common7\IDE\VSIXInstaller.exe'
-$installerArgs = @('/quiet', "/instanceIds:$($ssms.InstanceId)", "/logFile:$env:TEMP\SqlSafetyGuard_VSIXInstaller.log", "/uninstall:$ExtensionId")
-$process = Start-Process -FilePath $installer -ArgumentList $installerArgs -Wait -PassThru
+$installerArgs = @('/quiet', "/instanceIds:$($ssms.InstanceId)", "/logFile:`"$env:TEMP\SqlSafetyGuard_VSIXInstaller.log`"", "/uninstall:$ExtensionId")
+$process = Start-Process -FilePath $installer -ArgumentList $installerArgs -WindowStyle Hidden -Wait -PassThru
 switch ($process.ExitCode) {
     0 { Write-Host 'Uninstalled with VSIXInstaller.' -ForegroundColor Green }
     2003 { Write-Host 'Not installed through VSIXInstaller.' }
-    default { Write-Host "VSIXInstaller exit code $($process.ExitCode) (log: $env:TEMP\SqlSafetyGuard_VSIXInstaller.log)." -ForegroundColor Yellow }
+    default { throw "VSIXInstaller exit code $($process.ExitCode) (log: $env:TEMP\SqlSafetyGuard_VSIXInstaller.log). Uninstall failed." }
 }
 
 if (Remove-ManualCopies -Ssms $ssms) {

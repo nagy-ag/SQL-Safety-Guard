@@ -39,19 +39,7 @@ $VsixPath = (Resolve-Path $VsixPath).Path
 Write-Host "VSIX: $VsixPath"
 
 if (-not $Copy) {
-    $installer = Join-Path $ssms.InstallPath 'Common7\IDE\VSIXInstaller.exe'
-
-    # Remove a previous install of the same extension, so rebuilding and reinstalling the same version works.
-    $removeArgs = @('/quiet', "/instanceIds:$($ssms.InstanceId)", "/logFile:$env:TEMP\SqlSafetyGuard_VSIXInstaller.log", "/uninstall:$ExtensionId")
-    $removal = Start-Process -FilePath $installer -ArgumentList $removeArgs -Wait -PassThru
-    if ($removal.ExitCode -eq 0) { Write-Host 'Removed the previously installed version.' }
-
-    $installerArgs = @('/quiet', "/instanceIds:$($ssms.InstanceId)", "/logFile:$env:TEMP\SqlSafetyGuard_VSIXInstaller.log", "`"$VsixPath`"")
-    Write-Host "Running $installer $($installerArgs -join ' ')"
-    $process = Start-Process -FilePath $installer -ArgumentList $installerArgs -Wait -PassThru
-    if ($process.ExitCode -ne 0) {
-        throw "VSIXInstaller failed with exit code $($process.ExitCode). Log: $env:TEMP\SqlSafetyGuard_VSIXInstaller.log"
-    }
+    Install-WithVsixInstaller -VsixPath $VsixPath -Ssms $ssms
     Write-Host 'Installed with VSIXInstaller.' -ForegroundColor Green
 }
 else {
@@ -60,23 +48,7 @@ else {
         throw '-Copy writes to the SSMS program folder; run PowerShell as Administrator.'
     }
     $extensionsRoot = Join-Path $ssms.InstallPath 'Common7\IDE\Extensions'
-    $target = Join-Path $extensionsRoot $ExtensionFolderName
-    Remove-ManualCopies -Ssms $ssms
-    New-Item -ItemType Directory -Force -Path $target | Out-Null
-
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $zip = [IO.Compression.ZipFile]::OpenRead($VsixPath)
-    try {
-        foreach ($entry in $zip.Entries) {
-            if ($entry.FullName -in '[Content_Types].xml', 'manifest.json', 'catalog.json' -or $entry.FullName.EndsWith('/')) { continue }
-            $destination = Join-Path $target ($entry.FullName -replace '/', '\')
-            New-Item -ItemType Directory -Force -Path (Split-Path $destination) | Out-Null
-            [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destination, $true)
-        }
-    }
-    finally { $zip.Dispose() }
-
-    Update-ExtensionsConfigurationChanged -Path $extensionsRoot
+    $target = Install-ManualCopy -VsixPath $VsixPath -ExtensionsRoot $extensionsRoot
     Write-Host "Copied to $target" -ForegroundColor Green
 }
 
