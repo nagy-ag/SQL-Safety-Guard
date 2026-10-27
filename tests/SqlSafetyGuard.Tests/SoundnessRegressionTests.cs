@@ -167,6 +167,70 @@ public class SoundnessRegressionTests
 
 public class AnalysisResourceTests
 {
+    [Theory]
+    [InlineData(100)]
+    [InlineData(330)]
+    [InlineData(700)]
+    public void SemicolonFreeScriptsKeepDetailedWriteFindings(int steps)
+    {
+        var sql = new StringBuilder();
+        for (int index = 0; index < steps; index++)
+            sql.AppendLine($@"IF OBJECT_ID('tempdb..#work{index}') IS NOT NULL DROP TABLE #work{index}
+SELECT o.Id, o.Qty
+INTO #work{index}
+FROM dbo.Orders o
+JOIN dbo.Customers c ON c.Id = o.CustomerId
+WHERE o.Qty >= 0
+UPDATE work SET Qty = source.Qty
+FROM #work{index} work
+JOIN dbo.Orders source ON source.Id = work.Id
+IF EXISTS (SELECT 1 FROM #work{index} WHERE Qty > 100)
+    UPDATE #work{index} SET Qty = Qty - 1 WHERE Qty > 100
+SELECT * FROM #work{index}
+DROP TABLE #work{index}");
+        var script = sql.ToString();
+        var green = SqlSafetyAnalyzer.Analyze(script);
+        Assert.Empty(green.ParseErrors);
+        Assert.True(green.IsGreen);
+        var result = SqlSafetyAnalyzer.Analyze(script + "\nUPDATE dbo.Orders SET Qty = Qty + 1 WHERE Id = 7\n" + script);
+        Assert.Empty(result.ParseErrors);
+        Assert.Equal(Verdict.RealWrite, result.Overall);
+        Assert.Contains(result.Findings, finding => finding.Action == "UPDATE" && finding.Verdict == Verdict.RealWrite);
+    }
+
+    [Theory]
+    [InlineData("IF 1=0 ")]
+    [InlineData("WHILE 1=0 ")]
+    public void ExcessiveControlFlowPrefixesAreRejected(string prefix)
+    {
+        var result = SqlSafetyAnalyzer.Analyze(string.Concat(Enumerable.Repeat(prefix, 20000)) + "SELECT 1");
+        Assert.Equal(Verdict.Unknown, result.Overall);
+        Assert.Contains(result.Findings, finding => finding.Note?.Contains("too complex") == true);
+    }
+
+    [Fact]
+    public void ExcessiveElseIfChainIsRejected()
+    {
+        var sql = string.Join(" ELSE ", Enumerable.Repeat("IF 1=0 SELECT 1", 20000));
+        Assert.Equal(Verdict.Unknown, SqlSafetyAnalyzer.Analyze(sql).Overall);
+    }
+
+    [Theory]
+    [InlineData("IF @flag = 1 RETURN; SELECT 1", true)]
+    [InlineData("IF @flag = 1 RETURN; BEGIN TRAN; COMMIT; SELECT 1", true)]
+    [InlineData("IF @flag = 1 RETURN; BEGIN TRAN; SELECT 1", false)]
+    [InlineData("BEGIN TRAN; IF @flag = 1 RETURN; COMMIT", false)]
+    [InlineData("IF @flag = 1 BEGIN BEGIN TRAN; RETURN; END; SELECT 1", false)]
+    [InlineData("IF @flag = 1 RETURN; ELSE BEGIN TRAN; SELECT 1", false)]
+    public void EarlyReturnPreservesContinuingTransactionPaths(string sql, bool green)
+    {
+        var result = SqlSafetyAnalyzer.Analyze(sql);
+        Assert.Empty(result.ParseErrors);
+        Assert.Equal(green, result.IsGreen);
+        if (!green)
+            Assert.Contains(result.Findings, finding => finding.Action == "OPEN TRANSACTION" || finding.Action == "TRANSACTION FLOW");
+    }
+
     [Fact]
     public void ElseIfChainDoesNotOverflow()
     {

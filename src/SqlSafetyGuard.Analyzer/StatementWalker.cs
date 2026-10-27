@@ -114,10 +114,21 @@ namespace SqlSafetyGuard.Analyzer
             /// <summary>The state after one of two alternative branches: the more open one, to be safe.</summary>
             public static TransactionState Merge(TransactionState a, TransactionState b)
             {
+                if (a.Terminated != b.Terminated)
+                {
+                    var exited = a.Terminated ? a : b;
+                    if (exited.Depth == 0 && !exited.Uncertain)
+                    {
+                        var continuing = (a.Terminated ? b : a).Copy();
+                        continuing.Peak = Math.Max(a.Peak, b.Peak);
+                        continuing.PeakOpenedAt = a.Peak >= b.Peak ? a.PeakOpenedAt : b.PeakOpenedAt;
+                        return continuing;
+                    }
+                }
                 var merged = (a.Depth >= b.Depth ? a : b).Copy();
                 merged.Peak = Math.Max(a.Peak, b.Peak);
                 merged.Implicit = a.Implicit || b.Implicit;
-                merged.Terminated = a.Terminated || b.Terminated;
+                merged.Terminated = a.Terminated && b.Terminated;
                 merged.Uncertain = a.Uncertain || b.Uncertain || a.Depth != b.Depth || a.Implicit != b.Implicit || a.Terminated != b.Terminated;
                 return merged;
             }

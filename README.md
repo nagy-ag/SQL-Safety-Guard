@@ -367,7 +367,8 @@ Safety rules:
   300 ms). Cancel propagates to the analyzer and cancels execution. If the VS wait-dialog service is unavailable,
   analysis still uses a background thread, but no cancellable wait UI can be shown.
 - Resource budgets return an Unknown **too complex to analyze** finding instead of attempting unbounded parsing:
-  256 nested parentheses or BEGIN/CASE blocks, 512 IF tokens per GO batch, 20,000 significant tokens per statement,
+  256 nested parentheses or BEGIN/CASE blocks, 512 consecutive control-flow prefixes or ELSE IF links,
+  20,000 significant tokens between top-level action keywords (a lexical approximation, not statement parsing),
   256 CTE-resolution depth, and a shared 40-million-work-unit / 10-second budget. These are conservative limits,
   not SQL Server syntax limits. A valid complex script can therefore be yellow.
 - Scripts over **5,242,880 characters** (about 10 MiB of UTF-16 text) return a yellow **too large to analyze (N MB)**
