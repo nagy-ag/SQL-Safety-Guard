@@ -8,6 +8,9 @@ namespace SqlSafetyGuard.Analyzer
     /// </summary>
     public sealed class Finding
     {
+        /// <summary>Note on an UPDATE/DELETE without WHERE whose rows only a CTE or derived table may limit.</summary>
+        public const string CteOrDerivedTableLimitNote = "no WHERE: rows limited only by the CTE or derived table";
+
         public Finding(int line, int column, int startOffset, int length, string action, string target,
             string resolvedTarget, Verdict verdict, string note, bool willRun = true, int? blockingErrorLine = null,
             bool affectsAllRows = false)
@@ -56,8 +59,30 @@ namespace SqlSafetyGuard.Analyzer
         /// <summary>Line of the syntax error that stops this statement's batch (when <see cref="WillRun"/> is false).</summary>
         public int? BlockingErrorLine { get; }
 
-        /// <summary>Potential whole-target change: UPDATE/DELETE without WHERE, TRUNCATE, or DROP.</summary>
+        /// <summary>
+        /// Potential whole-target change: TRUNCATE, DROP, or UPDATE/DELETE without WHERE unless a TOP (n) or an inner
+        /// join on the target visibly limits the rows.
+        /// </summary>
         public bool AffectsAllRows { get; }
+
+        /// <summary>The bold warning line shown for <see cref="AffectsAllRows"/> findings; empty otherwise.</summary>
+        public string AllRowsSummary
+        {
+            get
+            {
+                if (!AffectsAllRows)
+                    return string.Empty;
+                if (Action == "TRUNCATE TABLE")
+                    return "Removes every row of " + DisplayTarget;
+                if (Action == "DROP TABLE")
+                    return "Drops " + DisplayTarget + " and all its rows";
+                if (Action.StartsWith("DROP ", StringComparison.Ordinal))
+                    return "Drops " + DisplayTarget;
+                if (Note.Contains(CteOrDerivedTableLimitNote))
+                    return "No WHERE clause: only the CTE or derived table limits which rows of " + DisplayTarget + " change";
+                return "No WHERE clause: can affect every row of " + DisplayTarget;
+            }
+        }
 
         /// <summary>A PARSE ERROR or NOT ANALYZED row: describes the text rather than a statement that runs.</summary>
         public bool IsDiagnostic => Action == "PARSE ERROR" || Action == "NOT ANALYZED" || Action == "SQLCMD MODE OFF";

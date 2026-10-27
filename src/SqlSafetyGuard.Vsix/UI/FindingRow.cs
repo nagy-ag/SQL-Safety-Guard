@@ -42,8 +42,6 @@ namespace SqlSafetyGuard.UI
 
         public Visibility AllRowsVisibility => Finding.AffectsAllRows ? Visibility.Visible : Visibility.Collapsed;
 
-        public string AllRowsText => Finding.Action == "TRUNCATE TABLE"
-            ? "Removes every row of " + Finding.DisplayTarget
-            : "No WHERE clause: affects every row of " + Finding.DisplayTarget;
+        public string AllRowsText => Finding.AllRowsSummary;
     }
 }
