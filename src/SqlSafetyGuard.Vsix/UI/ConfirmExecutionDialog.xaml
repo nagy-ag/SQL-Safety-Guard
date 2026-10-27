@@ -43,16 +43,21 @@
 
     <DockPanel Margin="16">
         <StackPanel DockPanel.Dock="Top">
+            <Border x:Name="EnvironmentBanner" Padding="10,6" CornerRadius="3" Margin="0,0,0,12">
+                <TextBlock x:Name="EnvironmentText" Foreground="White" FontSize="18" FontWeight="Bold" TextWrapping="Wrap" />
+            </Border>
             <StackPanel Orientation="Horizontal">
                 <Border x:Name="HeaderBadge" Width="14" Height="14" CornerRadius="7" Margin="0,0,10,0" VerticalAlignment="Center" />
                 <TextBlock x:Name="HeaderText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" MaxWidth="590" />
             </StackPanel>
             <TextBlock x:Name="SubText" Margin="0,8,0,0" TextWrapping="Wrap" />
             <TextBlock x:Name="ConnectionText" Margin="0,6,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed" />
+            <TextBlock x:Name="TargetSwitchText" Margin="0,8,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed"
+                       Text="USE / :connect changes the target within this script. This policy describes the initial connection only; custom table/procedure trust is disabled for the switched scope. Check every destination." />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
-            <Button x:Name="RunButton" Content="_Run anyway" MinWidth="110" Margin="0,0,8,0" Click="OnRunAnyway"
+            <Button x:Name="RunButton" Content="Run anyway" MinWidth="110" Margin="0,0,8,0" Click="OnRunAnyway"
                     Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
             <!-- Cancel is the safe default: the accent border marks it as the default button in every theme
                  (the themed button style alone shows no difference in dark themes). -->
@@ -60,6 +65,11 @@
                     BorderThickness="2"
                     BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}"
                     Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+        </StackPanel>
+
+        <StackPanel x:Name="TypedConfirmationPanel" DockPanel.Dock="Bottom" Margin="0,12,0,0" Visibility="Collapsed">
+            <TextBlock x:Name="TypedConfirmationText" TextWrapping="Wrap" FontWeight="SemiBold" />
+            <TextBox x:Name="DatabaseConfirmation" Margin="0,6,0,0" TextChanged="OnConfirmationChanged" />
         </StackPanel>
 
         <TextBlock x:Name="FooterText" DockPanel.Dock="Bottom" Margin="0,8,0,0" Opacity="0.75" TextWrapping="Wrap"

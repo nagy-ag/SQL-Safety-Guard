@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
@@ -24,8 +25,8 @@ namespace SqlSafetyGuard.Analyzer
         };
 
         /// <summary>
-        /// System procedures known to change something. Matched on the procedure's own name, whatever its
-        /// schema or database (e.g. msdb.dbo.sp_add_job).
+        /// System procedures known to change something. Used only after checking system qualification,
+        /// including the explicit msdb procedure namespace (e.g. msdb.dbo.sp_add_job).
         /// </summary>
         public static readonly Dictionary<string, string> WritingProcedures = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -170,16 +171,17 @@ namespace SqlSafetyGuard.Analyzer
         };
 
         /// <summary>Read-only, changing or unknown, by DBCC command (and its options).</summary>
-        public static Verdict ClassifyDbcc(DbccStatement dbcc, string statementText, out string note)
+        public static Verdict ClassifyDbcc(DbccStatement dbcc, out string note)
         {
-            var text = statementText ?? string.Empty;
+            var arguments = dbcc.Literals.Skip(1).Select(literal => literal.Value as Literal)
+                .Where(literal => literal != null).Select(literal => literal.Value).ToList();
             if (dbcc.DllName != null)
             {
                 note = "unloads an extended procedure DLL";
                 return Verdict.RealWrite;
             }
 
-            if (text.IndexOf("REPAIR_", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (arguments.Any(argument => argument.StartsWith("REPAIR_", StringComparison.OrdinalIgnoreCase)))
             {
                 note = "REPAIR options can delete data to fix corruption";
                 return Verdict.RealWrite;
@@ -187,11 +189,17 @@ namespace SqlSafetyGuard.Analyzer
 
             if (dbcc.Command == DbccCommand.CheckIdent)
             {
-                bool noReseed = text.IndexOf("NORESEED", StringComparison.OrdinalIgnoreCase) >= 0;
+                bool noReseed = dbcc.Literals.Count >= 2 && dbcc.Literals[1].Value is IdentifierLiteral option &&
+                    string.Equals(option.Value, "NORESEED", StringComparison.OrdinalIgnoreCase);
                 note = noReseed ? "read-only DBCC command" : "may reseed the identity value";
                 return noReseed ? Verdict.ReadOnly : Verdict.RealWrite;
             }
 
+            if (dbcc.Command == DbccCommand.SqlPerf && arguments.Any(argument => string.Equals(argument, "CLEAR", StringComparison.OrdinalIgnoreCase)))
+            {
+                note = "clears SQL Server performance counters";
+                return Verdict.RealWrite;
+            }
             if (ReadOnlyDbcc.Contains(dbcc.Command))
             {
                 note = "read-only DBCC command";
@@ -254,7 +262,7 @@ namespace SqlSafetyGuard.Analyzer
         {
             if (name?.BaseIdentifier == null)
                 return false;
-            if (IsTempName(name.BaseIdentifier.Value))
+            if (name.ServerIdentifier == null && IsTempName(name.BaseIdentifier.Value))
                 return true;
             return options.TempdbIsTemp && name.ServerIdentifier == null &&
                    string.Equals(name.DatabaseIdentifier?.Value, "tempdb", StringComparison.OrdinalIgnoreCase);
@@ -266,7 +274,8 @@ namespace SqlSafetyGuard.Analyzer
             if (IsTemp(name, options))
                 return Verdict.TempOnly;
             if (allowListApplies && name?.BaseIdentifier != null &&
-                options.AllowList.Matches(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value, name.SchemaIdentifier?.Value, name.BaseIdentifier.Value))
+                options.AllowList.Matches(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value, name.SchemaIdentifier?.Value, name.BaseIdentifier.Value,
+                    options.CurrentDatabase, options.DefaultSchema))
                 return Verdict.AllowListed;
             return Verdict.RealWrite;
         }

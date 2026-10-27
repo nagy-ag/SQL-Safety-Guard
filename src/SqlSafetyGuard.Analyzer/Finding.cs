@@ -56,7 +56,7 @@ namespace SqlSafetyGuard.Analyzer
         /// <summary>Line of the syntax error that stops this statement's batch (when <see cref="WillRun"/> is false).</summary>
         public int? BlockingErrorLine { get; }
 
-        /// <summary>UPDATE/DELETE without WHERE, FROM or TOP (or TRUNCATE): every row of the target is affected.</summary>
+        /// <summary>Potential whole-target change: UPDATE/DELETE without WHERE, TRUNCATE, or DROP.</summary>
         public bool AffectsAllRows { get; }
 
         /// <summary>A PARSE ERROR or NOT ANALYZED row: describes the text rather than a statement that runs.</summary>

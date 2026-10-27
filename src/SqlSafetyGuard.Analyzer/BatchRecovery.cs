@@ -74,10 +74,13 @@ namespace SqlSafetyGuard.Analyzer
             var recovery = new BatchRecovery();
             var buffer = text.ToCharArray();
             var fragment = Parse(parser, new string(buffer), out var errors);
+            if (errors.Count > 0 && text.Length > 32768)
+                return recovery.Failed(errors);
             var stopwatch = Stopwatch.StartNew();
 
             for (int iteration = 0; errors.Count > 0; iteration++)
             {
+                AnalysisWork.Check();
                 if (iteration >= MaxIterations || stopwatch.Elapsed > TimeBudget)
                     return recovery.Failed(errors);
 
@@ -173,14 +176,7 @@ namespace SqlSafetyGuard.Analyzer
             errors.Count == 0 ? int.MaxValue : errors.Min(e => e.Offset);
 
         private static TSqlFragment Parse(TSqlParser parser, string text, out IList<ParseError> errors)
-        {
-            using (var reader = new StringReader(text))
-            {
-                var fragment = parser.Parse(reader, out errors);
-                errors = errors ?? new List<ParseError>();
-                return fragment;
-            }
-        }
+            => AnalysisWork.Parse(parser, text, out errors);
 
         /// <summary>
         /// Tokenizes the whole text. The ScriptDom tokenizer stops at a character it doesn't accept (e.g. the "\" in
@@ -194,8 +190,7 @@ namespace SqlSafetyGuard.Analyzer
             {
                 IList<TSqlParserToken> tokens;
                 IList<ParseError> errors;
-                using (var reader = new StringReader(position == 0 ? text : text.Substring(position)))
-                    tokens = parser.GetTokenStream(reader, out errors) ?? new List<TSqlParserToken>();
+                tokens = AnalysisWork.Tokenize(parser, position == 0 ? text : text.Substring(position), out errors);
 
                 TextPosition.FromOffset(text, position, out var startLine, out var startColumn);
                 foreach (var token in tokens)

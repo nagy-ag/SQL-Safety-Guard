@@ -13,10 +13,10 @@ namespace SqlSafetyGuard.Analyzer
     internal static class SqlCmdPreprocessor
     {
         private static readonly Regex CommandLine = new Regex(
-            @"^[ \t]*(?:(?<cmd>:(?:setvar|r|on|connect|out|error|exit|quit|reset|ed|list|listvar|help|perftrace|serverlist|xml))(?=\s|$)(?<args>.*)|(?<cmd>!!)(?<args>.*))$",
+            @"^[ \t]*(?:(?<cmd>:(?:setvar|r|on|connect|out|error|exit|quit|reset|ed|list|listvar|help|perftrace|serverlist|xml))(?=\s|\(|$)(?<args>.*)|(?<cmd>!!)(?<args>.*))$",
             RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant);
 
-        private static readonly Regex Variable = new Regex(@"\$\((?<name>[A-Za-z_][A-Za-z0-9_]*)\)", RegexOptions.CultureInvariant);
+        private static readonly Regex Variable = new Regex(@"\$\((?<name>[^()\r\n]*)\)", RegexOptions.CultureInvariant);
 
         private static readonly Regex SetVar = new Regex(@"^\s*(?<name>[A-Za-z_][A-Za-z0-9_]*)(?:\s+(?:""(?<value>[^""]*)""|(?<value>\S+)))?",
             RegexOptions.CultureInvariant);
@@ -75,13 +75,6 @@ namespace SqlSafetyGuard.Analyzer
                     end--;
 
                 directives.Add(new Directive(command, arguments, start, end - start));
-                if (command == ":setvar")
-                {
-                    var setVar = SetVar.Match(arguments);
-                    if (setVar.Success && setVar.Groups["value"].Success)
-                        variables[setVar.Groups["name"].Value] = setVar.Groups["value"].Value;
-                }
-
                 for (int i = match.Index; i < end; i++)
                 {
                     if (buffer[i] != '\r' && buffer[i] != '\n')
@@ -89,12 +82,30 @@ namespace SqlSafetyGuard.Analyzer
                 }
             }
 
-            // $(Name) -> placeholder identifier of the same length. It starts with '#' when the variable holds a
-            // temp table name, so temp detection still works; anything else is treated as a permanent name.
+            var definitions = new Queue<Directive>(directives);
             foreach (Match match in Variable.Matches(buffer.ToString()))
             {
+                AnalysisWork.Check();
+                while (definitions.Count > 0 && definitions.Peek().Offset < match.Index)
+                {
+                    var definition = definitions.Dequeue();
+                    if (definition.Command != ":setvar") continue;
+                    var setVar = SetVar.Match(definition.Arguments);
+                    if (!setVar.Success) continue;
+                    var name = setVar.Groups["name"].Value;
+                    variables.Remove(name);
+                    if (setVar.Groups["value"].Success) variables[name] = setVar.Groups["value"].Value;
+                }
                 variables.TryGetValue(match.Groups["name"].Value, out var value);
-                char first = value != null && value.StartsWith("#", StringComparison.Ordinal) ? '#' : '_';
+                var parts = value == null ? null : AllowList.SplitName(value);
+                bool plain = parts != null && parts.Length > 0 && parts.Length <= 4 &&
+                    !value.Contains(";") && !value.Contains("$") &&
+                    System.Text.RegularExpressions.Regex.IsMatch(value, @"\A(?:\[(?:[^\]]|\]\])+\]|[#\w]+)(?:\.(?:\[(?:[^\]]|\]\])+\]|[#\w]+)){0,3}\z");
+                bool adjacent = (match.Index > 0 && IsIdentifier(text[match.Index - 1])) ||
+                    (match.Index + match.Length < text.Length && IsIdentifier(text[match.Index + match.Length]));
+                char first = plain && !adjacent && parts.Length == 1 && parts[0].StartsWith("#", StringComparison.Ordinal) ? '#' : '_';
+                directives.Add(new Directive("$()", match.Value, match.Index, match.Length));
+                if (plain) variables[match.Index.ToString(System.Globalization.CultureInfo.InvariantCulture)] = value;
                 buffer[match.Index] = first;
                 for (int i = match.Index + 1; i < match.Index + match.Length; i++)
                     buffer[i] = 'v';
@@ -102,5 +113,7 @@ namespace SqlSafetyGuard.Analyzer
 
             return buffer.ToString();
         }
+
+        private static bool IsIdentifier(char value) => char.IsLetterOrDigit(value) || value == '_' || value == '#' || value == '@' || value == '$' || value == '[' || value == ']';
     }
 }

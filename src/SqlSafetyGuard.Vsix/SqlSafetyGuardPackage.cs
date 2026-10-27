@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using EnvDTE;
@@ -7,6 +8,7 @@ using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Imaging;
 using SqlSafetyGuard.Analyzer;
 using SqlSafetyGuard.Commands;
 using SqlSafetyGuard.Guard;
@@ -34,16 +36,80 @@ namespace SqlSafetyGuard
 
         /// <summary>Incremented whenever the results window gets new content; stale background refreshes are dropped.</summary>
         private int _resultsVersion;
+        private CancellationTokenSource _refreshCancellation;
+        private bool _guardAttached;
+        private bool _degraded;
+        private bool _failureNoticeShown;
+        private DateTime _healthRefreshedAt;
+        internal string HealthText { get; private set; } = "SQL Safety Guard: starting";
 
         internal DTE2 Dte { get; private set; }
 
         internal GeneralOptionsPage Options => (GeneralOptionsPage)GetDialogPage(typeof(GeneralOptionsPage));
 
         /// <summary>Analyzer options for the active query window (allow-list setting and its SQLCMD mode).</summary>
-        internal AnalyzerOptions CreateAnalyzerOptions()
+        internal GuardSettings ResolveSettings(ConnectionContext connection, out EnvironmentRules rules)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            return AnalyzerOptions.FromAllowListText(Options.AllowList, sqlCmdMode: SqlCmdModeReader.TryRead(this));
+            var options = Options;
+            rules = new EnvironmentRules(options.EnvironmentRules);
+            var global = new GuardSettings((ExecutionMode)options.GuardMode, requireTypedConfirmation: options.RequireTypedConfirmation,
+                allowList: AllowList.SplitLines(options.AllowList), trustedProcedures: AllowList.SplitLines(options.TrustedProcedures));
+            return rules.Resolve(connection.Server, connection.Database, global);
+        }
+
+        internal AnalyzerOptions CreateAnalyzerOptions(ConnectionContext connection = null, GuardSettings settings = null, EnvironmentRules rules = null)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            connection = connection ?? ConnectionInfoReader.TryRead(this);
+            if (settings == null) settings = ResolveSettings(connection, out rules);
+            return new AnalyzerOptions(settings.AllowList, Options.TempdbIsTemp, sqlCmdMode: SqlCmdModeReader.TryRead(this),
+                currentDatabase: connection.Database, trustedProcedures: settings.TrustedProcedures, configurationWarnings: rules?.Warnings);
+        }
+
+        internal void RefreshHealth(GuardSettings settings = null, bool successfulCheck = false, bool queryStatus = false)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (queryStatus && DateTime.UtcNow - _healthRefreshedAt < TimeSpan.FromSeconds(1)) return;
+            _healthRefreshedAt = DateTime.UtcNow;
+            try
+            {
+                var connection = ConnectionInfoReader.TryRead(this);
+                settings = settings ?? ResolveSettings(connection, out _);
+                if (successfulCheck) _degraded = false;
+                var warnings = new EnvironmentRules(Options.EnvironmentRules).Warnings.Count > 0 ||
+                    new AllowList(settings.AllowList).Warnings.Count > 0 || new AllowList(settings.TrustedProcedures, procedures: true).Warnings.Count > 0;
+                HealthText = !_guardAttached || _degraded ? "SQL Safety Guard: degraded – last check failed" :
+                    "SQL Safety Guard: " + (settings.Mode == ExecutionMode.Off ? "off" : "on · " + settings.Environment);
+                if (connection.Server == null) HealthText += " · server unknown";
+                if (warnings) HealthText += " · settings warning";
+                (GetService(typeof(SVsStatusbar)) as IVsStatusbar)?.SetText(HealthText);
+            }
+            catch { HealthText = "SQL Safety Guard: degraded – status unavailable"; }
+        }
+
+        internal void ReportGuardFailure(Exception exception)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            _degraded = true;
+            try { OutputLog.Error("SQL Safety Guard failed. An unclassified query may run without a check; known warnings remain protected.", exception); }
+            catch { }
+            RefreshHealth();
+            if (_failureNoticeShown) return;
+            _failureNoticeShown = true;
+            try
+            {
+                var shell = GetService(typeof(SVsShell)) as IVsShell;
+                if (shell == null) return;
+                shell.GetProperty((int)__VSSPROPID7.VSSPROPID_MainWindowInfoBarHost, out var hostObject);
+                var host = hostObject as IVsInfoBarHost;
+                var factory = GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
+                if (host != null && factory != null)
+                    host.AddInfoBar(factory.CreateInfoBar(new InfoBarModel(
+                        "SQL Safety Guard is degraded: a check failed and unclassified queries may run without protection. See the SQL Safety Guard Output pane.",
+                        KnownMonikers.StatusWarning, true)));
+            }
+            catch { }
         }
 
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
@@ -61,6 +127,8 @@ namespace SqlSafetyGuard
 
                 _guard = new ExecuteGuard(this);
                 _guard.Attach();
+                _guardAttached = true;
+                RefreshHealth();
 
                 // Follow the active editor tab in the results window.
                 if (await GetServiceAsync(typeof(SVsShellMonitorSelection)) is IVsMonitorSelection monitorSelection)
@@ -73,7 +141,7 @@ namespace SqlSafetyGuard
             }
             catch (Exception ex)
             {
-                OutputLog.Error("Initialization failed. The F5 guard is not active.", ex);
+                ReportGuardFailure(ex);
             }
         }
 
@@ -108,6 +176,11 @@ namespace SqlSafetyGuard
             try
             {
                 await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
+                RefreshHealth();
+                _refreshCancellation?.Cancel();
+                _refreshCancellation?.Dispose();
+                _refreshCancellation = CancellationTokenSource.CreateLinkedTokenSource(DisposalToken);
+                var cancellation = _refreshCancellation.Token;
                 if (!(FindToolWindow(typeof(ResultsToolWindow), 0, false) is ResultsToolWindow window) ||
                     !(window.Frame is IVsWindowFrame frame) || frame.IsVisible() != VSConstants.S_OK)
                     return; // Hidden: refreshed when it becomes visible.
@@ -133,18 +206,11 @@ namespace SqlSafetyGuard
                     return; // Same tab, same text: nothing to do.
 
                 int version = ++_resultsVersion;
-                if (snapshot.Text.Length > AnalysisRunner.MaxTextLength)
-                {
-                    control.ShowPlaceholder($"{document.Name} is larger than {AnalysisRunner.MaxTextLength / (1024 * 1024)} MB",
-                        "It is not analyzed; the F5 guard lets it run with a log message.");
-                    return;
-                }
-
                 // Analyzed off the UI thread, so switching tabs never freezes SSMS. Nothing is executed.
                 var options = CreateAnalyzerOptions();
                 if (snapshot.Text.Length > 100 * 1024)
                     control.ShowPlaceholder($"Analyzing {document.Name}…", $"{snapshot.Text.Length / 1024:N0} KB of T-SQL, not executed");
-                var result = await Task.Run(() => SqlSafetyAnalyzer.Analyze(snapshot.Text, options), DisposalToken);
+                var result = await Task.Run(() => SqlSafetyAnalyzer.Analyze(snapshot.Text, options, cancellation), cancellation);
 
                 await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
                 if (version == _resultsVersion)
@@ -156,7 +222,8 @@ namespace SqlSafetyGuard
             }
             catch (Exception ex)
             {
-                OutputLog.Error("Refreshing the results window failed.", ex);
+                await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
+                ReportGuardFailure(ex);
             }
         }
     }

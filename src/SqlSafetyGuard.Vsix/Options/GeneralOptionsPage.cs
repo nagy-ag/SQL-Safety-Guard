@@ -39,18 +39,47 @@ namespace SqlSafetyGuard.Options
         [Category("F5 guard")]
         [DisplayName("Show server and database in the dialog")]
         [Description("Shows the current server and database in the confirmation dialog. Uses undocumented SSMS internals; " +
-                     "the line is hidden when they cannot be read.")]
+                     "unknown connection details always remain visible and use global settings.")]
         [DefaultValue(true)]
         public bool ShowServerAndDatabase { get; set; } = true;
 
         [Category("Analysis")]
         [DisplayName("Safe tables allow-list")]
         [Description("One pattern per line, e.g. dbo.Staging_*. Writes to matching tables count as green. Case-insensitive; " +
-                     "* and ? wildcards; brackets are ignored. No dot = table name; one dot = schema.table (dbo when the " +
-                     "query omits the schema); more parts = database.schema.table. Lines starting with -- are comments.")]
+                     "* and ? wildcards. No implicit dbo: schema-qualified patterns require a resolved schema. " +
+                     "Omitted database matches the known current database only; omitted server never matches linked servers. " +
+                     "Wildcard-only patterns are ignored with a warning. Lines starting with -- are comments.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string AllowList { get; set; } = string.Empty;
+
+        [Category("Analysis")]
+        [DisplayName("Treat permanent tempdb objects as temporary")]
+        [Description("Opt in to green writes to permanent tempdb tables. Off by default; #temp and ##temp remain green.")]
+        [DefaultValue(false)]
+        public bool TempdbIsTemp { get; set; }
+
+        [Category("Analysis")]
+        [DisplayName("Trusted read-only procedures")]
+        [Description("One schema-qualified name per line; wildcards only in the last part. No implicit dbo. " +
+                     "Example: dbo.sp_WhoIsActive or master.dbo.sp_Blitz*. Trust is user asserted, not verified.")]
+        [DefaultValue("")]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        public string TrustedProcedures { get; set; } = string.Empty;
+
+        [Category("F5 guard")]
+        [DisplayName("Require typed confirmation globally")]
+        [Description("Require the exact database name before running red unfiltered UPDATE/DELETE, TRUNCATE or DROP. Unknown database cannot be confirmed.")]
+        [DefaultValue(false)]
+        public bool RequireTypedConfirmation { get; set; }
+
+        [Category("F5 guard")]
+        [DisplayName("Server / environment rules")]
+        [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | true/false typed | allow-list | trusted procedures. " +
+                     "Lists are semicolon-separated and ADD to global lists. Unknown server/database uses globals. See README for examples.")]
+        [DefaultValue("")]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        public string EnvironmentRules { get; set; } = string.Empty;
     }
 
     /// <summary>Shows and persists the enum by its description; also accepts the member name.</summary>

@@ -14,7 +14,6 @@ public class FalseAlarmTests
     [InlineData("LINENO 10")]
     [InlineData("GET CONVERSATION GROUP @g FROM dbo.q")]
     [InlineData("WAITFOR (GET CONVERSATION GROUP @g FROM dbo.q), TIMEOUT 100")]
-    [InlineData("USE FEDERATION f (k = 1) WITH FILTERING = OFF, RESET")]
     public void ReadOrSessionOnly_IsGreen(string sql)
     {
         var result = SqlSafetyAnalyzer.Analyze(sql);

@@ -24,6 +24,8 @@ namespace SqlSafetyGuard.Commands
                 ThreadHelper.ThrowIfNotOnUIThread();
                 var document = package.Dte?.ActiveDocument;
                 analyze.Enabled = document != null && SqlEditorAccess.IsSqlDocument(document);
+                package.RefreshHealth(queryStatus: true);
+                analyze.Text = "Analyze Query Safety — " + package.HealthText;
             };
             commandService.AddCommand(analyze);
 
@@ -49,9 +51,6 @@ namespace SqlSafetyGuard.Commands
 
                 switch (AnalysisRunner.Run(snapshot.Text, package.CreateAnalyzerOptions(), out var result))
                 {
-                    case AnalysisOutcome.TooLarge:
-                        ShowMessage(package, $"The script is larger than {AnalysisRunner.MaxTextLength / (1024 * 1024)} MB and was not analyzed.");
-                        return;
                     case AnalysisOutcome.Cancelled:
                         return;
                 }
@@ -60,7 +59,7 @@ namespace SqlSafetyGuard.Commands
             }
             catch (Exception ex)
             {
-                OutputLog.Error("Analyze Query Safety failed.", ex);
+                package.ReportGuardFailure(ex);
                 ShowMessage(package, "The analysis failed. See the \"SQL Safety Guard\" Output pane for details.");
             }
         }

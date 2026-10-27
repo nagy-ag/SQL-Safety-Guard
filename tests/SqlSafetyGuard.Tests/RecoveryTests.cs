@@ -197,10 +197,10 @@ public class NoWhereTests
     [InlineData("UPDATE o SET Qty = 0 FROM dbo.Orders o JOIN #ids i ON i.Id = o.Id", "UPDATE", "rows limited only by the FROM/JOIN")]
     [InlineData("DELETE TOP (10) FROM dbo.Orders", "DELETE", "limited only by TOP")]
     [InlineData("WITH c AS (SELECT * FROM dbo.Orders WHERE Qty = 0) DELETE FROM c", "DELETE", "rows limited only by the CTE or derived table")]
-    public void LimitedOtherwise_IsNotAllRows(string sql, string action, string note)
+    public void NoWhere_RemainsHighRiskEvenWithOtherFilters(string sql, string action, string note)
     {
         var f = Single(sql, action);
-        Assert.False(f.AffectsAllRows);
+        Assert.True(f.AffectsAllRows);
         Assert.Contains(note, f.Note);
     }
 
@@ -269,7 +269,7 @@ public class SqlCmdTests
         var result = SqlSafetyAnalyzer.Analyze(Script);
         Assert.Contains(result.Findings, f => f.Action == ":r" && f.Verdict == Verdict.Unknown && f.Target == @".\more-changes.sql");
         Assert.Contains(result.Findings, f => f.Action == "!!" && f.Verdict == Verdict.Unknown && f.Line == 7);
-        Assert.Contains(result.Findings, f => f.Action == ":connect" && f.Verdict == Verdict.ReadOnly && f.Note.Contains("another server"));
+        Assert.Contains(result.Findings, f => f.Action == "TARGET SWITCH" && f.Verdict == Verdict.Unknown);
         Assert.Equal(2, result.Findings.Count(f => f.Action == ":setvar"));
         Assert.Equal(Verdict.RealWrite, result.Overall);
     }
@@ -280,7 +280,8 @@ public class SqlCmdTests
         var result = SqlSafetyAnalyzer.Analyze("DELETE FROM $(Table) WHERE Id = 1;");
         Assert.Empty(result.ParseErrors);
         Assert.Equal(Verdict.RealWrite, result.Overall);
-        Assert.Equal("$(Table)", Assert.Single(result.Findings).Target);
+        Assert.Equal("$(Table)", Assert.Single(result.Findings, finding => finding.Action == "DELETE").Target);
+        Assert.Contains(result.Findings, finding => finding.Action == "SQLCMD VARIABLE" && finding.Verdict == Verdict.Unknown);
     }
 
     private static AnalysisResult WithMode(string sql, bool? mode) => SqlSafetyAnalyzer.Analyze(sql, new AnalyzerOptions(sqlCmdMode: mode));

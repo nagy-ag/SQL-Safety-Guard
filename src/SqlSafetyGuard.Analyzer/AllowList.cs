@@ -1,77 +1,93 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SqlSafetyGuard.Analyzer
 {
-    /// <summary>
-    /// Allow-list of "safe" tables. Patterns are case-insensitive, support * and ? wildcards and have their
-    /// brackets stripped. A pattern with no dot matches the object name; with one dot it matches schema.object
-    /// (a missing schema in the query counts as dbo); with more parts it matches the corresponding trailing
-    /// parts (database.schema.object, server.database.schema.object). A query name that lacks a part the
-    /// pattern requires (e.g. no database) does not match.
-    /// </summary>
     public sealed class AllowList
     {
         private readonly List<Regex[]> _patterns = new List<Regex[]>();
 
-        public AllowList(IEnumerable<string> patterns)
+        public AllowList(IEnumerable<string> patterns, bool procedures = false)
         {
-            foreach (var raw in patterns)
+            foreach (var raw in patterns ?? Enumerable.Empty<string>())
             {
                 var pattern = (raw ?? string.Empty).Trim();
                 if (pattern.Length == 0 || pattern.StartsWith("--", StringComparison.Ordinal) || pattern.StartsWith("#", StringComparison.Ordinal))
                     continue;
-
-                var parts = pattern.Replace("[", string.Empty).Replace("]", string.Empty).Replace("\"", string.Empty)
-                    .Split('.')
-                    .Select(p => p.Trim())
-                    .ToArray();
-                if (parts.Length > 4 || parts.Any(p => p.Length == 0))
+                var parts = SplitName(pattern);
+                if (parts == null || parts.Length > 4 || parts.Any(part => part.Length == 0) ||
+                    parts.All(part => part.All(character => character == '*' || character == '?')) ||
+                    (procedures && (parts.Length < 2 || parts.Take(parts.Length - 1).Any(part => part.IndexOfAny(new[] { '*', '?' }) >= 0))))
+                {
+                    Warnings.Add("Ignored invalid " + (procedures ? "trusted procedure" : "allow-list") + " pattern: " + pattern);
                     continue;
-
+                }
                 _patterns.Add(parts.Select(ToRegex).ToArray());
                 Patterns.Add(pattern);
             }
         }
 
         public List<string> Patterns { get; } = new List<string>();
-
+        public List<string> Warnings { get; } = new List<string>();
         public bool IsEmpty => _patterns.Count == 0;
 
         public static IEnumerable<string> SplitLines(string text) =>
             (text ?? string.Empty).Split(new[] { '\r', '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-        /// <summary>Matches a name given as its parts (any of server/database/schema may be null).</summary>
-        public bool Matches(string server, string database, string schema, string name)
+        public bool Matches(string server, string database, string schema, string name,
+            string currentDatabase = null, string defaultSchema = null)
         {
-            if (string.IsNullOrEmpty(name))
-                return false;
-
-            // Rightmost first: object, schema (defaults to dbo), database, server.
-            var actual = new[] { name, string.IsNullOrEmpty(schema) ? "dbo" : schema, database, server };
-
+            if (string.IsNullOrEmpty(name)) return false;
+            var actual = new[] { name, string.IsNullOrEmpty(schema) ? defaultSchema : schema, database ?? currentDatabase, server };
             foreach (var pattern in _patterns)
             {
-                bool ok = true;
-                for (int i = 0; i < pattern.Length && ok; i++)
-                {
-                    var part = actual[i];
-                    ok = !string.IsNullOrEmpty(part) && pattern[pattern.Length - 1 - i].IsMatch(part);
-                }
-
-                if (ok)
-                    return true;
+                if (pattern.Length < 4 && !string.IsNullOrEmpty(server)) continue;
+                if (pattern.Length < 3 && !string.IsNullOrEmpty(database) &&
+                    !string.Equals(database, currentDatabase, StringComparison.OrdinalIgnoreCase)) continue;
+                bool matches = true;
+                for (int index = 0; index < pattern.Length && matches; index++)
+                    matches = !string.IsNullOrEmpty(actual[index]) && pattern[pattern.Length - 1 - index].IsMatch(actual[index]);
+                if (matches) return true;
             }
-
             return false;
         }
 
-        private static Regex ToRegex(string part)
+        internal static Regex ToRegex(string part) => new Regex("\\A" + Regex.Escape(part).Replace("\\*", ".*").Replace("\\?", ".") + "\\z",
+            RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
+
+        internal static string[] SplitName(string pattern)
         {
-            var body = Regex.Escape(part).Replace("\\*", ".*").Replace("\\?", ".");
-            return new Regex("^" + body + "$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            var parts = new List<string>();
+            var value = new StringBuilder();
+            char quoted = '\0';
+            bool closed = false;
+            for (int index = 0; index < pattern.Length; index++)
+            {
+                char character = pattern[index];
+                if (quoted != '\0')
+                {
+                    if (character == quoted)
+                    {
+                        if (index + 1 < pattern.Length && pattern[index + 1] == quoted) { value.Append(character); index++; }
+                        else { quoted = '\0'; closed = true; }
+                    }
+                    else value.Append(character);
+                }
+                else if (character == '.') { parts.Add(closed ? value.ToString() : value.ToString().Trim()); value.Clear(); closed = false; }
+                else if ((character == '[' || character == '"') && value.ToString().Trim().Length == 0 && !closed)
+                {
+                    value.Clear();
+                    quoted = character == '[' ? ']' : '"';
+                }
+                else if (closed) { if (!char.IsWhiteSpace(character)) return null; }
+                else value.Append(character);
+            }
+            if (quoted != '\0') return null;
+            parts.Add(closed ? value.ToString() : value.ToString().Trim());
+            return parts.ToArray();
         }
     }
 }
