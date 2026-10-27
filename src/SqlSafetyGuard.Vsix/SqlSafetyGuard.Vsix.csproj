@@ -66,10 +66,14 @@
       <DependentUpon>ConfirmExecutionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FindingRow.cs" />
-    <Compile Include="UI\ResultsControl.xaml.cs">
-      <DependentUpon>ResultsControl.xaml</DependentUpon>
+    <Compile Include="UI\PaneModels.cs" />
+    <Compile Include="UI\PaneTrace.cs" />
+    <Compile Include="UI\SafetyPaneControl.xaml.cs">
+      <DependentUpon>SafetyPaneControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ResultsToolWindow.cs" />
+    <Compile Include="UI\SafetyPaneMargin.cs" />
+    <Compile Include="UI\SafetyPaneMargin.TestChannel.cs" />
+    <Compile Include="UI\SafetyPaneMarginProvider.cs" />
     <Compile Include="UI\VerdictBrushes.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,7 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\ResultsControl.xaml">
+    <Page Include="UI\SafetyPaneControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

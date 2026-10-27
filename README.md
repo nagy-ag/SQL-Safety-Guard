@@ -3,8 +3,10 @@
 A Visual Studio–style extension (VSIX) for **SQL Server Management Studio 22** that analyzes T-SQL *before* it runs
 and tells you whether it changes real data or only reads / touches temp objects.
 
-- **Analyze Query Safety**: Tools menu, SQL Editor toolbar button, or **Ctrl+Shift+F5**. Analyzes the selection,
-  or the whole window if nothing is selected, and shows a results tool window. **Never executes anything.**
+- **Safety pane**: every SQL query window has a pane on the right of the editor that re-analyzes as you type (the
+  selection, or the whole window if nothing is selected) and shows what would change: a plain-language verdict, the
+  objects touched grouped by risk, and what F5 will do. **Never executes anything.** **Analyze Query Safety** (Tools
+  menu, SQL Editor toolbar button, or **Ctrl+Shift+F5**) expands the pane if it is collapsed and re-analyzes now.
 - **F5 guard**: when you execute (F5, Ctrl+E, Alt+X, the Execute button), the exact text SSMS is about to run is
   analyzed. **Green runs with no interruption**; yellow/red shows a confirmation dialog first by default.
 - **Environment rules**: first-match server/database rules choose an environment label, warning mode, additive
@@ -29,7 +31,7 @@ and tells you whether it changes real data or only reads / touches temp objects.
 |---|---|
 | `src/SqlSafetyGuard.Analyzer` | netstandard2.0 class library, no SSMS dependency. All parsing/classification (ScriptDom). |
 | `tests/SqlSafetyGuard.Tests` | xUnit analyzer, policy, resource-budget and installer regression tests. |
-| `src/SqlSafetyGuard.Vsix` | The SSMS extension: package, commands, F5 guard, dialog, tool window, options page (net472). |
+| `src/SqlSafetyGuard.Vsix` | The SSMS extension: package, commands, F5 guard, dialog, safety pane (editor margin), options page (net472). |
 | `install.ps1` / `uninstall.ps1` | Find SSMS 22, install/remove the VSIX. Shared helpers in `scripts/SsmsCommon.ps1`. |
 | `SqlSafetyGuard.sln` | Opens in Visual Studio 2026. |
 
@@ -82,6 +84,11 @@ uninstall and reports failed upgrades with recovery instructions. **Keep the pre
 install fails after uninstall, reinstall it with `.\install.ps1 -VsixPath <previous.vsix>`. Installer log paths are
 quoted even when TEMP contains spaces. Uninstall failures propagate a nonzero exit instead of printing success.
 
+After installing or uninstalling, both scripts run `SSMS.exe /updateconfiguration` (hidden, about 10 seconds) so SSMS
+rebuilds its editor component cache. The safety pane is an editor (MEF) component; without this step SSMS can keep a
+stale cache after an upgrade and the pane silently doesn't appear (or SSMS reports a missing file). If the step fails,
+the script prints the command to run by hand with SSMS closed.
+
 Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current soundness/rules changes:
 
 - ✅ VSIXInstaller per-user install (`install.ps1`): loads, all features work.
@@ -95,13 +102,24 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
 
 ## Use
 
+- **Safety pane** (right of the editor in every SQL query window). It analyzes exactly what F5 would run: the
+  selection if there is one, otherwise the whole window. It re-analyzes in the background about a quarter of a
+  second after you stop typing or change the selection; nothing is executed and SSMS doesn't freeze.
+  - The **header** says it in plain words ("Not safe: 2 real writes, 1 unknown", "Safe: read-only", "Nothing to
+    analyze"), what F5 will do (runs without asking / will ask first / asks you to type the database name / guard is
+    off), and the server, database and environment label once SSMS exposes them for the window.
+  - Below it, the **yellow/red objects**, grouped by table or procedure and sorted by risk, with their actions and
+    lines, an **ALL ROWS** badge for TRUNCATE and UPDATE/DELETE that can change every row, and a **DROP** badge for
+    dropped objects (same rules and wording as the F5 dialog). Green statements are collapsed into
+    *Temp operations and reads*.
+  - **Click** an object to highlight its statements in the editor and see them in the detail card; **double-click**
+    or **Enter** moves the caret there. Moving the caret into a yellow/red statement selects it in the pane.
+    Yellow/red statements are lightly tinted in the editor all the time.
+  - Drag the pane's left edge to resize it; **»** collapses it to a thin strip coloured by the verdict (click the
+    strip to expand). Size and collapsed state apply to all query windows for the session.
 - **Tools > Analyze Query Safety**, the toolbar button ("SQL with a check mark" icon right after the Execute group
-  on the SQL Editor toolbar), or **Ctrl+Shift+F5** in a query window. The **SQL Safety Guard** tool window opens (also available
-  from **View > Other Windows**): a coloured verdict banner, then a grid with Line, Action, Target, Verdict and Note.
-  Double-click a row, or select it and press Enter, to move the caret there. *Only yellow/red* filters the grid.
-  **It follows the active tab:** while the window is visible, switching query tabs re-analyzes the new tab in the
-  background (nothing is executed, SSMS doesn't freeze). A non-SQL tab shows a neutral message instead of stale
-  results. If the window is hidden, it catches up when you show it again.
+  on the SQL Editor toolbar), or **Ctrl+Shift+F5** in a query window: expands the pane if it is collapsed and
+  re-analyzes immediately.
 - **F5 guard**: a yellow/red query shows a dialog listing only the yellow/red findings (line, action, target, e.g.
   `o → dbo.Orders (via alias o)`), plus the server and database. **Cancel** is the default (Enter/Esc). **Run anyway**
   lets that execution continue; it has no access key. The environment has a prominent coloured banner
@@ -114,10 +132,17 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
+Safety pane, checked in SSMS 22 on 2026-10-27 (Light theme, isolated `/rootSuffix Exp` profile, by real interaction
+and an in-process Debug test channel): loads in saved `.sql` files and new query windows; shows the server and
+database; updates about 0.25 s after an edit; follows the caret; analyzes a selection exactly like F5; click
+highlights and double-click jumps; resize and collapse; Ctrl+Shift+F5 expands and re-analyzes; a 1 MB script is
+analyzed in the background in about 2 s while SSMS keeps responding; loads on the first start after an
+uninstall + install + `/updateconfiguration`. Not yet checked: environment labels and the typed-confirmation wording
+with real environment rules, and themes other than Light.
+
 Historical interaction checks on SSMS 22.11.2, before the current changes (not a runtime verification of the new UI):
-- Commands: the Tools menu item, the toolbar button, Ctrl+Shift+F5, and View > Other Windows (reopens the tool
-  window after it has been closed).
-- Jumping to code: mouse double-click and Enter on a grid row; double-click on a finding in the F5 dialog.
+- Commands: the Tools menu item, the toolbar button and Ctrl+Shift+F5.
+- Jumping to code: double-click on a finding in the F5 dialog.
 - Settings: changed in the Options dialog, kept after an SSMS restart, and applied (red-only mode, allow-list,
   hidden server/database line).
 
@@ -132,11 +157,11 @@ The `samples` folder is a playground:
    it (it creates a database), which is the first demo. Click **Run anyway**. This creates the throwaway
    database `SafetyGuardSandbox`; run the script again any time to reset it.
 2. Open `samples\01-try-these.sql`. It has 29 numbered examples (green, yellow, red, settings, multi-batch, temp
-   tables, and reads with hidden side effects), each with its expected verdict. Select one and press
-   **Ctrl+Shift+F5** to analyze it, or **F5** to see the guard. `SamplesTests.cs` checks every `expect:` line,
+   tables, and reads with hidden side effects), each with its expected verdict. Select one and the pane shows its
+   verdict; press **F5** to see the guard. `SamplesTests.cs` checks every `expect:` line,
    and `WholeFileSamplesTests.cs` checks that analyzing the whole file lists every example.
-3. Open `samples\02-broken-batches.sql` and press **Ctrl+Shift+F5** with nothing selected, to see how syntax
-   errors, a misplaced `CREATE PROCEDURE` and SQLCMD-mode lines are reported. Analyze it only; don't run it.
+3. Open `samples\02-broken-batches.sql` and look at the pane with nothing selected, to see how syntax errors, a
+   misplaced `CREATE PROCEDURE` and SQLCMD-mode lines are reported. Analyze it only; don't run it.
 4. Drop the sandbox when you're done: `DROP DATABASE SafetyGuardSandbox;`
 
 ### Shortcut
@@ -242,6 +267,11 @@ built-in lists. An unrelated `OtherDb.custom.sp_executesql` is an ordinary unkno
    `SQLSAFETYGUARD_FAULT_INJECTION=1`. The guard then throws on every execute; the query must still run, and the
    Output pane logs `ERROR SQL Safety Guard failed…` and the toolbar shows degraded health. A non-modal InfoBar is
    attempted once per session. The switch is compiled out of Release builds.
+5. Debug builds also write a pane timing trace (no query text) to `%TEMP%\SqlSafetyGuard-pane-trace.log`, and the
+   pane accepts test commands from `%TEMP%\SqlSafetyGuard-pane-cmd.txt` (lines `documentName|verb|argument`, e.g.
+   `SQLQuery1.sql|caret|12`, `|select|8 10`, `|append|DELETE FROM t;`, `|pick|dbo.Orders`, `|collapse`, `|dump`;
+   see `SafetyPaneMargin.TestChannel.cs`). That lets the pane be tested without driving the mouse or keyboard.
+   Neither exists in Release builds.
 
 Visual Studio's own "deploy to experimental instance" is turned off (`DeployExtension=false`): that would target
 Visual Studio, not SSMS.
@@ -359,9 +389,10 @@ intercepted twice, and a re-entrancy flag guards the handler anyway. Tested: the
 Safety rules:
 
 - A failure **before classification fails open visibly**: the Output pane logs it, the guard becomes degraded,
-  and a once-per-session InfoBar is attempted. After a red/yellow result is computed, tool-window, logging or
+  and a once-per-session InfoBar is attempted. After a red/yellow result is computed, status, logging or
   wait-dialog cleanup failures cannot authorize execution. A failed confirmation dialog cancels that execution.
-- The tool window and dialog use Visual Studio theme colours. The previous UI was checked in all 13 themes SSMS 22 lets you pick
+- The safety pane and the dialog use Visual Studio theme colours. The safety pane has only been checked in the Light
+  theme so far. The previous UI (a docked results window, since replaced by the pane) was checked in all 13 themes SSMS 22 lets you pick
   (`environment.visualExperience.colorTheme`): Light, Cool Breeze, Icy Mint, Sunny Day, Juicy Plum, Mango Paradise,
   Bubblegum, Silky Pink, Dark, Cool Slate, Moonlight Glow, Mystical Forest and Spicy Red. The Light/Dark (Extra
   Contrast) and High Contrast themes can't be selected through that setting; they follow the Windows contrast

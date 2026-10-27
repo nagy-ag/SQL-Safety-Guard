@@ -9,8 +9,8 @@ using Task = System.Threading.Tasks.Task;
 namespace SqlSafetyGuard.Commands
 {
     /// <summary>
-    /// "Analyze Query Safety" (Tools menu, SQL Editor toolbar, Ctrl+Shift+F5) and "SQL Safety Guard Results" (View menu).
-    /// Analyzes the selection, or the whole window, without executing anything.
+    /// "Analyze Query Safety" (Tools menu, SQL Editor toolbar, Ctrl+Shift+F5): expands the safety pane of the active
+    /// query window (if it was collapsed) and re-analyzes the selection, or the whole window, without executing anything.
     /// </summary>
     internal static class AnalyzeQueryCommand
     {
@@ -28,13 +28,6 @@ namespace SqlSafetyGuard.Commands
                 analyze.Text = "Analyze Query Safety — " + package.HealthText;
             };
             commandService.AddCommand(analyze);
-
-            var showResults = new MenuCommand((s, e) =>
-            {
-                _ = package.JoinableTaskFactory.RunAsync(async () =>
-                    await package.ShowToolWindowAsync(typeof(ResultsToolWindow), 0, true, package.DisposalToken));
-            }, new CommandID(PackageGuids.CommandSet, PackageIds.ShowResultsCommand));
-            commandService.AddCommand(showResults);
         }
 
         private static void Execute(SqlSafetyGuardPackage package)
@@ -42,20 +35,15 @@ namespace SqlSafetyGuard.Commands
             ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
-                var snapshot = SqlEditorAccess.TryCapture(package.Dte);
-                if (snapshot == null)
+                var document = package.Dte?.ActiveDocument;
+                if (document == null || !SqlEditorAccess.IsSqlDocument(document))
                 {
                     ShowMessage(package, "Open a SQL query window to analyze it.");
                     return;
                 }
 
-                switch (AnalysisRunner.Run(snapshot.Text, package.CreateAnalyzerOptions(), out var result))
-                {
-                    case AnalysisOutcome.Cancelled:
-                        return;
-                }
-
-                _ = package.JoinableTaskFactory.RunAsync(() => package.ShowResultsAsync(snapshot, result));
+                if (!SafetyPaneMargin.ShowAndRefresh(document.FullName))
+                    ShowMessage(package, "This query window has no safety pane. Close and reopen it, or restart SSMS after installing.");
             }
             catch (Exception ex)
             {

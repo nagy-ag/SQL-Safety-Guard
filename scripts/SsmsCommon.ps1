@@ -50,6 +50,23 @@ function Update-ExtensionsConfigurationChanged([string] $Path) {
     else { New-Item -ItemType File -Path $marker | Out-Null }
 }
 
+function Update-SsmsConfiguration($Ssms) {
+    # The safety pane is an editor (MEF) component. After an install, upgrade or removal, SSMS can keep using its
+    # cached component catalog: the pane then silently doesn't load (or SSMS reports a missing file) until the
+    # cache is rebuilt. SSMS.exe /updateconfiguration rebuilds it without opening a window (about 10 seconds).
+    $ssmsExe = Join-Path $Ssms.InstallPath 'Common7\IDE\SSMS.exe'
+    try {
+        $process = Start-Process -FilePath $ssmsExe -ArgumentList '/updateconfiguration' -WindowStyle Hidden -PassThru
+        if (-not $process.WaitForExit(180000)) { $process.Kill(); throw 'timed out after 3 minutes' }
+        if ($process.ExitCode -ne 0) { throw "exit code $($process.ExitCode)" }
+        return $true
+    }
+    catch {
+        Write-Warning "Could not refresh the SSMS extension cache ($_). If query windows show no safety pane, close SSMS and run: & `"$ssmsExe`" /updateconfiguration"
+        return $false
+    }
+}
+
 function Remove-ManualCopies($Ssms) {
     $removed = $false
     foreach ($root in @($Ssms.UserExtensionsPath, (Join-Path $Ssms.InstallPath 'Common7\IDE\Extensions'))) {
