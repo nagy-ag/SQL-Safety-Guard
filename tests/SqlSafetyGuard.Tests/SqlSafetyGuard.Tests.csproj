@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\SqlSafetyGuard.ServerHarness\CoverageCorpus.cs" Link="CoverageCorpus.cs" />
+    <Content Include="..\SqlSafetyGuard.ServerHarness\Coverage\*.json" Link="Coverage\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\SqlSafetyGuard.Analyzer\SqlSafetyGuard.Analyzer.csproj" />
   </ItemGroup>
 

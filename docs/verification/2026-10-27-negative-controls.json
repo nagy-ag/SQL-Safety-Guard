@@ -1,0 +1,65 @@
+[
+  {
+    "control": "wrong-scalar",
+    "exitCode": 1,
+    "complete": false,
+    "results": [
+      {
+        "id": "read-select",
+        "status": "fail",
+        "stage": "complete",
+        "error": "Expected scalar 2, got 1"
+      },
+      {
+        "id": "read-select-into-real",
+        "status": "pass",
+        "stage": "complete",
+        "error": null
+      },
+      {
+        "id": "read-select-into-temp",
+        "status": "pass",
+        "stage": "complete",
+        "error": null
+      }
+    ]
+  },
+  {
+    "control": "execution-error",
+    "exitCode": 1,
+    "complete": false,
+    "results": [
+      {
+        "id": "read-select",
+        "status": "execution-error",
+        "stage": "execute",
+        "error": "SqlException: Invalid object name 'dbo.DoesNotExist'."
+      },
+      {
+        "id": "read-select-into-real",
+        "status": "pass",
+        "stage": "complete",
+        "error": null
+      },
+      {
+        "id": "read-select-into-temp",
+        "status": "pass",
+        "stage": "complete",
+        "error": null
+      }
+    ]
+  },
+  {
+    "control": "incomplete",
+    "exitCode": 1,
+    "complete": false,
+    "results": [
+      {
+        "id": "read-select",
+        "status": "pass",
+        "stage": "complete",
+        "error": null
+      }
+    ]
+  }
+]

@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "limitations": [
+    {
+      "statementType": "AlterAssemblyStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "AlterAvailabilityGroupStatement",
+      "reason": "Requires a configured availability/cluster environment; the disposable single Linux SQL Server is not such an environment. Never run against the shared developer server."
+    },
+    {
+      "statementType": "AlterCryptographicProviderStatement",
+      "reason": "Requires a genuine installed EKM cryptographic provider and provider configuration; fabricated file paths are not executable evidence."
+    },
+    {
+      "statementType": "AlterDatabasePerformCutoverStatement",
+      "reason": "Requires a supported Azure database copy/cutover topology, absent from the disposable standalone SQL Server."
+    },
+    {
+      "statementType": "AlterDatabaseRebuildLogStatement",
+      "reason": "Requires deliberately damaged/offline database/log files and a recovery-specific runner; normal disposable database observations do not prove log reconstruction."
+    },
+    {
+      "statementType": "AlterExternalFunctionStatement",
+      "reason": "SQL uses the Fabric DW grammar; the production TSql180 parser behavior is separately asserted. No Fabric warehouse is connected for live execution."
+    },
+    {
+      "statementType": "AlterExternalLanguageStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "AlterExternalLibraryStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "AlterExternalModelStatement",
+      "reason": "Requires compatible preview engine/features and a genuine external model endpoint/credentials. No external resource is contacted or invented."
+    },
+    {
+      "statementType": "AlterFederationStatement",
+      "reason": "Deprecated Azure SQL federation dialect is not implemented by the SQL Server 2025 container; parser handling only."
+    },
+    {
+      "statementType": "AlterServerConfigurationSetBufferPoolExtensionStatement",
+      "reason": "Requires supported buffer-pool-extension storage/platform plus file-size and memory prerequisites, not provisioned in the Linux test container."
+    },
+    {
+      "statementType": "AlterServerConfigurationSetDiagnosticsLogStatement",
+      "reason": "Requires supported diagnostic-log platform/configuration; no Windows SQL Server diagnostic-file environment was provisioned."
+    },
+    {
+      "statementType": "AlterServerConfigurationSetExternalAuthenticationStatement",
+      "reason": "Requires configured external identity provider/authentication environment; intentionally not pointed at user identities or shared server authentication."
+    },
+    {
+      "statementType": "AlterServerConfigurationSetFailoverClusterPropertyStatement",
+      "reason": "Requires a configured availability/cluster environment; the disposable single Linux SQL Server is not such an environment. Never run against the shared developer server."
+    },
+    {
+      "statementType": "AlterServerConfigurationSetHadrClusterStatement",
+      "reason": "Requires a configured availability/cluster environment; the disposable single Linux SQL Server is not such an environment. Never run against the shared developer server."
+    },
+    {
+      "statementType": "AlterServiceMasterKeyStatement",
+      "reason": "Regeneration requires an observer of key material/re-encryption rather than unchanged key count; the current scalar runner cannot establish that effect. Not claimed as a live pass."
+    },
+    {
+      "statementType": "AlterTableAddClusterByStatement",
+      "reason": "SQL uses the Fabric DW grammar; the production TSql180 parser behavior is separately asserted. No Fabric warehouse is connected for live execution."
+    },
+    {
+      "statementType": "AlterTableAlterIndexStatement",
+      "reason": "Requires memory-optimized/native-compilation fixtures and storage. Atomic body must actually execute, not merely appear in a CREATE definition; no such runtime evidence recorded."
+    },
+    {
+      "statementType": "AlterTableAlterPartitionStatement",
+      "reason": "Warehouse-specific table/partition/copy/rename/workload grammar requires a compatible Synapse/Fabric engine, not this standalone SQL Server."
+    },
+    {
+      "statementType": "AlterTableFileTableNamespaceStatement",
+      "reason": "Requires a real FileTable and FILESTREAM-enabled supported server/storage; not available in the disposable Linux fixture environment."
+    },
+    {
+      "statementType": "BeginEndAtomicBlockStatement",
+      "reason": "Requires memory-optimized/native-compilation fixtures and storage. Atomic body must actually execute, not merely appear in a CREATE definition; no such runtime evidence recorded."
+    },
+    {
+      "statementType": "CopyStatement",
+      "reason": "Warehouse-specific table/partition/copy/rename/workload grammar requires a compatible Synapse/Fabric engine, not this standalone SQL Server."
+    },
+    {
+      "statementType": "CreateAggregateStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "CreateAssemblyStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "CreateAvailabilityGroupStatement",
+      "reason": "Requires a configured availability/cluster environment; the disposable single Linux SQL Server is not such an environment. Never run against the shared developer server."
+    },
+    {
+      "statementType": "CreateCryptographicProviderStatement",
+      "reason": "Requires a genuine installed EKM cryptographic provider and provider configuration; fabricated file paths are not executable evidence."
+    },
+    {
+      "statementType": "CreateExternalFunctionStatement",
+      "reason": "SQL uses the Fabric DW grammar; the production TSql180 parser behavior is separately asserted. No Fabric warehouse is connected for live execution."
+    },
+    {
+      "statementType": "CreateExternalLanguageStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "CreateExternalLibraryStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "CreateExternalModelStatement",
+      "reason": "Requires compatible preview engine/features and a genuine external model endpoint/credentials. No external resource is contacted or invented."
+    },
+    {
+      "statementType": "CreateExternalStreamingJobStatement",
+      "reason": "Requires a compatible streaming engine and actual stream/job resource prerequisites. The grammar conversion is statically tested; no running streaming engine was provisioned."
+    },
+    {
+      "statementType": "CreateExternalStreamStatement",
+      "reason": "Requires a compatible streaming engine and actual stream/job resource prerequisites. The grammar conversion is statically tested; no running streaming engine was provisioned."
+    },
+    {
+      "statementType": "CreateFederationStatement",
+      "reason": "Deprecated Azure SQL federation dialect is not implemented by the SQL Server 2025 container; parser handling only."
+    },
+    {
+      "statementType": "CreateOrAlterExternalFunctionStatement",
+      "reason": "SQL uses the Fabric DW grammar; the production TSql180 parser behavior is separately asserted. No Fabric warehouse is connected for live execution."
+    },
+    {
+      "statementType": "CreateSemanticIndexStatement",
+      "reason": "Requires compatible preview engine/features and a genuine external model endpoint/credentials. No external resource is contacted or invented."
+    },
+    {
+      "statementType": "CreateTypeUdtStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "CreateWorkloadClassifierStatement",
+      "reason": "Warehouse-specific table/partition/copy/rename/workload grammar requires a compatible Synapse/Fabric engine, not this standalone SQL Server."
+    },
+    {
+      "statementType": "DenyStatement80",
+      "reason": "Exact AST requires TSql80Parser; default production parser errors or modern AST conversion are separately tested. No SQL Server 2000 environment is provisioned."
+    },
+    {
+      "statementType": "DiskStatement",
+      "reason": "Exact AST requires TSql80Parser; default production parser errors or modern AST conversion are separately tested. No SQL Server 2000 environment is provisioned."
+    },
+    {
+      "statementType": "DropAggregateStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "DropAssemblyStatement",
+      "reason": "No reviewed SQL CLR binary/UDT/aggregate and CLR execution environment was provisioned. Parser verdict tested; no assembly installation or execution claimed."
+    },
+    {
+      "statementType": "DropAvailabilityGroupStatement",
+      "reason": "Requires a configured availability/cluster environment; the disposable single Linux SQL Server is not such an environment. Never run against the shared developer server."
+    },
+    {
+      "statementType": "DropCryptographicProviderStatement",
+      "reason": "Requires a genuine installed EKM cryptographic provider and provider configuration; fabricated file paths are not executable evidence."
+    },
+    {
+      "statementType": "DropExternalLanguageStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "DropExternalLibraryStatement",
+      "reason": "Requires genuine reviewed external-language runtime/library packages and enabled extensibility services; none provisioned. No dummy executable package is treated as a pass."
+    },
+    {
+      "statementType": "DropExternalModelStatement",
+      "reason": "Requires compatible preview engine/features and a genuine external model endpoint/credentials. No external resource is contacted or invented."
+    },
+    {
+      "statementType": "DropExternalStreamingJobStatement",
+      "reason": "Generator AST node; sp_drop_streaming_job parses as ExecuteStatement, not this node. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "DropExternalStreamStatement",
+      "reason": "Generator AST node; pinned parser has no DROP EXTERNAL STREAM production. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "DropFederationStatement",
+      "reason": "Deprecated Azure SQL federation dialect is not implemented by the SQL Server 2025 container; parser handling only."
+    },
+    {
+      "statementType": "DropWorkloadClassifierStatement",
+      "reason": "Warehouse-specific table/partition/copy/rename/workload grammar requires a compatible Synapse/Fabric engine, not this standalone SQL Server."
+    },
+    {
+      "statementType": "EventSessionStatement",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter event-session subclasses. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "ExternalResourcePoolStatement",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter external-resource-pool subclasses. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "GrantStatement80",
+      "reason": "Exact AST requires TSql80Parser; default production parser errors or modern AST conversion are separately tested. No SQL Server 2000 environment is provisioned."
+    },
+    {
+      "statementType": "InsertBulkStatement",
+      "reason": "INSERT BULK uses the TDS bulk-copy protocol after its SQL header; an ordinary ExecuteReader batch is not an adequate bulk-stream test. No protocol-level execution claimed."
+    },
+    {
+      "statementType": "KillQueryNotificationSubscriptionStatement",
+      "reason": "Requires an owned live query-notification subscription and verified subscription identifier. None provisioned; arbitrary IDs would test only failure paths."
+    },
+    {
+      "statementType": "KillStatsJobStatement",
+      "reason": "Requires a compatible warehouse statistics job and genuine owned job identifier; no such job backend is provisioned."
+    },
+    {
+      "statementType": "RaiseErrorLegacyStatement",
+      "reason": "Exact AST requires TSql80Parser; default production parser errors or modern AST conversion are separately tested. No SQL Server 2000 environment is provisioned."
+    },
+    {
+      "statementType": "RenameEntityStatement",
+      "reason": "Warehouse-specific table/partition/copy/rename/workload grammar requires a compatible Synapse/Fabric engine, not this standalone SQL Server."
+    },
+    {
+      "statementType": "ResourcePoolStatement",
+      "reason": "Concrete shared AST base; actual SQL produces create/alter resource-pool subclasses. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "RevokeStatement80",
+      "reason": "Exact AST requires TSql80Parser; default production parser errors or modern AST conversion are separately tested. No SQL Server 2000 environment is provisioned."
+    },
+    {
+      "statementType": "SelectStatementSnippet",
+      "reason": "Programmatically constructed SELECT snippet, not a standalone parser statement kind. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "SetErrorLevelStatement",
+      "reason": "Legacy/internal SET ERRLVL grammar has no supported observable public session property in the SqlClient runner. No-op success would not establish its intended effect."
+    },
+    {
+      "statementType": "TSqlStatementSnippet",
+      "reason": "Programmatically constructed raw statement snippet; not a parser production. Constructed AST fallback is tested; not executable SQL coverage."
+    },
+    {
+      "statementType": "UseFederationStatement",
+      "reason": "Deprecated Azure SQL federation dialect is not implemented by the SQL Server 2025 container; parser handling only."
+    }
+  ]
+}

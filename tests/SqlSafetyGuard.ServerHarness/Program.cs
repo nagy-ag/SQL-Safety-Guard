@@ -14,6 +14,12 @@ var options = Args.Parse(args);
 var outDir = Directory.CreateDirectory(options.Out).FullName;
 var analyzer = new AnalyzerHost(options.Analyzer);
 Console.WriteLine($"Analyzer: {analyzer.AssemblyPath}");
+if (options.IsolatedLifecycle)
+    return LifecycleCoverageRunner.Run(options, analyzer);
+if (options.IsolatedCoverage != null)
+    return IsolatedCoverageRunner.Run(options, analyzer);
+if (options.Coverage != null)
+    return CoverageRunner.Run(options, analyzer);
 
 var cases = new List<Case>();
 foreach (var dir in options.Tests)
@@ -186,6 +192,11 @@ internal sealed class Args
     public string? Filter { get; set; }
     public int Timeout { get; set; } = 10;
     public bool Keep { get; set; }
+    public string? Coverage { get; set; }
+    public bool ValidateCoverage { get; set; }
+    public bool RequireComplete { get; set; }
+    public string? IsolatedCoverage { get; set; }
+    public bool IsolatedLifecycle { get; set; }
 
     public static Args Parse(string[] args)
     {
@@ -205,10 +216,20 @@ internal sealed class Args
                 case "--filter": a.Filter = Next(); break;
                 case "--timeout": a.Timeout = int.Parse(Next()); break;
                 case "--keep": a.Keep = true; break;
+                case "--coverage": a.Coverage = Next(); break;
+                case "--isolated-coverage": a.IsolatedCoverage = Next(); break;
+                case "--isolated-lifecycle": a.IsolatedLifecycle = true; break;
+                case "--validate-coverage": a.ValidateCoverage = true; break;
+                case "--require-complete": a.RequireComplete = true; break;
                 default: throw new ArgumentException($"Unknown argument {args[i]}");
             }
         }
 
+        var coverageModes = (a.Coverage != null ? 1 : 0) + (a.IsolatedCoverage != null ? 1 : 0) + (a.IsolatedLifecycle ? 1 : 0);
+        if (coverageModes > 1 || (coverageModes == 0 && (a.ValidateCoverage || a.RequireComplete)))
+            throw new ArgumentException("Select exactly one coverage mode when using coverage-only options.");
+        if (a.IsolatedCoverage != null && (a.Keep || a.Limit != 0 || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0))
+            throw new ArgumentException("Isolated coverage cannot combine discovery inputs, --keep, or --limit.");
         if (string.IsNullOrEmpty(a.Analyzer))
             throw new ArgumentException("--analyzer <path to SqlSafetyGuard.Analyzer.dll> is required");
         return a;
