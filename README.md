@@ -106,7 +106,8 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   `o → dbo.Orders (via alias o)`), plus the server and database. **Cancel** is the default (Enter/Esc). **Run anyway**
   lets that execution continue; it has no access key. The environment has a prominent coloured banner
   (Production red, Test amber, Development green, other labels blue). With typed confirmation enabled, a
-  whole-target red finding requires the **exact initial database name**, including case, before Run anyway enables.
+  whole-target red finding (or any red DROP action) requires the **exact initial database name**, including case,
+  before Run anyway enables.
   If that database is unknown, cancel and verify the connection first. Double-clicking a finding cancels and jumps to it.
 - **Guard state** stays in the toolbar caption even when the status bar is temporarily used by SSMS. A check
   failure marks it degraded and attempts a once-per-session InfoBar as well as logging. A successful guard check
@@ -157,7 +158,7 @@ characters such as `\`. To change it: **Tools > Options > Environment > Keyboard
 | Safe tables allow-list | empty | One pattern per line; `--` lines are comments |
 | Treat permanent tempdb objects as temporary | Off | Explicit opt-in; `#temp` / `##temp` remain green regardless |
 | Trusted read-only procedures | empty | Schema-qualified patterns; wildcards only in the final part |
-| Require typed confirmation globally | Off | Exact database name for whole-target red changes |
+| Require typed confirmation globally | Off | Exact database name for whole-target red changes and red DROP actions |
 | Server / environment rules | empty | First matching rule overrides mode, environment and typed-confirmation setting |
 
 ### Safe tables allow-list

@@ -94,6 +94,11 @@ public class EnvironmentRuleTests
     [InlineData("UPDATE dbo.Orders SET Id=1", true)]
     [InlineData("TRUNCATE TABLE dbo.Orders", true)]
     [InlineData("DROP TABLE dbo.Orders", true)]
+    [InlineData("DROP DATABASE Orders", true)]
+    [InlineData("DROP INDEX IX_Orders ON dbo.Orders", true)]
+    [InlineData("DROP PROCEDURE dbo.Opaque", true)]
+    [InlineData("DROP PROCEDURE #temp", false)]
+    [InlineData("EXEC dbo.Opaque", false)]
     [InlineData("DELETE dbo.Orders WHERE Id=1", false)]
     [InlineData("DELETE #temp", false)]
     public void TypedConfirmationAppliesOnlyToRedWholeTargetFindings(string sql, bool required) =>

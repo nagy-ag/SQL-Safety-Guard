@@ -34,7 +34,8 @@ namespace SqlSafetyGuard.Analyzer
             (Mode == ExecutionMode.Red ? result.Overall == Verdict.RealWrite : !result.IsGreen);
 
         public bool NeedsTypedConfirmation(AnalysisResult result) => RequireTypedConfirmation &&
-            result.Findings.Any(finding => finding.Verdict == Verdict.RealWrite && finding.AffectsAllRows);
+            result.Findings.Any(finding => finding.Verdict == Verdict.RealWrite &&
+                (finding.AffectsAllRows || finding.Action.StartsWith("DROP ", StringComparison.OrdinalIgnoreCase)));
 
         public static bool ConfirmationMatches(string database, string entered) => !string.IsNullOrWhiteSpace(database) &&
             string.Equals(database, entered, StringComparison.Ordinal);
