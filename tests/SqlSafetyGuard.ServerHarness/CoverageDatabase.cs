@@ -91,9 +91,12 @@ internal sealed class CoverageDatabase : IDisposable
         return Snapshot(observer);
     }
 
-    private string[] Snapshot(SqlConnection connection)
+    private string[] Snapshot(SqlConnection connection) => Capture(connection, _timeout);
+
+    internal static string[] Capture(SqlConnection connection, int timeout)
     {
-        Execute(connection, "SET ROWCOUNT 0; SET IMPLICIT_TRANSACTIONS OFF;");
+        using (var reset = new SqlCommand("SET ROWCOUNT 0; SET IMPLICIT_TRANSACTIONS OFF;", connection) { CommandTimeout = timeout })
+            reset.ExecuteNonQuery();
         var lines = new List<string>();
         string[] catalogQueries =
         {
@@ -159,39 +162,43 @@ internal sealed class CoverageDatabase : IDisposable
             "SELECT stats.object_id, stats.stats_id, properties.last_updated, properties.rows, properties.rows_sampled, properties.steps, properties.unfiltered_rows, properties.modification_counter FROM sys.stats CROSS APPLY sys.dm_db_stats_properties(stats.object_id, stats.stats_id) properties WHERE stats.object_id IN (SELECT object_id FROM sys.tables WHERE is_ms_shipped = 0) ORDER BY stats.object_id, stats.stats_id FOR JSON PATH, INCLUDE_NULL_VALUES"
         };
         for (int index = 0; index < catalogQueries.Length; index++)
-            lines.Add($"catalog:{index}:" + ReadJson(connection, catalogQueries[index]));
+            lines.Add($"catalog:{index}:" + ReadJson(connection, catalogQueries[index], timeout));
         var tables = new List<string>();
-        using (var command = new SqlCommand("SELECT QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) FROM sys.tables WHERE is_ms_shipped = 0 ORDER BY object_id", connection) { CommandTimeout = _timeout })
+        using (var command = new SqlCommand("SELECT QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) FROM sys.tables WHERE is_ms_shipped = 0 ORDER BY object_id", connection) { CommandTimeout = timeout })
         using (var reader = command.ExecuteReader())
             while (reader.Read()) tables.Add(reader.GetString(0));
-        foreach (var table in tables)
+        foreach (var table in tables) lines.AddRange(CaptureTableRows(connection, table, timeout));
+        return lines.Order(StringComparer.Ordinal).ToArray();
+    }
+
+    internal static string[] CaptureTableRows(SqlConnection connection, string table, int timeout)
+    {
+        var lines = new List<string>();
+        using var command = new SqlCommand($"SELECT * FROM {table}", connection) { CommandTimeout = timeout };
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
         {
-            using var command = new SqlCommand($"SELECT * FROM {table}", connection) { CommandTimeout = _timeout };
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
+            var cells = Enumerable.Range(0, reader.FieldCount).Select(index =>
             {
-                var cells = Enumerable.Range(0, reader.FieldCount).Select(index =>
+                if (reader.IsDBNull(index)) return "null";
+                var value = reader.GetValue(index);
+                var text = value switch
                 {
-                    if (reader.IsDBNull(index)) return "null";
-                    var value = reader.GetValue(index);
-                    var text = value switch
-                    {
-                        byte[] bytes => Convert.ToBase64String(bytes),
-                        DateTime date => date.ToString("O", CultureInfo.InvariantCulture),
-                        DateTimeOffset date => date.ToString("O", CultureInfo.InvariantCulture),
-                        _ => Convert.ToString(value, CultureInfo.InvariantCulture)!
-                    };
-                    return reader.GetDataTypeName(index) + ":" + Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
-                });
-                lines.Add(table + ":" + string.Join("|", cells));
-            }
+                    byte[] bytes => Convert.ToBase64String(bytes),
+                    DateTime date => date.ToString("O", CultureInfo.InvariantCulture),
+                    DateTimeOffset date => date.ToString("O", CultureInfo.InvariantCulture),
+                    _ => Convert.ToString(value, CultureInfo.InvariantCulture)!
+                };
+                return reader.GetDataTypeName(index) + ":" + Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
+            });
+            lines.Add(table + ":" + string.Join("|", cells));
         }
         return lines.Order(StringComparer.Ordinal).ToArray();
     }
 
-    private string ReadJson(SqlConnection connection, string sql)
+    private static string ReadJson(SqlConnection connection, string sql, int timeout)
     {
-        using var command = new SqlCommand(sql, connection) { CommandTimeout = _timeout };
+        using var command = new SqlCommand(sql, connection) { CommandTimeout = timeout };
         using var reader = command.ExecuteReader();
         var text = new StringBuilder();
         while (reader.Read()) text.Append(reader.GetString(0));
