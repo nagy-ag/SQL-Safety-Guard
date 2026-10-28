@@ -213,7 +213,12 @@ public class StatementVerdictsTests
             notes.Add(Variant("for a changing command", "DBCC FREEPROCCACHE;"));
             notes.Add(Variant("with repair", "DBCC CHECKDB (N'Coverage', REPAIR_ALLOW_DATA_LOSS);"));
             notes.Add(Variant("for an unrecognized command", "DBCC SSG_UNKNOWN;"));
+            notes.Add("An unrecognized name parses as a DLL unload; recognized commands with unknown effects are yellow (" + Code("DBCC MEMORYMAP;") + ").");
         }
+        if (kind == "WaitForStatement")
+            notes.Add("Contained statements are analyzed too. " +
+                Variant("when dequeuing from a queue", "WAITFOR (RECEIVE TOP (1) * FROM dbo.q), TIMEOUT 1000;") + " " +
+                Variant("when getting a conversation group", "WAITFOR (GET CONVERSATION GROUP @g FROM dbo.q), TIMEOUT 10;"));
         if (kind == "IndexDefinition")
             notes.Add("Inline INDEX inside CREATE TABLE, not standalone SQL; the enclosing table is analyzed. " +
                 Variant("inside a #temp table definition", "CREATE TABLE #Items (Id int, INDEX IX_Items (Id));"));
@@ -244,7 +249,8 @@ public class StatementVerdictsTests
         if (kind == "DropIndexStatement") notes.Add(Variant("on a #temp table", "DROP INDEX IX_Items ON #Items;"));
         if (kind == "DropStatisticsStatement") notes.Add(Variant("on a #temp table", "DROP STATISTICS #Items.Stats;"));
         if (kind == "AlterTableSwitchStatement")
-            notes.Add("The analyzer checks the source target here, even with a permanent destination; this is not a safety guarantee.");
+            notes.Add(Variant("when both source and destination are #temp tables", "ALTER TABLE #Items SWITCH TO #Other;") +
+                " Both tables are classified, including PARTITION variants; any permanent side is red.");
         return string.Join(" ", notes);
     }
 

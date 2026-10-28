@@ -15,7 +15,7 @@ See [live-server evidence](verification/2026-10-27-all-kinds/README.md); AST-onl
 | 🟢 Green | CLOSE MASTER KEY | `CLOSE MASTER KEY` |  | `CloseMasterKeyStatement` |
 | 🟢 Green | CLOSE SYMMETRIC KEY | `CLOSE ALL SYMMETRIC KEYS` |  | `CloseSymmetricKeyStatement` |
 | 🟢 Green | CONTINUE | `CONTINUE` |  | `ContinueStatement` |
-| 🟢 Green | DBCC CHECKDB | `DBCC CHECKDB (N'Coverage');` | 🔴 Red for a changing command (`DBCC FREEPROCCACHE;`). 🔴 Red with repair (`DBCC CHECKDB (N'Coverage', REPAIR_ALLOW_DATA_LOSS);`). 🔴 Red for an unrecognized command (`DBCC SSG_UNKNOWN;`). | `DbccStatement` |
+| 🟢 Green | DBCC CHECKDB | `DBCC CHECKDB (N'Coverage');` | 🔴 Red for a changing command (`DBCC FREEPROCCACHE;`). 🔴 Red with repair (`DBCC CHECKDB (N'Coverage', REPAIR_ALLOW_DATA_LOSS);`). 🔴 Red for an unrecognized command (`DBCC SSG_UNKNOWN;`). An unrecognized name parses as a DLL unload; recognized commands with unknown effects are yellow (`DBCC MEMORYMAP;`). | `DbccStatement` |
 | 🟢 Green | DEALLOCATE | `DEALLOCATE @cursorVar` |  | `DeallocateCursorStatement` |
 | 🟢 Green | DECLARE @table TABLE | `DECLARE @items TABLE (Id int);` |  | `DeclareTableVariableStatement` |
 | 🟢 Green | DECLARE @variable | `DECLARE @value int;` |  | `DeclareVariableStatement` |
@@ -49,7 +49,7 @@ See [live-server evidence](verification/2026-10-27-all-kinds/README.md); AST-onl
 | 🟢 Green | SET TRANSACTION ISOLATION LEVEL | `SET TRANSACTION ISOLATION LEVEL SNAPSHOT` |  | `SetTransactionIsolationLevelStatement` |
 | 🟢 Green | SETUSER | `SETUSER` |  | `SetUserStatement` |
 | 🟢 Green | THROW | `THROW` |  | `ThrowStatement` |
-| 🟢 Green | WAITFOR | `WAITFOR DELAY '00:00:01';` |  | `WaitForStatement` |
+| 🟢 Green | WAITFOR | `WAITFOR DELAY '00:00:01';` | Contained statements are analyzed too. 🔴 Red when dequeuing from a queue (`WAITFOR (RECEIVE TOP (1) * FROM dbo.q), TIMEOUT 1000;`). 🟢 Green when getting a conversation group (`WAITFOR (GET CONVERSATION GROUP @g FROM dbo.q), TIMEOUT 10;`). | `WaitForStatement` |
 | 🟢 Green | label: | `gogo:` |  | `LabelStatement` |
 | 🟡 Yellow | ALTER TABLE … WITH (CLUSTER BY) | `ALTER TABLE Customers WITH (CLUSTER BY (CustomerID));` | Alternate-dialect fixture (FabricDW); colour is the default analyzer response, including parse errors. | `AlterTableAddClusterByStatement` |
 | 🟡 Yellow | BACKUP DATABASE | `BACKUP DATABASE d1 TO someDevice` |  | `BackupDatabaseStatement` |
@@ -146,7 +146,7 @@ See [live-server evidence](verification/2026-10-27-all-kinds/README.md); AST-onl
 | 🔴 Red | ALTER TABLE … REBUILD | `ALTER TABLE t1 REBUILD` | 🟢 Green on a #temp table (`ALTER TABLE #Items REBUILD`). | `AlterTableRebuildStatement` |
 | 🔴 Red | ALTER TABLE … SET | `ALTER TABLE T SET (SYSTEM_VERSIONING = ON)` | 🟢 Green on a #temp table (`ALTER TABLE #Items SET (SYSTEM_VERSIONING = ON)`). | `AlterTableSetStatement` |
 | 🔴 Red | ALTER TABLE … SPLIT / MERGE RANGE | `ALTER TABLE T MERGE RANGE (10)` | 🟢 Green on a #temp table (`ALTER TABLE #Items MERGE RANGE (10)`). | `AlterTableAlterPartitionStatement` |
-| 🔴 Red | ALTER TABLE … SWITCH | `ALTER TABLE t1 SWITCH TO t2` | 🟢 Green on a #temp table (`ALTER TABLE #Items SWITCH TO t2`). The analyzer checks the source target here, even with a permanent destination; this is not a safety guarantee. | `AlterTableSwitchStatement` |
+| 🔴 Red | ALTER TABLE … SWITCH | `ALTER TABLE t1 SWITCH TO t2` | 🔴 Red on a #temp table (`ALTER TABLE #Items SWITCH TO t2`). 🟢 Green when both source and destination are #temp tables (`ALTER TABLE #Items SWITCH TO #Other;`). Both tables are classified, including PARTITION variants; any permanent side is red. | `AlterTableSwitchStatement` |
 | 🔴 Red | ALTER TRIGGER | `ALTER TRIGGER dbo.T ON dbo.Items AFTER UPDATE AS PRINT N'new';` |  | `AlterTriggerStatement` |
 | 🔴 Red | ALTER USER | `ALTER USER u1 WITH NAME = newName` |  | `AlterUserStatement` |
 | 🔴 Red | ALTER VIEW | `ALTER MATERIALIZED VIEW View1 DISABLE` |  | `AlterViewStatement` |

@@ -445,8 +445,10 @@ Safety rules:
 - Writes through a CTE or derived table that joins several tables list *every* base table (conservative).
 - Views and synonyms are classified by name (a write to a view is red; the view's base tables aren't resolved).
 - `KILL`, `SHUTDOWN`, `RECONFIGURE`, `RESTORE`, Service Broker statements (`SEND`, `RECEIVE`, …) and any other
-  statement type not listed above are red (conservative). BACKUP, UPDATE STATISTICS, CHECKPOINT and unrecognized
-  DBCC commands are yellow; DBCC is otherwise judged per command (read-only green, changing red).
+  statement type not listed above are red (conservative). BACKUP, UPDATE STATISTICS, CHECKPOINT and recognized
+  DBCC commands with unknown effects (for example, `DBCC MEMORYMAP`) are yellow. Unrecognized DBCC names
+  (for example, `DBCC SSG_UNKNOWN`) parse as DLL unloads and are red; other DBCC commands are judged per command
+  (read-only green, changing red).
   [docs/statement-coverage.md](docs/statement-coverage.md) records the reviewed ScriptDom statement inventory and
   important semantic/resource limits; an inventory is not a proof of soundness. See also the
   [statement verdicts](docs/statement-verdicts.md) for representative SQL examples and their colours. The
