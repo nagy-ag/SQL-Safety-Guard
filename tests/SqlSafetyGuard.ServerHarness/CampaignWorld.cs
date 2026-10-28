@@ -18,13 +18,18 @@ internal sealed class CampaignWorld
         foreach (var role in Roles) sql = sql.Replace("{{" + role + "}}", databases[role], StringComparison.Ordinal);
         return sql.Replace("{{seed}}", seed.ToString(System.Globalization.CultureInfo.InvariantCulture), StringComparison.Ordinal);
     }
+    public static string ScriptHash(string directory)
+    {
+        var scripts = File.ReadAllText(Path.Combine(directory, "world.sql")).ReplaceLineEndings("\n") + File.ReadAllText(Path.Combine(directory, "rebind.sql")).ReplaceLineEndings("\n");
+        return Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(scripts)));
+    }
     public void Provision()
     {
         using var admin = CampaignSql.Open(_connectionString);
         var backupDirectory = Convert.ToString(CampaignSql.Scalar(admin, "SELECT SERVERPROPERTY('InstanceDefaultBackupPath')"))!;
         var separator = backupDirectory.Contains('/') ? "/" : "\\";
         var databases = Roles.ToDictionary(role => role, role => "SgPlay_" + role);
-        var scriptHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(Path.Combine(_scriptDirectory, "world.sql")) + File.ReadAllText(Path.Combine(_scriptDirectory, "rebind.sql")))));
+        var scriptHash = ScriptHash(_scriptDirectory);
         var created = new List<string>();
         foreach (var role in Roles)
         {

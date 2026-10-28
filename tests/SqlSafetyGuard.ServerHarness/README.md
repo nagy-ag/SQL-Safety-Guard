@@ -1,5 +1,12 @@
 # Real-server harness
 
+## Multi-database campaign
+
+Use `--campaign` for fresh seeded four-database sets, physical-object attribution,
+session leftovers, bounded parallel workers, durable resume, automatic shrinking and morning reports.
+See [Campaign/README.md](Campaign/README.md), [the oracle limits](Campaign/ORACLE.md), and
+[the playground inventory](Campaign/WORLD.md). This mode never touches the legacy databases below.
+
 ## Strict curated coverage (recommended)
 
 Current evidence: [334-kind verification](../../docs/verification/2026-10-27-all-kinds/README.md) records 267 live-passed kinds, three failed-only kinds and 64 not live tested, separately from all-kind static coverage.

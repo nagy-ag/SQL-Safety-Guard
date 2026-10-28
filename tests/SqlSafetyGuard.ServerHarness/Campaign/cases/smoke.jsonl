@@ -1,0 +1,50 @@
+{"id":"read-literal","sql":"SELECT 1;","seed":1}
+{"id":"read-orders","sql":"SELECT TOP(10) * FROM sales.Orders ORDER BY Id;","seed":2}
+{"id":"read-cross-db","sql":"SELECT COUNT(*) FROM [{{Sales}}].sales.Orders;","seed":3}
+{"id":"read-join","sql":"SELECT customers.Name,orders.Total FROM dbo.Customers customers JOIN sales.Orders orders ON orders.CustomerId=customers.Id;","seed":4}
+{"id":"read-cte","sql":"WITH orders AS(SELECT * FROM sales.Orders) SELECT COUNT(*) FROM orders;","seed":5}
+{"id":"read-view","sql":"SELECT * FROM sales.OpenOrders;","seed":6}
+{"id":"read-synonym","sql":"SELECT COUNT(*) FROM app.OrderAlias;","seed":7}
+{"id":"read-function","sql":"SELECT app.OrderTotal(1);","seed":8}
+{"id":"read-table-function","sql":"SELECT * FROM app.OrderRows();","seed":9}
+{"id":"read-local-function","sql":"SELECT * FROM app.LocalWork(10);","seed":10}
+{"id":"read-procedure","sql":"EXEC app.ReadOrders;","seed":11}
+{"id":"read-dynamic","sql":"EXEC sys.sp_executesql N'SELECT COUNT(*) FROM sales.Orders';","seed":12}
+{"id":"temp-insert","sql":"CREATE TABLE #work(Id int); INSERT #work VALUES(1); SELECT * FROM #work;","seed":13}
+{"id":"temp-select-into","sql":"SELECT Id,Qty INTO #work FROM sales.Orders;","seed":14}
+{"id":"temp-update","sql":"CREATE TABLE #work(Id int); INSERT #work VALUES(1); UPDATE #work SET Id=2;","seed":15}
+{"id":"table-variable","sql":"DECLARE @work TABLE(Id int); INSERT @work VALUES(1); DELETE @work;","seed":16}
+{"id":"write-update","sql":"UPDATE sales.Orders SET Qty=Qty+1 WHERE Id=1;","seed":17}
+{"id":"write-insert","sql":"INSERT sales.Orders(CustomerId,Qty,Price) VALUES(1,2,5);","seed":18}
+{"id":"write-delete","sql":"DELETE sales.OrderLines WHERE Id=1;","seed":19}
+{"id":"write-merge","sql":"MERGE dbo.Counter target USING(SELECT 1 Id) source ON target.Id=source.Id WHEN MATCHED THEN UPDATE SET Value=Value+1;","seed":20}
+{"id":"write-view","sql":"UPDATE sales.OpenOrders SET Qty=Qty+1 WHERE Id=1;","seed":21}
+{"id":"write-instead-of","sql":"UPDATE app.OrderEntry SET Qty=Qty+2 WHERE Id=1;","seed":22}
+{"id":"write-synonym","sql":"UPDATE app.OrderAlias SET Qty=Qty+1 WHERE Id=1;","seed":23}
+{"id":"write-cross-synonym","sql":"UPDATE app.RemoteCounter SET Value=Value+1 WHERE Id=1;","seed":24}
+{"id":"write-cross-db","sql":"UPDATE [{{Archive}}].dbo.Counter SET Value=Value+1 WHERE Id=1;","seed":25}
+{"id":"write-procedure","sql":"EXEC app.WriteOrder;","seed":26}
+{"id":"write-dynamic","sql":"EXEC sys.sp_executesql N'UPDATE dbo.Counter SET Value=Value+1 WHERE Id=1';","seed":27}
+{"id":"write-sequence","sql":"SELECT NEXT VALUE FOR app.OrderSequence;","seed":28}
+{"id":"write-identity","sql":"INSERT dbo.Customers(Name,Region) VALUES('New company','East');","seed":29}
+{"id":"write-temporal","sql":"UPDATE app.Accounts SET Balance=Balance+1 WHERE Id=1;","seed":30}
+{"id":"write-partition","sql":"UPDATE staging.Events SET Payload=N'changed' WHERE Id=30;","seed":31}
+{"id":"write-default-schema","sql":"UPDATE Counter SET Value=Value+1 WHERE Id=1;","seed":32}
+{"id":"write-alias","sql":"UPDATE orders SET Qty=orders.Qty+1 FROM sales.Orders orders WHERE Id=1;","seed":33}
+{"id":"write-output-temp","sql":"CREATE TABLE #changed(Id int); UPDATE sales.Orders SET Qty=Qty+1 OUTPUT inserted.Id INTO #changed WHERE Id=1;","seed":34}
+{"id":"write-rollback","sql":"BEGIN TRANSACTION; UPDATE dbo.Counter SET Value=Value+1 WHERE Id=1; ROLLBACK;","seed":35}
+{"id":"write-open-transaction","sql":"BEGIN TRANSACTION; UPDATE dbo.Counter SET Value=Value+1 WHERE Id=1;","seed":36}
+{"id":"write-noop","sql":"UPDATE dbo.Counter SET Value=Value WHERE Id=1;","seed":37}
+{"id":"write-zero-rows","sql":"UPDATE dbo.Counter SET Value=1 WHERE Id=-1;","seed":38}
+{"id":"write-truncate","sql":"TRUNCATE TABLE staging.Events;","seed":39}
+{"id":"ddl-create","sql":"CREATE TABLE app.NewTable(Id int);","seed":40}
+{"id":"ddl-alter","sql":"ALTER TABLE dbo.Counter ADD Note nvarchar(100);","seed":41}
+{"id":"ddl-index","sql":"CREATE INDEX IX_Events ON staging.Events(Id);","seed":42}
+{"id":"security-principal","sql":"CREATE USER case_user WITHOUT LOGIN;","seed":43}
+{"id":"security-permission","sql":"GRANT UPDATE ON dbo.Counter TO low_user;","seed":44}
+{"id":"session-options","sql":"SET NOCOUNT ON; SET IMPLICIT_TRANSACTIONS ON; SELECT * FROM dbo.Counter;","seed":45}
+{"id":"session-execute-as","sql":"EXECUTE AS USER='low_user'; SELECT * FROM dbo.Counter;","seed":46}
+{"id":"session-context","sql":"USE [{{Sales}}]; SELECT 1;","seed":47}
+{"id":"broker-send","sql":"DECLARE @dialog uniqueidentifier; BEGIN DIALOG CONVERSATION @dialog FROM SERVICE [SgWork] TO SERVICE N'SgWork' ON CONTRACT [DEFAULT] WITH ENCRYPTION=OFF; SEND ON CONVERSATION @dialog MESSAGE TYPE [DEFAULT](0x1234);","seed":48}
+{"id":"read-low-privilege","sql":"SELECT COUNT(*) FROM sales.Orders;","seed":49,"principal":"low_user"}
+{"id":"control-forced-green","sql":"SELECT 17; UPDATE dbo.Counter SET Value=Value+1 WHERE Id=1; SELECT 29;","seed":50,"controlVerdict":"ReadOnly"}

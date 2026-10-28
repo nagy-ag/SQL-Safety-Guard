@@ -1,0 +1,9 @@
+{"id":"isolated-backup-file","sql":"BACKUP DATABASE [{{Core}}] TO DISK=N'/var/opt/mssql/data/campaign-proof.bak' WITH INIT, COPY_ONLY, CHECKSUM;","privileged":true,"seed":100}
+{"id":"isolated-server-role","sql":"CREATE SERVER ROLE SgProbeRole;","privileged":true,"seed":101}
+{"id":"isolated-server-config","sql":"EXEC sys.sp_configure N'show advanced options',1; RECONFIGURE;","privileged":true,"seed":102}
+{"id":"isolated-tempdb-permanent","sql":"CREATE TABLE tempdb.dbo.SgCampaignProbe(Id int); INSERT tempdb.dbo.SgCampaignProbe VALUES(1);","privileged":true,"seed":103}
+{"id":"isolated-openquery-read","sql":"SELECT * FROM OPENQUERY(SgLoop,'SELECT 42 AS Answer');","privileged":true,"seed":104}
+{"id":"isolated-exec-at-write","sql":"EXEC(N'UPDATE [{{Core}}].dbo.Counter SET Value=Value+1 WHERE Id=1;') AT SgLoop;","privileged":true,"seed":105}
+{"id":"isolated-openquery-write","sql":"UPDATE OPENQUERY(SgLoop,'SELECT Id,Value FROM [{{Core}}].dbo.Counter') SET Value=Value+1 WHERE Id=1;","privileged":true,"seed":106}
+{"id":"isolated-timeout","sql":"WAITFOR DELAY '00:00:15';","privileged":true,"seed":107}
+

@@ -70,7 +70,7 @@ internal static class CampaignRunner
             SchemaVersion = 1, AnalyzerSha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(analyzer.AssemblyPath))),
             HarnessSha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(typeof(CampaignRunner).Assembly.Location))),
             InputSha256 = Hash(string.Join("\n", inputFiles.Select(File.ReadAllText))),
-            WorldSha256 = Hash(File.ReadAllText(Path.Combine(scriptDirectory, "world.sql")) + File.ReadAllText(Path.Combine(scriptDirectory, "rebind.sql"))),
+            WorldSha256 = CampaignWorld.ScriptHash(scriptDirectory),
             Server = Convert.ToString(CampaignSql.Scalar(admin, "SELECT CONVERT(nvarchar(128),SERVERPROPERTY('ServerName'))")), admin.ServerVersion,
             Container = container, Timeout = options.Timeout, options.Filter, options.Limit, options.ShrinkAttempts
         };
