@@ -88,10 +88,11 @@ namespace SqlSafetyGuard.UI
             SafeList.ItemsSource = null;
         }
 
+        /// <summary>Greys the collapsed strip while a newer analysis is pending; the expanded pane keeps the last result until then.</summary>
         internal void ShowAnalysisPending()
         {
             ShowCollapsedPending();
-            ShowSummary("Analyzing\u2026", "The F5 guard still checks before running.");
+            CollapsedStrip.ToolTip = "Analyzing\u2026";
         }
 
         private void ShowSummary(string headline, string detail)
