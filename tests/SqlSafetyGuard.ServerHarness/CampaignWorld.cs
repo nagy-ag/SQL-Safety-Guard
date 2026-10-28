@@ -135,7 +135,7 @@ internal sealed class CampaignDatabaseSet : IDisposable
     }
     public SqlConnection OpenCase(string role, string principal, bool privileged)
     {
-        var connection = CampaignSql.Open(_connectionString, Databases[role]);
+        var connection = CampaignSql.Open(_connectionString, Databases[role], pooled: false);
         try
         {
             if (!privileged) CampaignSql.Execute(connection, $"EXECUTE AS LOGIN={CampaignSql.Literal(Login)} WITH NO REVERT;");

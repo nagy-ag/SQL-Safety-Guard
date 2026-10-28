@@ -7,10 +7,22 @@ internal sealed record CampaignSnapshot(Dictionary<string, string[]> Databases, 
     Dictionary<string, string> Objects, string[] Server, string[] Tempdb, string[] Files);
 internal sealed record CampaignSession(int TransactionCount, int Options, string OriginalLogin, string EffectiveLogin, string DatabaseUser, string Database);
 internal sealed record CampaignObservation(bool Changed, string[] ModifiedObjects, string[] LogicalChanges, string[] PhysicalWrites,
-    string[] SessionLeftovers, string[] BeforeHashes, string[] AfterHashes, bool ServerChanged, bool TempdbChanged, bool FilesChanged);
+    string[] SessionLeftovers, string[] BeforeHashes, string[] AfterHashes, bool ServerChanged, bool TempdbChanged, bool FilesChanged,
+    string[] TempdbAdded, string[] TempdbRemoved, string[] ServerAdded, string[] ServerRemoved);
 
 internal static class CampaignOracle
 {
+    internal static bool OnlyExternalDatabaseChange(CampaignSnapshot before, CampaignSnapshot after) =>
+        before.Server.Length == 8 && after.Server.Length == 8 && before.Server[5] != after.Server[5] &&
+        before.Server.Where((value, index) => index != 5).SequenceEqual(after.Server.Where((value, index) => index != 5)) &&
+        Equivalent(before with { Server = after.Server }, after);
+
+    internal static bool Equivalent(CampaignSnapshot expected, CampaignSnapshot actual) =>
+        expected.Databases.Count == actual.Databases.Count && expected.Databases.All(pair => actual.Databases.TryGetValue(pair.Key, out var rows) && pair.Value.SequenceEqual(rows)) &&
+        expected.Objects.Count == actual.Objects.Count && expected.Objects.All(pair => actual.Objects.GetValueOrDefault(pair.Key) == pair.Value) &&
+        expected.Operations.Count == actual.Operations.Count && expected.Operations.All(pair => actual.Operations.GetValueOrDefault(pair.Key) == pair.Value) &&
+        expected.Server.SequenceEqual(actual.Server) && expected.Tempdb.SequenceEqual(actual.Tempdb) && expected.Files.SequenceEqual(actual.Files);
+
     public static CampaignSession Session(SqlConnection connection)
     {
         var row = CampaignSql.Rows(connection, "SELECT @@TRANCOUNT,@@OPTIONS,ORIGINAL_LOGIN(),SUSER_SNAME(),USER_NAME(),DB_NAME()")[0];
@@ -53,7 +65,7 @@ internal static class CampaignOracle
         ];
         var server = serverQueries.Select(query => string.Join("", CampaignSql.Rows(admin, query, timeout).Select(row => row[0]))).ToArray();
         using var tempdb = CampaignSql.Open(connectionString, "tempdb");
-        var temp = CampaignSql.Rows(tempdb, "SELECT QUOTENAME(SCHEMA_NAME(schema_id))+'.'+QUOTENAME(name),type,CONVERT(varchar(30),modify_date,126) FROM sys.objects WHERE is_ms_shipped=0 AND name NOT LIKE '#%' ORDER BY object_id", timeout).Select(row => string.Join("|", row)).ToList();
+        var temp = CampaignSql.Rows(tempdb, "SELECT QUOTENAME(SCHEMA_NAME(schema_id))+'.'+QUOTENAME(name),type,CONVERT(varchar(30),modify_date,126) FROM sys.objects WHERE is_ms_shipped=0 AND name NOT LIKE '#%' AND (parent_object_id=0 OR OBJECT_NAME(parent_object_id) NOT LIKE '#%') ORDER BY object_id", timeout).Select(row => string.Join("|", row)).ToList();
         foreach (var row in CampaignSql.Rows(tempdb, "SELECT QUOTENAME(SCHEMA_NAME(schema_id))+'.'+QUOTENAME(name) FROM sys.tables WHERE is_ms_shipped=0 AND name NOT LIKE '#%'", timeout))
             temp.AddRange(CoverageDatabase.CaptureTableRows(tempdb, row[0], timeout));
         var files = container == null ? [] : CampaignSql.Docker(container, "exec", container, "sh", "-c", "set -e; for directory in /var/opt/mssql/data /var/opt/mssql/backup; do if [ -d \"$directory\" ]; then find \"$directory\" -maxdepth 1 -type f ! -name '*.mdf' ! -name '*.ldf' ! -name '*.ndf' ! -name 'Entropy.bin' -exec sha256sum {} +; fi; done").Split('\n', StringSplitOptions.RemoveEmptyEntries).Order(StringComparer.Ordinal).ToArray();
@@ -92,6 +104,8 @@ internal static class CampaignOracle
         if (serverChanged) logical.Add("<server-state>");
         if (tempChanged) logical.Add("tempdb.<permanent-objects>");
         if (filesChanged) logical.Add("<container-files>");
-        return new CampaignObservation(logical.Count > 0 || physical.Length > 0, logical.Concat(physical).Distinct(StringComparer.OrdinalIgnoreCase).Order().ToArray(), logical.Order().ToArray(), physical, leftovers.ToArray(), before.Databases.Select(pair => pair.Key + ":" + CoverageDatabase.Hash(pair.Value)).ToArray(), after.Databases.Select(pair => pair.Key + ":" + CoverageDatabase.Hash(pair.Value)).ToArray(), serverChanged, tempChanged, filesChanged);
+        return new CampaignObservation(logical.Count > 0 || physical.Length > 0, logical.Concat(physical).Distinct(StringComparer.OrdinalIgnoreCase).Order().ToArray(), logical.Order().ToArray(), physical, leftovers.ToArray(), before.Databases.Select(pair => pair.Key + ":" + CoverageDatabase.Hash(pair.Value)).ToArray(), after.Databases.Select(pair => pair.Key + ":" + CoverageDatabase.Hash(pair.Value)).ToArray(), serverChanged, tempChanged, filesChanged,
+            after.Tempdb.Except(before.Tempdb).ToArray(), before.Tempdb.Except(after.Tempdb).ToArray(),
+            after.Server.Except(before.Server).ToArray(), before.Server.Except(after.Server).ToArray());
     }
 }

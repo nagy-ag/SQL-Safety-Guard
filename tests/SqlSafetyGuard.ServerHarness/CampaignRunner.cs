@@ -8,7 +8,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 namespace SqlSafetyGuard.ServerHarness;
 
 internal sealed record CampaignCase(string Id, string Sql, string Setup = "", string Database = "Core", string Principal = "runner",
-    string? ExpectedClassification = null, string[]? RuleIds = null, int Seed = 1, string? ControlVerdict = null, bool Privileged = false);
+    string? ExpectedClassification = null, string[]? RuleIds = null, int Seed = 1, string? ControlVerdict = null, bool Privileged = false, string? Family = null);
 internal sealed class CampaignResult
 {
     public required CampaignCase Case { get; init; }
@@ -26,8 +26,17 @@ internal sealed class CampaignResult
     public string? ShrunkSql { get; set; }
     public int ShrinkTrials { get; set; }
     public double ShrinkMilliseconds { get; set; }
+    public bool ReusedDatabaseSet { get; set; }
+    public bool IsolationVerified { get; set; }
+    public List<CampaignEffectEdge> EffectEdges { get; set; } = [];
     public bool ExpectationMismatch { get; set; }
     public bool Control => Case.ControlVerdict != null;
+}
+
+internal sealed class CampaignLease
+{
+    internal CampaignDatabaseSet? Set { get; set; }
+    internal CampaignSnapshot? Pristine { get; set; }
 }
 
 internal static class CampaignRunner
@@ -91,6 +100,7 @@ internal static class CampaignRunner
         using var stop = new CancellationTokenSource(TimeSpan.FromMinutes(options.BudgetMinutes));
         ConsoleCancelEventHandler cancel = (_, eventArgs) => { eventArgs.Cancel = true; stop.Cancel(); };
         Console.CancelKeyPress += cancel;
+        using var leases = new ThreadLocal<CampaignLease>(() => new CampaignLease(), trackAllValues: true);
         var started = DateTimeOffset.UtcNow;
         WriteArtifacts(directory, results, selected.Length, options.Workers, started, campaignKey);
         try
@@ -98,34 +108,40 @@ internal static class CampaignRunner
             Parallel.ForEach(selected.Where(item => results.All(result => result.Case.Id != item.Id)), new ParallelOptions { MaxDegreeOfParallelism = options.Workers }, item =>
             {
                 if (stop.IsCancellationRequested) return;
-                var result = Execute(options, analyzer, world, connectionString, container, item, stop.Token);
+                var result = Execute(options, analyzer, world, connectionString, container, item, stop.Token, options.CampaignIsolated ? null : leases.Value);
                 if (stop.IsCancellationRequested && result.Outcome is "TIMEOUT" or "CRASH") return;
                 lock (resultLock)
                 {
                     Save(resultsConnection, campaignKey, result);
                     results.Add(result);
-                    WriteArtifacts(directory, results, selected.Length, options.Workers, started, campaignKey);
                 }
                 if ((result.Outcome is "FALSE GREEN" or "WRONG TARGET") && !stop.IsCancellationRequested)
                     Shrink(options, analyzer, world, connectionString, container, result, stop.Token);
                 lock (resultLock)
                 {
                     Save(resultsConnection, campaignKey, result, update: true);
-                    WriteArtifacts(directory, results, selected.Length, options.Workers, started, campaignKey);
+                    if (results.Count % 100 == 0) WriteArtifacts(directory, results, selected.Length, options.Workers, started, campaignKey);
                     Console.WriteLine($"[{results.Count}/{selected.Length}] {item.Id}: {result.Outcome}; changed={result.Observation?.Changed}; {result.Milliseconds:F0}ms; {string.Join("; ", result.Errors)}");
                 }
             });
         }
         finally
         {
+            var cleanupErrors = new List<Exception>();
+            foreach (var lease in leases.Values)
+            {
+                try { lease.Set?.Dispose(); }
+                catch (Exception exception) { cleanupErrors.Add(exception); }
+            }
             Console.CancelKeyPress -= cancel;
             WriteArtifacts(directory, results, selected.Length, options.Workers, started, campaignKey);
+            if (cleanupErrors.Count > 0) throw new AggregateException("Worker database cleanup failed.", cleanupErrors);
         }
         Console.WriteLine("Campaign report: " + Path.Combine(directory, "report.md"));
-        return results.Count != selected.Length || results.Any(result => !result.Control && (result.Outcome is "FALSE GREEN" or "WRONG TARGET" or "CRASH" or "TIMEOUT" or "NOT EXECUTABLE" || result.ExpectationMismatch)) ? 1 : 0;
+        return results.Count != selected.Length || results.Any(result => !result.Control && (result.Outcome is "FALSE GREEN" or "WRONG TARGET" or "CRASH" or "TIMEOUT" or "NOT EXECUTABLE" || result.ExpectationMismatch || result.Errors.Count > 0)) ? 1 : 0;
     }
 
-    private static CampaignResult Execute(Args options, AnalyzerHost analyzer, CampaignWorld world, string connectionString, string? container, CampaignCase item, CancellationToken stop)
+    private static CampaignResult Execute(Args options, AnalyzerHost analyzer, CampaignWorld world, string connectionString, string? container, CampaignCase item, CancellationToken stop, CampaignLease? lease = null)
     {
         var watch = Stopwatch.StartNew();
         var verdict = analyzer.Analyze(item.Sql);
@@ -134,7 +150,14 @@ internal static class CampaignRunner
         try
         {
             if (verdict.Error != null) { result.Errors.Add(verdict.Error); return result; }
-            set = world.Clone();
+            if (lease?.Set != null && !string.IsNullOrWhiteSpace(item.Setup))
+            {
+                lease.Set.Dispose();
+                lease.Set = null;
+            }
+            bool reused = lease?.Set != null;
+            set = lease?.Set ?? world.Clone();
+            if (lease != null) lease.Set = null;
             var sql = CampaignWorld.Expand(item.Sql, set.Databases, item.Seed);
             verdict = analyzer.Analyze(sql);
             result = new CampaignResult { Case = item, Sql = sql, Verdict = verdict, EffectiveClassification = item.ControlVerdict ?? verdict.Overall, Families = Families(sql) };
@@ -144,7 +167,13 @@ internal static class CampaignRunner
                 CampaignSql.Execute(setup, CampaignWorld.Expand(item.Setup, set.Databases, item.Seed), options.Timeout, stop);
                 if (Convert.ToInt32(CampaignSql.Scalar(setup, "SELECT @@TRANCOUNT")) != 0) throw new InvalidDataException("Setup left an open transaction.");
             }
+            var effects = verdict.Overall == "RealWrite" ? CampaignAttribution.Capture(connectionString, set.Databases, options.Timeout) : [];
+            result.EffectEdges = effects;
             var before = CampaignOracle.Capture(connectionString, set.Databases, options.Timeout, container);
+            result.ReusedDatabaseSet = reused;
+            if (reused && lease?.Pristine != null && !CampaignOracle.Equivalent(lease.Pristine, before) && !CampaignOracle.OnlyExternalDatabaseChange(lease.Pristine, before))
+                throw new InvalidDataException("Isolation control: reused database set differs from its pristine snapshot.");
+            result.IsolationVerified = reused;
             CampaignSession baseline;
             using (var connection = set.OpenCase(item.Database, item.Principal, item.Privileged))
             {
@@ -168,15 +197,24 @@ internal static class CampaignRunner
             result.Observation = CampaignOracle.Compare(before, after, baseline, result.Session);
             result.ExpectationMismatch = item.ExpectedClassification != null && item.ExpectedClassification != verdict.Overall;
             if (verdict.Error != null) { result.Outcome = "CRASH"; result.Errors.Add(verdict.Error); }
+            else if (result.Errors.Count == 0 && container == null && CampaignOracle.OnlyExternalDatabaseChange(before, after)) result.Outcome = "EXTERNAL CHANGE";
             else if (result.Observation.Changed && new[] { "ReadOnly", "TempOnly", "AllowListed" }.Contains(result.EffectiveClassification)) result.Outcome = "FALSE GREEN";
             else if (result.Errors.Count == 0)
             {
                 var modified = result.Observation.ModifiedObjects.Where(name => !name.Contains('<')).ToArray();
-                bool targetMatch = verdict.Targets.Any(target => modified.Any(name => MatchesTarget(target, name, set.Databases[item.Database])));
-                result.Outcome = result.Observation.Changed && modified.Length > 0 && verdict.Overall == "RealWrite" && !targetMatch ? "WRONG TARGET" :
-                    !result.Observation.Changed && !verdict.IsGreen ? "NOISE" : "PASS";
+                result.Outcome = result.Observation.Changed && modified.Length > 0 && verdict.Overall == "RealWrite"
+                    ? CampaignAttribution.Classify(verdict.Targets, modified, set.Databases[item.Database], effects, item.Principal == "low_user" ? "sales" : "app", before.Objects.Keys)
+                    : !result.Observation.Changed && !verdict.IsGreen ? "NOISE" : "PASS";
             }
             result.Stage = "complete";
+            if (lease != null && !result.Observation.Changed && result.Errors.Count == 0 &&
+                CampaignOracle.Equivalent(before, after) &&
+                result.Observation.SessionLeftovers.Length == 0 && string.IsNullOrWhiteSpace(item.Setup))
+            {
+                lease.Set = set;
+                lease.Pristine = before;
+                set = null;
+            }
         }
         catch (Exception exception) { result.Errors.Add(result.Stage + ": " + exception.GetType().Name + ": " + exception.Message); result.Outcome = "CRASH"; }
         finally
@@ -186,14 +224,6 @@ internal static class CampaignRunner
             result.Milliseconds = watch.Elapsed.TotalMilliseconds;
         }
         return result;
-    }
-    private static bool MatchesTarget(string target, string modified, string currentDatabase)
-    {
-        static string Normalize(string name) => name.Replace("[", "").Replace("]", "").Replace("\"", "").ToLowerInvariant();
-        target = Normalize(target);
-        modified = Normalize(modified);
-        if (!target.Contains('.')) return modified == Normalize(currentDatabase) + ".app." + target || modified == Normalize(currentDatabase) + ".dbo." + target;
-        return modified == target || modified == Normalize(currentDatabase) + "." + target;
     }
     private static string[] Families(string sql)
     {
@@ -286,9 +316,10 @@ internal static class CampaignRunner
         File.Move(output + ".tmp", output, true);
         var report = new StringBuilder("# SQL safety campaign\n\n");
         report.AppendLine($"- Campaign: {campaignKey}\n- Generated UTC: {DateTimeOffset.UtcNow:O}\n- This invocation started UTC: {started:O}\n- Completed: {results.Count}/{planned}; workers: {workers}; complete: {results.Count == planned}\n- Controls: {results.Count(result => result.Control)} (excluded from real false-green counts)\n- Real false greens: {results.Count(result => !result.Control && result.Outcome == "FALSE GREEN")}\n");
+        report.AppendLine($"- Reused pristine sets: {results.Count(result => result.ReusedDatabaseSet)}; successful before-case isolation checks: {results.Count(result => result.IsolationVerified)}\n");
         report.AppendLine("## Outcomes\n\n| Outcome | Real | Controls |\n|---|---:|---:|");
-        foreach (var outcome in new[] { "PASS", "FALSE GREEN", "WRONG TARGET", "NOISE", "CRASH", "TIMEOUT", "NOT EXECUTABLE" }) report.AppendLine($"| {outcome} | {results.Count(result => !result.Control && result.Outcome == outcome)} | {results.Count(result => result.Control && result.Outcome == outcome)} |");
-        report.AppendLine("\nNOISE means a conservative verdict with no observed mutation; it is not automatically an analyzer defect. WRONG TARGET means no red finding target matches any physically/logically changed object; indirect writes require review. PASS is representative evidence, not a complete rule proof.\n");
+        foreach (var outcome in new[] { "PASS", "FALSE GREEN", "WRONG TARGET", "INDIRECT EFFECT", "UNRESOLVED TARGET", "EXTERNAL CHANGE", "NOISE", "CRASH", "TIMEOUT", "NOT EXECUTABLE" }) report.AppendLine($"| {outcome} | {results.Count(result => !result.Control && result.Outcome == outcome)} | {results.Count(result => result.Control && result.Outcome == outcome)} |");
+        report.AppendLine("\nNOISE means a conservative verdict with no observed mutation; it is not automatically an analyzer defect. WRONG TARGET means at least one changed object is neither named by a red finding nor reachable through a pre-execution synonym, single-base view, trigger-write, temporal or cascading-FK edge. INDIRECT EFFECT records those reachable secondary changes. UNRESOLVED TARGET requires review (for example a Broker dialog variable); it is not a proven wrong static target. Catalog-only changes remain scope-level evidence. PASS is representative evidence, not a complete rule proof.\n");
         foreach (var grouping in new[] { (Title: "Rule ids", Rows: results.SelectMany(result => (result.Case.RuleIds ?? ["unassigned"]).Select(rule => (Key: rule, Result: result)))), (Title: "Statement families", Rows: results.SelectMany(result => result.Families.Select(family => (Key: family, Result: result)))) })
         {
             report.AppendLine("## " + grouping.Title + "\n");

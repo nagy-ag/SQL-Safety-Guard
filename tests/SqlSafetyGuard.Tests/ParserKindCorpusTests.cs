@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using SqlSafetyGuard.Analyzer;
 using SqlSafetyGuard.ServerHarness;
+using Verdict = SqlSafetyGuard.Analyzer.Verdict;
 
 namespace SqlSafetyGuard.Tests;
 
