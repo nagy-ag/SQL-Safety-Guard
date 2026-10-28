@@ -1,0 +1,1589 @@
+{
+  "safe-procedure.sp_help": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helptext": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpindex": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_who": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_who2": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_columns": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_tables": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_spaceused": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_lock": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpdb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_depends": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_describe_first_result_set": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_describe_undeclared_parameters": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpconstraint": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helptrigger": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpfile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpfilegroup": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpuser": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helprole": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helprolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helplogins": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpserver": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_fkeys": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_pkeys": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_stored_procedures": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_databases": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_column_privileges": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_table_privileges": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_server_info": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_statistics": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_readerrorlog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.xp_readerrorlog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_monitor": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpsrvrole": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpsrvrolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpntgroup": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpdbfixedrole": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helprotect": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpsort": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helplanguage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_help_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_help_jobstep": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_help_jobhistory": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_help_schedule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_helpextendedproc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_set_session_context": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_getapplock": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_releaseapplock": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_sproc_columns": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-procedure.sp_special_columns": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_rename": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_configure": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.xp_cmdshell": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_send_dbmail": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_oacreate": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_oamethod": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addrolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_droprolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addsrvrolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dropsrvrolemember": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addlogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_droplogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_password": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_defaultdb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_adduser": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dropuser": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_grantdbaccess": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_revokedbaccess": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_grantlogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_revokelogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_denylogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_change_users_login": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_changedbowner": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_changeobjectowner": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addlinkedserver": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dropserver": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addlinkedsrvlogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_droplinkedsrvlogin": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_serveroption": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addextendedproperty": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_updateextendedproperty": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dropextendedproperty": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_addextendedproc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dropextendedproc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_bindrule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_unbindrule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_bindefault": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_unbindefault": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_tableoption": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_settriggerorder": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_procoption": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_refreshview": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_refreshsqlmodule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_recompile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_attach_db": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_attach_single_file_db": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_detach_db": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_dboption": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_resetstatus": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_cycle_errorlog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_delete_backuphistory": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_purge_jobhistory": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_add_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_update_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_delete_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_add_jobstep": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_update_jobstep": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_delete_jobstep": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_add_jobschedule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_add_schedule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_attach_schedule": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_add_jobserver": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_start_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_stop_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_trace_create": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_trace_setstatus": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_createstats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_updatestats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_msforeachtable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_msforeachdb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "green-statement.setcommandstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.setvariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.settransactionisolationlevelstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.setrowcountstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.settextsizestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.seterrorlevelstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.setidentityinsertstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.setuserstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.declarevariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.declaretablevariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.declarecursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.opencursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.fetchcursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.closecursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.deallocatecursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.begintransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.committransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.rollbacktransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.savetransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.printstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.raiseerrorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.throwstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.usestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.returnstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.breakstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.continuestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.gotostatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.labelstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.executeasstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.revertstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.waitforstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.readtextstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.opensymmetrickeystatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.closesymmetrickeystatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.openmasterkeystatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.closemasterkeystatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.linenostatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.getconversationgroupstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "green-statement.usefederationstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "safe-dbcc.showstatistics": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.inputbuffer": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.outputbuffer": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.opentran": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.sqlperf": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.tracestatus": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.useroptions": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showcontig": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showfilestats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.memorystatus": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.proccache": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.help": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checkdb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checktable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checkalloc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checkcatalog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checkfilegroup": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.checkconstraints": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.loginfo": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.activecursors": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.cursorstats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.extentinfo": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.perfmonstats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.cachestats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showtext": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showonrules": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showoffrules": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "safe-dbcc.showweights": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.freeproccache": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.freesessioncache": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.freesystemcache": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dropcleanbuffers": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.shrinkdatabase": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.shrinkfile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.cleantable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dbreindex": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dbreindexall": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.indexdefrag": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.updateusage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.traceon": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.traceoff": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.writepage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dbrepair": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.detachdb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.errorlog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.flushprocindb": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.forceghostcleanup": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.pintable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.unpintable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.renamecolumn": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.addextendedproc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dropextendedproc": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.freezeio": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.thawio": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.movepage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.fixallocation": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.dbrecover": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.clearspacecaches": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.free": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.setcpuweight": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "changing-dbcc.setioweight": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-statement.updatestatisticsstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "unknown-statement.checkpointstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.setvariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.declarevariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.declaretablevariablestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.declarecursorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.begintransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.committransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.rollbacktransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.savetransactionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.raiseerrorstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.gotostatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.dbccstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.backupdatabasestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.backuptransactionlogstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.executeasstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.updatestatisticsstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertableaddtableelementstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablealtercolumnstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertabledroptableelementstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertableconstraintmodificationstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablesetstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertableswitchstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablerebuildstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertabletriggermodificationstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablechangetrackingmodificationstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablefiletablenamespacestatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablealterindexstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.altertablealterpartitionstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.bulkinsertstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "action-name.insertbulkstatement": [
+    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+  ],
+  "recovery-keyword.insert": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.update": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.delete": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.merge": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.truncate": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.drop": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.alter": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.create": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.execute": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.grant": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.revoke": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.deny": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.bulk": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.restore": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.dbcc": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.kill": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.shutdown": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "recovery-keyword.reconfigure": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+  ],
+  "msdb-procedure.sp_send_dbmail": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_delete_backuphistory": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_purge_jobhistory": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_help_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_help_jobstep": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_help_jobhistory": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_help_schedule": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_add_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_update_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_delete_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_add_jobstep": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_update_jobstep": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_delete_jobstep": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_add_jobschedule": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_add_schedule": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_attach_schedule": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_add_jobserver": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_start_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "msdb-procedure.sp_stop_job": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+  ],
+  "sqlcmd-command.setvar": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.r": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.on": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.connect": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.out": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.error": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.exit": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.quit": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.reset": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.ed": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.list": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.listvar": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.help": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.perftrace": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.serverlist": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.xml": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.os": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "sqlcmd-command.variable": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "set-option.quotedidentifier": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.concatnullyieldsnull": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.cursorcloseoncommit": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.arithabort": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.arithignore": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.fmtonly": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.nocount": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.noexec": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.numericroundabort": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.parseonly": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansidefaults": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansinulldfltoff": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansinulldflton": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansinulls": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansipadding": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.ansiwarnings": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.forceplan": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.showplanall": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.showplantext": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.implicittransactions": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.remoteproctransactions": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.xactabort": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.disabledefcnstchk": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.showplanxml": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-option.nobrowsetable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.addinstance": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.auditevent": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.autopilot": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.buffer": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.bytes": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.cacheprofile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.callfulltext": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.checkprimaryfile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.collectstats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.concurrencyviolation": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.debugbreak": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.deleteinstance": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumpconfig": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumpdbinfo": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumpdbtable": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumplock": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumplog": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumppage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumpresource": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.dumptrigger": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.fileheader": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.flush": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.icecapquery": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.incrementinstance": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.ind": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.invalidatetextptr": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.invalidatetextptrobjid": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.latch": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.mapallocunit": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.memobjlist": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.memorymap": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.metadata": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.notextptr": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.optimizerwhatif": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.persiststackhash": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.prtipage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.readpage": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.ruleoff": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.ruleon": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.semetadata": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.setinstance": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.showdbaffinity": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.showtableaffinity": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.sqlmgrstats": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.stackdump": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.tec": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.throttleio": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "unknown-dbcc.useplan": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.language": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.dateformat": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.datefirst": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.deadlockpriority": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.locktimeout": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.querygovernorcostlimit": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.generalsetcommandtype.contextinfo": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setstatisticsoptions.io": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setstatisticsoptions.profile": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setstatisticsoptions.time": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setstatisticsoptions.xml": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.select": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.from": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.order": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.compute": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.table": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.procedure": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.execute": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.statement": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "set-family.setoffsets.param": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "aggregate.max": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+  ],
+  "entry.length": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:166 (OversizedScriptsFollowExplicitModePolicy)"
+  ],
+  "entry.settings": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+  ],
+  "entry.empty": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18 (EmptyText_IsReadOnlyWithNoFindings)"
+  ],
+  "temp.name": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+  ],
+  "temp.tempdb-opt-in": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)"
+  ],
+  "write.allow-list": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251 (AllowList_DoesNotApplyToDdl)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257 (AllowList_AppliesToTruncateAndSelectInto)"
+  ],
+  "dbcc.dll": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)"
+  ],
+  "dbcc.repair": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+  ],
+  "dbcc.checkident": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+  ],
+  "dbcc.clear": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+  ],
+  "dbcc.fallback": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)"
+  ],
+  "walk.target-switch": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:184 (FederationSwitchInvalidatesTargetContext)"
+  ],
+  "walk.parse": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232 (ParseErrorInOneBatch_OtherBatchesStillAnalyzed)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126 (UnparseableDynamicSql_IsUnknown)"
+  ],
+  "walk.hidden": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+  ],
+  "walk.insert-exec": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147 (InsertExecOfReadOnlyProc_IsTempOnly)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:212 (InsertExecOfKnownWriter_IsRed)"
+  ],
+  "walk.output": [
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65 (Case07_OutputIntoPermanentTable_IsRealWrite)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+  ],
+  "walk.dml-targets": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220 (RemoteTargets_AreRealWrite)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35 (UpdateViaAliasOfTemp_IsTempOnly)"
+  ],
+  "walk.named-target": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+  ],
+  "walk.module": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197 (DefinitionAndSecurityChanges_AreRealWrite)"
+  ],
+  "walk.rowfilter": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+  ],
+  "exec.dispatch": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134 (ProcedureNameInVariable_IsUnknown)",
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+  ],
+  "exec.spaceused": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75 (RealWritesAreNeverGreen)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107 (OrdinaryReadsRemainReadOnly)"
+  ],
+  "exec.namespace": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141 (SchemaQualifiedReadOnlyProc_IsReadOnly)"
+  ],
+  "exec.dynamic": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101 (DynamicSqlConcatenatedLiterals_AreAnalyzed)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108 (DynamicSqlWithVariablePart_IsUnknown)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115 (NestedDynamicSql_IsLimitedByDepth)"
+  ],
+  "txn.finish": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:68 (BeginWithoutCommit_ReportsOpenTransaction)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:148 (ImplicitTransactions_LeftOpen_IsReported)"
+  ],
+  "txn.merge": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:96 (IfCommitElseRollback_IsBalanced)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:134 (UnguardedIf_StaysConservative)"
+  ],
+  "txn.if": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:120 (GuardedCommit_IsNotLone)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:127 (XactStateGuard_ClosesTheTransaction)"
+  ],
+  "txn.begin": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:54 (BalancedTransaction_IsGreen)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:62 (NestedTransactions_Balanced)"
+  ],
+  "txn.commit": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:39 (LoneCommit_IsUnknown)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:47 (ExtraCommit_IsUnknown)"
+  ],
+  "txn.rollback": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:81 (RollbackCloses)",
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:89 (RollbackToSavepoint_KeepsTransactionOpen)"
+  ],
+  "txn.implicit-start": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:157 (ImplicitTransactions_Committed_IsFine)"
+  ],
+  "resolve.alias": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)",
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26 (DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable)"
+  ],
+  "sqlcmd.process": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:285 (SqlCmdScript_ParsesWithoutErrors)"
+  ],
+  "sqlcmd.walk": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)"
+  ],
+  "scope.dynamic": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283 (DynamicSqlInsideBatch_ReportedAtExecLine)"
+  ],
+  "scope.display": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+  ],
+  "allow.match": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)",
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
+  ],
+  "environment.selection": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)",
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65 (PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments)"
+  ],
+  "limits.work": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:423 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
+  ],
+  "limits.syntax": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+  ],
+  "recovery.regions": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158 (GiveUp_WholeBatchIsNotAnalyzed_AndScanned)"
+  ],
+  "parser.newest": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11 (UsesNewestParser)"
+  ],
+  "environment.off": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+  ],
+  "environment.red": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+  ],
+  "environment.yellow-red": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+  ],
+  "environment.typed-disabled": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123 (LegacyTypedSettingNeverRequiresTyping)",
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129 (LegacyRuleFieldIsAcceptedAndIgnored)"
+  ],
+  "environment.invalid-line": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+  ],
+  "environment.invalid-list": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+  ],
+  "environment.unknown-context": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)"
+  ],
+  "environment.presentation-failure": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
+  ],
+  "environment.confirm-failure": [
+    "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:57 (ConfirmationFailureAlwaysPreventsExecution)"
+  ],
+  "allow.empty-name": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)"
+  ],
+  "allow.ignore-comments": [
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
+  ],
+  "allow.invalid": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214 (WildcardOnlyAllowListIsIgnoredVisibly)",
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+  ],
+  "allow.remote": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+  ],
+  "allow.cross-database": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+  ],
+  "allow.default-context": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+  ],
+  "allow.glob": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+  ],
+  "allow.quoted-parts": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)"
+  ],
+  "walk.select-into": [
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20 (Case02_SelectIntoTempThenDeleteTemp_IsTempOnly)"
+  ],
+  "walk.switch-both": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15 (SwitchClassifiesBothTables)"
+  ],
+  "walk.waitfor": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31 (WaitForPreservesInnerStatementVerdict)"
+  ],
+  "walk.drop-statistics": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:28 (DropStatistics_FollowsTempRules)"
+  ],
+  "walk.temp-procedure": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186 (TemporaryProcedureDefinitionsDoNotExecuteBodies)"
+  ],
+  "walk.drop-procedures": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+  ],
+  "walk.fallback": [
+    "tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20 (ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution)"
+  ],
+  "walk.composable": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+  ],
+  "walk.return": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:340 (EarlyReturnPreservesContinuingTransactionPaths)"
+  ],
+  "walk.throw": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+  ],
+  "walk.transfer": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+  ],
+  "walk.try-peak": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:113 (CommitInCatch_AfterTryOpened_IsNotLone)"
+  ],
+  "walk.catch-exit": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160 (PossiblyOpenTransactionsAreReported)"
+  ],
+  "walk.while-zero": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153 (WhileAndTryCatch_AreWalked)"
+  ],
+  "walk.blocked-transaction": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:165 (TransactionsInBrokenBatch_DontCount)"
+  ],
+  "exec.linked": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)"
+  ],
+  "exec.sp-executesql": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86 (SpExecuteSqlWithLiteral_IsAnalyzed)",
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93 (Case10_SpExecuteSqlWithVariable_IsUnknown)"
+  ],
+  "exec.trusted": [
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+  ],
+  "exec.ordinary": [
+    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:206 (UnknownProcedure_StaysYellow)",
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120 (Case13_InsertExec_IsUnknown)"
+  ],
+  "exec.streaming-wrapper": [
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:234 (KnownWaveOneStreamingWrapperDiscrepancy)"
+  ],
+  "hidden.openquery": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11 (OpenQuerySource_IsUnknown)"
+  ],
+  "hidden.openrowset": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+  ],
+  "hidden.internal-openrowset": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+  ],
+  "hidden.adhoc": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+  ],
+  "hidden.sequence": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96 (NextValueFor_AnywhereThatRuns_IsRealWrite)"
+  ],
+  "hidden.bulk-file": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57 (OpenRowsetBulk_ReadsAFile_IsReadOnly)"
+  ],
+  "hidden.deduplicate": [
+    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49 (RemoteWriteTarget_IsReportedOnceAsRealWrite)"
+  ],
+  "resolve.variable": [
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37 (Case04_InsertTableVariable_IsTempOnly)"
+  ],
+  "resolve.cte-cycle": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59 (RecursiveCte_DoesNotLoopForever)"
+  ],
+  "resolve.cte-cache": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+  ],
+  "resolve.cte-budget": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+  ],
+  "resolve.derived": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67 (UpdateViaDerivedTable_ResolvesToBaseTable)"
+  ],
+  "resolve.join": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)"
+  ],
+  "resolve.union": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42 (CteReferencingCte_ResolvesRecursively)"
+  ],
+  "resolve.alias-priority": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+  ],
+  "scope.batch-offset": [
+    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137 (Case15_SecondGoBatch_ReportsCorrectLine)"
+  ],
+  "scope.blocked": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38 (OnlyTheBrokenBatchIsBlocked)"
+  ],
+  "scope.target-truncate": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94 (DbccUsesParsedArgumentsBeyondDisplayTruncation)"
+  ],
+  "scope.newlines": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128 (RecoveredFindings_KeepExactPositions)"
+  ],
+  "sqlcmd.mode-off": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:337 (ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint)",
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:362 (ModeOff_DollarParenInAString_IsJustAString)"
+  ],
+  "sqlcmd.ordered-definitions": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143 (SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal)"
+  ],
+  "sqlcmd.remove-definition": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+  ],
+  "limits.control-count": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:293 (ControlFlowKeywordBudgetHasExactBatchBoundary)",
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:305 (ControlFlowKeywordBudgetResetsOnlyAtGo)"
+  ],
+  "limits.nesting-count": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+  ],
+  "limits.action-reset": [
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:273 (NestingThatDefeatsStatementCountersIsRejectedBeforeParsing)"
+  ],
+  "parser.lexical-errors": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147 (UnrecognizedCharacter_DoesNotHideWhatFollows)"
+  ]
+}
