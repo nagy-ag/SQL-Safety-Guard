@@ -100,6 +100,7 @@ namespace SqlSafetyGuard.Analyzer
             ["sp_updatestats"] = "updates statistics in the whole database",
             ["sp_MSforeachtable"] = "runs a command for every table",
             ["sp_MSforeachdb"] = "runs a command for every database",
+            ["sp_create_streaming_job"] = "creates an external streaming job",
         };
 
         /// <summary>Statement types (or base types) that never change data.</summary>

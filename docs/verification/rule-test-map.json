@@ -359,6 +359,9 @@
   "writing-procedure.sp_msforeachdb": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
+  "writing-procedure.sp_create_streaming_job": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
   "green-statement.setcommandstatement": [
     "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
   ],
@@ -1366,7 +1369,7 @@
   "allow.match": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
   ],
@@ -1417,7 +1420,7 @@
   "allow.empty-name": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)"
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
   ],
   "allow.ignore-comments": [
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
@@ -1441,7 +1444,7 @@
   "allow.quoted-parts": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:40 (Matches)"
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
   ],
   "walk.select-into": [
     "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",
@@ -1504,7 +1507,9 @@
     "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120 (Case13_InsertExec_IsUnknown)"
   ],
   "exec.streaming-wrapper": [
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:234 (KnownWaveOneStreamingWrapperDiscrepancy)"
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224 (StreamingProcedureIsRedInEveryWrapper)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265 (StreamingParserHotswapIsOnlyAtBatchLevel)",
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250 (ProcedureTableVerdictsAreIndependentOfNesting)"
   ],
   "hidden.openquery": [
     "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11 (OpenQuerySource_IsUnknown)"

@@ -85,7 +85,7 @@ exec.sp-executesql	StatementWalker	baseName, "sp_executesql"	ReadOnly,TempOnly,A
 exec.trusted	StatementWalker	if (_options.TrustedProcedures.Matches	ReadOnly	A qualified trusted-procedure pattern grants ReadOnly after built-in writer overrides. Body not inspected.	ProcedureTrustRequiresResolvedQualification
 exec.ordinary	StatementWalker	insertExec ? "the procedure may write"	Unknown	Unrecognized procedure calls warn; INSERT EXEC warning is in addition to destination write.	UnknownProcedure_StaysYellow,Case13_InsertExec_IsUnknown
 exec.empty	StatementWalker	if (_findings.Count == before)	ReadOnly	No findings from literal dynamic text yields empty-dynamic-SQL green finding.	-
-exec.streaming-wrapper	StatementWalker	private void WalkExecute	Unknown,RealWrite	Known W1-001: BEGIN END wrapping sp_create_streaming_job can turn red into yellow without parse errors.	KnownWaveOneStreamingWrapperDiscrepancy
+exec.streaming-wrapper	StatementWalker	private void WalkExecute	RealWrite	System sp_create_streaming_job is a writing procedure independently of batch-level parser rewriting, control-flow wrappers, or literal dynamic SQL.	StreamingProcedureIsRedInEveryWrapper,StreamingParserHotswapIsOnlyAtBatchLevel,ProcedureTableVerdictsAreIndependentOfNesting
 hidden.openquery	SideEffectScanner	Visit(OpenQueryTableReference	Unknown	OPENQUERY source can execute remote pass-through text and warns.	OpenQuerySource_IsUnknown
 hidden.openrowset	SideEffectScanner	Visit(OpenRowsetTableReference	Unknown	OPENROWSET provider query source warns.	RemoteSources_AreUnknown
 hidden.internal-openrowset	SideEffectScanner	Visit(InternalOpenRowset	Unknown	Internal OPENROWSET source warns; remote effects not inspected.	RemoteSources_AreUnknown

@@ -11,9 +11,6 @@ namespace SqlSafetyGuard.Tests;
 public class MetamorphicVerificationTests(ITestOutputHelper output)
 {
     private const int Seed = 20261028;
-    private static readonly string[] KnownStreamingInputs = [
-        "EXEC sys.sp_create_streaming_job @name=N'CoverageJob', @statement=N'SELECT 1';",
-        "EXEC sys.sp_create_streaming_job @name=N'CoverageJob', @statement=N'SELECT 1'"];
     private static readonly Regex SqlKeyword = new(@"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|EXEC|SET|BEGIN|COMMIT|ROLLBACK|DBCC|TRUNCATE|PRINT|GRANT|REVOKE|DENY|MERGE|WITH|DECLARE)\b", RegexOptions.IgnoreCase);
     private static readonly Regex BatchOnly = new(@"\bGO\b|^\s*[:!]|\b(CREATE|ALTER)\s+(OR\s+ALTER\s+)?(PROC(?:EDURE)?|FUNCTION|TRIGGER|VIEW)\b", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
@@ -180,7 +177,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
         var random = new Random(Seed);
         var corpus = Corpus().Where(item => item.Sql.Length < 4000).DistinctBy(item => item.Sql).ToArray();
         var selected = corpus.Take(17).Concat(corpus.Skip(17).OrderBy(_ => random.Next()).Take(count)).ToArray();
-        int attempts = 0, checkedRewrites = 0, invalid = 0, baselineInvalid = 0, monotonic = 0, known = 0;
+        int attempts = 0, checkedRewrites = 0, invalid = 0, baselineInvalid = 0, monotonic = 0;
         var failures = new List<string>();
         var origins = new Dictionary<string, int>();
         foreach (var item in selected)
@@ -196,13 +193,6 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
                 checkedRewrites++;
                 if (baseline.Overall != result.Overall)
                 {
-                    if (rewrite.Name == "begin-end" && KnownStreamingInputs.Contains(item.Sql) &&
-                        baseline.Overall == Verdict.RealWrite && result.Overall == Verdict.Unknown)
-                    {
-                        known++;
-                        output.WriteLine("KNOWN W1-001: " + item.Sql);
-                    }
-                    else
                         failures.Add($"{rewrite.Name}: {baseline.Overall} -> {result.Overall}\nSQL: {item.Sql}\nREWRITE: {rewrite.Sql}");
                 }
             }
@@ -218,7 +208,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
                 }
             }
         }
-        output.WriteLine($"Seed {Seed}; available {corpus.Length}; selected {selected.Length}; invalid baselines {baselineInvalid}; attempted {attempts}; valid rewrites {checkedRewrites}; inapplicable parse {invalid}; monotonic {monotonic}; known discrepancies {known}.");
+        output.WriteLine($"Seed {Seed}; available {corpus.Length}; selected {selected.Length}; invalid baselines {baselineInvalid}; attempted {attempts}; valid rewrites {checkedRewrites}; inapplicable parse {invalid}; monotonic {monotonic}.");
         foreach (var origin in origins.OrderBy(pair => pair.Key))
             output.WriteLine($"Corpus {origin.Key}: {origin.Value}");
         foreach (string failure in failures)
@@ -231,15 +221,56 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
     [Theory]
     [InlineData("EXEC sys.sp_create_streaming_job @name=N'x', @statement=N'';")]
     [InlineData("EXEC sys.sp_create_streaming_job @name=N'CoverageJob', @statement=N'SELECT 1';")]
-    public void KnownWaveOneStreamingWrapperDiscrepancy(string sql)
+    public void StreamingProcedureIsRedInEveryWrapper(string sql)
     {
         var baseline = SqlSafetyAnalyzer.Analyze(sql);
-        var wrapped = SqlSafetyAnalyzer.Analyze("BEGIN\n" + sql + "\nEND;");
         Assert.Empty(baseline.ParseErrors);
-        Assert.Empty(wrapped.ParseErrors);
-        output.WriteLine($"W1-001: {baseline.Overall} -> {wrapped.Overall}; {sql}");
         Assert.Equal(Verdict.RealWrite, baseline.Overall);
-        Assert.Equal(Verdict.Unknown, wrapped.Overall);
+        foreach (string wrapped in ProcedureWrappers(sql))
+        {
+            var result = SqlSafetyAnalyzer.Analyze(wrapped);
+            Assert.Empty(result.ParseErrors);
+            Assert.Equal(Verdict.RealWrite, result.Overall);
+        }
+    }
+
+    internal static IEnumerable<string> ProcedureWrappers(string sql)
+    {
+        yield return "BEGIN\n" + sql + "\nEND;";
+        yield return "IF 1=1 BEGIN\n" + sql + "\nEND ELSE SELECT 1;";
+        yield return "WHILE 1=0 BEGIN\n" + sql + "\nEND;";
+        yield return "BEGIN TRY\n" + sql + "\nEND TRY BEGIN CATCH SELECT 1; END CATCH;";
+        yield return "BEGIN TRY SELECT 1; END TRY BEGIN CATCH\n" + sql + "\nEND CATCH;";
+        yield return "EXEC(N'" + sql.Replace("'", "''") + "');";
+        yield return "EXEC sys.sp_executesql N'" + sql.Replace("'", "''") + "';";
+    }
+
+    [Theory]
+    [MemberData(nameof(RuleInventoryTests.TableRules), MemberType = typeof(RuleInventoryTests))]
+    public void ProcedureTableVerdictsAreIndependentOfNesting(string ruleId, string category, string member, string sqlOption)
+    {
+        if (category is not ("safe-procedure" or "writing-procedure")) return;
+        string sql = $"EXEC sys.{member};";
+        var baseline = SqlSafetyAnalyzer.Analyze(sql);
+        foreach (string wrapped in ProcedureWrappers(sql))
+        {
+            var result = SqlSafetyAnalyzer.Analyze(wrapped);
+            Assert.Empty(result.ParseErrors);
+            Assert.Equal(baseline.Overall, result.Overall);
+        }
+        output.WriteLine("NESTING AUDIT " + ruleId);
+    }
+
+    [Fact]
+    public void StreamingParserHotswapIsOnlyAtBatchLevel()
+    {
+        const string sql = "EXEC sys.sp_create_streaming_job @name=N'x', @statement=N'';";
+        var standalone = (TSqlScript)Parser().Parse(new StringReader(sql), out var standaloneErrors);
+        var nested = (TSqlScript)Parser().Parse(new StringReader("BEGIN " + sql + " END;"), out var nestedErrors);
+        Assert.Empty(standaloneErrors);
+        Assert.Empty(nestedErrors);
+        Assert.IsType<CreateExternalStreamingJobStatement>(standalone.Batches[0].Statements[0]);
+        Assert.IsType<ExecuteStatement>(((BeginEndBlockStatement)nested.Batches[0].Statements[0]).StatementList.Statements[0]);
     }
 
     [Theory]
