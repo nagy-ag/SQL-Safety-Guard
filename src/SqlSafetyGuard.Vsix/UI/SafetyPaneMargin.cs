@@ -333,7 +333,6 @@ namespace SqlSafetyGuard.UI
 
             string f5 = settings.Mode == ExecutionMode.Off ? "F5 guard is off"
                 : !settings.ShouldWarn(result) ? "F5 runs without asking"
-                : settings.NeedsTypedConfirmation(result) ? "F5 asks you to type the database name"
                 : "F5 will ask first";
 
             _control.ShowResult(result.Summary, f5, _groups);

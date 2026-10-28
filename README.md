@@ -10,7 +10,7 @@ and tells you whether it changes real data or only reads / touches temp objects.
 - **F5 guard**: when you execute (F5, Ctrl+E, Alt+X, the Execute button), the exact text SSMS is about to run is
   analyzed. **Green runs with no interruption**; yellow/red shows a confirmation dialog first by default.
 - **Environment rules**: first-match server/database rules choose an environment label, warning mode, additive
-  allow/trusted lists and optional typed database confirmation for whole-target red changes.
+  allow/trusted lists. Confirmation uses buttons only, with no typed database name.
 - **Visible guard health**: the SQL Editor toolbar caption and status bar show on/off, environment, unknown
   server or degraded state. A failed check also attempts a once-per-session, non-modal warning InfoBar.
 
@@ -124,7 +124,7 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
     for the same object. **Space** toggles details, **Right/Left** expands/collapses, and **double-click** or **Enter**
     jumps to the statements. Selection highlights them; the editor caret follows the corresponding row without
     automatically expanding it. Arrow-key navigation works across both lists. Yellow/red statements retain light tinting.
-  - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, typed
+  - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, button-only
     confirmation, safe tables, trusted procedures, and tempdb handling. Each effective pattern identifies its
     global or rule source. **Edit in Tools › Options…** opens SQL Safety Guard's options page.
   - Drag the pane's left edge to resize it; **»** collapses it to the unchanged thin strip with red/yellow count
@@ -133,19 +133,22 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
 - **Tools > Analyze Query Safety**, the toolbar button ("SQL with a check mark" icon right after the Execute group
   on the SQL Editor toolbar), or **Ctrl+Shift+F5** in a query window: expands the pane if it is collapsed and
   re-analyzes immediately.
-- **F5 guard**: a yellow/red query shows a dialog listing only the yellow/red findings (line, action, target, e.g.
-  `o → dbo.Orders (via alias o)`), plus the server and database. **Cancel** is the default (Enter/Esc). **Run anyway**
-  lets that execution continue; it has no access key. The environment has a prominent coloured banner
-  (Production red, Test amber, Development green, other labels blue). With typed confirmation enabled, a
-  whole-target red finding (or any red DROP action) requires the **exact initial database name**, including case,
-  before Run anyway enables.
-  If that database is unknown, cancel and verify the connection first. Double-clicking a finding cancels and jumps to it.
+- **F5 guard**: a yellow/red query pauses for confirmation. **CHANGES TO PERMANENT OBJECTS** and
+  **CAN'T SEE INSIDE** each show a grouped-entry count and a dropdown, collapsed initially even for one entry.
+  Expanding shows only object (schema/name), statement and editor line. Lists scroll independently above
+  190 pixels; the buttons stay outside the scrolling content. Empty categories and green findings are hidden.
+  Entries are passive: no statement navigation or extra detail rows. Syntax-error batches are dimmed and
+  explained separately. **Cancel** is the default (Enter/Esc); **Run anyway** continues this execution.
+  No environment or operation requires typing a database name. Existing explicit Off/Red policies still apply.
 - **Guard state** stays in the toolbar caption even when the status bar is temporarily used by SSMS. A check
   failure marks it degraded and attempts a once-per-session InfoBar as well as logging. A successful guard check
   clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
-The compact expandable rows have build and automated contract coverage (832 tests passed on 2026-10-28).
+The compact pane and F5 dropdowns have automated coverage (824 tests passed on 2026-10-28); Debug and Release builds pass.
+After a build, `powershell.exe -NoProfile -Sta -File scripts/ConfirmationInteractionTests.ps1 -Configuration Release`
+runs 15 in-process ledger/dropdown checks, including collapsed defaults, grouped counts, mapped lines, hidden green
+entries, blocked entries, overflow layout and scrolling. Shell theming and the live F5 command are not verified by this harness.
 After a Debug build, `powershell.exe -NoProfile -Sta -File scripts/PaneInteractionTests.ps1` runs 13 in-process
 WPF interaction checks for exclusive expansion, cross-section selection, reanalysis, background deselection,
 and preserving row/scrollbar/toggle interactions. It does not open SSMS or execute SQL. Actual editor mouse
@@ -205,8 +208,7 @@ characters such as `\`. To change it: **Tools > Options > Environment > Keyboard
 | Safe tables allow-list | empty | One pattern per line; `--` lines are comments |
 | Treat permanent tempdb objects as temporary | Off | Explicit opt-in; `#temp` / `##temp` remain green regardless |
 | Trusted read-only procedures | empty | Schema-qualified patterns; wildcards only in the final part |
-| Require typed confirmation globally | Off | Exact database name for whole-target red changes and red DROP actions |
-| Server / environment rules | empty | First matching rule overrides mode, environment and typed-confirmation setting |
+| Server / environment rules | empty | First matching rule overrides mode and environment |
 
 ### Safe tables allow-list
 
@@ -234,7 +236,7 @@ DDL (CREATE/ALTER/DROP TABLE stays red).
 One rule per line, with five required fields and two optional lists:
 
 ```text
-server pattern | database pattern | environment label | Off/Red/YellowRed | typed true/false | allow-list | trusted procedures
+server pattern | database pattern | environment label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted procedures
 ```
 
 `*` and `?` in server/database patterns are case-insensitive; blank database means any **known** database.
@@ -253,10 +255,8 @@ Rule allow-lists and trusted procedures **add to** the global lists; they do not
 lists if production rules must be restrictive. List entries within a rule are semicolon-separated. The text
 format has no escaping for field/list delimiters (`|` and `;`).
 
-Typed confirmation applies to red UPDATE/DELETE without WHERE, TRUNCATE and DROP TABLE/PROCEDURE. An UPDATE/DELETE
-whose rows a `TOP (n)` or an INNER JOIN / CROSS APPLY on the target visibly limits (the usual
-`UPDATE t ... FROM dbo.T t JOIN #ids ...`) is still red but needs no typing. Unproven limits keep typing: a CTE or
-derived table, `TOP ... PERCENT`, a FROM with only outer/cross joins, or a target missing from the FROM. It does not require typing for temp-only or allow-listed changes.
+Confirmation never requires typing, including whole-target writes, DROP, unknown databases, and all environments.
+The fifth rule field is retained for compatibility: existing true/false values are accepted but ignored.
 The environment policy is selected from the **initial connection only**: `USE`, `USE FEDERATION` and `:connect`
 add a TARGET SWITCH warning and dialog notice, and invalidate contextual allow/trusted lists for the analysis;
 rules are not re-selected mid-script. A Development/Off rule can therefore leave a script switching to

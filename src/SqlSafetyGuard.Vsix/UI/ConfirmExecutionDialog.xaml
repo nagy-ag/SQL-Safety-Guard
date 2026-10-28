@@ -3,85 +3,80 @@
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                          xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
-                         Title="SQL Safety Guard"
-                         Width="660" SizeToContent="Height" MaxHeight="720"
+                         Title="SQL Safety Guard" Width="660" SizeToContent="Height" MaxHeight="720"
                          ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
                          Background="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelBrushKey}}"
                          Foreground="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}">
     <platformUi:DialogWindow.Resources>
-        <DataTemplate x:Key="FindingTemplate">
-            <Grid Margin="2,3">
+        <DataTemplate x:Key="LedgerRowTemplate">
+            <Grid Margin="10,7" Opacity="{Binding Opacity}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" MinWidth="72" SharedSizeGroup="LineNumber" />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Action" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="90" />
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Ellipse Width="10" Height="10" Margin="0,4,10,0" VerticalAlignment="Top" Fill="{Binding Marker}" />
-                <TextBlock Grid.Column="1" Text="{Binding LineText}" Margin="0,0,12,0" />
-                <TextBlock Grid.Column="2" Text="{Binding Action}" FontWeight="SemiBold" Margin="0,0,10,0" />
-                <TextBlock Grid.Column="3" TextWrapping="Wrap">
-                    <Run Text="{Binding Target, Mode=OneWay}" /><Run Text="{Binding NoteSuffix, Mode=OneWay}" FontStyle="Italic" />
-                </TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,2,0,0" TextWrapping="Wrap"
-                           FontWeight="Bold" Text="{Binding AllRowsText}" Visibility="{Binding AllRowsVisibility}" />
+                <TextBlock Text="{Binding ObjectName}" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" ToolTip="{Binding ObjectName}" />
+                <TextBlock Grid.Column="1" Text="{Binding Statements}" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" ToolTip="{Binding Statements}" />
+                <TextBlock Grid.Column="2" Text="{Binding Lines}" TextTrimming="CharacterEllipsis" TextAlignment="Right" ToolTip="{Binding Lines}" Opacity="0.75" />
             </Grid>
         </DataTemplate>
-        <Style x:Key="FindingList" TargetType="ListBox">
-            <Setter Property="Background" Value="Transparent" />
+        <Style x:Key="LedgerSection" TargetType="Expander">
+            <Setter Property="IsExpanded" Value="False" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,10,0,0" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowBorderBrushKey}}" />
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-            <Setter Property="ItemTemplate" Value="{StaticResource FindingTemplate}" />
-            <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         </Style>
     </platformUi:DialogWindow.Resources>
-
-    <DockPanel Margin="16">
-        <StackPanel DockPanel.Dock="Top">
-            <Border x:Name="EnvironmentBanner" Padding="10,6" CornerRadius="3" Margin="0,0,0,12">
-                <TextBlock x:Name="EnvironmentText" Foreground="White" FontSize="18" FontWeight="Bold" TextWrapping="Wrap" />
-            </Border>
-            <StackPanel Orientation="Horizontal">
-                <Border x:Name="HeaderBadge" Width="14" Height="14" CornerRadius="7" Margin="0,0,10,0" VerticalAlignment="Center" />
-                <TextBlock x:Name="HeaderText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" MaxWidth="590" />
-            </StackPanel>
-            <TextBlock x:Name="SubText" Margin="0,8,0,0" TextWrapping="Wrap" />
-            <TextBlock x:Name="ConnectionText" Margin="0,6,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed" />
-            <TextBlock x:Name="TargetSwitchText" Margin="0,8,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed"
-                       Text="USE / :connect changes the target within this script. This policy describes the initial connection only; custom table/procedure trust is disabled for the switched scope. Check every destination." />
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock x:Name="ConnectionText" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed" />
+            <TextBlock x:Name="EnvironmentText" Margin="0,4,0,0" Opacity="0.75" TextWrapping="Wrap" />
+            <TextBlock Text="Run this query anyway?" FontSize="20" FontWeight="SemiBold" Margin="0,14,0,4" />
+            <TextBlock Text="Execution is paused. Nothing has run yet." TextWrapping="Wrap" />
         </StackPanel>
-
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+        <ScrollViewer Grid.Row="1" MaxHeight="500" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <Expander x:Name="RedSection" Style="{StaticResource LedgerSection}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <Ellipse x:Name="RedMarker" Width="8" Height="8" Margin="0,0,8,0" />
+                            <TextBlock Text="CHANGES TO PERMANENT OBJECTS" FontWeight="SemiBold" />
+                            <TextBlock x:Name="RedCount" Margin="12,0,0,0" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Expander.Header>
+                    <ScrollViewer MaxHeight="190" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl x:Name="RedList" ItemTemplate="{StaticResource LedgerRowTemplate}" Focusable="False" />
+                    </ScrollViewer>
+                </Expander>
+                <Expander x:Name="YellowSection" Style="{StaticResource LedgerSection}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <Ellipse x:Name="YellowMarker" Width="8" Height="8" Margin="0,0,8,0" />
+                            <TextBlock Text="CAN'T SEE INSIDE" FontWeight="SemiBold" />
+                            <TextBlock x:Name="YellowCount" Margin="12,0,0,0" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Expander.Header>
+                    <ScrollViewer MaxHeight="190" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl x:Name="YellowList" ItemTemplate="{StaticResource LedgerRowTemplate}" Focusable="False" />
+                    </ScrollViewer>
+                </Expander>
+                <TextBlock x:Name="BlockedText" Margin="0,10,0,0" TextWrapping="Wrap" Visibility="Collapsed" Opacity="0.75" />
+                <TextBlock x:Name="SettingsText" Margin="0,10,0,0" TextWrapping="Wrap" Visibility="Collapsed" />
+                <TextBlock x:Name="TargetSwitchText" Margin="0,10,0,0" TextWrapping="Wrap" Visibility="Collapsed"
+                           Text="USE / :connect switches destinations inside this script. Check every destination; the displayed connection is the initial one." />
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
             <Button x:Name="RunButton" Content="Run anyway" MinWidth="110" Margin="0,0,8,0" Click="OnRunAnyway"
                     Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
-            <!-- Cancel is the safe default: the accent border marks it as the default button in every theme
-                 (the themed button style alone shows no difference in dark themes). -->
             <Button x:Name="CancelButton" Content="Cancel" MinWidth="110" IsDefault="True" IsCancel="True"
-                    BorderThickness="2"
-                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}"
+                    BorderThickness="2" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}"
                     Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
         </StackPanel>
-
-        <StackPanel x:Name="TypedConfirmationPanel" DockPanel.Dock="Bottom" Margin="0,12,0,0" Visibility="Collapsed">
-            <TextBlock x:Name="TypedConfirmationText" TextWrapping="Wrap" FontWeight="SemiBold" />
-            <TextBox x:Name="DatabaseConfirmation" Margin="0,6,0,0" TextChanged="OnConfirmationChanged" />
-        </StackPanel>
-
-        <TextBlock x:Name="FooterText" DockPanel.Dock="Bottom" Margin="0,8,0,0" Opacity="0.75" TextWrapping="Wrap"
-                   Text="Double-click a line to cancel and jump to it in the editor." />
-
-        <StackPanel>
-            <ListBox x:Name="FindingsList" Margin="0,12,0,0" MaxHeight="300" Style="{StaticResource FindingList}"
-                     MouseDoubleClick="OnFindingDoubleClick" />
-            <TextBlock x:Name="BlockedHeader" Margin="0,12,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed"
-                       Text="In a batch with a syntax error: these won't run now, but will once the error is fixed" />
-            <ListBox x:Name="BlockedList" Margin="0,6,0,0" MaxHeight="200" Style="{StaticResource FindingList}" Opacity="0.85"
-                     Visibility="Collapsed" MouseDoubleClick="OnFindingDoubleClick" />
-        </StackPanel>
-    </DockPanel>
+    </Grid>
 </platformUi:DialogWindow>

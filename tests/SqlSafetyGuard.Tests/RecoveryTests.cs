@@ -236,12 +236,12 @@ public class NoWhereTests
     }
 
     [Fact]
-    public void TypedConfirmation_SkipsJoinLimitedWrites_ButKeepsWholeTargetOnes()
+    public void LegacyTypedConfirmationIsIgnoredForAllWrites()
     {
         var production = new GuardSettings(ExecutionMode.YellowRed, "Production", true, new string[0], new string[0]);
         Assert.False(production.NeedsTypedConfirmation(SqlSafetyAnalyzer.Analyze(
             "UPDATE o SET Qty = 0 FROM dbo.Orders o JOIN #ids i ON i.Id = o.Id")));
-        Assert.True(production.NeedsTypedConfirmation(SqlSafetyAnalyzer.Analyze("UPDATE dbo.Orders SET Qty = 0")));
+Assert.False(production.NeedsTypedConfirmation(SqlSafetyAnalyzer.Analyze("UPDATE dbo.Orders SET Qty = 0")));
     }
 
     [Fact]

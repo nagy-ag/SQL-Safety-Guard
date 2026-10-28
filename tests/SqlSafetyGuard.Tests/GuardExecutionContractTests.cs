@@ -65,18 +65,17 @@ public class GuardExecutionContractTests
     }
 
     [Theory]
-    [InlineData("", 0)]
-    [InlineData("sqlguard_prod", 0)]
-    [InlineData("SqlGuard_Prod ", 0)]
-    [InlineData("SqlGuard_Prod", 1)]
-    public void TypedPolicyAdapterRequiresExactName(string entered, int expectedExecutions)
+    [InlineData(false, 0)]
+    [InlineData(true, 1)]
+    public void LegacyTypedPolicyUsesOnlyButtonApproval(bool approved, int expectedExecutions)
     {
         var settings = new GuardSettings(requireTypedConfirmation: true);
         var result = SqlSafetyAnalyzer.Analyze("DELETE dbo.Orders;");
         int executions = 0;
-        bool cancelled = GuardDecision.ShouldCancel(settings, result, () => { },
-            () => !settings.NeedsTypedConfirmation(result) || GuardSettings.ConfirmationMatches("SqlGuard_Prod", entered), _ => { });
+        bool cancelled = GuardDecision.ShouldCancel(settings, result, () => { }, () => approved, _ => { });
         if (!cancelled) executions++;
         Assert.Equal(expectedExecutions, executions);
     }
+
+
 }

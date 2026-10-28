@@ -5,6 +5,34 @@ namespace SqlSafetyGuard.Tests;
 public class GuardUiContractTests
 {
     [Fact]
+    public void ConfirmationUsesCollapsedPassiveScrollableLedgers()
+    {
+        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/ConfirmExecutionDialog.xaml"));
+        XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        Assert.Equal(2, document.Descendants(presentation + "Expander").Count());
+        Assert.Contains(document.Descendants(presentation + "Setter"), element =>
+            (string?)element.Attribute("Property") == "IsExpanded" && (string?)element.Attribute("Value") == "False");
+        Assert.Equal(2, document.Descendants(presentation + "ItemsControl").Count());
+        Assert.Empty(document.Descendants(presentation + "ListBox"));
+        Assert.Empty(document.Descendants(presentation + "TextBox"));
+        Assert.DoesNotContain(document.Descendants().Attributes(), attribute => attribute.Name.LocalName.StartsWith("Mouse"));
+        Assert.All(document.Descendants(presentation + "Expander"), section =>
+        {
+            var scroll = Assert.Single(section.Elements(presentation + "ScrollViewer"));
+            Assert.Equal("190", (string?)scroll.Attribute("MaxHeight"));
+            Assert.Equal("Auto", (string?)scroll.Attribute("VerticalScrollBarVisibility"));
+        });
+        Assert.All(document.Descendants(presentation + "Button"), button =>
+            Assert.Empty(button.Ancestors(presentation + "ScrollViewer")));
+        var text = document.ToString();
+        Assert.Contains("CHANGES TO PERMANENT OBJECTS", text);
+        Assert.Contains("CAN'T SEE INSIDE", text);
+        Assert.DoesNotContain("Binding Note", text);
+        Assert.DoesNotContain("Binding Finding", text);
+    }
+
+    [Fact]
     public void CollapsedPaneHasPassiveBadgesAndOneExpandTarget()
     {
         var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));

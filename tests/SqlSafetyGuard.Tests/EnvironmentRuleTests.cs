@@ -69,7 +69,7 @@ public class EnvironmentRuleTests
         var settings = rules.Resolve("PROD-A", "Orders", global);
         Assert.Equal(new[] { "GlobalTable", "dbo.Stage*", "dbo.Audit" }, settings.AllowList);
         Assert.Equal(3, settings.TrustedProcedures.Count);
-        Assert.True(settings.RequireTypedConfirmation);
+        Assert.False(settings.RequireTypedConfirmation);
         Assert.Same(global, rules.Resolve("OTHER", "Orders", global));
     }
 
@@ -114,27 +114,24 @@ public class EnvironmentRuleTests
         Assert.Equal(warn, new GuardSettings(mode).ShouldWarn(SqlSafetyAnalyzer.Analyze(sql)));
 
     [Theory]
-    [InlineData("DELETE dbo.Orders", true)]
-    [InlineData("UPDATE dbo.Orders SET Id=1", true)]
-    [InlineData("TRUNCATE TABLE dbo.Orders", true)]
-    [InlineData("DROP TABLE dbo.Orders", true)]
-    [InlineData("DROP DATABASE Orders", true)]
-    [InlineData("DROP INDEX IX_Orders ON dbo.Orders", true)]
-    [InlineData("DROP PROCEDURE dbo.Opaque", true)]
-    [InlineData("DROP PROCEDURE #temp", false)]
-    [InlineData("EXEC dbo.Opaque", false)]
-    [InlineData("DELETE dbo.Orders WHERE Id=1", false)]
-    [InlineData("DELETE #temp", false)]
-    public void TypedConfirmationAppliesOnlyToRedWholeTargetFindings(string sql, bool required) =>
-        Assert.Equal(required, new GuardSettings(requireTypedConfirmation: true).NeedsTypedConfirmation(SqlSafetyAnalyzer.Analyze(sql)));
+    [InlineData("DELETE dbo.Orders")]
+    [InlineData("UPDATE dbo.Orders SET Id=1")]
+    [InlineData("TRUNCATE TABLE dbo.Orders")]
+    [InlineData("DROP TABLE dbo.Orders")]
+    [InlineData("DROP DATABASE Orders")]
+    [InlineData("EXEC dbo.Opaque")]
+    public void LegacyTypedSettingNeverRequiresTyping(string sql) =>
+        Assert.False(new GuardSettings(requireTypedConfirmation: true).NeedsTypedConfirmation(SqlSafetyAnalyzer.Analyze(sql)));
 
     [Theory]
-    [InlineData("Orders", "Orders", true)]
-    [InlineData("Orders", "orders", false)]
-    [InlineData(null, "", false)]
-    [InlineData("", "", false)]
-    public void TypedDatabaseNameMustBeKnownAndExact(string? database, string entered, bool matches) =>
-        Assert.Equal(matches, GuardSettings.ConfirmationMatches(database, entered));
+    [InlineData("true")]
+    [InlineData("false")]
+    public void LegacyRuleFieldIsAcceptedAndIgnored(string legacy)
+    {
+        var rules = new EnvironmentRules("* | | Production | YellowRed | " + legacy);
+        Assert.Empty(rules.Warnings);
+        Assert.False(rules.Resolve("server", "Orders", new GuardSettings()).RequireTypedConfirmation);
+    }
 
     [Theory]
     [InlineData("DELETE dbo.Orders")]

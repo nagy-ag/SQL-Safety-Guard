@@ -166,6 +166,9 @@ namespace SqlSafetyGuard.UI
             return value;
         }
 
+        internal static string ObjectDisplayName(string target) =>
+            string.Join(".", SplitName(target).Select(Unquote).Reverse().Take(2).Reverse());
+
         private static List<string> SplitName(string name)
         {
             var parts = new List<string>();
@@ -205,10 +208,7 @@ namespace SqlSafetyGuard.UI
             EnvironmentLabel = settings.MatchedRule == null ? null : settings.Environment;
             EnvironmentDescription = EnvironmentLabel == null ? "global settings" : EnvironmentLabel + " rule · " + settings.MatchedRule;
             WhenToAsk = settings.Mode == ExecutionMode.Off ? "Off" : settings.Mode == ExecutionMode.Red ? "Red only" : "Red and yellow";
-            TypedConfirmation = !settings.RequireTypedConfirmation ? "No database name required" :
-                settings.Mode == ExecutionMode.Off ? "Configured, but inactive while the F5 guard is off" :
-                "Type the database name for red unfiltered UPDATE/DELETE, TRUNCATE and DROP" +
-                (database == null ? "; unknown database cannot be confirmed" : string.Empty);
+            TypedConfirmation = "No typing required";
             Tempdb = options.TempdbIsTemp ? "Treated as temp" : "Not treated as temp";
             SafeTables = options.AllowList.Patterns.Select((pattern, index) => new PanePattern(pattern,
                 index < globalTables ? "global" : EnvironmentLabel + " rule")).ToList();

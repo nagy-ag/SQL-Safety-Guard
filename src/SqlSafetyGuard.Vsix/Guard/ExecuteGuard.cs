@@ -123,11 +123,6 @@ namespace SqlSafetyGuard.Guard
                     var dialog = new ConfirmExecutionDialog(result, snapshot, connection, settings, options.ShowServerAndDatabase);
                     bool runAnyway = dialog.ShowModal() == true;
                     OutputLog.Info(runAnyway ? $"Run anyway: {result.Summary}." : $"Execution cancelled: {result.Summary}.");
-                    if (!runAnyway && dialog.NavigateTo != null)
-                    {
-                        try { SqlEditorAccess.Navigate(snapshot, dialog.NavigateTo.StartOffset); }
-                        catch (Exception ex) { _package.ReportGuardFailure(ex); }
-                    }
                     return runAnyway;
                 }, _package.ReportGuardFailure);
         }

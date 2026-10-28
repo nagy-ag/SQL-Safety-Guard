@@ -20,7 +20,7 @@ namespace SqlSafetyGuard.Analyzer
         {
             Mode = mode;
             Environment = environment;
-            RequireTypedConfirmation = requireTypedConfirmation;
+            RequireTypedConfirmation = false;
             AllowList = (allowList ?? Enumerable.Empty<string>()).ToArray();
             TrustedProcedures = (trustedProcedures ?? Enumerable.Empty<string>()).ToArray();
             MatchedRule = matchedRule;
@@ -36,12 +36,7 @@ namespace SqlSafetyGuard.Analyzer
         public bool ShouldWarn(AnalysisResult result) => Mode != ExecutionMode.Off &&
             (Mode == ExecutionMode.Red ? result.Overall == Verdict.RealWrite : !result.IsGreen);
 
-        public bool NeedsTypedConfirmation(AnalysisResult result) => RequireTypedConfirmation &&
-            result.Findings.Any(finding => finding.Verdict == Verdict.RealWrite &&
-                (finding.AffectsAllRows || finding.Action.StartsWith("DROP ", StringComparison.OrdinalIgnoreCase)));
-
-        public static bool ConfirmationMatches(string database, string entered) => !string.IsNullOrWhiteSpace(database) &&
-            string.Equals(database, entered, StringComparison.Ordinal);
+        public bool NeedsTypedConfirmation(AnalysisResult result) => false;
 
         public GuardSettings Add(GuardSettings global) => new GuardSettings(Mode, Environment, RequireTypedConfirmation,
             global.AllowList.Concat(AllowList), global.TrustedProcedures.Concat(TrustedProcedures), MatchedRule);

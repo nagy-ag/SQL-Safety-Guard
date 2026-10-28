@@ -68,14 +68,14 @@ namespace SqlSafetyGuard.Options
         public string TrustedProcedures { get; set; } = string.Empty;
 
         [Category("F5 guard")]
-        [DisplayName("Require typed confirmation globally")]
-        [Description("Require the exact database name before running red unfiltered UPDATE/DELETE, TRUNCATE or DROP. Unknown database cannot be confirmed.")]
+[Browsable(false)]
+[Description("Legacy setting retained for compatibility; confirmation never requires typing.")]
         [DefaultValue(false)]
         public bool RequireTypedConfirmation { get; set; }
 
         [Category("F5 guard")]
         [DisplayName("Server / environment rules")]
-        [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | true/false typed | allow-list | trusted procedures. " +
+        [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted procedures. " +
                      "Lists are semicolon-separated and ADD to global lists. Unknown server/database uses globals. See README for examples.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
