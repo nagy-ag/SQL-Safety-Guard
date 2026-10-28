@@ -68,7 +68,7 @@ No observed genuine FALSE GREEN SQL exists to list. The intentional smoke negati
 
 ## One-time overnight task
 
-Task: **SQL Safety Guard Wave2 2026-10-28**, October 28, 2026 **22:00 Europe/Bucharest (UTC+02:00)**, once only. Eight-hour harness budget; nine-hour scheduler limit for draining cleanup; IgnoreNew. Interactive logon requires this user to remain logged on; Windows power conditions still apply.
+Task: **SQL Safety Guard Wave2 2026-10-28**, October 28, 2026 **22:00 Europe/Bucharest (UTC+02:00)**, once only. Eight-hour harness budget; nine-hour scheduler limit for draining cleanup; IgnoreNew. Interactive current-user, non-elevated logon requires this user to remain logged on; Windows power conditions still apply. The initial elevated registration was denied, so the script uses the existing user token (which already executes the validated SQL campaigns); it never requests elevation. The failed attempt left an immutable earlier-head frozen folder, not a scheduled task.
 
 `tools/verification/Register-Wave2Overnight.ps1` refuses dirty source, past times, an existing task or an existing frozen-head folder. Run only after final Release builds from the clean branch head. It copies the entire harness/analyzer Release outputs, SQL world resources, overnight script and host inputs into:
 

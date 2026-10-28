@@ -33,11 +33,11 @@ try {
     $arguments = '-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $frozen 'Run-Overnight.ps1') + '" -HarnessPath "' + (Join-Path $frozen 'harness\SqlSafetyGuard.ServerHarness.dll') + '" -AnalyzerPath "' + (Join-Path $frozen 'analyzer\SqlSafetyGuard.Analyzer.dll') + '" -Cases "' + (Join-Path $frozen 'cases') + '" -Server ".\SQLEXPRESS" -Workers 4 -BudgetMinutes 480 -TimeoutSeconds 20 -Output "' + $output + '"'
     $action = New-ScheduledTaskAction -Execute "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $arguments -WorkingDirectory $frozen
     $trigger = New-ScheduledTaskTrigger -Once -At $RunAt
-    $principal = New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Highest
+    $principal = New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited
     $settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 9)
-    Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description ('Wave2 head ' + $head + '; 8-hour owned SQL campaign; interactive logon required.') | Out-Null
-    $task = Get-ScheduledTask -TaskName $TaskName
-    $info = Get-ScheduledTaskInfo -TaskName $TaskName
+    Register-ScheduledTask -ErrorAction Stop -TaskName $TaskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description ('Wave2 head ' + $head + '; 8-hour owned SQL campaign; interactive logon required.') | Out-Null
+    $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
+    $info = Get-ScheduledTaskInfo -TaskName $TaskName -ErrorAction Stop
     $receipt = [pscustomobject]@{ TaskName = $task.TaskName; State = [string]$task.State; NextRunTime = $info.NextRunTime.ToString('o'); Head = $head; Frozen = $frozen; Output = $output; Execute = $action.Execute; Arguments = $arguments }
     New-Item -ItemType Directory -Path (Split-Path $output) -Force | Out-Null
     $receipt | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path (Split-Path $output) 'wave2-task-registration.json') -Encoding UTF8
