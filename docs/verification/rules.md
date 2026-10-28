@@ -25,7 +25,7 @@ Every entry is a reviewed semantic rule or dispatch-table member. Retired line-l
 | recovery-keyword | 18 |
 | resolution | 10 |
 | safe-dbcc | 28 |
-| safe-procedure | 50 |
+| safe-procedure | 49 |
 | scope | 6 |
 | set-family | 20 |
 | set-option | 25 |
@@ -34,14 +34,14 @@ Every entry is a reviewed semantic rule or dispatch-table member. Retired line-l
 | unknown-dbcc | 48 |
 | unknown-statement | 3 |
 | walking | 48 |
-| writing-procedure | 71 |
+| writing-procedure | 72 |
 
 ## action-name.altertableaddclusterbystatement
 
 ActionNames contains AlterTableAddClusterByStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:255`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:256`.
 - Existing tests: No reviewed association.
 
 ## action-name.altertableaddtableelementstatement
@@ -49,7 +49,7 @@ ActionNames contains AlterTableAddClusterByStatement; choose this action label; 
 ActionNames contains AlterTableAddTableElementStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:243`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:244`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealtercolumnstatement
@@ -57,7 +57,7 @@ ActionNames contains AlterTableAddTableElementStatement; choose this action labe
 ActionNames contains AlterTableAlterColumnStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:244`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:245`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealterindexstatement
@@ -65,7 +65,7 @@ ActionNames contains AlterTableAlterColumnStatement; choose this action label; v
 ActionNames contains AlterTableAlterIndexStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:253`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:254`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealterpartitionstatement
@@ -73,7 +73,7 @@ ActionNames contains AlterTableAlterIndexStatement; choose this action label; ve
 ActionNames contains AlterTableAlterPartitionStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:254`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:255`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablechangetrackingmodificationstatement
@@ -81,7 +81,7 @@ ActionNames contains AlterTableAlterPartitionStatement; choose this action label
 ActionNames contains AlterTableChangeTrackingModificationStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:251`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:252`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertableconstraintmodificationstatement
@@ -89,7 +89,7 @@ ActionNames contains AlterTableChangeTrackingModificationStatement; choose this 
 ActionNames contains AlterTableConstraintModificationStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:246`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:247`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertabledroptableelementstatement
@@ -97,7 +97,7 @@ ActionNames contains AlterTableConstraintModificationStatement; choose this acti
 ActionNames contains AlterTableDropTableElementStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:245`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:246`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablefiletablenamespacestatement
@@ -105,7 +105,7 @@ ActionNames contains AlterTableDropTableElementStatement; choose this action lab
 ActionNames contains AlterTableFileTableNamespaceStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:252`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:253`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablerebuildstatement
@@ -113,7 +113,7 @@ ActionNames contains AlterTableFileTableNamespaceStatement; choose this action l
 ActionNames contains AlterTableRebuildStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:249`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:250`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablesetstatement
@@ -121,7 +121,7 @@ ActionNames contains AlterTableRebuildStatement; choose this action label; verdi
 ActionNames contains AlterTableSetStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:247`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:248`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertableswitchstatement
@@ -129,7 +129,7 @@ ActionNames contains AlterTableSetStatement; choose this action label; verdict u
 ActionNames contains AlterTableSwitchStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:248`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:249`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertabletriggermodificationstatement
@@ -137,7 +137,7 @@ ActionNames contains AlterTableSwitchStatement; choose this action label; verdic
 ActionNames contains AlterTableTriggerModificationStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:250`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:251`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.backupdatabasestatement
@@ -145,7 +145,7 @@ ActionNames contains AlterTableTriggerModificationStatement; choose this action 
 ActionNames contains BackupDatabaseStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:239`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:240`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.backuptransactionlogstatement
@@ -153,7 +153,7 @@ ActionNames contains BackupDatabaseStatement; choose this action label; verdict 
 ActionNames contains BackupTransactionLogStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:240`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:241`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.begintransactionstatement
@@ -161,7 +161,7 @@ ActionNames contains BackupTransactionLogStatement; choose this action label; ve
 ActionNames contains BeginTransactionStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:231`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:232`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.bulkinsertstatement
@@ -169,7 +169,7 @@ ActionNames contains BeginTransactionStatement; choose this action label; verdic
 ActionNames contains BulkInsertStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:256`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:257`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.committransactionstatement
@@ -177,7 +177,7 @@ ActionNames contains BulkInsertStatement; choose this action label; verdict unch
 ActionNames contains CommitTransactionStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:232`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:233`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.dbccstatement
@@ -185,7 +185,7 @@ ActionNames contains CommitTransactionStatement; choose this action label; verdi
 ActionNames contains DbccStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:238`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:239`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declarecursorstatement
@@ -193,7 +193,7 @@ ActionNames contains DbccStatement; choose this action label; verdict unchanged.
 ActionNames contains DeclareCursorStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:230`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:231`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declaretablevariablestatement
@@ -201,7 +201,7 @@ ActionNames contains DeclareCursorStatement; choose this action label; verdict u
 ActionNames contains DeclareTableVariableStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:229`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:230`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declarevariablestatement
@@ -209,7 +209,7 @@ ActionNames contains DeclareTableVariableStatement; choose this action label; ve
 ActionNames contains DeclareVariableStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:228`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:229`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.executeasstatement
@@ -217,7 +217,7 @@ ActionNames contains DeclareVariableStatement; choose this action label; verdict
 ActionNames contains ExecuteAsStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:241`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:242`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.gotostatement
@@ -225,7 +225,7 @@ ActionNames contains ExecuteAsStatement; choose this action label; verdict uncha
 ActionNames contains GoToStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:237`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:238`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.insertbulkstatement
@@ -233,7 +233,7 @@ ActionNames contains GoToStatement; choose this action label; verdict unchanged.
 ActionNames contains InsertBulkStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:257`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:258`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.raiseerrorlegacystatement
@@ -241,7 +241,7 @@ ActionNames contains InsertBulkStatement; choose this action label; verdict unch
 ActionNames contains RaiseErrorLegacyStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:236`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:237`.
 - Existing tests: No reviewed association.
 
 ## action-name.raiseerrorstatement
@@ -249,7 +249,7 @@ ActionNames contains RaiseErrorLegacyStatement; choose this action label; verdic
 ActionNames contains RaiseErrorStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:235`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:236`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.rollbacktransactionstatement
@@ -257,7 +257,7 @@ ActionNames contains RaiseErrorStatement; choose this action label; verdict unch
 ActionNames contains RollbackTransactionStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:233`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:234`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.savetransactionstatement
@@ -265,7 +265,7 @@ ActionNames contains RollbackTransactionStatement; choose this action label; ver
 ActionNames contains SaveTransactionStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:234`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:235`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.setvariablestatement
@@ -273,7 +273,7 @@ ActionNames contains SaveTransactionStatement; choose this action label; verdict
 ActionNames contains SetVariableStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:227`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:228`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.updatestatisticsstatement
@@ -281,7 +281,7 @@ ActionNames contains SetVariableStatement; choose this action label; verdict unc
 ActionNames contains UpdateStatisticsStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:242`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:243`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## aggregate.max
@@ -385,7 +385,7 @@ A remote target needs an explicit four-part pattern; a shorter pattern cannot co
 ChangingDbcc contains AddExtendedProc; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:161`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:162`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.cleantable
@@ -393,7 +393,7 @@ ChangingDbcc contains AddExtendedProc; classify as RealWrite after specialized d
 ChangingDbcc contains CleanTable; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:145`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:146`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.clearspacecaches
@@ -401,7 +401,7 @@ ChangingDbcc contains CleanTable; classify as RealWrite after specialized dispat
 ChangingDbcc contains ClearSpaceCaches; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:168`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:169`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dbrecover
@@ -409,7 +409,7 @@ ChangingDbcc contains ClearSpaceCaches; classify as RealWrite after specialized 
 ChangingDbcc contains DBRecover; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:167`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:168`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dbreindex
@@ -417,7 +417,7 @@ ChangingDbcc contains DBRecover; classify as RealWrite after specialized dispatc
 ChangingDbcc contains DBReindex; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:146`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:147`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dbreindexall
@@ -425,7 +425,7 @@ ChangingDbcc contains DBReindex; classify as RealWrite after specialized dispatc
 ChangingDbcc contains DBReindexAll; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:147`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:148`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dbrepair
@@ -433,7 +433,7 @@ ChangingDbcc contains DBReindexAll; classify as RealWrite after specialized disp
 ChangingDbcc contains DBRepair; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:153`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:154`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.detachdb
@@ -441,7 +441,7 @@ ChangingDbcc contains DBRepair; classify as RealWrite after specialized dispatch
 ChangingDbcc contains DetachDB; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:154`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:155`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dropcleanbuffers
@@ -449,7 +449,7 @@ ChangingDbcc contains DetachDB; classify as RealWrite after specialized dispatch
 ChangingDbcc contains DropCleanBuffers; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:142`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:143`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.dropextendedproc
@@ -457,7 +457,7 @@ ChangingDbcc contains DropCleanBuffers; classify as RealWrite after specialized 
 ChangingDbcc contains DropExtendedProc; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:162`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:163`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.errorlog
@@ -465,7 +465,7 @@ ChangingDbcc contains DropExtendedProc; classify as RealWrite after specialized 
 ChangingDbcc contains ErrorLog; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:155`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:156`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.fixallocation
@@ -473,7 +473,7 @@ ChangingDbcc contains ErrorLog; classify as RealWrite after specialized dispatch
 ChangingDbcc contains FixAllocation; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:166`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:167`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.flushprocindb
@@ -481,7 +481,7 @@ ChangingDbcc contains FixAllocation; classify as RealWrite after specialized dis
 ChangingDbcc contains FlushProcInDB; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:156`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:157`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.forceghostcleanup
@@ -489,7 +489,7 @@ ChangingDbcc contains FlushProcInDB; classify as RealWrite after specialized dis
 ChangingDbcc contains ForceGhostCleanup; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:157`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:158`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.free
@@ -497,7 +497,7 @@ ChangingDbcc contains ForceGhostCleanup; classify as RealWrite after specialized
 ChangingDbcc contains Free; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:169`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:170`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.freeproccache
@@ -505,7 +505,7 @@ ChangingDbcc contains Free; classify as RealWrite after specialized dispatch/qua
 ChangingDbcc contains FreeProcCache; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:139`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:140`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.freesessioncache
@@ -513,7 +513,7 @@ ChangingDbcc contains FreeProcCache; classify as RealWrite after specialized dis
 ChangingDbcc contains FreeSessionCache; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:140`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:141`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.freesystemcache
@@ -521,7 +521,7 @@ ChangingDbcc contains FreeSessionCache; classify as RealWrite after specialized 
 ChangingDbcc contains FreeSystemCache; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:141`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:142`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.freezeio
@@ -529,7 +529,7 @@ ChangingDbcc contains FreeSystemCache; classify as RealWrite after specialized d
 ChangingDbcc contains FreezeIO; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:163`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:164`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.indexdefrag
@@ -537,7 +537,7 @@ ChangingDbcc contains FreezeIO; classify as RealWrite after specialized dispatch
 ChangingDbcc contains IndexDefrag; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:148`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:149`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.movepage
@@ -545,7 +545,7 @@ ChangingDbcc contains IndexDefrag; classify as RealWrite after specialized dispa
 ChangingDbcc contains MovePage; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:165`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:166`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.pintable
@@ -553,7 +553,7 @@ ChangingDbcc contains MovePage; classify as RealWrite after specialized dispatch
 ChangingDbcc contains PinTable; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:158`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:159`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.renamecolumn
@@ -561,7 +561,7 @@ ChangingDbcc contains PinTable; classify as RealWrite after specialized dispatch
 ChangingDbcc contains RenameColumn; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:160`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:161`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.setcpuweight
@@ -569,7 +569,7 @@ ChangingDbcc contains RenameColumn; classify as RealWrite after specialized disp
 ChangingDbcc contains SetCpuWeight; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:170`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:171`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.setioweight
@@ -577,7 +577,7 @@ ChangingDbcc contains SetCpuWeight; classify as RealWrite after specialized disp
 ChangingDbcc contains SetIOWeight; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:171`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:172`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.shrinkdatabase
@@ -585,7 +585,7 @@ ChangingDbcc contains SetIOWeight; classify as RealWrite after specialized dispa
 ChangingDbcc contains ShrinkDatabase; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:143`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:144`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.shrinkfile
@@ -593,7 +593,7 @@ ChangingDbcc contains ShrinkDatabase; classify as RealWrite after specialized di
 ChangingDbcc contains ShrinkFile; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:144`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:145`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.thawio
@@ -601,7 +601,7 @@ ChangingDbcc contains ShrinkFile; classify as RealWrite after specialized dispat
 ChangingDbcc contains ThawIO; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:164`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:165`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.traceoff
@@ -609,7 +609,7 @@ ChangingDbcc contains ThawIO; classify as RealWrite after specialized dispatch/q
 ChangingDbcc contains TraceOff; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:151`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:152`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.traceon
@@ -617,7 +617,7 @@ ChangingDbcc contains TraceOff; classify as RealWrite after specialized dispatch
 ChangingDbcc contains TraceOn; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:150`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:151`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.unpintable
@@ -625,7 +625,7 @@ ChangingDbcc contains TraceOn; classify as RealWrite after specialized dispatch/
 ChangingDbcc contains UnpinTable; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:159`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:160`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.updateusage
@@ -633,7 +633,7 @@ ChangingDbcc contains UnpinTable; classify as RealWrite after specialized dispat
 ChangingDbcc contains UpdateUsage; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:149`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:150`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## changing-dbcc.writepage
@@ -641,7 +641,7 @@ ChangingDbcc contains UpdateUsage; classify as RealWrite after specialized dispa
 ChangingDbcc contains WritePage; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:152`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:153`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## dbcc.checkident
@@ -649,7 +649,7 @@ ChangingDbcc contains WritePage; classify as RealWrite after specialized dispatc
 CHECKIDENT is green only for second IdentifierLiteral NORESEED; otherwise may reseed.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:191`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:192`.
 - Existing tests: tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen); tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)
 
 ## dbcc.clear
@@ -657,7 +657,7 @@ CHECKIDENT is green only for second IdentifierLiteral NORESEED; otherwise may re
 SQLPERF CLEAR overrides its otherwise safe table entry.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:199`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:200`.
 - Existing tests: tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)
 
 ## dbcc.dll
@@ -665,7 +665,7 @@ SQLPERF CLEAR overrides its otherwise safe table entry.
 DBCC DLL form unloads an extended procedure DLL.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:179`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:180`.
 - Existing tests: tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)
 
 ## dbcc.fallback
@@ -673,7 +673,7 @@ DBCC DLL form unloads an extended procedure DLL.
 An unlisted DBCC command is Unknown.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)
 
 ## dbcc.repair
@@ -681,7 +681,7 @@ An unlisted DBCC command is Unknown.
 Any literal REPAIR_ argument after first parameter overrides safe DBCC classification.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:185`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:186`.
 - Existing tests: tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)
 
 ## temp.name
@@ -689,7 +689,7 @@ Any literal REPAIR_ argument after first parameter overrides safe DBCC classific
 A # prefix includes both local and global temporary names; no server qualifier is permitted by IsTemp.
 
 - Outcomes: TempOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:260`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:261`.
 - Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)
 
 ## temp.tempdb-opt-in
@@ -697,7 +697,7 @@ A # prefix includes both local and global temporary names; no server qualifier i
 TempdbIsTemp opt-in treats a tempdb-qualified permanent target as temporary without a remote server.
 
 - Outcomes: TempOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:262`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:263`.
 - Existing tests: tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)
 
 ## write.allow-list
@@ -705,7 +705,7 @@ TempdbIsTemp opt-in treats a tempdb-qualified permanent target as temporary with
 Write precedence: temporary target, then eligible allow-list match, otherwise permanent write. DDL disables allow-list.
 
 - Outcomes: TempOnly, AllowListed, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:273`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:274`.
 - Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251 (AllowList_DoesNotApplyToDdl); tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257 (AllowList_AppliesToTruncateAndSelectInto)
 
 ## entry.empty
@@ -825,7 +825,7 @@ YellowRed mode asks for every nongreen result.
 ReadOnlyStatementTypes contains BeginTransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.breakstatement
@@ -833,7 +833,7 @@ ReadOnlyStatementTypes contains BeginTransactionStatement; classify as ReadOnly 
 ReadOnlyStatementTypes contains BreakStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closecursorstatement
@@ -841,7 +841,7 @@ ReadOnlyStatementTypes contains BreakStatement; classify as ReadOnly after speci
 ReadOnlyStatementTypes contains CloseCursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closemasterkeystatement
@@ -849,7 +849,7 @@ ReadOnlyStatementTypes contains CloseCursorStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains CloseMasterKeyStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:122`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closesymmetrickeystatement
@@ -857,7 +857,7 @@ ReadOnlyStatementTypes contains CloseMasterKeyStatement; classify as ReadOnly af
 ReadOnlyStatementTypes contains CloseSymmetricKeyStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.committransactionstatement
@@ -865,7 +865,7 @@ ReadOnlyStatementTypes contains CloseSymmetricKeyStatement; classify as ReadOnly
 ReadOnlyStatementTypes contains CommitTransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.continuestatement
@@ -873,7 +873,7 @@ ReadOnlyStatementTypes contains CommitTransactionStatement; classify as ReadOnly
 ReadOnlyStatementTypes contains ContinueStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.cursorstatement
@@ -881,7 +881,7 @@ ReadOnlyStatementTypes contains ContinueStatement; classify as ReadOnly after sp
 ReadOnlyStatementTypes contains CursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
 - Existing tests: No reviewed association.
 
 ## green-statement.deallocatecursorstatement
@@ -889,7 +889,7 @@ ReadOnlyStatementTypes contains CursorStatement; classify as ReadOnly after spec
 ReadOnlyStatementTypes contains DeallocateCursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declarecursorstatement
@@ -897,7 +897,7 @@ ReadOnlyStatementTypes contains DeallocateCursorStatement; classify as ReadOnly 
 ReadOnlyStatementTypes contains DeclareCursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declaretablevariablestatement
@@ -905,7 +905,7 @@ ReadOnlyStatementTypes contains DeclareCursorStatement; classify as ReadOnly aft
 ReadOnlyStatementTypes contains DeclareTableVariableStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declarevariablestatement
@@ -913,7 +913,7 @@ ReadOnlyStatementTypes contains DeclareTableVariableStatement; classify as ReadO
 ReadOnlyStatementTypes contains DeclareVariableStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.executeasstatement
@@ -921,7 +921,7 @@ ReadOnlyStatementTypes contains DeclareVariableStatement; classify as ReadOnly a
 ReadOnlyStatementTypes contains ExecuteAsStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:118`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.fetchcursorstatement
@@ -929,7 +929,7 @@ ReadOnlyStatementTypes contains ExecuteAsStatement; classify as ReadOnly after s
 ReadOnlyStatementTypes contains FetchCursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.getconversationgroupstatement
@@ -937,7 +937,7 @@ ReadOnlyStatementTypes contains FetchCursorStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains GetConversationGroupStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:122`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.gotostatement
@@ -945,7 +945,7 @@ ReadOnlyStatementTypes contains GetConversationGroupStatement; classify as ReadO
 ReadOnlyStatementTypes contains GoToStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.labelstatement
@@ -953,7 +953,7 @@ ReadOnlyStatementTypes contains GoToStatement; classify as ReadOnly after specia
 ReadOnlyStatementTypes contains LabelStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.linenostatement
@@ -961,7 +961,7 @@ ReadOnlyStatementTypes contains LabelStatement; classify as ReadOnly after speci
 ReadOnlyStatementTypes contains LineNoStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:122`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.opencursorstatement
@@ -969,7 +969,7 @@ ReadOnlyStatementTypes contains LineNoStatement; classify as ReadOnly after spec
 ReadOnlyStatementTypes contains OpenCursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.openmasterkeystatement
@@ -977,7 +977,7 @@ ReadOnlyStatementTypes contains OpenCursorStatement; classify as ReadOnly after 
 ReadOnlyStatementTypes contains OpenMasterKeyStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.opensymmetrickeystatement
@@ -985,7 +985,7 @@ ReadOnlyStatementTypes contains OpenMasterKeyStatement; classify as ReadOnly aft
 ReadOnlyStatementTypes contains OpenSymmetricKeyStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.printstatement
@@ -993,7 +993,7 @@ ReadOnlyStatementTypes contains OpenSymmetricKeyStatement; classify as ReadOnly 
 ReadOnlyStatementTypes contains PrintStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.raiseerrorlegacystatement
@@ -1001,7 +1001,7 @@ ReadOnlyStatementTypes contains PrintStatement; classify as ReadOnly after speci
 ReadOnlyStatementTypes contains RaiseErrorLegacyStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
 - Existing tests: No reviewed association.
 
 ## green-statement.raiseerrorstatement
@@ -1009,7 +1009,7 @@ ReadOnlyStatementTypes contains RaiseErrorLegacyStatement; classify as ReadOnly 
 ReadOnlyStatementTypes contains RaiseErrorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.readtextstatement
@@ -1017,7 +1017,7 @@ ReadOnlyStatementTypes contains RaiseErrorStatement; classify as ReadOnly after 
 ReadOnlyStatementTypes contains ReadTextStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.returnstatement
@@ -1025,7 +1025,7 @@ ReadOnlyStatementTypes contains ReadTextStatement; classify as ReadOnly after sp
 ReadOnlyStatementTypes contains ReturnStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.revertstatement
@@ -1033,7 +1033,7 @@ ReadOnlyStatementTypes contains ReturnStatement; classify as ReadOnly after spec
 ReadOnlyStatementTypes contains RevertStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:118`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.rollbacktransactionstatement
@@ -1041,7 +1041,7 @@ ReadOnlyStatementTypes contains RevertStatement; classify as ReadOnly after spec
 ReadOnlyStatementTypes contains RollbackTransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.savetransactionstatement
@@ -1049,7 +1049,7 @@ ReadOnlyStatementTypes contains RollbackTransactionStatement; classify as ReadOn
 ReadOnlyStatementTypes contains SaveTransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setcommandstatement
@@ -1057,7 +1057,7 @@ ReadOnlyStatementTypes contains SaveTransactionStatement; classify as ReadOnly a
 ReadOnlyStatementTypes contains SetCommandStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.seterrorlevelstatement
@@ -1065,7 +1065,7 @@ ReadOnlyStatementTypes contains SetCommandStatement; classify as ReadOnly after 
 ReadOnlyStatementTypes contains SetErrorLevelStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setidentityinsertstatement
@@ -1073,7 +1073,7 @@ ReadOnlyStatementTypes contains SetErrorLevelStatement; classify as ReadOnly aft
 ReadOnlyStatementTypes contains SetIdentityInsertStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setonoffstatement
@@ -1081,7 +1081,7 @@ ReadOnlyStatementTypes contains SetIdentityInsertStatement; classify as ReadOnly
 ReadOnlyStatementTypes contains SetOnOffStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: No reviewed association.
 
 ## green-statement.setrowcountstatement
@@ -1089,7 +1089,7 @@ ReadOnlyStatementTypes contains SetOnOffStatement; classify as ReadOnly after sp
 ReadOnlyStatementTypes contains SetRowCountStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.settextsizestatement
@@ -1097,7 +1097,7 @@ ReadOnlyStatementTypes contains SetRowCountStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains SetTextSizeStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.settransactionisolationlevelstatement
@@ -1105,7 +1105,7 @@ ReadOnlyStatementTypes contains SetTextSizeStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains SetTransactionIsolationLevelStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setuserstatement
@@ -1113,7 +1113,7 @@ ReadOnlyStatementTypes contains SetTransactionIsolationLevelStatement; classify 
 ReadOnlyStatementTypes contains SetUserStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setvariablestatement
@@ -1121,7 +1121,7 @@ ReadOnlyStatementTypes contains SetUserStatement; classify as ReadOnly after spe
 ReadOnlyStatementTypes contains SetVariableStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.throwstatement
@@ -1129,7 +1129,7 @@ ReadOnlyStatementTypes contains SetVariableStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains ThrowStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.transactionstatement
@@ -1137,7 +1137,7 @@ ReadOnlyStatementTypes contains ThrowStatement; classify as ReadOnly after speci
 ReadOnlyStatementTypes contains TransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
 - Existing tests: No reviewed association.
 
 ## green-statement.usefederationstatement
@@ -1145,7 +1145,7 @@ ReadOnlyStatementTypes contains TransactionStatement; classify as ReadOnly after
 ReadOnlyStatementTypes contains UseFederationStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:122`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.usestatement
@@ -1153,7 +1153,7 @@ ReadOnlyStatementTypes contains UseFederationStatement; classify as ReadOnly aft
 ReadOnlyStatementTypes contains UseStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.waitforstatement
@@ -1161,7 +1161,7 @@ ReadOnlyStatementTypes contains UseStatement; classify as ReadOnly after special
 ReadOnlyStatementTypes contains WaitForStatement; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:118`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## hidden.adhoc
@@ -1697,7 +1697,7 @@ Variable table targets resolve to table-variable kind.
 ReadOnlyDbcc contains ActiveCursors; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.cachestats
@@ -1705,7 +1705,7 @@ ReadOnlyDbcc contains ActiveCursors; classify as ReadOnly after specialized disp
 ReadOnlyDbcc contains CacheStats; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checkalloc
@@ -1713,7 +1713,7 @@ ReadOnlyDbcc contains CacheStats; classify as ReadOnly after specialized dispatc
 ReadOnlyDbcc contains CheckAlloc; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checkcatalog
@@ -1721,7 +1721,7 @@ ReadOnlyDbcc contains CheckAlloc; classify as ReadOnly after specialized dispatc
 ReadOnlyDbcc contains CheckCatalog; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checkconstraints
@@ -1729,7 +1729,7 @@ ReadOnlyDbcc contains CheckCatalog; classify as ReadOnly after specialized dispa
 ReadOnlyDbcc contains CheckConstraints; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checkdb
@@ -1737,7 +1737,7 @@ ReadOnlyDbcc contains CheckConstraints; classify as ReadOnly after specialized d
 ReadOnlyDbcc contains CheckDB; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checkfilegroup
@@ -1745,7 +1745,7 @@ ReadOnlyDbcc contains CheckDB; classify as ReadOnly after specialized dispatch/q
 ReadOnlyDbcc contains CheckFileGroup; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.checktable
@@ -1753,7 +1753,7 @@ ReadOnlyDbcc contains CheckFileGroup; classify as ReadOnly after specialized dis
 ReadOnlyDbcc contains CheckTable; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.cursorstats
@@ -1761,7 +1761,7 @@ ReadOnlyDbcc contains CheckTable; classify as ReadOnly after specialized dispatc
 ReadOnlyDbcc contains CursorStats; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.extentinfo
@@ -1769,7 +1769,7 @@ ReadOnlyDbcc contains CursorStats; classify as ReadOnly after specialized dispat
 ReadOnlyDbcc contains ExtentInfo; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.help
@@ -1777,7 +1777,7 @@ ReadOnlyDbcc contains ExtentInfo; classify as ReadOnly after specialized dispatc
 ReadOnlyDbcc contains Help; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.inputbuffer
@@ -1785,7 +1785,7 @@ ReadOnlyDbcc contains Help; classify as ReadOnly after specialized dispatch/qual
 ReadOnlyDbcc contains InputBuffer; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:127`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.loginfo
@@ -1793,7 +1793,7 @@ ReadOnlyDbcc contains InputBuffer; classify as ReadOnly after specialized dispat
 ReadOnlyDbcc contains LogInfo; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:131`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.memorystatus
@@ -1801,7 +1801,7 @@ ReadOnlyDbcc contains LogInfo; classify as ReadOnly after specialized dispatch/q
 ReadOnlyDbcc contains MemoryStatus; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.opentran
@@ -1809,7 +1809,7 @@ ReadOnlyDbcc contains MemoryStatus; classify as ReadOnly after specialized dispa
 ReadOnlyDbcc contains OpenTran; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:127`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.outputbuffer
@@ -1817,7 +1817,7 @@ ReadOnlyDbcc contains OpenTran; classify as ReadOnly after specialized dispatch/
 ReadOnlyDbcc contains OutputBuffer; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:127`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.perfmonstats
@@ -1825,7 +1825,7 @@ ReadOnlyDbcc contains OutputBuffer; classify as ReadOnly after specialized dispa
 ReadOnlyDbcc contains PerfMonStats; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:132`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.proccache
@@ -1833,7 +1833,7 @@ ReadOnlyDbcc contains PerfMonStats; classify as ReadOnly after specialized dispa
 ReadOnlyDbcc contains ProcCache; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showcontig
@@ -1841,7 +1841,7 @@ ReadOnlyDbcc contains ProcCache; classify as ReadOnly after specialized dispatch
 ReadOnlyDbcc contains ShowContig; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showfilestats
@@ -1849,7 +1849,7 @@ ReadOnlyDbcc contains ShowContig; classify as ReadOnly after specialized dispatc
 ReadOnlyDbcc contains ShowFileStats; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:130`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showoffrules
@@ -1857,7 +1857,7 @@ ReadOnlyDbcc contains ShowFileStats; classify as ReadOnly after specialized disp
 ReadOnlyDbcc contains ShowOffRules; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:134`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showonrules
@@ -1865,7 +1865,7 @@ ReadOnlyDbcc contains ShowOffRules; classify as ReadOnly after specialized dispa
 ReadOnlyDbcc contains ShowOnRules; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:134`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showstatistics
@@ -1873,7 +1873,7 @@ ReadOnlyDbcc contains ShowOnRules; classify as ReadOnly after specialized dispat
 ReadOnlyDbcc contains ShowStatistics; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:127`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showtext
@@ -1881,7 +1881,7 @@ ReadOnlyDbcc contains ShowStatistics; classify as ReadOnly after specialized dis
 ReadOnlyDbcc contains ShowText; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:134`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.showweights
@@ -1889,7 +1889,7 @@ ReadOnlyDbcc contains ShowText; classify as ReadOnly after specialized dispatch/
 ReadOnlyDbcc contains ShowWeights; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:133`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:134`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.sqlperf
@@ -1897,7 +1897,7 @@ ReadOnlyDbcc contains ShowWeights; classify as ReadOnly after specialized dispat
 ReadOnlyDbcc contains SqlPerf; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.tracestatus
@@ -1905,7 +1905,7 @@ ReadOnlyDbcc contains SqlPerf; classify as ReadOnly after specialized dispatch/q
 ReadOnlyDbcc contains TraceStatus; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-dbcc.useroptions
@@ -1913,7 +1913,7 @@ ReadOnlyDbcc contains TraceStatus; classify as ReadOnly after specialized dispat
 ReadOnlyDbcc contains UserOptions; classify as ReadOnly after specialized dispatch/qualification overrides.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:128`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:129`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## safe-procedure.sp_column_privileges
@@ -2188,14 +2188,6 @@ ReadOnlyProcedures contains sp_lock; classify as ReadOnly after specialized disp
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:16`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
-## safe-procedure.sp_monitor
-
-ReadOnlyProcedures contains sp_monitor; classify as ReadOnly after specialized dispatch/qualification overrides.
-
-- Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:21`.
-- Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
-
 ## safe-procedure.sp_pkeys
 
 ReadOnlyProcedures contains sp_pkeys; classify as ReadOnly after specialized dispatch/qualification overrides.
@@ -2369,7 +2361,7 @@ Display targets truncate at 200 characters; classification must use AST rather t
 SET CONTEXT_INFO 0x01 inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.datefirst
@@ -2377,7 +2369,7 @@ SET CONTEXT_INFO 0x01 inherits green session SET classification; no exemption fr
 SET DATEFIRST 1 inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.dateformat
@@ -2385,7 +2377,7 @@ SET DATEFIRST 1 inherits green session SET classification; no exemption from str
 SET DATEFORMAT ymd inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.deadlockpriority
@@ -2393,7 +2385,7 @@ SET DATEFORMAT ymd inherits green session SET classification; no exemption from 
 SET DEADLOCK_PRIORITY LOW inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.language
@@ -2401,7 +2393,7 @@ SET DEADLOCK_PRIORITY LOW inherits green session SET classification; no exemptio
 SET LANGUAGE us_english inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.locktimeout
@@ -2409,7 +2401,7 @@ SET LANGUAGE us_english inherits green session SET classification; no exemption 
 SET LOCK_TIMEOUT 1000 inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.generalsetcommandtype.querygovernorcostlimit
@@ -2417,7 +2409,7 @@ SET LOCK_TIMEOUT 1000 inherits green session SET classification; no exemption fr
 SET QUERY_GOVERNOR_COST_LIMIT 0 inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.compute
@@ -2425,7 +2417,7 @@ SET QUERY_GOVERNOR_COST_LIMIT 0 inherits green session SET classification; no ex
 SET OFFSETS COMPUTE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.execute
@@ -2433,7 +2425,7 @@ SET OFFSETS COMPUTE ON inherits green session SET classification; no exemption f
 SET OFFSETS EXECUTE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.from
@@ -2441,7 +2433,7 @@ SET OFFSETS EXECUTE ON inherits green session SET classification; no exemption f
 SET OFFSETS FROM ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.order
@@ -2449,7 +2441,7 @@ SET OFFSETS FROM ON inherits green session SET classification; no exemption from
 SET OFFSETS ORDER ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.param
@@ -2457,7 +2449,7 @@ SET OFFSETS ORDER ON inherits green session SET classification; no exemption fro
 SET OFFSETS PARAM ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.procedure
@@ -2465,7 +2457,7 @@ SET OFFSETS PARAM ON inherits green session SET classification; no exemption fro
 SET OFFSETS PROCEDURE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.select
@@ -2473,7 +2465,7 @@ SET OFFSETS PROCEDURE ON inherits green session SET classification; no exemption
 SET OFFSETS SELECT ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.statement
@@ -2481,7 +2473,7 @@ SET OFFSETS SELECT ON inherits green session SET classification; no exemption fr
 SET OFFSETS STATEMENT ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setoffsets.table
@@ -2489,7 +2481,7 @@ SET OFFSETS STATEMENT ON inherits green session SET classification; no exemption
 SET OFFSETS TABLE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setstatisticsoptions.io
@@ -2497,7 +2489,7 @@ SET OFFSETS TABLE ON inherits green session SET classification; no exemption fro
 SET STATISTICS IO ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setstatisticsoptions.profile
@@ -2505,7 +2497,7 @@ SET STATISTICS IO ON inherits green session SET classification; no exemption fro
 SET STATISTICS PROFILE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setstatisticsoptions.time
@@ -2513,7 +2505,7 @@ SET STATISTICS PROFILE ON inherits green session SET classification; no exemptio
 SET STATISTICS TIME ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-family.setstatisticsoptions.xml
@@ -2521,7 +2513,7 @@ SET STATISTICS TIME ON inherits green session SET classification; no exemption f
 SET STATISTICS XML ON inherits green session SET classification; no exemption from strict session-residue contract is implied.
 
 - Outcomes: ReadOnly; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansidefaults
@@ -2529,7 +2521,7 @@ SET STATISTICS XML ON inherits green session SET classification; no exemption fr
 SET ANSI_DEFAULTS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansinulldfltoff
@@ -2537,7 +2529,7 @@ SET ANSI_DEFAULTS ON/OFF uses the green SetOnOffStatement base classification; i
 SET ANSI_NULL_DFLT_OFF ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansinulldflton
@@ -2545,7 +2537,7 @@ SET ANSI_NULL_DFLT_OFF ON/OFF uses the green SetOnOffStatement base classificati
 SET ANSI_NULL_DFLT_ON ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansinulls
@@ -2553,7 +2545,7 @@ SET ANSI_NULL_DFLT_ON ON/OFF uses the green SetOnOffStatement base classificatio
 SET ANSI_NULLS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansipadding
@@ -2561,7 +2553,7 @@ SET ANSI_NULLS ON/OFF uses the green SetOnOffStatement base classification; impl
 SET ANSI_PADDING ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.ansiwarnings
@@ -2569,7 +2561,7 @@ SET ANSI_PADDING ON/OFF uses the green SetOnOffStatement base classification; im
 SET ANSI_WARNINGS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.arithabort
@@ -2577,7 +2569,7 @@ SET ANSI_WARNINGS ON/OFF uses the green SetOnOffStatement base classification; i
 SET ARITHABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.arithignore
@@ -2585,7 +2577,7 @@ SET ARITHABORT ON/OFF uses the green SetOnOffStatement base classification; impl
 SET ARITHIGNORE ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.concatnullyieldsnull
@@ -2593,7 +2585,7 @@ SET ARITHIGNORE ON/OFF uses the green SetOnOffStatement base classification; imp
 SET CONCAT_NULL_YIELDS_NULL ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.cursorcloseoncommit
@@ -2601,7 +2593,7 @@ SET CONCAT_NULL_YIELDS_NULL ON/OFF uses the green SetOnOffStatement base classif
 SET CURSOR_CLOSE_ON_COMMIT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.disabledefcnstchk
@@ -2609,7 +2601,7 @@ SET CURSOR_CLOSE_ON_COMMIT ON/OFF uses the green SetOnOffStatement base classifi
 SET DISABLE_DEF_CNST_CHK ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.fmtonly
@@ -2617,7 +2609,7 @@ SET DISABLE_DEF_CNST_CHK ON/OFF uses the green SetOnOffStatement base classifica
 SET FMTONLY ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.forceplan
@@ -2625,7 +2617,7 @@ SET FMTONLY ON/OFF uses the green SetOnOffStatement base classification; implici
 SET FORCEPLAN ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.implicittransactions
@@ -2633,7 +2625,7 @@ SET FORCEPLAN ON/OFF uses the green SetOnOffStatement base classification; impli
 SET IMPLICIT_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.nobrowsetable
@@ -2641,7 +2633,7 @@ SET IMPLICIT_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classific
 SET NO_BROWSETABLE ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.nocount
@@ -2649,7 +2641,7 @@ SET NO_BROWSETABLE ON/OFF uses the green SetOnOffStatement base classification; 
 SET NOCOUNT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.noexec
@@ -2657,7 +2649,7 @@ SET NOCOUNT ON/OFF uses the green SetOnOffStatement base classification; implici
 SET NOEXEC ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.numericroundabort
@@ -2665,7 +2657,7 @@ SET NOEXEC ON/OFF uses the green SetOnOffStatement base classification; implicit
 SET NUMERIC_ROUNDABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.parseonly
@@ -2673,7 +2665,7 @@ SET NUMERIC_ROUNDABORT ON/OFF uses the green SetOnOffStatement base classificati
 SET PARSEONLY ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.quotedidentifier
@@ -2681,7 +2673,7 @@ SET PARSEONLY ON/OFF uses the green SetOnOffStatement base classification; impli
 SET QUOTED_IDENTIFIER ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.remoteproctransactions
@@ -2689,7 +2681,7 @@ SET QUOTED_IDENTIFIER ON/OFF uses the green SetOnOffStatement base classificatio
 SET REMOTE_PROC_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.showplanall
@@ -2697,7 +2689,7 @@ SET REMOTE_PROC_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classi
 SET SHOWPLAN_ALL ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.showplantext
@@ -2705,7 +2697,7 @@ SET SHOWPLAN_ALL ON/OFF uses the green SetOnOffStatement base classification; im
 SET SHOWPLAN_TEXT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.showplanxml
@@ -2713,7 +2705,7 @@ SET SHOWPLAN_TEXT ON/OFF uses the green SetOnOffStatement base classification; i
 SET SHOWPLAN_XML ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## set-option.xactabort
@@ -2721,7 +2713,7 @@ SET SHOWPLAN_XML ON/OFF uses the green SetOnOffStatement base classification; im
 SET XACT_ABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## sqlcmd.ordered-definitions
@@ -2897,7 +2889,7 @@ SQLCMD mode recognizes :xml; connect invalidates context, external execution/sub
 DBCC AddInstance is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.auditevent
@@ -2905,7 +2897,7 @@ DBCC AddInstance is absent from both command tables and uses Unknown unless an a
 DBCC AuditEvent is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.autopilot
@@ -2913,7 +2905,7 @@ DBCC AuditEvent is absent from both command tables and uses Unknown unless an ar
 DBCC AutoPilot is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.buffer
@@ -2921,7 +2913,7 @@ DBCC AutoPilot is absent from both command tables and uses Unknown unless an arg
 DBCC Buffer is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.bytes
@@ -2929,7 +2921,7 @@ DBCC Buffer is absent from both command tables and uses Unknown unless an argume
 DBCC Bytes is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.cacheprofile
@@ -2937,7 +2929,7 @@ DBCC Bytes is absent from both command tables and uses Unknown unless an argumen
 DBCC CacheProfile is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.callfulltext
@@ -2945,7 +2937,7 @@ DBCC CacheProfile is absent from both command tables and uses Unknown unless an 
 DBCC CallFullText is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.checkprimaryfile
@@ -2953,7 +2945,7 @@ DBCC CallFullText is absent from both command tables and uses Unknown unless an 
 DBCC CheckPrimaryFile is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.collectstats
@@ -2961,7 +2953,7 @@ DBCC CheckPrimaryFile is absent from both command tables and uses Unknown unless
 DBCC CollectStats is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.concurrencyviolation
@@ -2969,7 +2961,7 @@ DBCC CollectStats is absent from both command tables and uses Unknown unless an 
 DBCC ConcurrencyViolation is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.debugbreak
@@ -2977,7 +2969,7 @@ DBCC ConcurrencyViolation is absent from both command tables and uses Unknown un
 DBCC DebugBreak is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.deleteinstance
@@ -2985,7 +2977,7 @@ DBCC DebugBreak is absent from both command tables and uses Unknown unless an ar
 DBCC DeleteInstance is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumpconfig
@@ -2993,7 +2985,7 @@ DBCC DeleteInstance is absent from both command tables and uses Unknown unless a
 DBCC DumpConfig is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumpdbinfo
@@ -3001,7 +2993,7 @@ DBCC DumpConfig is absent from both command tables and uses Unknown unless an ar
 DBCC DumpDBInfo is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumpdbtable
@@ -3009,7 +3001,7 @@ DBCC DumpDBInfo is absent from both command tables and uses Unknown unless an ar
 DBCC DumpDBTable is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumplock
@@ -3017,7 +3009,7 @@ DBCC DumpDBTable is absent from both command tables and uses Unknown unless an a
 DBCC DumpLock is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumplog
@@ -3025,7 +3017,7 @@ DBCC DumpLock is absent from both command tables and uses Unknown unless an argu
 DBCC DumpLog is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumppage
@@ -3033,7 +3025,7 @@ DBCC DumpLog is absent from both command tables and uses Unknown unless an argum
 DBCC DumpPage is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumpresource
@@ -3041,7 +3033,7 @@ DBCC DumpPage is absent from both command tables and uses Unknown unless an argu
 DBCC DumpResource is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.dumptrigger
@@ -3049,7 +3041,7 @@ DBCC DumpResource is absent from both command tables and uses Unknown unless an 
 DBCC DumpTrigger is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.fileheader
@@ -3057,7 +3049,7 @@ DBCC DumpTrigger is absent from both command tables and uses Unknown unless an a
 DBCC FileHeader is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.flush
@@ -3065,7 +3057,7 @@ DBCC FileHeader is absent from both command tables and uses Unknown unless an ar
 DBCC Flush is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.icecapquery
@@ -3073,7 +3065,7 @@ DBCC Flush is absent from both command tables and uses Unknown unless an argumen
 DBCC IcecapQuery is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.incrementinstance
@@ -3081,7 +3073,7 @@ DBCC IcecapQuery is absent from both command tables and uses Unknown unless an a
 DBCC IncrementInstance is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.ind
@@ -3089,7 +3081,7 @@ DBCC IncrementInstance is absent from both command tables and uses Unknown unles
 DBCC Ind is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.invalidatetextptr
@@ -3097,7 +3089,7 @@ DBCC Ind is absent from both command tables and uses Unknown unless an argument 
 DBCC InvalidateTextptr is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.invalidatetextptrobjid
@@ -3105,7 +3097,7 @@ DBCC InvalidateTextptr is absent from both command tables and uses Unknown unles
 DBCC InvalidateTextptrObjid is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.latch
@@ -3113,7 +3105,7 @@ DBCC InvalidateTextptrObjid is absent from both command tables and uses Unknown 
 DBCC Latch is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.mapallocunit
@@ -3121,7 +3113,7 @@ DBCC Latch is absent from both command tables and uses Unknown unless an argumen
 DBCC MapAllocUnit is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.memobjlist
@@ -3129,7 +3121,7 @@ DBCC MapAllocUnit is absent from both command tables and uses Unknown unless an 
 DBCC MemObjList is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.memorymap
@@ -3137,7 +3129,7 @@ DBCC MemObjList is absent from both command tables and uses Unknown unless an ar
 DBCC MemoryMap is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.metadata
@@ -3145,7 +3137,7 @@ DBCC MemoryMap is absent from both command tables and uses Unknown unless an arg
 DBCC Metadata is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.notextptr
@@ -3153,7 +3145,7 @@ DBCC Metadata is absent from both command tables and uses Unknown unless an argu
 DBCC NoTextptr is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.optimizerwhatif
@@ -3161,7 +3153,7 @@ DBCC NoTextptr is absent from both command tables and uses Unknown unless an arg
 DBCC OptimizerWhatIf is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.persiststackhash
@@ -3169,7 +3161,7 @@ DBCC OptimizerWhatIf is absent from both command tables and uses Unknown unless 
 DBCC PersistStackHash is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.prtipage
@@ -3177,7 +3169,7 @@ DBCC PersistStackHash is absent from both command tables and uses Unknown unless
 DBCC PrtiPage is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.readpage
@@ -3185,7 +3177,7 @@ DBCC PrtiPage is absent from both command tables and uses Unknown unless an argu
 DBCC ReadPage is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.ruleoff
@@ -3193,7 +3185,7 @@ DBCC ReadPage is absent from both command tables and uses Unknown unless an argu
 DBCC RuleOff is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.ruleon
@@ -3201,7 +3193,7 @@ DBCC RuleOff is absent from both command tables and uses Unknown unless an argum
 DBCC RuleOn is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.semetadata
@@ -3209,7 +3201,7 @@ DBCC RuleOn is absent from both command tables and uses Unknown unless an argume
 DBCC SeMetadata is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.setinstance
@@ -3217,7 +3209,7 @@ DBCC SeMetadata is absent from both command tables and uses Unknown unless an ar
 DBCC SetInstance is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.showdbaffinity
@@ -3225,7 +3217,7 @@ DBCC SetInstance is absent from both command tables and uses Unknown unless an a
 DBCC ShowDBAffinity is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.showtableaffinity
@@ -3233,7 +3225,7 @@ DBCC ShowDBAffinity is absent from both command tables and uses Unknown unless a
 DBCC ShowTableAffinity is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.sqlmgrstats
@@ -3241,7 +3233,7 @@ DBCC ShowTableAffinity is absent from both command tables and uses Unknown unles
 DBCC SqlMgrStats is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.stackdump
@@ -3249,7 +3241,7 @@ DBCC SqlMgrStats is absent from both command tables and uses Unknown unless an a
 DBCC StackDump is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.tec
@@ -3257,7 +3249,7 @@ DBCC StackDump is absent from both command tables and uses Unknown unless an arg
 DBCC Tec is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.throttleio
@@ -3265,7 +3257,7 @@ DBCC Tec is absent from both command tables and uses Unknown unless an argument 
 DBCC ThrottleIO is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-dbcc.useplan
@@ -3273,7 +3265,7 @@ DBCC ThrottleIO is absent from both command tables and uses Unknown unless an ar
 DBCC UsePlan is absent from both command tables and uses Unknown unless an argument override applies.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:213`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:214`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## unknown-statement.backupstatement
@@ -3281,7 +3273,7 @@ DBCC UsePlan is absent from both command tables and uses Unknown unless an argum
 UnknownStatementTypes contains BackupStatement; classify as Unknown after specialized dispatch/qualification overrides.
 
 - Outcomes: Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:220`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:221`.
 - Existing tests: No reviewed association.
 
 ## unknown-statement.checkpointstatement
@@ -3289,7 +3281,7 @@ UnknownStatementTypes contains BackupStatement; classify as Unknown after specia
 UnknownStatementTypes contains CheckpointStatement; classify as Unknown after specialized dispatch/qualification overrides.
 
 - Outcomes: Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:222`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:223`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## unknown-statement.updatestatisticsstatement
@@ -3297,7 +3289,7 @@ UnknownStatementTypes contains CheckpointStatement; classify as Unknown after sp
 UnknownStatementTypes contains UpdateStatisticsStatement; classify as Unknown after specialized dispatch/qualification overrides.
 
 - Outcomes: Unknown; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:221`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:222`.
 - Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## exec.dispatch
@@ -3689,7 +3681,7 @@ Merge loop state with pre-loop state to account for zero iterations and scan loo
 WritingProcedures contains sp_add_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:85`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:86`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_add_jobschedule
@@ -3697,7 +3689,7 @@ WritingProcedures contains sp_add_job; classify as RealWrite after specialized d
 WritingProcedures contains sp_add_jobschedule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:91`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:92`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_add_jobserver
@@ -3705,7 +3697,7 @@ WritingProcedures contains sp_add_jobschedule; classify as RealWrite after speci
 WritingProcedures contains sp_add_jobserver; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:94`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:95`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_add_jobstep
@@ -3713,7 +3705,7 @@ WritingProcedures contains sp_add_jobserver; classify as RealWrite after special
 WritingProcedures contains sp_add_jobstep; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:88`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:89`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_add_schedule
@@ -3721,7 +3713,7 @@ WritingProcedures contains sp_add_jobstep; classify as RealWrite after specializ
 WritingProcedures contains sp_add_schedule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:92`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:93`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addextendedproc
@@ -3729,7 +3721,7 @@ WritingProcedures contains sp_add_schedule; classify as RealWrite after speciali
 WritingProcedures contains sp_addextendedproc; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:65`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:66`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addextendedproperty
@@ -3737,7 +3729,7 @@ WritingProcedures contains sp_addextendedproc; classify as RealWrite after speci
 WritingProcedures contains sp_addextendedproperty; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:62`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:63`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addlinkedserver
@@ -3745,7 +3737,7 @@ WritingProcedures contains sp_addextendedproperty; classify as RealWrite after s
 WritingProcedures contains sp_addlinkedserver; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:57`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:58`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addlinkedsrvlogin
@@ -3753,7 +3745,7 @@ WritingProcedures contains sp_addlinkedserver; classify as RealWrite after speci
 WritingProcedures contains sp_addlinkedsrvlogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:59`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:60`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addlogin
@@ -3761,7 +3753,7 @@ WritingProcedures contains sp_addlinkedsrvlogin; classify as RealWrite after spe
 WritingProcedures contains sp_addlogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:43`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:44`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addrolemember
@@ -3769,7 +3761,7 @@ WritingProcedures contains sp_addlogin; classify as RealWrite after specialized 
 WritingProcedures contains sp_addrolemember; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:39`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:40`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_addsrvrolemember
@@ -3777,7 +3769,7 @@ WritingProcedures contains sp_addrolemember; classify as RealWrite after special
 WritingProcedures contains sp_addsrvrolemember; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:41`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:42`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_adduser
@@ -3785,7 +3777,7 @@ WritingProcedures contains sp_addsrvrolemember; classify as RealWrite after spec
 WritingProcedures contains sp_adduser; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:47`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:48`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_attach_db
@@ -3793,7 +3785,7 @@ WritingProcedures contains sp_adduser; classify as RealWrite after specialized d
 WritingProcedures contains sp_attach_db; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:77`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:78`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_attach_schedule
@@ -3801,7 +3793,7 @@ WritingProcedures contains sp_attach_db; classify as RealWrite after specialized
 WritingProcedures contains sp_attach_schedule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:93`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:94`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_attach_single_file_db
@@ -3809,7 +3801,7 @@ WritingProcedures contains sp_attach_schedule; classify as RealWrite after speci
 WritingProcedures contains sp_attach_single_file_db; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:78`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:79`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_bindefault
@@ -3817,7 +3809,7 @@ WritingProcedures contains sp_attach_single_file_db; classify as RealWrite after
 WritingProcedures contains sp_bindefault; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:69`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:70`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_bindrule
@@ -3825,7 +3817,7 @@ WritingProcedures contains sp_bindefault; classify as RealWrite after specialize
 WritingProcedures contains sp_bindrule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:67`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:68`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_change_users_login
@@ -3833,7 +3825,7 @@ WritingProcedures contains sp_bindrule; classify as RealWrite after specialized 
 WritingProcedures contains sp_change_users_login; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:54`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:55`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_changedbowner
@@ -3841,7 +3833,7 @@ WritingProcedures contains sp_change_users_login; classify as RealWrite after sp
 WritingProcedures contains sp_changedbowner; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:55`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:56`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_changeobjectowner
@@ -3849,7 +3841,7 @@ WritingProcedures contains sp_changedbowner; classify as RealWrite after special
 WritingProcedures contains sp_changeobjectowner; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:56`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:57`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_configure
@@ -3857,7 +3849,7 @@ WritingProcedures contains sp_changeobjectowner; classify as RealWrite after spe
 WritingProcedures contains sp_configure; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:34`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:35`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_create_streaming_job
@@ -3865,7 +3857,7 @@ WritingProcedures contains sp_configure; classify as RealWrite after specialized
 WritingProcedures contains sp_create_streaming_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:103`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:104`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_createstats
@@ -3873,7 +3865,7 @@ WritingProcedures contains sp_create_streaming_job; classify as RealWrite after 
 WritingProcedures contains sp_createstats; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:99`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:100`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_cycle_errorlog
@@ -3881,7 +3873,7 @@ WritingProcedures contains sp_createstats; classify as RealWrite after specializ
 WritingProcedures contains sp_cycle_errorlog; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:82`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:83`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dboption
@@ -3889,7 +3881,7 @@ WritingProcedures contains sp_cycle_errorlog; classify as RealWrite after specia
 WritingProcedures contains sp_dboption; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:80`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:81`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_defaultdb
@@ -3897,7 +3889,7 @@ WritingProcedures contains sp_dboption; classify as RealWrite after specialized 
 WritingProcedures contains sp_defaultdb; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:46`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:47`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_delete_backuphistory
@@ -3905,7 +3897,7 @@ WritingProcedures contains sp_defaultdb; classify as RealWrite after specialized
 WritingProcedures contains sp_delete_backuphistory; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:83`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:84`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_delete_job
@@ -3913,7 +3905,7 @@ WritingProcedures contains sp_delete_backuphistory; classify as RealWrite after 
 WritingProcedures contains sp_delete_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:87`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:88`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_delete_jobstep
@@ -3921,7 +3913,7 @@ WritingProcedures contains sp_delete_job; classify as RealWrite after specialize
 WritingProcedures contains sp_delete_jobstep; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:90`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:91`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_denylogin
@@ -3929,7 +3921,7 @@ WritingProcedures contains sp_delete_jobstep; classify as RealWrite after specia
 WritingProcedures contains sp_denylogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:53`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:54`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_detach_db
@@ -3937,7 +3929,7 @@ WritingProcedures contains sp_denylogin; classify as RealWrite after specialized
 WritingProcedures contains sp_detach_db; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:79`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:80`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dropextendedproc
@@ -3945,7 +3937,7 @@ WritingProcedures contains sp_detach_db; classify as RealWrite after specialized
 WritingProcedures contains sp_dropextendedproc; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:66`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:67`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dropextendedproperty
@@ -3953,7 +3945,7 @@ WritingProcedures contains sp_dropextendedproc; classify as RealWrite after spec
 WritingProcedures contains sp_dropextendedproperty; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:64`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:65`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_droplinkedsrvlogin
@@ -3961,7 +3953,7 @@ WritingProcedures contains sp_dropextendedproperty; classify as RealWrite after 
 WritingProcedures contains sp_droplinkedsrvlogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:60`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:61`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_droplogin
@@ -3969,7 +3961,7 @@ WritingProcedures contains sp_droplinkedsrvlogin; classify as RealWrite after sp
 WritingProcedures contains sp_droplogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:44`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:45`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_droprolemember
@@ -3977,7 +3969,7 @@ WritingProcedures contains sp_droplogin; classify as RealWrite after specialized
 WritingProcedures contains sp_droprolemember; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:40`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:41`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dropserver
@@ -3985,7 +3977,7 @@ WritingProcedures contains sp_droprolemember; classify as RealWrite after specia
 WritingProcedures contains sp_dropserver; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:58`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:59`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dropsrvrolemember
@@ -3993,7 +3985,7 @@ WritingProcedures contains sp_dropserver; classify as RealWrite after specialize
 WritingProcedures contains sp_dropsrvrolemember; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:42`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:43`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_dropuser
@@ -4001,7 +3993,7 @@ WritingProcedures contains sp_dropsrvrolemember; classify as RealWrite after spe
 WritingProcedures contains sp_dropuser; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:48`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:49`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_grantdbaccess
@@ -4009,7 +4001,7 @@ WritingProcedures contains sp_dropuser; classify as RealWrite after specialized 
 WritingProcedures contains sp_grantdbaccess; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:49`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:50`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_grantlogin
@@ -4017,7 +4009,15 @@ WritingProcedures contains sp_grantdbaccess; classify as RealWrite after special
 WritingProcedures contains sp_grantlogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:51`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:52`.
+- Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
+
+## writing-procedure.sp_monitor
+
+WritingProcedures contains sp_monitor; classify as RealWrite after specialized dispatch/qualification overrides.
+
+- Outcomes: RealWrite; review: reviewed-table.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:33`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_msforeachdb
@@ -4025,7 +4025,7 @@ WritingProcedures contains sp_grantlogin; classify as RealWrite after specialize
 WritingProcedures contains sp_MSforeachdb; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:102`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:103`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_msforeachtable
@@ -4033,7 +4033,7 @@ WritingProcedures contains sp_MSforeachdb; classify as RealWrite after specializ
 WritingProcedures contains sp_MSforeachtable; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:101`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:102`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_oacreate
@@ -4041,7 +4041,7 @@ WritingProcedures contains sp_MSforeachtable; classify as RealWrite after specia
 WritingProcedures contains sp_OACreate; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:37`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:38`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_oamethod
@@ -4049,7 +4049,7 @@ WritingProcedures contains sp_OACreate; classify as RealWrite after specialized 
 WritingProcedures contains sp_OAMethod; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:38`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:39`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_password
@@ -4057,7 +4057,7 @@ WritingProcedures contains sp_OAMethod; classify as RealWrite after specialized 
 WritingProcedures contains sp_password; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:45`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:46`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_procoption
@@ -4065,7 +4065,7 @@ WritingProcedures contains sp_password; classify as RealWrite after specialized 
 WritingProcedures contains sp_procoption; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:73`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:74`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_purge_jobhistory
@@ -4073,7 +4073,7 @@ WritingProcedures contains sp_procoption; classify as RealWrite after specialize
 WritingProcedures contains sp_purge_jobhistory; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:84`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:85`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_recompile
@@ -4081,7 +4081,7 @@ WritingProcedures contains sp_purge_jobhistory; classify as RealWrite after spec
 WritingProcedures contains sp_recompile; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:76`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:77`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_refreshsqlmodule
@@ -4089,7 +4089,7 @@ WritingProcedures contains sp_recompile; classify as RealWrite after specialized
 WritingProcedures contains sp_refreshsqlmodule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:75`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:76`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_refreshview
@@ -4097,7 +4097,7 @@ WritingProcedures contains sp_refreshsqlmodule; classify as RealWrite after spec
 WritingProcedures contains sp_refreshview; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:74`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:75`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_rename
@@ -4105,7 +4105,7 @@ WritingProcedures contains sp_refreshview; classify as RealWrite after specializ
 WritingProcedures contains sp_rename; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:33`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:34`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_resetstatus
@@ -4113,7 +4113,7 @@ WritingProcedures contains sp_rename; classify as RealWrite after specialized di
 WritingProcedures contains sp_resetstatus; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:81`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:82`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_revokedbaccess
@@ -4121,7 +4121,7 @@ WritingProcedures contains sp_resetstatus; classify as RealWrite after specializ
 WritingProcedures contains sp_revokedbaccess; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:50`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:51`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_revokelogin
@@ -4129,7 +4129,7 @@ WritingProcedures contains sp_revokedbaccess; classify as RealWrite after specia
 WritingProcedures contains sp_revokelogin; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:52`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:53`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_send_dbmail
@@ -4137,7 +4137,7 @@ WritingProcedures contains sp_revokelogin; classify as RealWrite after specializ
 WritingProcedures contains sp_send_dbmail; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:36`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:37`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_serveroption
@@ -4145,7 +4145,7 @@ WritingProcedures contains sp_send_dbmail; classify as RealWrite after specializ
 WritingProcedures contains sp_serveroption; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:61`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:62`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_settriggerorder
@@ -4153,7 +4153,7 @@ WritingProcedures contains sp_serveroption; classify as RealWrite after speciali
 WritingProcedures contains sp_settriggerorder; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:72`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:73`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_start_job
@@ -4161,7 +4161,7 @@ WritingProcedures contains sp_settriggerorder; classify as RealWrite after speci
 WritingProcedures contains sp_start_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:95`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:96`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_stop_job
@@ -4169,7 +4169,7 @@ WritingProcedures contains sp_start_job; classify as RealWrite after specialized
 WritingProcedures contains sp_stop_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:96`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:97`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_tableoption
@@ -4177,7 +4177,7 @@ WritingProcedures contains sp_stop_job; classify as RealWrite after specialized 
 WritingProcedures contains sp_tableoption; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:71`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:72`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_trace_create
@@ -4185,7 +4185,7 @@ WritingProcedures contains sp_tableoption; classify as RealWrite after specializ
 WritingProcedures contains sp_trace_create; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:97`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:98`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_trace_setstatus
@@ -4193,7 +4193,7 @@ WritingProcedures contains sp_trace_create; classify as RealWrite after speciali
 WritingProcedures contains sp_trace_setstatus; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:98`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:99`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_unbindefault
@@ -4201,7 +4201,7 @@ WritingProcedures contains sp_trace_setstatus; classify as RealWrite after speci
 WritingProcedures contains sp_unbindefault; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:70`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:71`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_unbindrule
@@ -4209,7 +4209,7 @@ WritingProcedures contains sp_unbindefault; classify as RealWrite after speciali
 WritingProcedures contains sp_unbindrule; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:68`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:69`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_update_job
@@ -4217,7 +4217,7 @@ WritingProcedures contains sp_unbindrule; classify as RealWrite after specialize
 WritingProcedures contains sp_update_job; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:86`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:87`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_update_jobstep
@@ -4225,7 +4225,7 @@ WritingProcedures contains sp_update_job; classify as RealWrite after specialize
 WritingProcedures contains sp_update_jobstep; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:89`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:90`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_updateextendedproperty
@@ -4233,7 +4233,7 @@ WritingProcedures contains sp_update_jobstep; classify as RealWrite after specia
 WritingProcedures contains sp_updateextendedproperty; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:63`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:64`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.sp_updatestats
@@ -4241,7 +4241,7 @@ WritingProcedures contains sp_updateextendedproperty; classify as RealWrite afte
 WritingProcedures contains sp_updatestats; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:100`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:101`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory
 
 ## writing-procedure.xp_cmdshell
@@ -4249,5 +4249,5 @@ WritingProcedures contains sp_updatestats; classify as RealWrite after specializ
 WritingProcedures contains xp_cmdshell; classify as RealWrite after specialized dispatch/qualification overrides.
 
 - Outcomes: RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:35`.
+- Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:36`.
 - Existing tests: SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory

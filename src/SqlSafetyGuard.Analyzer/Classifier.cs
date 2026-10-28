@@ -18,7 +18,7 @@ namespace SqlSafetyGuard.Analyzer
             "sp_helpfilegroup", "sp_helpuser", "sp_helprole", "sp_helprolemember", "sp_helplogins",
             "sp_helpserver", "sp_fkeys", "sp_pkeys", "sp_stored_procedures", "sp_databases",
             "sp_column_privileges", "sp_table_privileges", "sp_server_info", "sp_statistics",
-            "sp_readerrorlog", "xp_readerrorlog", "sp_monitor", "sp_helpsrvrole", "sp_helpsrvrolemember",
+            "sp_readerrorlog", "xp_readerrorlog", "sp_helpsrvrole", "sp_helpsrvrolemember",
             "sp_helpntgroup", "sp_helpdbfixedrole", "sp_helprotect", "sp_helpsort", "sp_helplanguage",
             "sp_help_job", "sp_help_jobstep", "sp_help_jobhistory", "sp_help_schedule", "sp_helpextendedproc",
             "sp_set_session_context", "sp_getapplock", "sp_releaseapplock", "sp_sproc_columns", "sp_special_columns",
@@ -30,6 +30,7 @@ namespace SqlSafetyGuard.Analyzer
         /// </summary>
         public static readonly Dictionary<string, string> WritingProcedures = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
+            ["sp_monitor"] = "updates master.dbo.spt_monitor performance counters",
             ["sp_rename"] = "renames an object",
             ["sp_configure"] = "changes server configuration",
             ["xp_cmdshell"] = "runs an operating-system command",

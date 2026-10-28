@@ -656,6 +656,9 @@ namespace SqlSafetyGuard.Analyzer
                     foreach (var name in dropTable.Objects)
                         AddNamedWrite(scope, dropTable, "DROP TABLE", name, allowListApplies: false, allRows: true);
                     return;
+                case AlterSchemaStatement transfer:
+                    Add(scope, transfer, "ALTER SCHEMA", transfer.Name.Value, string.Join(".", transfer.ObjectName.Identifiers.Select(identifier => identifier.Value)), Verdict.RealWrite, null);
+                    return;
                 case CreateIndexStatement createIndex:
                     AddNamedWrite(scope, createIndex, "CREATE INDEX", createIndex.OnName, allowListApplies: false);
                     return;
@@ -677,7 +680,7 @@ namespace SqlSafetyGuard.Analyzer
                         // table.statistics: everything but the last part names the table.
                         var ids = name.Identifiers;
                         bool temp = ids != null && ids.Count >= 2 && Classifier.IsTempName(ids[ids.Count - 2].Value);
-                        Add(scope, dropStatistics, "DROP STATISTICS", scope.TextOf(name), null, temp ? Verdict.TempOnly : Verdict.RealWrite, null);
+                        Add(scope, dropStatistics, "DROP STATISTICS", scope.TextOf(name), ids == null ? null : string.Join(".", ids.Take(ids.Count - 1).Select(identifier => identifier.Value)), temp ? Verdict.TempOnly : Verdict.RealWrite, null);
                     }
 
                     return;
@@ -795,7 +798,7 @@ namespace SqlSafetyGuard.Analyzer
                         // DROP INDEX table.index: everything but the last part names the table.
                         var ids = legacy.Index?.Identifiers;
                         bool temp = ids != null && ids.Count >= 2 && Classifier.IsTempName(ids[ids.Count - 2].Value);
-                        Add(scope, dropIndex, "DROP INDEX", scope.TextOf(legacy.Index), null, temp ? Verdict.TempOnly : Verdict.RealWrite, null);
+                        Add(scope, dropIndex, "DROP INDEX", scope.TextOf(legacy.Index), ids == null ? null : string.Join(".", ids.Take(ids.Count - 1).Select(identifier => identifier.Value)), temp ? Verdict.TempOnly : Verdict.RealWrite, null);
                         break;
                     }
                     default:
