@@ -22,8 +22,10 @@ public class ExpandedPaneContractTests
         Assert.Equal("Whole window", (string?)Named(header, "ScopeText").Attribute("Text"));
         Assert.Equal("SemiBold", (string?)Named(header, "ScopeText").Attribute("FontWeight"));
         Assert.Equal("Collapsed", (string?)Named(header, "EnvironmentTag").Attribute("Visibility"));
-        Assert.Equal("☰ Analysis", (string?)Named(header, "AnalysisButton").Attribute("Content"));
-        Assert.Equal("⚙ Settings", (string?)Named(header, "SettingsButton").Attribute("Content"));
+        Assert.Equal("☰", (string?)Named(header, "AnalysisButton").Attribute("Content"));
+        Assert.Equal("Analysis", (string?)Named(header, "AnalysisButton").Attribute("ToolTip"));
+        Assert.Equal("⚙", (string?)Named(header, "SettingsButton").Attribute("Content"));
+        Assert.Equal("Settings", (string?)Named(header, "SettingsButton").Attribute("ToolTip"));
         Assert.Equal("»", (string?)Named(header, "CollapseButton").Attribute("Content"));
         foreach (string name in new[] { "HeaderStatus", "HeaderRed", "HeaderYellow" })
         {
@@ -54,9 +56,10 @@ public class ExpandedPaneContractTests
         Assert.Empty(document.Descendants(Presentation + "GridViewColumn"));
         var template = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "GroupTemplate");
-        Assert.Contains(template.Descendants(Presentation + "Run"), element =>
-            (string?)element.Attribute("Text") == "{Binding DatabasePrefix, Mode=OneWay}" &&
-            (string?)element.Attribute("Foreground") == "#5c6b7a");
+        Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
+            (string?)element.Attribute("Text") == "{Binding DatabasePrefix}" &&
+            (string?)element.Attribute("Foreground") == "#5c6b7a" &&
+            (string?)element.Attribute("TextTrimming") == "CharacterEllipsis");
         Assert.Contains(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>

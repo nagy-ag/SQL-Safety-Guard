@@ -30,7 +30,7 @@ namespace SqlSafetyGuard.UI
         private const double CollapsedWidth = 28;
 
         // Shared by all query windows for the session, so a resize or collapse sticks.
-        private static double _expandedWidth = 520;
+        private static double _expandedWidth = 300;
         private static bool _collapsed;
         private static readonly List<SafetyPaneMargin> Live = new List<SafetyPaneMargin>();
 
@@ -441,7 +441,7 @@ namespace SqlSafetyGuard.UI
         {
             if (_collapsed)
                 return;
-            _expandedWidth = Math.Max(360, Math.Min(700, _expandedWidth - delta));
+            _expandedWidth = Math.Max(240, Math.Min(700, _expandedWidth - delta));
             foreach (var margin in Live)
                 margin.ApplyWidth();
             PaneTrace.Write($"width={_expandedWidth:0}");

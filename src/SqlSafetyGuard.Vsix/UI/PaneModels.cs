@@ -74,7 +74,7 @@ namespace SqlSafetyGuard.UI
             Findings = findings.OrderBy(finding => finding.Finding.StartOffset).ToList();
             Verdict = findings.Max(finding => finding.Finding.Verdict);
             FirstOffset = Findings[0].Finding.StartOffset;
-            var parts = SplitName(key);
+            var parts = SplitName(key).Select(Unquote).ToList();
             int prefix = Math.Max(0, parts.Count - 2);
             DatabasePrefix = prefix == 0 ? string.Empty : string.Join(".", parts.Take(prefix)) + ".";
             ObjectName = string.Join(".", parts.Skip(prefix));
@@ -86,6 +86,7 @@ namespace SqlSafetyGuard.UI
         public int FirstOffset { get; }
         public string DatabasePrefix { get; }
         public string ObjectName { get; }
+        public string DisplayName => DatabasePrefix + ObjectName;
         public Brush Marker => VerdictBrushes.For(Verdict);
         public bool IsAllowed => Verdict.IsGreen() && Findings.Any(finding =>
             finding.Finding.Verdict == Verdict.AllowListed ||
@@ -115,9 +116,14 @@ namespace SqlSafetyGuard.UI
             Findings.Select(finding => finding.Header + (string.IsNullOrEmpty(finding.Note) ? string.Empty : " · " + finding.Note)));
         public override string ToString() => Key;
 
+        /// <summary>Normalizes a target to [database].[schema].[name] so the same object groups together however it was written.
+        /// #temp tables and @table variables are left as written: they don't belong to the current database.</summary>
         internal static string Qualify(string target, string database)
         {
             var parts = SplitName(target);
+            string last = Unquote(parts[parts.Count - 1]);
+            if (last.StartsWith("#", StringComparison.Ordinal) || last.StartsWith("@", StringComparison.Ordinal))
+                return target;
             if (parts.Count < 3 && !string.IsNullOrEmpty(database))
             {
                 if (parts.Count == 1) parts.Insert(0, string.Empty);
@@ -125,13 +131,20 @@ namespace SqlSafetyGuard.UI
             }
             return string.Join(".", parts.Select(part =>
             {
-                string value = part.Trim();
-                if (value.StartsWith("[", StringComparison.Ordinal) && value.EndsWith("]", StringComparison.Ordinal))
-                    value = value.Substring(1, value.Length - 2).Replace("]]", "]");
-                else if (value.StartsWith("\"", StringComparison.Ordinal) && value.EndsWith("\"", StringComparison.Ordinal))
-                    value = value.Substring(1, value.Length - 2).Replace("\"\"", "\"");
+                string value = Unquote(part);
                 return value.Length == 0 ? string.Empty : "[" + value.Replace("]", "]]") + "]";
             }));
+        }
+
+        /// <summary>One name part without [brackets] or "quotes", for display.</summary>
+        private static string Unquote(string part)
+        {
+            string value = part.Trim();
+            if (value.StartsWith("[", StringComparison.Ordinal) && value.EndsWith("]", StringComparison.Ordinal))
+                return value.Substring(1, value.Length - 2).Replace("]]", "]");
+            if (value.Length > 1 && value.StartsWith("\"", StringComparison.Ordinal) && value.EndsWith("\"", StringComparison.Ordinal))
+                return value.Substring(1, value.Length - 2).Replace("\"\"", "\"");
+            return value;
         }
 
         private static List<string> SplitName(string name)
