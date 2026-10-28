@@ -52,8 +52,31 @@ Throughput is **not demonstrated to improve over wave 2**. The comparable admin 
 
 The source-controlled `tools/verification/Freeze-Wave3.ps1` freezes committed Release output, SQL world resources, cases, scripts and SHA-256 manifest outside this worktree under `..\harness-out\campaign\bin\<source-sha>`. `Run-Wave3Full.ps1` validates all lanes first, then executes offline ? generated host (admin) ? focused/independent host ? isolated ? features sequentially, with no campaign time budget. It uses identity-matched durable resumption, fresh disposable containers after server death, per-case SQL timeouts, and rejects reports instead of aborting accepted cases because of one malformed row. A SQL timeout is a case limitation, not an overall run budget.
 
-Frozen inventory: **33,035 campaign cases + 71 feature fixtures = 33,106 total**. This includes 31,004 generated host cases (all 30,000 random cases, rule attacks, pairwise/three-wise and company scripts), 831 generated offline cases, all 600 focused rule cases, and all 600 independent cases. No full run has been started. The exact frozen path and limited smoke receipts are recorded in the final frozen-build section after validation.
+Frozen inventory: **33,035 campaign cases + 71 feature fixtures = 33,106 total**. This includes 31,004 generated host cases (all 30,000 random cases, rule attacks, pairwise/three-wise and company scripts), 831 generated offline cases, all 600 focused rule cases, and all 600 independent cases. No full run has been started. The frozen-build section records the exact path and limited smoke receipts.
 
 ## Build checks
 
-`dotnet test tests\SqlSafetyGuard.Tests --nologo`: **1,444 passed, zero failed/skipped**, including journal precedence, tolerant validation, settings, attribution and bounded isolated CLI regressions. Generator invariants: four passed. Release solution and frozen smoke outcomes are recorded after those commands finish; do not infer success from this document's existence.
+`dotnet test tests\SqlSafetyGuard.Tests --nologo`: **1,444 passed, zero failed/skipped**, including journal precedence, tolerant validation, settings, attribution and bounded isolated CLI regressions. Generator invariants: four passed. The Release solution build with Visual Studio 18 MSBuild succeeds with zero warnings/errors (`wave3-release-final.log`). The solution maps the harness project reference to Debug, so an additional explicit `dotnet build tests\SqlSafetyGuard.ServerHarness -c Release --nologo` succeeds with zero warnings/errors (`wave3-harness-release-final.log`); the frozen harness is that Release output.
+
+## Frozen build and bounded launcher smoke
+
+Executable source commit: `34630d62c57cc6ee18b64ef26a995a8ac0e6dd35`. Frozen folder:
+
+```text
+C:\Users\nagya\.t3\worktrees\safequery\harness-out\campaign\bin\34630d62c57cc6ee18b64ef26a995a8ac0e6dd35
+```
+
+The following full command is **prepared only, not executed**. It has no overall time budget and retains the explicit per-case SQL timeout. Run it again unchanged to resume:
+
+```powershell
+$frozen = 'C:\Users\nagya\.t3\worktrees\safequery\harness-out\campaign\bin\34630d62c57cc6ee18b64ef26a995a8ac0e6dd35'
+powershell -NoProfile -File "$frozen\Run-Wave3Full.ps1" -Frozen $frozen -Output 'C:\Users\nagya\.t3\worktrees\safequery\harness-out\campaign\full-2026-10-28'
+```
+
+Validation ran the same launcher with `-Limit 1`, no filter, and the separate output `C:\Users\nagya\.t3\worktrees\safequery\harness-out\campaign\wave3-frozen-smoke`. Upfront validation accepted 31,004 generated-host, 858 host, 890 offline, 283 isolated and 71 feature fixtures, with zero rejects: 33,106 total. All five lanes returned exit code zero. Executed smoke selections were one offline check, `random-20261028-23821` (PASS), `ind-set-options-forceplan-on` (PASS), `w3-allow.remote-boundary` (PASS), and `clr-create` (pass).
+
+Repeating that exact limited command and output also returned zero for all five lanes. The three campaign receipt timestamps remain those of the first invocation; no duplicate campaign execution occurred. The feature lane retained one `clr-create` result and did not execute it again. The single offline analyzer-only check was repeated without SQL. Logs: `wave3-frozen-smoke-launch.log`, `wave3-frozen-resume.log`; final lane exit receipts: `wave3-frozen-smoke/launcher-results.json`.
+
+Final host inspection finds only the durable `SgRun_Results` database, no disposable SgRun clone databases and no SgRun/SgPlay campaign logins. No labelled disposable Docker containers remain. The overnight task `SQL Safety Guard Wave2 2026-10-28` remains Disabled. No VSIX files differ from the original `2961586` base. The frozen source SHA is intentionally different from the later documentation-only handoff commit; the frozen manifest and binaries are unchanged.
+
+This is a qualified implementation handoff, **not exhaustive task closure**: 98 rules still lack successful positive/boundary server evidence, 51 original statement kinds remain unclosed, and throughput is below the wave-2 baseline. The exact failed attempts and unprovisioned prerequisites remain in `gaps-wave3.md`; none is counted as a pass or claimed impossible merely because its fixture failed.
