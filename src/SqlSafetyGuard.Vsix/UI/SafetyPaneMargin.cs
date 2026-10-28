@@ -30,7 +30,7 @@ namespace SqlSafetyGuard.UI
         private const double CollapsedWidth = 28;
 
         // Shared by all query windows for the session, so a resize or collapse sticks.
-        private static double _expandedWidth = 300;
+        private static double _expandedWidth = 520;
         private static bool _collapsed;
         private static readonly List<SafetyPaneMargin> Live = new List<SafetyPaneMargin>();
 
@@ -54,6 +54,7 @@ namespace SqlSafetyGuard.UI
         private ConnectionContext _connection;
         private GuardSettings _settings;
         private AnalyzerOptions _options;
+        private PaneSettings _paneSettings;
 
         public SafetyPaneMargin(IWpfTextView view, string documentPath)
         {
@@ -67,6 +68,7 @@ namespace SqlSafetyGuard.UI
             _control.GroupActivated += OnGroupActivated;
             _control.CollapseToggled += OnCollapseToggled;
             _control.WidthDragged += OnWidthDragged;
+            _control.EditOptions += OnEditOptions;
             ApplyWidth();
 
             _debounce = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(250) };
@@ -209,6 +211,7 @@ namespace SqlSafetyGuard.UI
             var options = _options;
             var settings = _settings;
             var connection = _connection;
+            var paneSettings = _paneSettings;
 
             _analysis?.Cancel();
             _analysis = new CancellationTokenSource();
@@ -229,7 +232,7 @@ namespace SqlSafetyGuard.UI
                     if (elapsed > 1000)
                         OutputLog.Info($"Safety pane: analyzed {text.Length:N0} characters in {elapsed:N0} ms.");
                     var applyTime = Stopwatch.StartNew();
-                    Apply(snapshot, span, isSelection, result, settings, connection);
+                    Apply(snapshot, span, isSelection, result, settings, connection, paneSettings);
                     var sinceEdit = editTimestamp == 0 ? "-" :
                         ((Stopwatch.GetTimestamp() - editTimestamp) * 1000 / Stopwatch.Frequency).ToString();
                     if (editTimestamp == _lastEditTimestamp)
@@ -269,6 +272,9 @@ namespace SqlSafetyGuard.UI
                     _options = package.CreateAnalyzerOptions(connection, settings, rules);
                     _settings = settings;
                     _connection = connection;
+                    _paneSettings = new PaneSettings(connection.Server, connection.Database, settings, _options,
+                        new AllowList(AllowList.SplitLines(package.Options.AllowList)).Patterns.Count,
+                        new AllowList(AllowList.SplitLines(package.Options.TrustedProcedures), procedures: true).Patterns.Count);
                 }
             }
             catch (Exception ex)
@@ -282,32 +288,30 @@ namespace SqlSafetyGuard.UI
         }
 
         private void Apply(ITextSnapshot snapshot, Span analyzed, bool isSelection, AnalysisResult result, GuardSettings settings,
-            ConnectionContext connection)
+            ConnectionContext connection, PaneSettings paneSettings)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var findings = result.Findings.Select(f => new PaneFinding(f, snapshot, analyzed.Start)).ToList();
+            var findings = result.Findings.Select(f => new PaneFinding(f, snapshot, analyzed.Start, connection.Database)).ToList();
 
             string selectedKey = _selected?.Key;
             _groups = findings
-                .Where(f => !f.Finding.Verdict.IsGreen())
                 .GroupBy(f => f.GroupKey, StringComparer.OrdinalIgnoreCase)
                 .Select(g => new PaneGroup(g.Key, g.ToList()))
                 .OrderByDescending(g => g.Verdict)
                 .ThenBy(g => g.FirstOffset)
                 .ToList();
-            var safe = findings.Where(f => f.Finding.Verdict.IsGreen()).ToList();
 
             int firstLine = snapshot.GetLineNumberFromPosition(analyzed.Start) + 1;
             int lastLine = snapshot.GetLineNumberFromPosition(Math.Max(analyzed.Start, analyzed.End - 1)) + 1;
-            var scope = isSelection ? $"selection, lines {firstLine}–{lastLine}" : "whole window";
-            var connectionText = DescribeConnection(connection, settings);
+            var scope = isSelection ? $"Selection, lines {firstLine}–{lastLine}" : "Whole window";
+            _control.ShowContext(scope, paneSettings);
 
             if (result.Findings.Count == 0 && result.ParseErrors.Count == 0)
             {
                 bool blank = snapshot.GetText(analyzed).Trim().Length == 0;
                 _control.ShowNothingToRun(blank ? "Nothing to analyze" : "Nothing that runs",
-                    blank ? $"{Capitalize(scope)} is empty." : $"{Capitalize(scope)} has only comments.", connectionText);
+                    blank ? $"{scope} is empty." : $"{scope} has only comments.");
                 _selected = null;
                 Redraw();
                 return;
@@ -318,24 +322,18 @@ namespace SqlSafetyGuard.UI
                 : settings.NeedsTypedConfirmation(result) ? "F5 asks you to type the database name"
                 : "F5 will ask first";
 
-            string headline = result.IsGreen
-                ? "Safe: " + result.Summary.ToLowerInvariant()
-                : (result.Overall == Verdict.RealWrite ? "Not safe: " : "Needs review: ") + result.Summary;
-
-            _control.ShowResult(result.Overall, headline, $"{scope} · {f5}", connectionText, _groups, safe);
+            _control.ShowResult(result.Summary, f5, _groups);
 
             _selected = selectedKey == null ? null : _groups.FirstOrDefault(g => string.Equals(g.Key, selectedKey, StringComparison.OrdinalIgnoreCase));
             _control.Select(_selected);
             Redraw();
         }
 
-        /// <summary>"SQL-PROD-01 › Sales · Production", or null when neither server nor database is known.</summary>
-        private static string DescribeConnection(ConnectionContext connection, GuardSettings settings)
+        private void OnEditOptions()
         {
-            if (connection == null || (connection.Server == null && connection.Database == null))
-                return null;
-            var text = $"{connection.Server ?? "server unknown"} › {connection.Database ?? "database unknown"}";
-            return string.Equals(settings.Environment, "Global", StringComparison.Ordinal) ? text : text + " · " + settings.Environment;
+            ThreadHelper.ThrowIfNotOnUIThread();
+            try { TryGetPackage()?.ShowOptionPage(typeof(Options.GeneralOptionsPage)); }
+            catch (Exception exception) { OutputLog.Error("Safety pane: opening options failed.", exception); }
         }
 
         // ---- pane → editor ------------------------------------------------------------------------------
@@ -394,7 +392,7 @@ namespace SqlSafetyGuard.UI
             var redrawTime = Stopwatch.StartNew();
             _layer.RemoveAllAdornments();
 
-            foreach (var group in _groups)
+            foreach (var group in _groups.Where(group => !group.Verdict.IsGreen() || group == _selected))
             {
                 bool selected = group == _selected;
                 var color = ((SolidColorBrush)VerdictBrushes.For(group.Verdict)).Color;
@@ -443,7 +441,7 @@ namespace SqlSafetyGuard.UI
         {
             if (_collapsed)
                 return;
-            _expandedWidth = Math.Max(200, Math.Min(700, _expandedWidth - delta));
+            _expandedWidth = Math.Max(360, Math.Min(700, _expandedWidth - delta));
             foreach (var margin in Live)
                 margin.ApplyWidth();
             PaneTrace.Write($"width={_expandedWidth:0}");
@@ -470,9 +468,6 @@ namespace SqlSafetyGuard.UI
                 return false;
             }
         }
-
-        private static string Capitalize(string text) =>
-            string.IsNullOrEmpty(text) ? text : char.ToUpperInvariant(text[0]) + text.Substring(1);
 
         private static SqlSafetyGuardPackage TryGetPackage()
         {

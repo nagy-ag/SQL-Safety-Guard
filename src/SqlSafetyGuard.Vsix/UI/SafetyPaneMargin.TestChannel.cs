@@ -69,6 +69,15 @@ namespace SqlSafetyGuard.UI
             }
         }
 
+        private PaneGroup FindCommandGroup(string target)
+        {
+            var qualified = PaneGroup.Qualify(target, _connection?.Database);
+            return _groups.First(group => string.Equals(group.Key, target, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(group.Key, qualified, StringComparison.OrdinalIgnoreCase) ||
+                group.Findings.Any(finding => string.Equals(finding.Finding.ResolvedTarget ?? finding.Finding.Target,
+                    target, StringComparison.OrdinalIgnoreCase)));
+        }
+
         private void RunCommand(string verb, string arg)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -97,10 +106,10 @@ namespace SqlSafetyGuard.UI
                     _view.TextBuffer.Insert(snapshot.Length, File.ReadAllText(arg));
                     break;
                 case "pick":
-                    _control.ClickGroup(_groups.First(g => string.Equals(g.Key, arg, StringComparison.OrdinalIgnoreCase)));
+                    _control.ClickGroup(FindCommandGroup(arg));
                     break;
                 case "activate":
-                    OnGroupActivated(_groups.First(g => string.Equals(g.Key, arg, StringComparison.OrdinalIgnoreCase)));
+                    OnGroupActivated(FindCommandGroup(arg));
                     break;
                 case "collapse":
                     OnCollapseToggled();
@@ -108,14 +117,33 @@ namespace SqlSafetyGuard.UI
                 case "widen":
                     OnWidthDragged(-double.Parse(arg));
                     break;
+                case "page":
+                    _control.SetPage(string.Equals(arg, "settings", StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "safe":
+                    _control.SafeSection.IsExpanded = !_control.SafeSection.IsExpanded;
+                    break;
                 case "dump":
-                    PaneTrace.Write($"  headline: {_control.Headline.Text}");
-                    PaneTrace.Write($"  detail: {_control.SubText.Text}");
-                    PaneTrace.Write($"  connection: {_control.ConnectionText.Text}");
+                    PaneTrace.Write($"  header: {_control.ScopeText.Text} page={_control.ActivePage} environment={_control.EnvironmentText.Text} tag={_control.EnvironmentTag.Visibility}");
+                    PaneTrace.Write($"  counts: red={_control.HeaderRedCount.Text} yellow={_control.HeaderYellowCount.Text} status={_control.HeaderStatus.Visibility} glyph={_control.HeaderGlyph.Text}");
+                    PaneTrace.Write($"  summary: {_control.Summary?.Replace(Environment.NewLine, " | ")}");
+                    PaneTrace.Write($"  safe: {_control.SafeHeader.Text} expanded={_control.SafeSection.IsExpanded}");
+                    var settings = _control.WindowSettings;
+                    if (settings != null)
+                    {
+                        PaneTrace.Write($"  connection: server={settings.Server} database={settings.Database} environment={settings.EnvironmentDescription}");
+                        PaneTrace.Write($"  F5 guard: {settings.WhenToAsk}; {settings.TypedConfirmation}; tempdb={settings.Tempdb}");
+                        foreach (var pattern in settings.SafeTables)
+                            PaneTrace.Write($"  safe table: {pattern.Pattern} [{pattern.Source}]");
+                        foreach (var pattern in settings.TrustedProcedures)
+                            PaneTrace.Write($"  trusted procedure: {pattern.Pattern} [{pattern.Source}]");
+                    }
+                    foreach (var section in _groups.GroupBy(group => group.Section))
+                        PaneTrace.Write($"  section: {section.Key} {section.Count()}");
                     PaneTrace.Write($"  selected: {_selected?.Key ?? "(none)"} · caret line {_view.Caret.Position.BufferPosition.GetContainingLine().LineNumber + 1}");
                     PaneTrace.Write($"  width: {_control.Width:0} collapsed={_collapsed}");
-                    foreach (var group in _groups.Take(6))
-                        PaneTrace.Write($"  group: {group.Key} [{group.Verdict}] {group.Subtitle}");
+                    foreach (var group in _groups)
+                        PaneTrace.Write($"  group: {group.Key} [{group.Verdict}] {group.Subtitle}; reason={group.Reason}; statements={group.Tooltip.Replace(Environment.NewLine, " | ")}");
                     break;
                 default:
                     PaneTrace.Write($"cmd unknown verb '{verb}'");

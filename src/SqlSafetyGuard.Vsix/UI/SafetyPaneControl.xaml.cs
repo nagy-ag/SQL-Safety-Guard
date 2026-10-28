@@ -4,133 +4,148 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using SqlSafetyGuard.Analyzer;
 
 namespace SqlSafetyGuard.UI
 {
-    /// <summary>The view of the safety pane inside a query window. All logic lives in <see cref="SafetyPaneMargin"/>.</summary>
     public partial class SafetyPaneControl : UserControl
     {
         private bool _settingSelection;
+        private bool _safeOpenedAutomatically;
+        private readonly Brush _slate = new SolidColorBrush(Color.FromRgb(0x5c, 0x6b, 0x7a));
 
         public SafetyPaneControl()
         {
             InitializeComponent();
-            CollapsedRedDot.Fill = VerdictBrushes.Red;
+            CollapsedRedDot.Fill = HeaderRedDot.Fill = VerdictBrushes.Red;
             CollapsedRedCount.Foreground = VerdictBrushes.TextOn(Verdict.RealWrite);
-            CollapsedYellowDot.Fill = VerdictBrushes.Yellow;
+            CollapsedYellowDot.Fill = HeaderYellowDot.Fill = VerdictBrushes.Yellow;
             CollapsedYellowCount.Foreground = VerdictBrushes.TextOn(Verdict.Unknown);
         }
 
         internal event Action<PaneGroup> GroupSelected;
-
         internal event Action<PaneGroup> GroupActivated;
-
         internal event Action CollapseToggled;
-
         internal event Action<double> WidthDragged;
+        internal event Action EditOptions;
+        internal PaneSettings WindowSettings { get; private set; }
+        internal string Summary { get; private set; }
+        internal string ActivePage => SettingsPage.Visibility == Visibility.Visible ? "Settings" : "Analysis";
+
+        internal void ShowContext(string scope, PaneSettings settings)
+        {
+            ScopeText.Text = scope;
+            ScopeText.ToolTip = scope;
+            WindowSettings = settings;
+            SettingsPage.DataContext = settings;
+            string label = settings.EnvironmentLabel;
+            var visibility = string.IsNullOrEmpty(label) ? Visibility.Collapsed : Visibility.Visible;
+            EnvironmentTag.Visibility = EnvironmentLine.Visibility = visibility;
+            EnvironmentText.Text = label ?? string.Empty;
+            var color = label != null && label.IndexOf("PROD", StringComparison.OrdinalIgnoreCase) >= 0 ? VerdictBrushes.Red : _slate;
+            EnvironmentTag.Background = EnvironmentLine.Background = color;
+            EnvironmentTag.ToolTip = settings.EnvironmentDescription;
+        }
 
         internal void ShowPlaceholder(string headline, string detail)
         {
-            VerdictDot.Fill = System.Windows.Media.Brushes.Gray;
-            VerdictGlyph.Text = "…";
+            HeaderStatus.Visibility = Visibility.Visible;
+            HeaderDot.Fill = Brushes.Gray;
+            HeaderGlyph.Text = string.Empty;
+            HeaderRed.Visibility = HeaderYellow.Visibility = Visibility.Collapsed;
+            HeaderRedCount.Text = HeaderYellowCount.Text = "0";
             ShowCollapsedPending();
             ShowSummary(headline, detail);
-            GroupList.ItemsSource = null;
-            DetailCard.Visibility = Visibility.Collapsed;
-            SafeHeader.Text = string.Empty;
+            _settingSelection = true;
+            try { GroupList.ItemsSource = SafeList.ItemsSource = null; }
+            finally { _settingSelection = false; }
+            SafeSection.Visibility = Visibility.Collapsed;
+            EmptyText.Text = headline + ". " + detail;
+            EmptyText.Visibility = Visibility.Visible;
         }
 
-        internal void ShowResult(Verdict overall, string headline, string detail, string connection, IReadOnlyList<PaneGroup> groups,
-            IReadOnlyList<PaneFinding> safe)
+        internal void ShowResult(string summary, string f5, IReadOnlyList<PaneGroup> groups)
         {
-            var brush = VerdictBrushes.For(overall);
-            VerdictDot.Fill = brush;
             int redCount = groups.Count(group => group.Verdict.IsRed());
             int yellowCount = groups.Count(group => group.Verdict.IsYellow());
             bool allSafe = redCount == 0 && yellowCount == 0;
-            CollapsedStatus.Visibility = allSafe ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedDot.Fill = VerdictBrushes.Green;
-            CollapsedGlyph.Text = "\u2713";
-            CollapsedRed.Visibility = redCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedRedCount.Text = redCount.ToString();
-            CollapsedYellow.Visibility = yellowCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedYellowCount.Text = yellowCount.ToString();
-            VerdictGlyph.Text = overall.IsGreen() ? "✓" : "!";
-            VerdictGlyph.Foreground = VerdictBrushes.TextOn(overall);
-            ShowSummary(headline, detail);
-            ConnectionText.Text = connection ?? string.Empty;
-            ConnectionText.Visibility = string.IsNullOrEmpty(connection) ? Visibility.Collapsed : Visibility.Visible;
-
+            CollapsedStatus.Visibility = HeaderStatus.Visibility = allSafe ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedDot.Fill = HeaderDot.Fill = VerdictBrushes.Green;
+            CollapsedGlyph.Text = HeaderGlyph.Text = "✓";
+            CollapsedRed.Visibility = HeaderRed.Visibility = redCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedRedCount.Text = HeaderRedCount.Text = redCount.ToString();
+            CollapsedYellow.Visibility = HeaderYellow.Visibility = yellowCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedYellowCount.Text = HeaderYellowCount.Text = yellowCount.ToString();
+            ShowSummary(summary, f5);
             _settingSelection = true;
             try
             {
-                GroupList.ItemsSource = groups;
+                var main = new ListCollectionView(groups.Where(group => group.Section != "Safe").ToList());
+                main.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PaneGroup.Section)));
+                GroupList.ItemsSource = main;
+                var safe = groups.Where(group => group.Section == "Safe").ToList();
+                SafeList.ItemsSource = safe;
+                SafeHeader.Text = "Safe · temp operations and reads · " + safe.Count;
+                SafeSection.Visibility = safe.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+                if (allSafe || _safeOpenedAutomatically) SafeSection.IsExpanded = allSafe;
+                _safeOpenedAutomatically = allSafe;
             }
-            finally
-            {
-                _settingSelection = false;
-            }
-
-            EmptyText.Visibility = groups.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            SafeList.ItemsSource = safe;
-            SafeHeader.Text = (SafeList.Visibility == Visibility.Visible ? "▾ " : "▸ ") + $"Temp operations and reads · {safe.Count}";
+            finally { _settingSelection = false; }
+            EmptyText.Visibility = Visibility.Collapsed;
         }
 
-        internal void ShowNothingToRun(string headline, string detail, string connection)
+        internal void ShowNothingToRun(string headline, string detail)
         {
             ShowPlaceholder(headline, detail);
-            VerdictGlyph.Text = "–";
-            ConnectionText.Text = connection ?? string.Empty;
-            ConnectionText.Visibility = string.IsNullOrEmpty(connection) ? Visibility.Collapsed : Visibility.Visible;
-            EmptyText.Visibility = Visibility.Collapsed;
-            SafeList.ItemsSource = null;
         }
 
-        /// <summary>Greys the collapsed strip while a newer analysis is pending; the expanded pane keeps the last result until then.</summary>
         internal void ShowAnalysisPending()
         {
             ShowCollapsedPending();
-            CollapsedStrip.ToolTip = "Analyzing\u2026";
+            CollapsedStrip.ToolTip = "Analyzing…";
         }
 
         private void ShowSummary(string headline, string detail)
         {
-            Headline.Text = headline;
-            SubText.Text = detail;
-            CollapsedStrip.ToolTip = headline + Environment.NewLine + detail;
+            Summary = headline + Environment.NewLine + detail;
+            CollapsedStrip.ToolTip = HeaderCounts.ToolTip = Summary;
         }
 
         private void ShowCollapsedPending()
         {
             CollapsedStatus.Visibility = Visibility.Visible;
-            CollapsedDot.Fill = System.Windows.Media.Brushes.Gray;
+            CollapsedDot.Fill = Brushes.Gray;
             CollapsedGlyph.Text = string.Empty;
             CollapsedRed.Visibility = Visibility.Collapsed;
             CollapsedYellow.Visibility = Visibility.Collapsed;
         }
 
-        /// <summary>Selects a group without raising <see cref="GroupSelected"/> as a user action (used for caret sync and refresh).</summary>
         internal void Select(PaneGroup group)
         {
             _settingSelection = true;
             try
             {
-                GroupList.SelectedItem = group;
+                GroupList.SelectedItem = GroupList.Items.Contains(group) ? group : null;
+                SafeList.SelectedItem = SafeList.Items.Contains(group) ? group : null;
+                if (group != null)
+                {
+                    var list = group.Section == "Safe" ? SafeList : GroupList;
+                    if (list == SafeList) SafeSection.IsExpanded = true;
+                    list.ScrollIntoView(group);
+                }
             }
-            finally
-            {
-                _settingSelection = false;
-            }
-
-            if (group != null)
-                GroupList.ScrollIntoView(group);
-            ShowDetail(group);
+            finally { _settingSelection = false; }
         }
 
-        /// <summary>Same as the user clicking the group (raises <see cref="GroupSelected"/>).</summary>
-        internal void ClickGroup(PaneGroup group) => GroupList.SelectedItem = group;
+        internal void ClickGroup(PaneGroup group)
+        {
+            var list = group.Section == "Safe" ? SafeList : GroupList;
+            if (list == SafeList) SafeSection.IsExpanded = true;
+            list.SelectedItem = group;
+        }
 
         internal void SetCollapsed(bool collapsed)
         {
@@ -140,26 +155,30 @@ namespace SqlSafetyGuard.UI
             Grip.Cursor = collapsed ? Cursors.Arrow : Cursors.SizeWE;
         }
 
-        private void ShowDetail(PaneGroup group)
+        internal void SetPage(bool settings)
         {
-            DetailCard.Visibility = group == null ? Visibility.Collapsed : Visibility.Visible;
-            if (group == null)
-                return;
-            DetailTitle.Text = group.DetailTitle;
-            DetailItems.ItemsSource = group.Findings;
+            if (AnalysisPage == null || SettingsPage == null) return;
+            AnalysisPage.Visibility = settings ? Visibility.Collapsed : Visibility.Visible;
+            SettingsPage.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
+            AnalysisButton.IsChecked = !settings;
+            SettingsButton.IsChecked = settings;
         }
 
         private void OnGroupSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var group = GroupList.SelectedItem as PaneGroup;
-            ShowDetail(group);
-            if (!_settingSelection)
-                GroupSelected?.Invoke(group);
+            if (_settingSelection) return;
+            var list = (ListBox)sender;
+            var group = list.SelectedItem as PaneGroup;
+            if (group == null) return;
+            _settingSelection = true;
+            try { (list == GroupList ? SafeList : GroupList).SelectedItem = null; }
+            finally { _settingSelection = false; }
+            GroupSelected?.Invoke(group);
         }
 
         private void OnGroupDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ItemsControl.ContainerFromElement(GroupList, e.OriginalSource as DependencyObject) is ListBoxItem item &&
+            if (ItemsControl.ContainerFromElement((ListBox)sender, e.OriginalSource as DependencyObject) is ListBoxItem item &&
                 item.DataContext is PaneGroup group)
             {
                 GroupActivated?.Invoke(group);
@@ -169,22 +188,35 @@ namespace SqlSafetyGuard.UI
 
         private void OnGroupKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && GroupList.SelectedItem is PaneGroup group)
+            var list = (ListBox)sender;
+            if (e.Key == Key.Enter && list.SelectedItem is PaneGroup group)
             {
                 GroupActivated?.Invoke(group);
                 e.Handled = true;
             }
+            else if (e.Key == Key.Down && list == GroupList && list.SelectedIndex == list.Items.Count - 1 && SafeList.HasItems)
+            {
+                SafeSection.IsExpanded = true;
+                SafeList.SelectedIndex = 0;
+                SafeList.UpdateLayout();
+                (SafeList.ItemContainerGenerator.ContainerFromIndex(0) as ListBoxItem)?.Focus();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Up && list == SafeList && list.SelectedIndex == 0 && GroupList.HasItems)
+            {
+                GroupList.SelectedIndex = GroupList.Items.Count - 1;
+                GroupList.ScrollIntoView(GroupList.SelectedItem);
+                GroupList.UpdateLayout();
+                (GroupList.ItemContainerGenerator.ContainerFromIndex(GroupList.SelectedIndex) as ListBoxItem)?.Focus();
+                e.Handled = true;
+            }
         }
 
-        private void OnSafeHeaderClicked(object sender, MouseButtonEventArgs e)
-        {
-            bool show = SafeList.Visibility != Visibility.Visible;
-            SafeList.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
-            SafeHeader.Text = (show ? "▾ " : "▸ ") + SafeHeader.Text.Substring(2);
-        }
-
+        private void OnAnalysisPage(object sender, RoutedEventArgs e) => SetPage(false);
+        private void OnSettingsPage(object sender, RoutedEventArgs e) => SetPage(true);
+        private void OnEditOptions(object sender, RoutedEventArgs e) => EditOptions?.Invoke();
+        private void OnCollapseClicked(object sender, RoutedEventArgs e) => CollapseToggled?.Invoke();
         private void OnToggleClicked(object sender, MouseButtonEventArgs e) => CollapseToggled?.Invoke();
-
         private void OnGripDragDelta(object sender, DragDeltaEventArgs e) => WidthDragged?.Invoke(e.HorizontalChange);
     }
 }

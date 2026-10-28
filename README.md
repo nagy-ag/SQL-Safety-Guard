@@ -105,18 +105,26 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
 - **Safety pane** (right of the editor in every SQL query window). It analyzes exactly what F5 would run: the
   selection if there is one, otherwise the whole window. It re-analyzes in the background about a quarter of a
   second after you stop typing or change the selection; nothing is executed and SSMS doesn't freeze.
-  - The **header** says it in plain words ("Not safe: 2 real writes, 1 unknown", "Safe: read-only", "Nothing to
-    analyze"), what F5 will do (runs without asking / will ask first / asks you to type the database name / guard is
-    off), and the server, database and environment label once SSMS exposes them for the window.
-  - Below it, the **yellow/red objects**, grouped by table or procedure and sorted by risk, with their actions and
-    lines, an **ALL ROWS** badge for TRUNCATE and UPDATE/DELETE that can change every row, and a **DROP** badge for
-    dropped objects (same rules and wording as the F5 dialog). Green statements are collapsed into
-    *Temp operations and reads*.
-  - **Click** an object to highlight its statements in the editor and see them in the detail card; **double-click**
-    or **Enter** moves the caret there. Moving the caret into a yellow/red statement selects it in the pane.
-    Yellow/red statements are lightly tinted in the editor all the time.
-  - Drag the pane's left edge to resize it; **»** collapses it to a thin strip coloured by the verdict (click the
-    strip to expand). Size and collapsed state apply to all query windows for the session.
+  - The shared **34 px header** shows red/yellow object-count circles, or a green check when neither is present
+    (grey before a result), followed by **Whole window** or **Selection, lines N–N**. The tooltip contains the
+    analysis summary and what F5 will do. It never puts verdict words or the server name in the header.
+  - A matched environment rule adds a small label tag and a 3 px top line: labels containing **PROD** are red,
+    all others slate grey. Unknown connections and unmatched rules have no tag.
+  - **☰ Analysis** groups one row per resolved object into **Changes for good**, **Can't see inside**, and
+    **Allowed by your settings** (safe-table patterns and trusted procedures). Section counts match the red/yellow
+    circles. Each row shows the database in grey, the schema/object in semibold, and its action and line at the
+    right. Repeated actions use **×N** and **+N**; the tooltip lists every statement line. Whole-target actions,
+    TRUNCATE and DROP are bold red, without extra badges.
+  - **Safe · temp operations and reads · N** is an expandable footer, opened automatically when nothing is red
+    or yellow. Empty sections are omitted. **Click** any object to highlight its statements and reveal a short
+    explanation below its row; **double-click** or **Enter** jumps to it. The editor caret follows the corresponding
+    row, and arrow-key navigation works across the main and safe lists. Yellow/red statements retain light tinting.
+  - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, typed
+    confirmation, safe tables, trusted procedures, and tempdb handling. Each effective pattern identifies its
+    global or rule source. **Edit in Tools › Options…** opens SQL Safety Guard's options page.
+  - Drag the pane's left edge to resize it; **»** collapses it to the unchanged thin strip with red/yellow count
+    circles or a green check (click the strip to expand). Size and collapsed state apply to all query windows for
+    the session.
 - **Tools > Analyze Query Safety**, the toolbar button ("SQL with a check mark" icon right after the Execute group
   on the SQL Editor toolbar), or **Ctrl+Shift+F5** in a query window: expands the pane if it is collapsed and
   re-analyzes immediately.
@@ -132,7 +140,10 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
-Safety pane, checked in SSMS 22 on 2026-10-27 (Light theme, isolated `/rootSuffix Exp` profile, by real interaction
+The redesigned expanded pane has build and automated contract coverage only; it has not been exercised in SSMS.
+No running SSMS instance or desktop was touched during this redesign.
+
+Historical verification of the previous expanded pane, checked in SSMS 22 on 2026-10-27 (Light theme, isolated `/rootSuffix Exp` profile, by real interaction
 and an in-process Debug test channel): loads in saved `.sql` files and new query windows; shows the server and
 database; updates about 0.25 s after an edit; follows the caret; analyzes a selection exactly like F5; click
 highlights and double-click jumps; resize and collapse; Ctrl+Shift+F5 expands and re-analyzes; a 1 MB script is
@@ -270,7 +281,9 @@ built-in lists. An unrelated `OtherDb.custom.sp_executesql` is an ordinary unkno
 5. Debug builds also write a pane timing trace (no query text) to `%TEMP%\SqlSafetyGuard-pane-trace.log`, and the
    pane accepts test commands from `%TEMP%\SqlSafetyGuard-pane-cmd.txt` (lines `documentName|verb|argument`, e.g.
    `SQLQuery1.sql|caret|12`, `|select|8 10`, `|append|DELETE FROM t;`, `|pick|dbo.Orders`, `|collapse`, `|dump`;
-   see `SafetyPaneMargin.TestChannel.cs`). That lets the pane be tested without driving the mouse or keyboard.
+   see `SafetyPaneMargin.TestChannel.cs`). `page|settings` / `page|analysis` switch pages; `safe` toggles the footer.
+   `dump` includes header counts/scope/environment, sections and all object rows, plus effective settings and pattern
+   sources. That lets the pane be tested without driving the mouse or keyboard.
    Neither exists in Release builds.
 
 Visual Studio's own "deploy to experimental instance" is turned off (`DeployExtension=false`): that would target
