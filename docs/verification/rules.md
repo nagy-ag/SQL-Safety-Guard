@@ -50,7 +50,7 @@ ActionNames contains AlterTableAddTableElementStatement; choose this action labe
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:243`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealtercolumnstatement
 
@@ -58,7 +58,7 @@ ActionNames contains AlterTableAlterColumnStatement; choose this action label; v
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:244`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealterindexstatement
 
@@ -66,7 +66,7 @@ ActionNames contains AlterTableAlterIndexStatement; choose this action label; ve
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:253`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablealterpartitionstatement
 
@@ -74,7 +74,7 @@ ActionNames contains AlterTableAlterPartitionStatement; choose this action label
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:254`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablechangetrackingmodificationstatement
 
@@ -82,7 +82,7 @@ ActionNames contains AlterTableChangeTrackingModificationStatement; choose this 
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:251`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertableconstraintmodificationstatement
 
@@ -90,7 +90,7 @@ ActionNames contains AlterTableConstraintModificationStatement; choose this acti
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:246`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertabledroptableelementstatement
 
@@ -98,7 +98,7 @@ ActionNames contains AlterTableDropTableElementStatement; choose this action lab
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:245`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablefiletablenamespacestatement
 
@@ -106,7 +106,7 @@ ActionNames contains AlterTableFileTableNamespaceStatement; choose this action l
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:252`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablerebuildstatement
 
@@ -114,7 +114,7 @@ ActionNames contains AlterTableRebuildStatement; choose this action label; verdi
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:249`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertablesetstatement
 
@@ -122,7 +122,7 @@ ActionNames contains AlterTableSetStatement; choose this action label; verdict u
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:247`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertableswitchstatement
 
@@ -130,7 +130,7 @@ ActionNames contains AlterTableSwitchStatement; choose this action label; verdic
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:248`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.altertabletriggermodificationstatement
 
@@ -138,7 +138,7 @@ ActionNames contains AlterTableTriggerModificationStatement; choose this action 
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:250`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.backupdatabasestatement
 
@@ -146,7 +146,7 @@ ActionNames contains BackupDatabaseStatement; choose this action label; verdict 
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:239`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.backuptransactionlogstatement
 
@@ -154,7 +154,7 @@ ActionNames contains BackupTransactionLogStatement; choose this action label; ve
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:240`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.begintransactionstatement
 
@@ -162,7 +162,7 @@ ActionNames contains BeginTransactionStatement; choose this action label; verdic
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:231`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.bulkinsertstatement
 
@@ -170,7 +170,7 @@ ActionNames contains BulkInsertStatement; choose this action label; verdict unch
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:256`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.committransactionstatement
 
@@ -178,7 +178,7 @@ ActionNames contains CommitTransactionStatement; choose this action label; verdi
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:232`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.dbccstatement
 
@@ -186,7 +186,7 @@ ActionNames contains DbccStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:238`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declarecursorstatement
 
@@ -194,7 +194,7 @@ ActionNames contains DeclareCursorStatement; choose this action label; verdict u
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:230`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declaretablevariablestatement
 
@@ -202,7 +202,7 @@ ActionNames contains DeclareTableVariableStatement; choose this action label; ve
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:229`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.declarevariablestatement
 
@@ -210,7 +210,7 @@ ActionNames contains DeclareVariableStatement; choose this action label; verdict
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:228`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.executeasstatement
 
@@ -218,7 +218,7 @@ ActionNames contains ExecuteAsStatement; choose this action label; verdict uncha
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:241`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.gotostatement
 
@@ -226,7 +226,7 @@ ActionNames contains GoToStatement; choose this action label; verdict unchanged.
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:237`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.insertbulkstatement
 
@@ -234,7 +234,7 @@ ActionNames contains InsertBulkStatement; choose this action label; verdict unch
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:257`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.raiseerrorlegacystatement
 
@@ -250,7 +250,7 @@ ActionNames contains RaiseErrorStatement; choose this action label; verdict unch
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:235`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.rollbacktransactionstatement
 
@@ -258,7 +258,7 @@ ActionNames contains RollbackTransactionStatement; choose this action label; ver
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:233`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.savetransactionstatement
 
@@ -266,7 +266,7 @@ ActionNames contains SaveTransactionStatement; choose this action label; verdict
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:234`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.setvariablestatement
 
@@ -274,7 +274,7 @@ ActionNames contains SetVariableStatement; choose this action label; verdict unc
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:227`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## action-name.updatestatisticsstatement
 
@@ -282,7 +282,7 @@ ActionNames contains UpdateStatisticsStatement; choose this action label; verdic
 
 - Outcomes: annotation only; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:242`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## aggregate.max
 
@@ -826,7 +826,7 @@ ReadOnlyStatementTypes contains BeginTransactionStatement; classify as ReadOnly 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.breakstatement
 
@@ -834,7 +834,7 @@ ReadOnlyStatementTypes contains BreakStatement; classify as ReadOnly after speci
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closecursorstatement
 
@@ -842,7 +842,7 @@ ReadOnlyStatementTypes contains CloseCursorStatement; classify as ReadOnly after
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closemasterkeystatement
 
@@ -850,7 +850,7 @@ ReadOnlyStatementTypes contains CloseMasterKeyStatement; classify as ReadOnly af
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.closesymmetrickeystatement
 
@@ -858,7 +858,7 @@ ReadOnlyStatementTypes contains CloseSymmetricKeyStatement; classify as ReadOnly
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.committransactionstatement
 
@@ -866,7 +866,7 @@ ReadOnlyStatementTypes contains CommitTransactionStatement; classify as ReadOnly
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.continuestatement
 
@@ -874,7 +874,7 @@ ReadOnlyStatementTypes contains ContinueStatement; classify as ReadOnly after sp
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.cursorstatement
 
@@ -890,7 +890,7 @@ ReadOnlyStatementTypes contains DeallocateCursorStatement; classify as ReadOnly 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:113`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declarecursorstatement
 
@@ -898,7 +898,7 @@ ReadOnlyStatementTypes contains DeclareCursorStatement; classify as ReadOnly aft
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declaretablevariablestatement
 
@@ -906,7 +906,7 @@ ReadOnlyStatementTypes contains DeclareTableVariableStatement; classify as ReadO
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.declarevariablestatement
 
@@ -914,7 +914,7 @@ ReadOnlyStatementTypes contains DeclareVariableStatement; classify as ReadOnly a
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.executeasstatement
 
@@ -922,7 +922,7 @@ ReadOnlyStatementTypes contains ExecuteAsStatement; classify as ReadOnly after s
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.fetchcursorstatement
 
@@ -930,7 +930,7 @@ ReadOnlyStatementTypes contains FetchCursorStatement; classify as ReadOnly after
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.getconversationgroupstatement
 
@@ -938,7 +938,7 @@ ReadOnlyStatementTypes contains GetConversationGroupStatement; classify as ReadO
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.gotostatement
 
@@ -946,7 +946,7 @@ ReadOnlyStatementTypes contains GoToStatement; classify as ReadOnly after specia
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.labelstatement
 
@@ -954,7 +954,7 @@ ReadOnlyStatementTypes contains LabelStatement; classify as ReadOnly after speci
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.linenostatement
 
@@ -962,7 +962,7 @@ ReadOnlyStatementTypes contains LineNoStatement; classify as ReadOnly after spec
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.opencursorstatement
 
@@ -970,7 +970,7 @@ ReadOnlyStatementTypes contains OpenCursorStatement; classify as ReadOnly after 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:112`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.openmasterkeystatement
 
@@ -978,7 +978,7 @@ ReadOnlyStatementTypes contains OpenMasterKeyStatement; classify as ReadOnly aft
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.opensymmetrickeystatement
 
@@ -986,7 +986,7 @@ ReadOnlyStatementTypes contains OpenSymmetricKeyStatement; classify as ReadOnly 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.printstatement
 
@@ -994,7 +994,7 @@ ReadOnlyStatementTypes contains PrintStatement; classify as ReadOnly after speci
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.raiseerrorlegacystatement
 
@@ -1010,7 +1010,7 @@ ReadOnlyStatementTypes contains RaiseErrorStatement; classify as ReadOnly after 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.readtextstatement
 
@@ -1018,7 +1018,7 @@ ReadOnlyStatementTypes contains ReadTextStatement; classify as ReadOnly after sp
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:120`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.returnstatement
 
@@ -1026,7 +1026,7 @@ ReadOnlyStatementTypes contains ReturnStatement; classify as ReadOnly after spec
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:116`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.revertstatement
 
@@ -1034,7 +1034,7 @@ ReadOnlyStatementTypes contains RevertStatement; classify as ReadOnly after spec
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.rollbacktransactionstatement
 
@@ -1042,7 +1042,7 @@ ReadOnlyStatementTypes contains RollbackTransactionStatement; classify as ReadOn
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.savetransactionstatement
 
@@ -1050,7 +1050,7 @@ ReadOnlyStatementTypes contains SaveTransactionStatement; classify as ReadOnly a
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:114`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setcommandstatement
 
@@ -1058,7 +1058,7 @@ ReadOnlyStatementTypes contains SetCommandStatement; classify as ReadOnly after 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.seterrorlevelstatement
 
@@ -1066,7 +1066,7 @@ ReadOnlyStatementTypes contains SetErrorLevelStatement; classify as ReadOnly aft
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setidentityinsertstatement
 
@@ -1074,7 +1074,7 @@ ReadOnlyStatementTypes contains SetIdentityInsertStatement; classify as ReadOnly
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setonoffstatement
 
@@ -1090,7 +1090,7 @@ ReadOnlyStatementTypes contains SetRowCountStatement; classify as ReadOnly after
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.settextsizestatement
 
@@ -1098,7 +1098,7 @@ ReadOnlyStatementTypes contains SetTextSizeStatement; classify as ReadOnly after
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:110`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.settransactionisolationlevelstatement
 
@@ -1106,7 +1106,7 @@ ReadOnlyStatementTypes contains SetTransactionIsolationLevelStatement; classify 
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setuserstatement
 
@@ -1114,7 +1114,7 @@ ReadOnlyStatementTypes contains SetUserStatement; classify as ReadOnly after spe
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:111`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.setvariablestatement
 
@@ -1122,7 +1122,7 @@ ReadOnlyStatementTypes contains SetVariableStatement; classify as ReadOnly after
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:109`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.throwstatement
 
@@ -1130,7 +1130,7 @@ ReadOnlyStatementTypes contains ThrowStatement; classify as ReadOnly after speci
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.transactionstatement
 
@@ -1146,7 +1146,7 @@ ReadOnlyStatementTypes contains UseFederationStatement; classify as ReadOnly aft
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:121`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.usestatement
 
@@ -1154,7 +1154,7 @@ ReadOnlyStatementTypes contains UseStatement; classify as ReadOnly after special
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:115`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## green-statement.waitforstatement
 
@@ -1162,7 +1162,7 @@ ReadOnlyStatementTypes contains WaitForStatement; classify as ReadOnly after spe
 
 - Outcomes: ReadOnly; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:117`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## hidden.adhoc
 
@@ -3290,7 +3290,7 @@ UnknownStatementTypes contains CheckpointStatement; classify as Unknown after sp
 
 - Outcomes: Unknown; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:222`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## unknown-statement.updatestatisticsstatement
 
@@ -3298,7 +3298,7 @@ UnknownStatementTypes contains UpdateStatisticsStatement; classify as Unknown af
 
 - Outcomes: Unknown; review: reviewed-table.
 - Source: `src/SqlSafetyGuard.Analyzer/Classifier.cs:221`.
-- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)
+- Existing tests: tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)
 
 ## exec.dispatch
 

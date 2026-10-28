@@ -1,6 +1,6 @@
 # Owned company playground
 
-Four reusable template databases live on .\SQLEXPRESS: **SgPlay_Core, SgPlay_Sales, SgPlay_Audit, SgPlay_Archive**. Only databases carrying the harness template marker are reusable. Their COPY_ONLY/CHECKSUM backups are written to the SQL instance's default backup directory. Every case restores all four into fresh SgRun_<random>_<role> databases with fresh physical files and NEW_BROKER, then rebinds all cross-database definitions to that case's set. Cases never execute against the templates.
+Four reusable template databases live on .\SQLEXPRESS: **SgPlay_Core, SgPlay_Sales, SgPlay_Audit, SgPlay_Archive**. Only databases carrying the harness template marker are reusable. Their COPY_ONLY/CHECKSUM backups are written to the SQL instance's default backup directory. Each worker initially restores all four into fresh SgRun_<random>_<role> databases with fresh physical files and NEW_BROKER, then rebinds all cross-database definitions to that case's set. Cases never execute against the templates. Successful exact no-change cases may reuse their worker set after a full pristine-state check before the next execution; writes, errors, setup and shrink trials require a fresh restore. See ORACLE.md.
 
 The schema is repeated in each role so a case can choose its starting database without special fixture setup. Cross-database destinations still distinguish Audit and Archive. Defaults are database=Core, principal=runner, seed=1. JSON tokens {{Core}}, {{Sales}}, {{Audit}}, {{Archive}} and {{seed}} are expanded before both execution and analysis. Output preserves original templated input and exact executed SQL.
 
@@ -33,7 +33,7 @@ Each database contains **9 user tables** (including history), **2 views**, **2 t
 
 ## Security and server features
 
-Every case gets a random SQL login with db_owner only in its four restored databases; BACKUP DATABASE/LOG are denied. It is impersonated WITH NO REVERT on a nonpooled connection. Setup verifies no CONTROL SERVER and no access to any nonsystem database outside that exact set. This deliberately fails rather than weakening isolation when public/guest permissions expose another database. Template users have no login. A principal override can further EXECUTE AS USER low_user or app_user.
+Every restored set gets a random SQL login with db_owner only in its four restored databases; BACKUP DATABASE/LOG are denied. It is impersonated WITH NO REVERT on a nonpooled connection. Setup verifies no CONTROL SERVER and no access to any nonsystem database outside that exact set. This deliberately fails rather than weakening isolation when public/guest permissions expose another database. Template users have no login. A principal override can further EXECUTE AS USER low_user or app_user.
 
 Shared-instance setup does not alter existing databases, tempdb users, server configuration, or linked servers. Loopback linked-server provisioning belongs only in the owned Docker developer container; direct loopback access on the shared instance could inherit an ambient privileged login and is deliberately avoided. BACKUP, server-state probes and permanent tempdb mutations require privileged=true with --campaign-isolated --workers 1, ownership label/no mounts/loopback/SQL MachineName verification, and final container removal.
 

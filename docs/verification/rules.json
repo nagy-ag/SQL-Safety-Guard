@@ -57,7 +57,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:243",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableAddTableElementStatement",
       "reviewStatus": "reviewed-table",
@@ -70,7 +70,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:244",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableAlterColumnStatement",
       "reviewStatus": "reviewed-table",
@@ -83,7 +83,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:253",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableAlterIndexStatement",
       "reviewStatus": "reviewed-table",
@@ -96,7 +96,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:254",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableAlterPartitionStatement",
       "reviewStatus": "reviewed-table",
@@ -109,7 +109,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:251",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableChangeTrackingModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -122,7 +122,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:246",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableConstraintModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -135,7 +135,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:245",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableDropTableElementStatement",
       "reviewStatus": "reviewed-table",
@@ -148,7 +148,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:252",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableFileTableNamespaceStatement",
       "reviewStatus": "reviewed-table",
@@ -161,7 +161,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:249",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableRebuildStatement",
       "reviewStatus": "reviewed-table",
@@ -174,7 +174,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:247",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableSetStatement",
       "reviewStatus": "reviewed-table",
@@ -187,7 +187,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:248",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableSwitchStatement",
       "reviewStatus": "reviewed-table",
@@ -200,7 +200,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:250",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "AlterTableTriggerModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -213,7 +213,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:239",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BackupDatabaseStatement",
       "reviewStatus": "reviewed-table",
@@ -226,7 +226,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:240",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BackupTransactionLogStatement",
       "reviewStatus": "reviewed-table",
@@ -239,7 +239,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:231",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BeginTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -252,7 +252,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:256",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BulkInsertStatement",
       "reviewStatus": "reviewed-table",
@@ -265,7 +265,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:232",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CommitTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -278,7 +278,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:238",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DbccStatement",
       "reviewStatus": "reviewed-table",
@@ -291,7 +291,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:230",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -304,7 +304,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:229",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareTableVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -317,7 +317,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:228",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -330,7 +330,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:241",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ExecuteAsStatement",
       "reviewStatus": "reviewed-table",
@@ -343,7 +343,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:237",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "GoToStatement",
       "reviewStatus": "reviewed-table",
@@ -356,7 +356,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:257",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "InsertBulkStatement",
       "reviewStatus": "reviewed-table",
@@ -380,7 +380,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:235",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "RaiseErrorStatement",
       "reviewStatus": "reviewed-table",
@@ -393,7 +393,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:233",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "RollbackTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -406,7 +406,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:234",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SaveTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -419,7 +419,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:227",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -432,7 +432,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:242",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "UpdateStatisticsStatement",
       "reviewStatus": "reviewed-table",
@@ -1382,7 +1382,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BeginTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1397,7 +1397,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "BreakStatement",
       "reviewStatus": "reviewed-table",
@@ -1412,7 +1412,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CloseCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1427,7 +1427,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CloseMasterKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1442,7 +1442,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CloseSymmetricKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1457,7 +1457,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CommitTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1472,7 +1472,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ContinueStatement",
       "reviewStatus": "reviewed-table",
@@ -1500,7 +1500,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeallocateCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1515,7 +1515,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1530,7 +1530,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareTableVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1545,7 +1545,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "DeclareVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1560,7 +1560,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ExecuteAsStatement",
       "reviewStatus": "reviewed-table",
@@ -1575,7 +1575,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "FetchCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1590,7 +1590,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "GetConversationGroupStatement",
       "reviewStatus": "reviewed-table",
@@ -1605,7 +1605,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "GoToStatement",
       "reviewStatus": "reviewed-table",
@@ -1620,7 +1620,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "LabelStatement",
       "reviewStatus": "reviewed-table",
@@ -1635,7 +1635,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "LineNoStatement",
       "reviewStatus": "reviewed-table",
@@ -1650,7 +1650,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "OpenCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1665,7 +1665,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "OpenMasterKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1680,7 +1680,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "OpenSymmetricKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1695,7 +1695,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "PrintStatement",
       "reviewStatus": "reviewed-table",
@@ -1723,7 +1723,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "RaiseErrorStatement",
       "reviewStatus": "reviewed-table",
@@ -1738,7 +1738,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ReadTextStatement",
       "reviewStatus": "reviewed-table",
@@ -1753,7 +1753,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ReturnStatement",
       "reviewStatus": "reviewed-table",
@@ -1768,7 +1768,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "RevertStatement",
       "reviewStatus": "reviewed-table",
@@ -1783,7 +1783,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "RollbackTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1798,7 +1798,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SaveTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1813,7 +1813,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetCommandStatement",
       "reviewStatus": "reviewed-table",
@@ -1828,7 +1828,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetErrorLevelStatement",
       "reviewStatus": "reviewed-table",
@@ -1843,7 +1843,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetIdentityInsertStatement",
       "reviewStatus": "reviewed-table",
@@ -1871,7 +1871,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetRowCountStatement",
       "reviewStatus": "reviewed-table",
@@ -1886,7 +1886,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetTextSizeStatement",
       "reviewStatus": "reviewed-table",
@@ -1901,7 +1901,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetTransactionIsolationLevelStatement",
       "reviewStatus": "reviewed-table",
@@ -1916,7 +1916,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetUserStatement",
       "reviewStatus": "reviewed-table",
@@ -1931,7 +1931,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "SetVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1946,7 +1946,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "ThrowStatement",
       "reviewStatus": "reviewed-table",
@@ -1974,7 +1974,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "UseFederationStatement",
       "reviewStatus": "reviewed-table",
@@ -1989,7 +1989,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "UseStatement",
       "reviewStatus": "reviewed-table",
@@ -2004,7 +2004,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "WaitForStatement",
       "reviewStatus": "reviewed-table",
@@ -5958,7 +5958,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:222",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "CheckpointStatement",
       "reviewStatus": "reviewed-table",
@@ -5973,7 +5973,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:221",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:15 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
       "member": "UpdateStatisticsStatement",
       "reviewStatus": "reviewed-table",

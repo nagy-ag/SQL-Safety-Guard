@@ -24,6 +24,9 @@ Measure on the **same live execution connection before disposal or cleanup**: tr
 | --- | --- |
 | FALSE GREEN | Blocker: unauthorized effect violates a green promise. Green-but-not-executable is inconclusive, not proof. |
 | WRONG TARGET | High: finding identifies a different object than actual mutation; blocker if it causes unauthorized green. Compare canonical server/database/schema/object identity. |
+| INDIRECT EFFECT | Named target resolves correctly; additional concrete writes are explained by pre-execution synonym/view/trigger/cascade/temporal edges. Still account for authorization separately. |
+| UNRESOLVED TARGET | Inconclusive target attribution, for example a Broker dialog variable. Never a verified target pass. |
+| EXTERNAL CHANGE | Only unrelated non-run database metadata changed; retain evidence and exclude from analyzer false-green counts. Does not conceal any owned-state/session-observer failure. |
 | NOISE | Measure per rule: yellow/red but no observed change. Separate expected capability warnings (zero-row DML, denied permissions) from avoidable warnings. |
 | CRASH / TIMEOUT | High availability/coverage failure; never pass. Preserve input, settings, timing and partial effects. |
 | NOT EXECUTABLE | Inconclusive setup, syntax, permissions or missing-feature result; never pass. Preserve any effects that did occur. |

@@ -1,3 +1,5 @@
+> Historical baseline. Superseded for wave-2 implementation and scheduling by `docs/verification/validation-wave2.md`; original results below are retained unchanged.
+
 # Server campaign validation — 2026-10-28
 
 This is infrastructure/smoke evidence, not proof of every analyzer rule or combination. The analyzer was not changed. Outputs are outside the checkout under ..\harness-out\campaign\2026-10-28; generated SQL names and timings remain in results.jsonl and report.md. No scheduled task was registered.

@@ -18,3 +18,7 @@ Current means offline analyzer behavior at baseline edea579, not an observed SQL
 - `DBCC CHECKDB;`: ReadOnly without repair; internal snapshots/check bookkeeping complicate a literal zero-server-change definition.
 - `UPDATE dbo.Orders SET Qty = Qty WHERE 1 = 0;`: RealWrite; zero observed row changes do not remove write capability, locks or possible statement-level trigger effects.
 - Unknown procedure plus yellow suppression in Red mode: Unknown but no prompt; mode selection intentionally trades protection for noise reduction.
+
+## Wave-2 attribution question
+
+- Service Broker `SEND ON CONVERSATION @dialog`: red finding names the dialog variable, not the asynchronously written queue or conversation catalog. Should a target finding represent the dialog, service, queue, or all reachable objects? Until decided, the harness reports UNRESOLVED TARGET rather than WRONG TARGET or PASS. A runtime dialog variable is not treated as a statically missed base table.
