@@ -1,0 +1,255 @@
+2026-10-28T18:37:12.0892793Z	state	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	False	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	0	0	Analyzing…  Nothing is executed.
+2026-10-28T18:37:12.0913428Z	ack	state
+2026-10-28T18:37:16.7240115Z	ack	commands
+2026-10-28T18:37:17.3722546Z	ack	open
+2026-10-28T18:37:27.7804563Z	window	What's new
+2026-10-28T18:37:27.8038657Z	window	SgExtB.sql - (local)\SQLEXPRESS.SgExt_d65f60f24ed2 (LAPTOP\nagya (90))
+2026-10-28T18:37:27.8038657Z	window	SgExtA.sql - (local)\SQLEXPRESS.SgExt_d65f60f24ed2 (LAPTOP\nagya (95))
+2026-10-28T18:37:27.8058898Z	window	Output
+2026-10-28T18:37:27.8058898Z	ack	dismisswelcome
+2026-10-28T18:37:28.1389916Z	ack	document
+2026-10-28T18:37:28.4758858Z	target-view	0	False	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	9
+2026-10-28T18:37:28.4778993Z	target-view	1	True	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	9
+2026-10-28T18:37:28.4799206Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:28.4917721Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	ReadOnly	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:28.6715098Z	ack	execute
+2026-10-28T18:37:29.3690520Z	ack	document
+2026-10-28T18:37:29.6777312Z	ack	mode
+2026-10-28T18:37:29.9968315Z	ack	rulesfile
+2026-10-28T18:37:30.4243379Z	ack	replacefile
+2026-10-28T18:37:31.3714667Z	target-view	0	False	ba44394ecc325ce755d913796809a6a631d825903f338e0330eae56e1ea180ec	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:31.3724523Z	target-view	1	False	ba44394ecc325ce755d913796809a6a631d825903f338e0330eae56e1ea180ec	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:31.3734559Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	55192f8136e4cf6e490cacd94d3e0c3fcc2596aabd8172e6026bd96a2a29252b	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:31.3803457Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	55192f8136e4cf6e490cacd94d3e0c3fcc2596aabd8172e6026bd96a2a29252b	ReadOnly	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:31.4258235Z	ack	execute
+2026-10-28T18:37:33.3613727Z	ack	replacefile
+2026-10-28T18:37:34.3086183Z	target-view	0	False	77c70e443083c22c6bb64e23c2d4f0aa84a8b525973fd11cc3758eb4c19727a7	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:34.3096193Z	target-view	1	False	77c70e443083c22c6bb64e23c2d4f0aa84a8b525973fd11cc3758eb4c19727a7	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:34.3106179Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	175ff2243eb4a3d46d6b140fab66cc11d27c06deb4807d6d2a042059d4106602	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:34.3178230Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	175ff2243eb4a3d46d6b140fab66cc11d27c06deb4807d6d2a042059d4106602	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:34.9367963Z	ack	execute
+2026-10-28T18:37:36.5063267Z	ack	replacefile
+2026-10-28T18:37:37.4416579Z	target-view	0	False	77c70e443083c22c6bb64e23c2d4f0aa84a8b525973fd11cc3758eb4c19727a7	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:37.4416579Z	target-view	1	False	77c70e443083c22c6bb64e23c2d4f0aa84a8b525973fd11cc3758eb4c19727a7	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:37.4426621Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f2ade6e0c4caf030f8295af5f31b096e13392e3f03924b8555eebaaaf424f264	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:37.4496588Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f2ade6e0c4caf030f8295af5f31b096e13392e3f03924b8555eebaaaf424f264	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:37.9263953Z	ack	execute
+2026-10-28T18:37:39.5044955Z	ack	replacefile
+2026-10-28T18:37:40.4441521Z	target-view	0	False	365cbbb8eeae6d4d14d8f635be48be0e5b3006670bc570fbf485d9cec885094c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:40.4453789Z	target-view	1	False	365cbbb8eeae6d4d14d8f635be48be0e5b3006670bc570fbf485d9cec885094c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:40.4453789Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	489eaca61ff38df212dae07d9a92760c6dbaa93856a2eba73bdefab28821d687	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:40.4508988Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	489eaca61ff38df212dae07d9a92760c6dbaa93856a2eba73bdefab28821d687	Unknown	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:40.8119323Z	ack	execute
+2026-10-28T18:37:42.3841337Z	ack	replacefile
+2026-10-28T18:37:43.6386548Z	target-view	0	False	365cbbb8eeae6d4d14d8f635be48be0e5b3006670bc570fbf485d9cec885094c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:43.6406778Z	target-view	1	False	365cbbb8eeae6d4d14d8f635be48be0e5b3006670bc570fbf485d9cec885094c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:43.6406778Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	50cad002e1e4037217642edb1954a9d471917457cbfcc2b902fd26acbdeb7265	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:43.6482459Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	50cad002e1e4037217642edb1954a9d471917457cbfcc2b902fd26acbdeb7265	Unknown	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:44.1150638Z	ack	execute
+2026-10-28T18:37:45.6735294Z	ack	replacefile
+2026-10-28T18:37:46.0083446Z	ack	select
+2026-10-28T18:37:46.9506560Z	target-view	0	False	12b650b24ab74b04e28be43a73d1b99004982e41b4e3cdcfbf1c99eaee72fd8f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:46.9506560Z	target-view	1	False	12b650b24ab74b04e28be43a73d1b99004982e41b4e3cdcfbf1c99eaee72fd8f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:46.9517763Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:46.9567770Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	ReadOnly	True	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:46.9891846Z	ack	execute
+2026-10-28T18:37:48.5540172Z	ack	replacefile
+2026-10-28T18:37:48.8706485Z	ack	select
+2026-10-28T18:37:50.1237326Z	target-view	0	False	2e02fc283998327985fe445390502aadaca34f140f44b541b9444c7428bcbbf6	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:50.1252398Z	target-view	1	False	2e02fc283998327985fe445390502aadaca34f140f44b541b9444c7428bcbbf6	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:50.1252398Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:50.1315718Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	RealWrite	True	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:50.5803698Z	ack	execute
+2026-10-28T18:37:52.4687529Z	ack	replacefile
+2026-10-28T18:37:52.7943598Z	ack	select
+2026-10-28T18:37:53.7438753Z	target-view	0	False	6cd40fc9dc41d487b92c39465c828051ae1f72d99565ce20ae23162c26daae04	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:53.7448630Z	target-view	1	False	6cd40fc9dc41d487b92c39465c828051ae1f72d99565ce20ae23162c26daae04	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:53.7458709Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:53.7523683Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	RealWrite	True	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:37:54.8882430Z	ack	execute
+2026-10-28T18:37:56.7935407Z	ack	mode
+2026-10-28T18:37:57.1245541Z	ack	replacefile
+2026-10-28T18:37:58.0740975Z	target-view	0	False	6cd40fc9dc41d487b92c39465c828051ae1f72d99565ce20ae23162c26daae04	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:58.0761209Z	target-view	1	False	6cd40fc9dc41d487b92c39465c828051ae1f72d99565ce20ae23162c26daae04	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:37:58.0761209Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	951bbbcfef67536bf82ad9aeb4f6c56e7385e1f4cb78d3bd88aee1ea4cd26aec	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:37:58.1042466Z	ack	execute
+2026-10-28T18:37:59.9869340Z	ack	mode
+2026-10-28T18:38:00.3011193Z	ack	replacefile
+2026-10-28T18:38:01.5482169Z	target-view	0	False	d37dedb98d639ae49105bcff6baf3fb93c19559d8ec5e3b1c8e89d302ba81e37	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:01.5492963Z	target-view	1	False	d37dedb98d639ae49105bcff6baf3fb93c19559d8ec5e3b1c8e89d302ba81e37	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:01.5492963Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5fcbfb9e4db29c0c059b588da46e4a5d38b403ea176950153ca4a9847e74d739	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:01.5553008Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5fcbfb9e4db29c0c059b588da46e4a5d38b403ea176950153ca4a9847e74d739	Unknown	False	SgExt_d65f60f24ed2	Red
+2026-10-28T18:38:01.5923606Z	ack	execute
+2026-10-28T18:38:03.1701738Z	ack	replacefile
+2026-10-28T18:38:04.4258414Z	target-view	0	False	28c7fb9ac064f45c878e14cf61eeac41c3896ab82fd1b6c48e35f3691aae7338	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:04.4268346Z	target-view	1	False	28c7fb9ac064f45c878e14cf61eeac41c3896ab82fd1b6c48e35f3691aae7338	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:04.4278390Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	3306a764ef4b49ee26e4a11adfe9f58c73e7f42d004e1dbf9ad8b80caeefa4b1	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:04.4345025Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	3306a764ef4b49ee26e4a11adfe9f58c73e7f42d004e1dbf9ad8b80caeefa4b1	RealWrite	False	SgExt_d65f60f24ed2	Red
+2026-10-28T18:38:04.8866193Z	ack	execute
+2026-10-28T18:38:06.7597139Z	ack	mode
+2026-10-28T18:38:07.0742676Z	ack	rulesfile
+2026-10-28T18:38:07.3844855Z	ack	replacefile
+2026-10-28T18:38:08.6340653Z	target-view	0	False	28c7fb9ac064f45c878e14cf61eeac41c3896ab82fd1b6c48e35f3691aae7338	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:08.6350561Z	target-view	1	False	28c7fb9ac064f45c878e14cf61eeac41c3896ab82fd1b6c48e35f3691aae7338	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:08.6365748Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	fa759ebed023f0eaeb7bd59ca03b48450e768f5c9f267c771c226b707e4955b9	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:08.6815423Z	ack	execute
+2026-10-28T18:38:10.5498700Z	ack	rulesfile
+2026-10-28T18:38:10.8711756Z	ack	replacefile
+2026-10-28T18:38:11.8121421Z	target-view	0	False	3c02b19740eab51ac5b1ef92b7bd649e84c80fae4f91a5aa4044f7e13c305401	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:11.8131401Z	target-view	1	False	3c02b19740eab51ac5b1ef92b7bd649e84c80fae4f91a5aa4044f7e13c305401	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:11.8141474Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	d9cc437cabd4ae704ffab5871ce92c84bec9240fc2bbda29e5678e2d5b365bb4	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:11.8384853Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	d9cc437cabd4ae704ffab5871ce92c84bec9240fc2bbda29e5678e2d5b365bb4	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:12.3702963Z	ack	execute
+2026-10-28T18:38:13.9428458Z	ack	replacefile
+2026-10-28T18:38:14.8786155Z	target-view	0	False	3c02b19740eab51ac5b1ef92b7bd649e84c80fae4f91a5aa4044f7e13c305401	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:14.8796177Z	target-view	1	False	3c02b19740eab51ac5b1ef92b7bd649e84c80fae4f91a5aa4044f7e13c305401	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:14.8806145Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	666716eccd55586789a6a5ed335357c5a5f5ffa5c4bc5260ed41c304a381ca99	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:14.9065754Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	666716eccd55586789a6a5ed335357c5a5f5ffa5c4bc5260ed41c304a381ca99	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:15.2385805Z	ack	execute
+2026-10-28T18:38:17.1142524Z	ack	replacefile
+2026-10-28T18:38:18.3609118Z	state	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	False	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	0	0	Read-only  F5 runs without asking	SgExt_d65f60f24ed2	Red and yellow
+2026-10-28T18:38:18.3609118Z	ack	state
+2026-10-28T18:38:18.6779574Z	ack	replacefile
+2026-10-28T18:38:18.6826914Z	state	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	False	1081ba8ee07258793a4a4c4d673f2e2d9b8a87f8b79aa78908124a88fea1c297	0	0	Read-only  F5 runs without asking	SgExt_d65f60f24ed2	Red and yellow
+2026-10-28T18:38:18.6826914Z	ack	state
+2026-10-28T18:38:18.6847129Z	target-view	0	False	1cb5be1f5fcc0813f11fa9df63dacb9a5622985eb5b8ac14ebff35f09f9dc453	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:18.6867331Z	target-view	1	False	1cb5be1f5fcc0813f11fa9df63dacb9a5622985eb5b8ac14ebff35f09f9dc453	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:18.6867331Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	1081ba8ee07258793a4a4c4d673f2e2d9b8a87f8b79aa78908124a88fea1c297	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:18.6954948Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	1081ba8ee07258793a4a4c4d673f2e2d9b8a87f8b79aa78908124a88fea1c297	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:19.1980095Z	ack	execute
+2026-10-28T18:38:20.7817158Z	ack	replacefile
+2026-10-28T18:38:22.0446832Z	ack	replacefile
+2026-10-28T18:38:23.0132712Z	ack	execute
+2026-10-28T18:38:24.8927297Z	ack	replacefile
+2026-10-28T18:38:25.8571926Z	ack	execute
+2026-10-28T18:38:27.7248078Z	ack	execute
+2026-10-28T18:38:28.0425897Z	ack	replacefile
+2026-10-28T18:38:29.2809922Z	target-view	0	False	1179b293f88c3e7fee4a0bd4b0ca7234ad6be32eaa1693183b95c1c2bdfda97b	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:29.2824986Z	target-view	1	False	1179b293f88c3e7fee4a0bd4b0ca7234ad6be32eaa1693183b95c1c2bdfda97b	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:29.2824986Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5024cd6c15129388edb2ba3cad0cabda16e7531f3f189cdedabafe12c5635a30	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:29.2886980Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5024cd6c15129388edb2ba3cad0cabda16e7531f3f189cdedabafe12c5635a30	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:29.8928561Z	ack	execute
+2026-10-28T18:38:31.7653545Z	ack	replacefile
+2026-10-28T18:38:33.0160745Z	target-view	0	False	1179b293f88c3e7fee4a0bd4b0ca7234ad6be32eaa1693183b95c1c2bdfda97b	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:33.0180505Z	target-view	1	False	1179b293f88c3e7fee4a0bd4b0ca7234ad6be32eaa1693183b95c1c2bdfda97b	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:33.0180505Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f9e181ec86924bd11817440cf823048a1d35fa351384088208314b3071f41cca	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:33.0240602Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f9e181ec86924bd11817440cf823048a1d35fa351384088208314b3071f41cca	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:33.5684432Z	ack	execute
+2026-10-28T18:38:35.4453869Z	ack	execute
+2026-10-28T18:38:35.7591944Z	ack	execute
+2026-10-28T18:38:36.0661931Z	ack	replacefile
+2026-10-28T18:38:37.3245275Z	target-view	0	False	37066d3275b7370257295123980bcd0634f87eb55c88d19fc0e8b31b36cbbd26	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	94
+2026-10-28T18:38:37.3245275Z	target-view	1	False	37066d3275b7370257295123980bcd0634f87eb55c88d19fc0e8b31b36cbbd26	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	94
+2026-10-28T18:38:37.3255413Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5105410c1568dc93d45030e8045ad331f1da5cdf1f61c0d2d64a4392a04845d0	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:37.3316432Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5105410c1568dc93d45030e8045ad331f1da5cdf1f61c0d2d64a4392a04845d0	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:37.9821576Z	ack	execute
+2026-10-28T18:38:39.8736263Z	ack	replacefile
+2026-10-28T18:38:41.1348227Z	target-view	0	False	37066d3275b7370257295123980bcd0634f87eb55c88d19fc0e8b31b36cbbd26	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	94
+2026-10-28T18:38:41.1361645Z	target-view	1	False	37066d3275b7370257295123980bcd0634f87eb55c88d19fc0e8b31b36cbbd26	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	94
+2026-10-28T18:38:41.1361645Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	b403412862cc7614ee02bafaaa520ee22b7a1946912769d816217e6c6d78ece4	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:41.1411712Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	b403412862cc7614ee02bafaaa520ee22b7a1946912769d816217e6c6d78ece4	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:41.9308572Z	ack	execute
+2026-10-28T18:38:43.7973460Z	ack	execute
+2026-10-28T18:38:44.1248847Z	ack	execute
+2026-10-28T18:38:44.4516894Z	ack	replacefile
+2026-10-28T18:38:45.7101483Z	target-view	0	False	1f7732454de0bc2b66f143769250cbb99947f710bb3e3313cd517b225a12bb99	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:45.7101483Z	target-view	1	False	1f7732454de0bc2b66f143769250cbb99947f710bb3e3313cd517b225a12bb99	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:45.7111494Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5de6a5091107396111fca846a85d2bbc58445848b647e1b5775d644d60a14b26	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:45.7171532Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	5de6a5091107396111fca846a85d2bbc58445848b647e1b5775d644d60a14b26	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:46.3870420Z	ack	execute
+2026-10-28T18:38:48.2536109Z	ack	replacefile
+2026-10-28T18:38:49.5126970Z	target-view	0	False	1f7732454de0bc2b66f143769250cbb99947f710bb3e3313cd517b225a12bb99	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:49.5126970Z	target-view	1	False	1f7732454de0bc2b66f143769250cbb99947f710bb3e3313cd517b225a12bb99	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:49.5137132Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	102df9b254bda4ba5d432a9c4900275caaf2a4da6aa255ec90b834aea1bd1013	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:49.5201555Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	102df9b254bda4ba5d432a9c4900275caaf2a4da6aa255ec90b834aea1bd1013	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:49.9135083Z	ack	execute
+2026-10-28T18:38:51.8038335Z	ack	execute
+2026-10-28T18:38:52.1657901Z	ack	document
+2026-10-28T18:38:52.4783180Z	ack	replacefile
+2026-10-28T18:38:52.7494885Z	ack	document
+2026-10-28T18:38:53.0643626Z	ack	replacefile
+2026-10-28T18:38:54.6532841Z	target-view	0	False	a4c03075ba92cbcd799bd1eee28aaf9268efa2f95e2dd9d17107f3ed206db46c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	115
+2026-10-28T18:38:54.6542858Z	target-view	1	False	a4c03075ba92cbcd799bd1eee28aaf9268efa2f95e2dd9d17107f3ed206db46c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	115
+2026-10-28T18:38:54.6568374Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:54.6668682Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	ReadOnly	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:54.8439028Z	ack	execute
+2026-10-28T18:38:57.1761843Z	ack	document
+2026-10-28T18:38:57.5001263Z	ack	replacefile
+2026-10-28T18:38:58.7620329Z	target-view	0	False	faae16002cb49f14f2ef4de391d87c956b7e177816153b768b53da470e5305c2	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:58.7620329Z	target-view	1	False	faae16002cb49f14f2ef4de391d87c956b7e177816153b768b53da470e5305c2	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:38:58.7620329Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:38:58.7707159Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	ReadOnly	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:38:59.4143031Z	ack	execute
+2026-10-28T18:39:01.6415870Z	ack	replacefile
+2026-10-28T18:39:02.8930684Z	target-view	0	False	faae16002cb49f14f2ef4de391d87c956b7e177816153b768b53da470e5305c2	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:02.8930684Z	target-view	1	False	faae16002cb49f14f2ef4de391d87c956b7e177816153b768b53da470e5305c2	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:02.8930684Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:02.9016931Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6	ReadOnly	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:03.3676103Z	ack	execute
+2026-10-28T18:39:05.6650195Z	ack	document
+2026-10-28T18:39:05.9862225Z	ack	replacefile
+2026-10-28T18:39:06.1921330Z	ack	document
+2026-10-28T18:39:06.5149779Z	ack	replacefile
+2026-10-28T18:39:07.7661455Z	target-view	0	False	1248d5422b4c44d7b17d545a241a8ee17a153b967ed88679964607c35adced2c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:07.7671461Z	target-view	1	False	1248d5422b4c44d7b17d545a241a8ee17a153b967ed88679964607c35adced2c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:07.7681553Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:07.7747310Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:08.5831526Z	ack	execute
+2026-10-28T18:39:10.4648805Z	ack	replacefile
+2026-10-28T18:39:11.7166800Z	target-view	0	False	1248d5422b4c44d7b17d545a241a8ee17a153b967ed88679964607c35adced2c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:11.7176770Z	target-view	1	False	1248d5422b4c44d7b17d545a241a8ee17a153b967ed88679964607c35adced2c	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:11.7186784Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:11.7261099Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:12.3283665Z	ack	execute
+2026-10-28T18:39:14.8280581Z	ack	mode
+2026-10-28T18:39:15.1575118Z	ack	replacefile
+2026-10-28T18:39:16.7621189Z	target-view	0	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:16.7636490Z	target-view	1	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:16.7646761Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:16.7783712Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504	RealWrite	False	SgExt_d65f60f24ed2	Off
+2026-10-28T18:39:18.1564836Z	ack	execute
+2026-10-28T18:39:20.3703071Z	ack	mode
+2026-10-28T18:39:20.7661528Z	ack	replacefile
+2026-10-28T18:39:20.9998137Z	ack	replacefile
+2026-10-28T18:39:22.5969268Z	target-view	0	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:22.5985849Z	target-view	1	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:22.6015886Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	The guard could not verify which window will run. The focused SQL command target and selected window frame disagree. The selected document frame and focused SQL command target disagree. DTE's active document and the command-target frame disagree. The analysis below is only for the captured candidate; Cancel and select the intended SQL editor before retrying.	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:22.6171491Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	ReadOnly	False	SgExt_d65f60f24ed2	Red
+2026-10-28T18:39:23.8789067Z	ack	execute
+2026-10-28T18:39:26.3848254Z	ack	mode
+2026-10-28T18:39:26.5390422Z	ack	document
+2026-10-28T18:39:26.9298600Z	ack	execute
+2026-10-28T18:39:27.2550682Z	ack	replacefile
+2026-10-28T18:39:28.8293642Z	target-view	0	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:28.8303669Z	target-view	1	False	d9badbef1d9771c2415e49d253891f2ec12cc59043eabdc1fc9e0155d276e8b8	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:28.8318985Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	64ec59bcd854bd41ae179abece2ba8c61f0032570c177ce6351472af44fc2d13	verified	True	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:28.8434878Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	64ec59bcd854bd41ae179abece2ba8c61f0032570c177ce6351472af44fc2d13	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:29.7572871Z	ack	execute
+2026-10-28T18:39:32.2821277Z	ack	execute
+2026-10-28T18:39:32.6073822Z	ack	replacefile
+2026-10-28T18:39:34.4906364Z	target-view	0	False	c12737232b8489bd5bf58045e208df61f80618472190aa32c6820f9ab51de01f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:34.4926375Z	target-view	1	False	c12737232b8489bd5bf58045e208df61f80618472190aa32c6820f9ab51de01f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:34.4936345Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f09f898914980901ace16f084fa7c32efc7c8ee0d9becdb1105c3f919e4439c4	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:34.5106517Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	f09f898914980901ace16f084fa7c32efc7c8ee0d9becdb1105c3f919e4439c4	Unknown	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:36.2205678Z	ack	execute
+2026-10-28T18:39:38.7249005Z	ack	replacefile
+2026-10-28T18:39:40.3134572Z	target-view	0	False	c12737232b8489bd5bf58045e208df61f80618472190aa32c6820f9ab51de01f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:40.3154585Z	target-view	1	False	c12737232b8489bd5bf58045e208df61f80618472190aa32c6820f9ab51de01f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	74
+2026-10-28T18:39:40.3164529Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	be0732bde02d67c87055dc3f6f370548351742cd7a1b445dfa840d13b70538a4	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:40.3322047Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	be0732bde02d67c87055dc3f6f370548351742cd7a1b445dfa840d13b70538a4	Unknown	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:41.5324527Z	ack	execute
+2026-10-28T18:39:44.0647843Z	ack	execute
+2026-10-28T18:39:44.4009802Z	ack	replacefile
+2026-10-28T18:39:46.2880177Z	target-view	0	False	5f21e018214de8c3fe31ab2f8b49566d1b60dd3e28d581def52dbd9d1ea30b7f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	118
+2026-10-28T18:39:46.2900084Z	target-view	1	False	5f21e018214de8c3fe31ab2f8b49566d1b60dd3e28d581def52dbd9d1ea30b7f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	118
+2026-10-28T18:39:46.2910114Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	83e5703a414ddc3775f547652217c12dda0d2ff754e096dc9cb858cb30c674d7	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:46.3040041Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	83e5703a414ddc3775f547652217c12dda0d2ff754e096dc9cb858cb30c674d7	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:39:48.0851595Z	ack	execute
+2026-10-28T18:39:50.9188426Z	ack	replacefile
+2026-10-28T18:39:52.8706356Z	target-view	0	False	5f21e018214de8c3fe31ab2f8b49566d1b60dd3e28d581def52dbd9d1ea30b7f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	118
+2026-10-28T18:39:52.8716369Z	target-view	1	False	5f21e018214de8c3fe31ab2f8b49566d1b60dd3e28d581def52dbd9d1ea30b7f	8239bec4-ee87-11d0-8c98-00c04fc2ab22	c4d96929-a9b0-42cc-b3e0-adac0435d7f2	118
+2026-10-28T18:39:52.8731620Z	target	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	d87008c5cff68c43792a5fa0c7c872436eb56cd88387683d3f6e3616cbc1a057	verified	False	.\SQLEXPRESS	SgExt_d65f60f24ed2
+2026-10-28T18:39:52.8867329Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2\SgExtA.sql	d87008c5cff68c43792a5fa0c7c872436eb56cd88387683d3f6e3616cbc1a057	RealWrite	False	SgExt_d65f60f24ed2	YellowRed
+2026-10-28T18:40:01.0721015Z	ack	execute
+2026-10-28T18:40:04.1938817Z	ack	execute
+2026-10-28T18:40:05.8305352Z	ack	close

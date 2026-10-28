@@ -105,9 +105,9 @@ namespace SqlSafetyGuard.Analyzer
             result != null && (settings?.ShouldWarn(result) ?? !result.IsGreen);
 
         public static bool ShouldCancel(GuardSettings settings, AnalysisResult result, Action present, Func<bool> confirm,
-            Action<Exception> reportFailure)
+            Action<Exception> reportFailure, bool executionTargetVerified = true)
         {
-            bool warn = settings.ShouldWarn(result);
+            bool warn = !executionTargetVerified || settings.ShouldWarn(result);
             try { present(); }
             catch (Exception exception) { Report(reportFailure, exception); }
             if (!warn) return false;

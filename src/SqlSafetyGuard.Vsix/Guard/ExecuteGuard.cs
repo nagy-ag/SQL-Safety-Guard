@@ -31,6 +31,7 @@ namespace SqlSafetyGuard.Guard
             public GuardSettings Settings;
             public AnalysisResult Result;
             public bool Cancelled;
+            public bool TargetUnverified;
         }
 
         public ExecuteGuard(SqlSafetyGuardPackage package)
@@ -74,7 +75,7 @@ namespace SqlSafetyGuard.Guard
             }
             catch (Exception ex)
             {
-                cancelDefault = check.Cancelled || GuardDecision.CancelAfterFailure(check.Settings, check.Result);
+                cancelDefault = check.Cancelled || check.TargetUnverified || GuardDecision.CancelAfterFailure(check.Settings, check.Result);
                 try { _package.ReportGuardFailure(ex); }
                 catch { }
             }
@@ -90,11 +91,13 @@ namespace SqlSafetyGuard.Guard
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var options = _package.Options;
-            var connection = ConnectionInfoReader.TryRead(_package);
+            var target = ExecutionTarget.Capture(_package, _package.Dte);
+            check.TargetUnverified = target.Warning != null;
+            var connection = target.Connection;
             var settings = _package.ResolveSettings(connection, out var rules);
             check.Settings = settings;
             _package.RefreshHealth(settings);
-            if (settings.Mode == ExecutionMode.Off)
+            if (settings.Mode == ExecutionMode.Off && !check.TargetUnverified)
                 return false;
 
 #if DEBUG
@@ -103,11 +106,13 @@ namespace SqlSafetyGuard.Guard
                 throw new InvalidOperationException("Fault injected by SQLSAFETYGUARD_FAULT_INJECTION=1.");
 #endif
 
-            var snapshot = SqlEditorAccess.TryCapture(_package.Dte);
-            if (snapshot == null || string.IsNullOrWhiteSpace(snapshot.Text))
+            var snapshot = target.Snapshot;
+            if (string.IsNullOrWhiteSpace(snapshot.Text) && !check.TargetUnverified)
                 return false;
 
-            switch (AnalysisRunner.Run(snapshot.Text, _package.CreateAnalyzerOptions(connection, settings, rules), out check.Result))
+            var analyzerOptions = new AnalyzerOptions(settings.AllowList, options.TempdbIsTemp, sqlCmdMode: target.SqlCmdMode,
+                currentDatabase: connection.Database, trustedProcedures: settings.TrustedProcedures, configurationWarnings: rules?.Warnings);
+            switch (AnalysisRunner.Run(snapshot.Text, analyzerOptions, out check.Result))
             {
                 case AnalysisOutcome.Cancelled:
                     check.Cancelled = true;
@@ -117,18 +122,18 @@ namespace SqlSafetyGuard.Guard
 
             var result = check.Result;
 #if DEBUG
-            ExtensionCheckTrace.Write("guard", snapshot.Document.FullName, ExtensionCheckTrace.Hash(snapshot.Text),
+            ExtensionCheckTrace.Write("guard", target.DocumentName, ExtensionCheckTrace.Hash(snapshot.Text),
                 result.Overall.ToString(), snapshot.IsSelection.ToString(), connection.Database, settings.Mode.ToString());
 #endif
             return GuardDecision.ShouldCancel(settings, result,
                 () => _package.RefreshHealth(settings, successfulCheck: true),
                 () =>
                 {
-                    var dialog = new ConfirmExecutionDialog(result, snapshot, connection, settings, options.ShowServerAndDatabase);
+                    var dialog = new ConfirmExecutionDialog(result, snapshot, connection, settings, options.ShowServerAndDatabase, target.Warning);
                     bool runAnyway = dialog.ShowModal() == true;
                     OutputLog.Info(runAnyway ? $"Run anyway: {result.Summary}." : $"Execution cancelled: {result.Summary}.");
                     return runAnyway;
-                }, _package.ReportGuardFailure);
+                }, _package.ReportGuardFailure, !check.TargetUnverified);
         }
     }
 }

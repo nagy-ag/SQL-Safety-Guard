@@ -61,10 +61,17 @@ try {
     Wait-Channel state 0
     Send-Channel commands (Join-Path $directory 'commands.tsv')
     Send-Channel open (Join-Path $directory 'SgExtB.sql')
+    Start-Sleep -Seconds 10
+    Send-Channel dismisswelcome
     Send-Channel document SgExtA.sql
     Send-Channel execute Query.Execute
     & "$PSScriptRoot\Run-Checks.ps1" -ChannelDirectory $directory -SsmsProcessId $process.Id -Database $database -Server $Server
     Write-Host "Evidence: $directory"
+} catch {
+    if (Get-Command Get-OwnWindows -ErrorAction SilentlyContinue) {
+        Get-OwnWindows | ForEach-Object { $_.FindAll([System.Windows.Automation.TreeScope]::Descendants,[System.Windows.Automation.Condition]::TrueCondition) } | ForEach-Object { $_.Current | Select-Object Name,AutomationId,ControlType,IsEnabled } | ConvertTo-Json -Depth 3 | Set-Content (Join-Path $directory "failure-ui.json")
+    }
+    throw
 } finally {
     & "$PSScriptRoot\Stop-Checks.ps1" -OwnershipFile $manifestPath
 }

@@ -120,6 +120,14 @@ namespace SqlSafetyGuard.UI
                     }
                     File.WriteAllLines(arg, commands);
                     break;
+                case "dismisswelcome":
+                    foreach (EnvDTE.Window window in TryGetPackage().Dte.Windows)
+                    {
+                        ExtensionCheckTrace.Write("window", window.Caption);
+                        if (string.Equals(window.Caption, "What's new", StringComparison.OrdinalIgnoreCase))
+                            window.Close(EnvDTE.vsSaveChanges.vsSaveChangesNo);
+                    }
+                    break;
                 case "state":
                     var package = TryGetPackage();
                     var captured = Services.SqlEditorAccess.TryCapture(package.Dte);

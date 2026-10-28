@@ -57,6 +57,7 @@
     <Compile Include="Options\GeneralOptionsPage.cs" />
     <Compile Include="Services\AnalysisRunner.cs" />
     <Compile Include="Services\ConnectionInfoReader.cs" />
+    <Compile Include="Services\ExecutionTarget.cs" />
     <Compile Include="Services\OutputLog.cs" />
     <Compile Include="Services\QuerySnapshot.cs" />
     <Compile Include="Services\SqlCmdModeReader.cs" />
