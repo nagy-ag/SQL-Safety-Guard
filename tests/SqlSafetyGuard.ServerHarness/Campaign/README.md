@@ -1,8 +1,8 @@
 # Real-server campaign
 
-See ../../../docs/verification/validation-wave2.md for the newer wave-2 evidence and registered one-time task; VALIDATION.md preserves the original smoke. See VALIDATION.md for historical measured smoke outcomes, build hashes, interruption/recovery checks and remaining scope.
+See ../../../docs/verification/validation-wave3.md for wave-3 evidence and the frozen full-run command. VALIDATION.md and validation-wave2.md preserve historical results. The one-time task SQL Safety Guard Wave2 2026-10-28 is DISABLED and must remain disabled.
 
-This is a separate mode, not legacy schema discovery and not a replacement for strict coverage. It executes trusted test SQL against worker-owned, pristine-verified four-database sets and persists evidence. Start with ORACLE.md and WORLD.md. The supplied 50-case smoke corpus is representative infrastructure validation, **not every analyzer rule/combination proven safe**. Default analyzer options apply; rule inventory and configurable allow-list contracts belong to the separate verification work.
+This is a separate mode, not legacy schema discovery and not a replacement for strict coverage. It executes trusted test SQL against worker-owned, pristine-verified four-database sets and persists evidence. Start with ORACLE.md and WORLD.md. The supplied 50-case smoke corpus is representative infrastructure validation, **not every analyzer rule/combination proven safe**. Per-case analyzer settings and an offline analyzer-only lane are supported; server execution still requires reviewed SQL and setup.
 
 ## Prepare / run
 
@@ -33,7 +33,9 @@ One JSON object per nonblank line; property names are case-insensitive:
 {"id":"write-order","sql":"UPDATE sales.Orders SET Qty=Qty+1 WHERE Id=1;","setup":"","database":"Core","principal":"runner","expectedClassification":"RealWrite","ruleIds":["inventory-rule-id"],"seed":42}
 ~~~
 
-Required: unique nonempty id (max400 characters), sql. Optional defaults: setup empty, database Core (Core/Sales/Audit/Archive), principal runner (runner/app_user/low_user), seed1. expectedClassification is an exact analyzer classification assertion, not a replacement verdict. ruleIds are arbitrary external inventory keys, reported as unassigned when absent. Plain T-SQL and nonrepeated GO only; SQLCMD shell/include/connect commands are refused. Setup runs as the provisioning account in the disposable context: **review setup SQL**, since this is a trusted corpus, not a hostile-code sandbox.
+Required: unique nonempty id (max400 characters), non-null sql (empty/comment-only SQL is valid). Optional defaults: setup empty, database Core (Core/Sales/Audit/Archive), principal runner (runner/app_user/low_user/admin), seed1. The admin principal uses the explicitly authorized ambient sysadmin provisioning identity; it is not a persistent new sysadmin login. expectedClassification is an exact analyzer classification assertion, not a replacement verdict. ruleIds are external inventory keys, not proof of internal branch coverage. Tolerant upfront validation writes validation.json and rejected.jsonl and continues with valid cases; one malformed case cannot abort a corpus. Setup runs as the provisioning account in the disposable context: **review setup SQL**, since this is a trusted corpus, not a hostile-code sandbox.
+
+localProbeOptions accepts allowListPatterns, trustedProcedures, environmentRules, mode (Off/Red/YellowRed), server, sqlCmdMode, tempdbIsTemp, maxDynamicSqlDepth, currentDatabase and defaultSchema. Tokens expand before analysis. Execution uses the same owned database/schema context; currentDatabase cannot escape the four-database set. Typed confirmation is always disabled. SQLCMD mode supports bounded in-memory variable/directive preprocessing, never shell/include/connect/output-file commands. --campaign-offline runs analyzer assertions only; it executes no SQL. --campaign-validate performs loader checks only.
 
 {{Core}}, {{Sales}}, {{Audit}}, {{Archive}} expand to the current case's restored names and {{seed}} to the integer seed. Avoid hardcoded generated names. Seed determines ordering and explicit SQL substitution, not SQL Server RNG/time/GUID behavior. Exact executed SQL and the original template are saved. All restored cross-database trigger/synonym references are rebound before setup. Case database context and impersonation are applied before measuring session baseline.
 
@@ -41,9 +43,9 @@ privileged=true requires verified Docker isolation and workers1. controlVerdict=
 
 ## Results, resume, recovery
 
-SgRun_Results is a separately marked retained database. dbo.CampaignResults stores the full JSON payload keyed by SHA-256 campaign identity and case ID. Identity covers analyzer/harness binaries, corpus bytes, world scripts, server/version, timeout/filter/limit/shrink settings and container identity; worker count is informational. The same binaries/input/output and server resume completed cases without execution. Changes require a new output directory. A new Docker container is intentionally a different identity (its results DB is ephemeral); host JSONL remains, but cross-container resume is not implemented.
+SgRun_Results is a separately marked retained database. dbo.CampaignResults stores the full JSON payload keyed by SHA-256 campaign identity and case ID. An atomic external per-case receipt journal also permits cross-container resume for matching binaries, inputs, settings, world and Docker image digest. New containers are independently isolation-verified; container names are not reused as identity. Changes require a new output directory. Feature fixtures have their own atomic checkpoint with the same binary/input/image constraints. Resume never invents an unfinished result.
 
-Default output is <repository>\..\harness-out\campaign\<local-date>\report.md plus results.jsonl and campaign-identity.json. Every 100 completions and clean termination rewrites JSONL and report atomically; the SQL results DB is authoritative after a crash. Failure evidence is saved before shrinking. A hard interruption during shrinking can retain the original failure without a minimized repro; rerun its SQL as a new case/identity to shrink again. Resume writes a current invocation report with historical per-case timings.
+Default output is <repository>\..\harness-out\campaign\<local-date>\report.md plus results.jsonl and campaign-identity.json. Every 100 completions and clean termination rewrites JSONL and report atomically. The external journal is saved before SQL persistence and supersedes a stale SQL result on resume; SQL-only historical results remain usable. Failure evidence is saved before shrinking. A hard interruption during shrinking can retain the original failure without a minimized repro; rerun its SQL as a new case/identity to shrink again. Resume writes a current invocation report with historical per-case timings.
 
 An owned-set registry in dbo.CampaignOwnedSets reserves a cryptographically random GUID before creating databases/login and records no password. Startup under the instance lease drops only the exact four derived names and login in outstanding registered sets, then removes the registry row. Names are validated and checked for preexistence before reservation. A failed cleanup keeps its reservation for recovery. **Never wildcard-drop SgRun_*:** preserve Results and other independently owned data. Templates and backups remain for later runs. Incomplete template provisioning requires manual inspection; it is never silently rebuilt.
 
@@ -67,12 +69,8 @@ Docker-only SgLoop uses MSOLEDBSQL at explicit IPv4 127.0.0.1,1433, encrypt=opti
 
 Wave 2 registers the user-approved one-time task **SQL Safety Guard Wave2 2026-10-28** for October 28, 2026 at **22:00 Europe/Bucharest (UTC+02:00)**, with an eight-hour campaign budget and nine-hour scheduler cleanup limit. See `../../../docs/verification/validation-wave2.md` for evidence, limitations and receipt locations.
 
-After committing and building a clean branch head, run `tools/verification/Register-Wave2Overnight.ps1` from the repository. It freezes the Release analyzer/harness, world resources, generated host corpus and overnight script under the external `harness-out/campaign/bin/<full-head-sha>/` directory, hashes every file, registers once and exports the exact command/task XML. Later worktree builds cannot alter those binaries. No daily trigger is created.
+Historical registration is not an instruction to enable or replace the task. Wave 3 prepares an unlimited manual full launcher using tools/verification/Freeze-Wave3.ps1 and Run-Wave3Full.ps1; it neither registers nor starts an overnight task. The full run must not overlap another campaign or extension verification operation requiring the campaign servers.
 
 Interactive logon requires the user to remain logged on; Windows power conditions still apply. Never overlap this task with another host or Docker harness. A completed corpus does not repeat for eight hours: the 31,004 generated host cases supply work, while identity-matched unfinished runs can resume. Permission-denied and unresolved cases are evidence gaps, not safety passes.
 
-Remove the task before it starts (artifacts remain):
-
-~~~powershell
-Unregister-ScheduledTask -TaskName 'SQL Safety Guard Wave2 2026-10-28' -Confirm:$false
-~~~
+Leave the historical task registered and disabled. Do not enable, replace, unregister or start it as part of wave 3.

@@ -95,9 +95,6 @@
   "safe-procedure.xp_readerrorlog": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
-  "safe-procedure.sp_monitor": [
-    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
-  ],
   "safe-procedure.sp_helpsrvrole": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
@@ -147,6 +144,9 @@
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
   "safe-procedure.sp_special_columns": [
+    "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+  ],
+  "writing-procedure.sp_monitor": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
   "writing-procedure.sp_rename": [

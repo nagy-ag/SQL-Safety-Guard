@@ -86,17 +86,26 @@ internal sealed class CampaignWorld
                 using var setup = CampaignSql.Open(_connectionString, database);
                 CampaignSql.Execute(setup, Expand(File.ReadAllText(Path.Combine(_scriptDirectory, "rebind.sql")), set.Databases, 0));
             }
-            var password = Guid.NewGuid().ToString("N") + "aA!9";
-            CampaignSql.Execute(admin, $"CREATE LOGIN {CampaignSql.Quote(set.Login)} WITH PASSWORD={CampaignSql.Literal(password)}, CHECK_POLICY=OFF;");
-            foreach (var database in set.Databases.Values)
+            foreach (var principal in new[] { "runner", "app_user", "low_user" })
             {
-                using var setup = CampaignSql.Open(_connectionString, database);
-                CampaignSql.Execute(setup, $"CREATE USER runner FOR LOGIN {CampaignSql.Quote(set.Login)} WITH DEFAULT_SCHEMA=app; ALTER ROLE db_owner ADD MEMBER runner; DENY BACKUP DATABASE, BACKUP LOG TO runner;");
+                var login = set.PrincipalLogin(principal);
+                CampaignSql.Execute(admin, $"CREATE LOGIN {CampaignSql.Quote(login)} WITH PASSWORD={CampaignSql.Literal(Guid.NewGuid().ToString("N") + "aA!9")}, CHECK_POLICY=OFF;");
+                foreach (var database in set.Databases.Values)
+                {
+                    using var setup = CampaignSql.Open(_connectionString, database);
+                    CampaignSql.Execute(setup, principal == "runner"
+                        ? $"CREATE USER runner FOR LOGIN {CampaignSql.Quote(login)} WITH DEFAULT_SCHEMA=app; ALTER ROLE db_owner ADD MEMBER runner; DENY BACKUP DATABASE, BACKUP LOG TO runner;"
+                        : $"DROP USER {CampaignSql.Quote(principal)}; CREATE USER {CampaignSql.Quote(principal)} FOR LOGIN {CampaignSql.Quote(login)} WITH DEFAULT_SCHEMA={(principal == "app_user" ? "app" : "sales")}; " +
+                            (principal == "app_user" ? "ALTER ROLE db_owner ADD MEMBER app_user;" : "GRANT SELECT TO low_user;"));
+                }
             }
-            using var restricted = set.OpenCase("Core", "runner", false);
-            if (Convert.ToInt32(CampaignSql.Scalar(restricted, "SELECT ISNULL(HAS_PERMS_BY_NAME(NULL,NULL,'CONTROL SERVER'),0)")) != 0 ||
-                CampaignSql.Rows(restricted, "SELECT name FROM sys.databases WHERE HAS_DBACCESS(name)=1 AND name NOT IN ('master','tempdb','msdb')").Any(row => !set.Databases.Values.Contains(row[0], StringComparer.OrdinalIgnoreCase)))
-                throw new InvalidOperationException("Runner can access a database outside its disposable set.");
+            foreach (var principal in new[] { "runner", "app_user", "low_user" })
+            {
+                using var restricted = set.OpenCase("Core", principal, false);
+                if (Convert.ToInt32(CampaignSql.Scalar(restricted, "SELECT ISNULL(HAS_PERMS_BY_NAME(NULL,NULL,'CONTROL SERVER'),0)")) != 0 ||
+                    CampaignSql.Rows(restricted, "SELECT name FROM sys.databases WHERE HAS_DBACCESS(name)=1 AND name NOT IN ('master','tempdb','msdb')").Any(row => !set.Databases.Values.Contains(row[0], StringComparer.OrdinalIgnoreCase)))
+                    throw new InvalidOperationException("Principal can access a database outside its disposable set: " + principal);
+            }
             return set;
         }
         catch { set.Dispose(); throw; }
@@ -109,6 +118,7 @@ internal sealed class CampaignDatabaseSet : IDisposable
     private readonly string _identity;
     public Dictionary<string, string> Databases { get; }
     public string Login => "SgRun_" + _identity;
+    public string PrincipalLogin(string principal) => principal == "runner" ? Login : Login + "_" + principal;
     public CampaignDatabaseSet(string connectionString, string? identity = null)
     {
         _identity = identity ?? Guid.NewGuid().ToString("N");
@@ -121,7 +131,8 @@ internal sealed class CampaignDatabaseSet : IDisposable
         using var admin = CampaignSql.Open(_connectionString, "SgRun_Results");
         foreach (var database in Databases.Values)
             if (CampaignSql.Scalar(admin, $"SELECT DB_ID({CampaignSql.Literal(database)})") is not DBNull) throw new InvalidOperationException("Disposable name collision.");
-        if (CampaignSql.Scalar(admin, $"SELECT SUSER_ID({CampaignSql.Literal(Login)})") is not DBNull) throw new InvalidOperationException("Login name collision.");
+        foreach (var principal in new[] { "runner", "app_user", "low_user" })
+            if (CampaignSql.Scalar(admin, $"SELECT SUSER_ID({CampaignSql.Literal(PrincipalLogin(principal))})") is not DBNull) throw new InvalidOperationException("Login name collision.");
         CampaignSql.Execute(admin, $"INSERT dbo.CampaignOwnedSets(IdentityKey) VALUES({CampaignSql.Literal(_identity)});");
     }
     public static void Recover(string connectionString)
@@ -138,8 +149,7 @@ internal sealed class CampaignDatabaseSet : IDisposable
         var connection = CampaignSql.Open(_connectionString, Databases[role], pooled: false);
         try
         {
-            if (!privileged) CampaignSql.Execute(connection, $"EXECUTE AS LOGIN={CampaignSql.Literal(Login)} WITH NO REVERT;");
-            if (principal != "runner") CampaignSql.Execute(connection, $"EXECUTE AS USER={CampaignSql.Literal(principal)};");
+            if (!privileged && principal != "admin") CampaignSql.Execute(connection, $"EXECUTE AS LOGIN={CampaignSql.Literal(PrincipalLogin(principal))} WITH NO REVERT;");
             return connection;
         }
         catch { connection.Dispose(); throw; }
@@ -150,12 +160,14 @@ internal sealed class CampaignDatabaseSet : IDisposable
         var errors = new List<string>();
         foreach (var database in Databases.Values)
         {
-            try { CampaignSql.Execute(admin, $"IF DB_ID({CampaignSql.Literal(database)}) IS NOT NULL BEGIN ALTER DATABASE {CampaignSql.Quote(database)} SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE {CampaignSql.Quote(database)}; END"); }
+            try { CampaignSql.Execute(admin, $"IF DB_ID({CampaignSql.Literal(database)}) IS NOT NULL BEGIN IF EXISTS(SELECT 1 FROM sys.databases WHERE name={CampaignSql.Literal(database)} AND state=0) ALTER DATABASE {CampaignSql.Quote(database)} SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE {CampaignSql.Quote(database)}; END"); }
             catch (Exception exception) { errors.Add(database + ": " + exception.Message); }
         }
+        foreach (var principal in new[] { "runner", "app_user", "low_user" })
         {
-            try { CampaignSql.Execute(admin, $"IF SUSER_ID({CampaignSql.Literal(Login)}) IS NOT NULL DROP LOGIN {CampaignSql.Quote(Login)};"); }
-            catch (Exception exception) { errors.Add(Login + ": " + exception.Message); }
+            var login = PrincipalLogin(principal);
+            try { CampaignSql.Execute(admin, $"IF SUSER_ID({CampaignSql.Literal(login)}) IS NOT NULL DROP LOGIN {CampaignSql.Quote(login)};"); }
+            catch (Exception exception) { errors.Add(login + ": " + exception.Message); }
         }
         if (errors.Count > 0) throw new InvalidOperationException("Cleanup failed: " + string.Join("; ", errors));
         admin.ChangeDatabase("SgRun_Results");

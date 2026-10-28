@@ -16,9 +16,9 @@ internal static class CampaignSql
         connection.Open();
         return connection;
     }
-    public static void Execute(SqlConnection connection, string sql, int timeout = 120, CancellationToken cancellation = default)
+    public static void Execute(SqlConnection connection, string sql, int timeout = 120, CancellationToken cancellation = default, bool sqlCmdMode = false)
     {
-        var script = SqlCmdLite.Split(sql, sqlCmdMode: false);
+        var script = SqlCmdLite.Split(sql, sqlCmdMode);
         if (script.NotRunnable != null || script.Batches.Any(batch => batch.Error != null || batch.Repeat != 1))
             throw new InvalidDataException("Campaign accepts plain SQL and nonrepeated GO batches only.");
         foreach (var batch in script.Batches)

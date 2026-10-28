@@ -215,6 +215,9 @@ internal sealed class Args
     public int ShrinkAttempts { get; set; } = 24;
     public bool CampaignIsolated { get; set; }
     public bool PrepareWorld { get; set; }
+    public bool CampaignOffline { get; set; }
+    public bool CampaignValidateOnly { get; set; }
+    public string? CampaignPrincipal { get; set; }
 
     public static Args Parse(string[] args)
     {
@@ -245,6 +248,9 @@ internal sealed class Args
                 case "--shrink-attempts": a.ShrinkAttempts = int.Parse(Next()); break;
                 case "--campaign-isolated": a.CampaignIsolated = true; break;
                 case "--prepare-world": a.PrepareWorld = true; break;
+                case "--campaign-offline": a.CampaignOffline = true; break;
+                case "--campaign-validate": a.CampaignValidateOnly = true; break;
+                case "--campaign-principal": a.CampaignPrincipal = Next(); break;
                 default: throw new ArgumentException($"Unknown argument {args[i]}");
             }
         }
@@ -252,14 +258,16 @@ internal sealed class Args
         var coverageModes = (a.Coverage != null ? 1 : 0) + (a.IsolatedCoverage != null ? 1 : 0) + (a.IsolatedLifecycle ? 1 : 0);
         if (a.Campaign != null && (coverageModes != 0 || a.Keep || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0 || a.ValidateCoverage || a.RequireComplete))
             throw new ArgumentException("Campaign mode cannot combine coverage or discovery modes.");
-        if (a.Workers < 1 || a.Workers > 16 || a.BudgetMinutes < 1 || a.Timeout < 1 || a.ShrinkAttempts < 0)
+        if (a.Workers < 1 || a.Workers > 16 || a.BudgetMinutes < 0 || a.Timeout < 1 || a.ShrinkAttempts < 0 || a.Limit < 0)
             throw new ArgumentException("Invalid campaign bounds.");
+        if (a.CampaignPrincipal != null && a.CampaignPrincipal != "admin") throw new ArgumentException("Only explicit admin replay is supported.");
+        if ((a.CampaignOffline || a.CampaignValidateOnly || a.CampaignPrincipal != null) && a.Campaign == null) throw new ArgumentException("Campaign switches require --campaign.");
         if (a.CampaignIsolated && a.Campaign == null) throw new ArgumentException("--campaign-isolated requires --campaign.");
         if (a.PrepareWorld && a.Campaign == null) throw new ArgumentException("--prepare-world requires --campaign.");
         if (coverageModes > 1 || (coverageModes == 0 && (a.ValidateCoverage || a.RequireComplete)))
             throw new ArgumentException("Select exactly one coverage mode when using coverage-only options.");
-        if (a.IsolatedCoverage != null && (a.Keep || a.Limit != 0 || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0))
-            throw new ArgumentException("Isolated coverage cannot combine discovery inputs, --keep, or --limit.");
+        if (a.IsolatedCoverage != null && (a.Keep || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0))
+            throw new ArgumentException("Isolated coverage cannot combine discovery inputs or --keep.");
         if (string.IsNullOrEmpty(a.Analyzer))
             throw new ArgumentException("--analyzer <path to SqlSafetyGuard.Analyzer.dll> is required");
         return a;

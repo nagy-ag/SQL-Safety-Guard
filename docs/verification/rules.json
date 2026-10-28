@@ -27,7 +27,7 @@
     "recovery-keyword": 18,
     "resolution": 10,
     "safe-dbcc": 28,
-    "safe-procedure": 50,
+    "safe-procedure": 49,
     "scope": 6,
     "set-family": 20,
     "set-option": 25,
@@ -36,7 +36,7 @@
     "unknown-dbcc": 48,
     "unknown-statement": 3,
     "walking": 48,
-    "writing-procedure": 71
+    "writing-procedure": 72
   },
   "rules": [
     {
@@ -44,7 +44,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableAddClusterByStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:255",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:256",
       "existingTests": [],
       "member": "AlterTableAddClusterByStatement",
       "reviewStatus": "reviewed-table",
@@ -55,7 +55,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableAddTableElementStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:243",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:244",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -68,7 +68,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableAlterColumnStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:244",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:245",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -81,7 +81,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableAlterIndexStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:253",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:254",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -94,7 +94,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableAlterPartitionStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:254",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:255",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -107,7 +107,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableChangeTrackingModificationStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:251",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:252",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -120,7 +120,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableConstraintModificationStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:246",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:247",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -133,7 +133,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableDropTableElementStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:245",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:246",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -146,7 +146,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableFileTableNamespaceStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:252",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:253",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -159,7 +159,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableRebuildStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:249",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:250",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -172,7 +172,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableSetStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:247",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:248",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -185,7 +185,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableSwitchStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:248",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:249",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -198,7 +198,7 @@
       "category": "action-name",
       "condition": "ActionNames contains AlterTableTriggerModificationStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:250",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:251",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -211,7 +211,7 @@
       "category": "action-name",
       "condition": "ActionNames contains BackupDatabaseStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:239",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:240",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -224,7 +224,7 @@
       "category": "action-name",
       "condition": "ActionNames contains BackupTransactionLogStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:240",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:241",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -237,7 +237,7 @@
       "category": "action-name",
       "condition": "ActionNames contains BeginTransactionStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:231",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:232",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -250,7 +250,7 @@
       "category": "action-name",
       "condition": "ActionNames contains BulkInsertStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:256",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:257",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -263,7 +263,7 @@
       "category": "action-name",
       "condition": "ActionNames contains CommitTransactionStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:232",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:233",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -276,7 +276,7 @@
       "category": "action-name",
       "condition": "ActionNames contains DbccStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:238",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:239",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -289,7 +289,7 @@
       "category": "action-name",
       "condition": "ActionNames contains DeclareCursorStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:230",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:231",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -302,7 +302,7 @@
       "category": "action-name",
       "condition": "ActionNames contains DeclareTableVariableStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:229",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:230",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -315,7 +315,7 @@
       "category": "action-name",
       "condition": "ActionNames contains DeclareVariableStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:228",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:229",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -328,7 +328,7 @@
       "category": "action-name",
       "condition": "ActionNames contains ExecuteAsStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:241",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:242",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -341,7 +341,7 @@
       "category": "action-name",
       "condition": "ActionNames contains GoToStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:237",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:238",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -354,7 +354,7 @@
       "category": "action-name",
       "condition": "ActionNames contains InsertBulkStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:257",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:258",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -367,7 +367,7 @@
       "category": "action-name",
       "condition": "ActionNames contains RaiseErrorLegacyStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:236",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:237",
       "existingTests": [],
       "member": "RaiseErrorLegacyStatement",
       "reviewStatus": "reviewed-table",
@@ -378,7 +378,7 @@
       "category": "action-name",
       "condition": "ActionNames contains RaiseErrorStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:235",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:236",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -391,7 +391,7 @@
       "category": "action-name",
       "condition": "ActionNames contains RollbackTransactionStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:233",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:234",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -404,7 +404,7 @@
       "category": "action-name",
       "condition": "ActionNames contains SaveTransactionStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:234",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:235",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -417,7 +417,7 @@
       "category": "action-name",
       "condition": "ActionNames contains SetVariableStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:227",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:228",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -430,7 +430,7 @@
       "category": "action-name",
       "condition": "ActionNames contains UpdateStatisticsStatement; choose this action label; verdict unchanged.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:242",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:243",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -603,7 +603,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:161",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:162",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -618,7 +618,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:145",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:146",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -633,7 +633,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:168",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:169",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -648,7 +648,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:167",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:168",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -663,7 +663,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:146",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:147",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -678,7 +678,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:147",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:148",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -693,7 +693,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:153",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:154",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -708,7 +708,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:154",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:155",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -723,7 +723,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:142",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:143",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -738,7 +738,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:162",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:163",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -753,7 +753,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:155",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:156",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -768,7 +768,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:166",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:167",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -783,7 +783,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:156",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:157",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -798,7 +798,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:157",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:158",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -813,7 +813,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:169",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:170",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -828,7 +828,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:139",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:140",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -843,7 +843,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:140",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:141",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -858,7 +858,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:141",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:142",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -873,7 +873,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:163",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:164",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -888,7 +888,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:148",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:149",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -903,7 +903,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:165",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:166",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -918,7 +918,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:158",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:159",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -933,7 +933,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:160",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:161",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -948,7 +948,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:170",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:171",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -963,7 +963,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:171",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:172",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -978,7 +978,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:143",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:144",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -993,7 +993,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:144",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:145",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1008,7 +1008,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:164",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:165",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1023,7 +1023,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:151",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:152",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1038,7 +1038,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:150",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:151",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1053,7 +1053,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:159",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:160",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1068,7 +1068,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:149",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:150",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1083,7 +1083,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:152",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:153",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -1099,7 +1099,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:191",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:192",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen)",
         "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
@@ -1113,7 +1113,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:199",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:200",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
       ],
@@ -1126,7 +1126,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:179",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:180",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)"
       ],
@@ -1139,7 +1139,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)"
       ],
@@ -1152,7 +1152,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:185",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:186",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
       ],
@@ -1165,7 +1165,7 @@
       "verdicts": [
         "TempOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:260",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:261",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
       ],
@@ -1178,7 +1178,7 @@
       "verdicts": [
         "TempOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:262",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:263",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)"
       ],
@@ -1193,7 +1193,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:273",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:274",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251 (AllowList_DoesNotApplyToDdl)",
         "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257 (AllowList_AppliesToTruncateAndSelectInto)"
@@ -1380,7 +1380,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1395,7 +1395,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1410,7 +1410,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1425,7 +1425,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1440,7 +1440,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1455,7 +1455,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1470,7 +1470,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1485,7 +1485,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [],
       "member": "CursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1498,7 +1498,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1513,7 +1513,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1528,7 +1528,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1543,7 +1543,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1558,7 +1558,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1573,7 +1573,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1588,7 +1588,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1603,7 +1603,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1618,7 +1618,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1633,7 +1633,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1648,7 +1648,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1663,7 +1663,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1678,7 +1678,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1693,7 +1693,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1708,7 +1708,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [],
       "member": "RaiseErrorLegacyStatement",
       "reviewStatus": "reviewed-table",
@@ -1721,7 +1721,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1736,7 +1736,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:120",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1751,7 +1751,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1766,7 +1766,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1781,7 +1781,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1796,7 +1796,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1811,7 +1811,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1826,7 +1826,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1841,7 +1841,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1856,7 +1856,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [],
       "member": "SetOnOffStatement",
       "reviewStatus": "reviewed-table",
@@ -1869,7 +1869,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1884,7 +1884,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1899,7 +1899,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1914,7 +1914,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1929,7 +1929,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1944,7 +1944,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1959,7 +1959,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [],
       "member": "TransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1972,7 +1972,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -1987,7 +1987,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -2002,7 +2002,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -2951,7 +2951,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -2966,7 +2966,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -2981,7 +2981,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -2996,7 +2996,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3011,7 +3011,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3026,7 +3026,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3041,7 +3041,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3056,7 +3056,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3071,7 +3071,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3086,7 +3086,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3101,7 +3101,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3116,7 +3116,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:127",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3131,7 +3131,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:131",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3146,7 +3146,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3161,7 +3161,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:127",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3176,7 +3176,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:127",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3191,7 +3191,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:132",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3206,7 +3206,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3221,7 +3221,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3236,7 +3236,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:130",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3251,7 +3251,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:134",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3266,7 +3266,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:134",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3281,7 +3281,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:127",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3296,7 +3296,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:134",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3311,7 +3311,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:133",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:134",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3326,7 +3326,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3341,7 +3341,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3356,7 +3356,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:128",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:129",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -3875,21 +3875,6 @@
       "table": "ReadOnlyProcedures"
     },
     {
-      "id": "safe-procedure.sp_monitor",
-      "category": "safe-procedure",
-      "condition": "ReadOnlyProcedures contains sp_monitor; classify as ReadOnly after specialized dispatch/qualification overrides.",
-      "verdicts": [
-        "ReadOnly"
-      ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:21",
-      "existingTests": [
-        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
-      ],
-      "member": "sp_monitor",
-      "reviewStatus": "reviewed-table",
-      "table": "ReadOnlyProcedures"
-    },
-    {
       "id": "safe-procedure.sp_pkeys",
       "category": "safe-procedure",
       "condition": "ReadOnlyProcedures contains sp_pkeys; classify as ReadOnly after specialized dispatch/qualification overrides.",
@@ -4193,7 +4178,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4209,7 +4194,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4225,7 +4210,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4241,7 +4226,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4257,7 +4242,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4273,7 +4258,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4289,7 +4274,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4305,7 +4290,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4321,7 +4306,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4337,7 +4322,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4353,7 +4338,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4369,7 +4354,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4385,7 +4370,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4401,7 +4386,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4417,7 +4402,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4433,7 +4418,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4449,7 +4434,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4465,7 +4450,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4481,7 +4466,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4497,7 +4482,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4514,7 +4499,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4530,7 +4515,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4546,7 +4531,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4562,7 +4547,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4578,7 +4563,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4594,7 +4579,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4610,7 +4595,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4626,7 +4611,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4642,7 +4627,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4658,7 +4643,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4674,7 +4659,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4690,7 +4675,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4706,7 +4691,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4722,7 +4707,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4738,7 +4723,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4754,7 +4739,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4770,7 +4755,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4786,7 +4771,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4802,7 +4787,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4818,7 +4803,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4834,7 +4819,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4850,7 +4835,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4866,7 +4851,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4882,7 +4867,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -4898,7 +4883,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:109",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5224,7 +5209,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5239,7 +5224,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5254,7 +5239,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5269,7 +5254,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5284,7 +5269,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5299,7 +5284,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5314,7 +5299,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5329,7 +5314,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5344,7 +5329,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5359,7 +5344,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5374,7 +5359,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5389,7 +5374,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5404,7 +5389,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5419,7 +5404,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5434,7 +5419,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5449,7 +5434,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5464,7 +5449,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5479,7 +5464,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5494,7 +5479,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5509,7 +5494,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5524,7 +5509,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5539,7 +5524,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5554,7 +5539,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5569,7 +5554,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5584,7 +5569,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5599,7 +5584,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5614,7 +5599,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5629,7 +5614,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5644,7 +5629,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5659,7 +5644,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5674,7 +5659,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5689,7 +5674,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5704,7 +5689,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5719,7 +5704,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5734,7 +5719,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5749,7 +5734,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5764,7 +5749,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5779,7 +5764,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5794,7 +5779,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5809,7 +5794,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5824,7 +5809,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5839,7 +5824,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5854,7 +5839,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5869,7 +5854,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5884,7 +5869,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5899,7 +5884,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5914,7 +5899,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5929,7 +5914,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:213",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -5943,7 +5928,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:220",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:221",
       "existingTests": [],
       "member": "BackupStatement",
       "reviewStatus": "reviewed-table",
@@ -5956,7 +5941,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:222",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:223",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -5971,7 +5956,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:221",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:222",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
       ],
@@ -6663,7 +6648,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:85",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:86",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6678,7 +6663,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:91",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:92",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6693,7 +6678,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:94",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:95",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6708,7 +6693,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:88",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:89",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6723,7 +6708,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:92",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:93",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6738,7 +6723,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:65",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:66",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6753,7 +6738,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:62",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:63",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6768,7 +6753,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:57",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:58",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6783,7 +6768,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:59",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:60",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6798,7 +6783,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:43",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:44",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6813,7 +6798,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:39",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:40",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6828,7 +6813,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:41",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:42",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6843,7 +6828,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:47",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:48",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6858,7 +6843,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:77",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:78",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6873,7 +6858,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:93",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:94",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6888,7 +6873,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:78",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:79",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6903,7 +6888,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:69",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:70",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6918,7 +6903,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:67",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:68",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6933,7 +6918,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:54",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:55",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6948,7 +6933,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:55",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:56",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6963,7 +6948,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:56",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:57",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6978,7 +6963,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:34",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:35",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -6993,7 +6978,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:103",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:104",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7008,7 +6993,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:99",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:100",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7023,7 +7008,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:82",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:83",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7038,7 +7023,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:80",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:81",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7053,7 +7038,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:46",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:47",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7068,7 +7053,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:83",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:84",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7083,7 +7068,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:87",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:88",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7098,7 +7083,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:90",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:91",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7113,7 +7098,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:53",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:54",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7128,7 +7113,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:79",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:80",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7143,7 +7128,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:66",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:67",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7158,7 +7143,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:64",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:65",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7173,7 +7158,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:60",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:61",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7188,7 +7173,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:44",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:45",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7203,7 +7188,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:40",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:41",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7218,7 +7203,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:58",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:59",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7233,7 +7218,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:42",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:43",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7248,7 +7233,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:48",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:49",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7263,7 +7248,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:49",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:50",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7278,11 +7263,26 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:51",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:52",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
       "member": "sp_grantlogin",
+      "reviewStatus": "reviewed-table",
+      "table": "WritingProcedures"
+    },
+    {
+      "id": "writing-procedure.sp_monitor",
+      "category": "writing-procedure",
+      "condition": "WritingProcedures contains sp_monitor; classify as RealWrite after specialized dispatch/qualification overrides.",
+      "verdicts": [
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:33",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ],
+      "member": "sp_monitor",
       "reviewStatus": "reviewed-table",
       "table": "WritingProcedures"
     },
@@ -7293,7 +7293,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:102",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:103",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7308,7 +7308,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:101",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:102",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7323,7 +7323,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:37",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:38",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7338,7 +7338,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:38",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:39",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7353,7 +7353,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:45",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:46",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7368,7 +7368,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:73",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:74",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7383,7 +7383,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:84",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:85",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7398,7 +7398,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:76",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:77",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7413,7 +7413,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:75",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:76",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7428,7 +7428,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:74",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:75",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7443,7 +7443,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:33",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:34",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7458,7 +7458,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:81",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:82",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7473,7 +7473,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:50",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:51",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7488,7 +7488,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:52",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:53",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7503,7 +7503,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:36",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:37",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7518,7 +7518,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:61",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:62",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7533,7 +7533,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:72",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:73",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7548,7 +7548,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:95",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:96",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7563,7 +7563,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:96",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:97",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7578,7 +7578,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:71",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:72",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7593,7 +7593,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:97",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:98",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7608,7 +7608,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:98",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:99",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7623,7 +7623,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:70",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:71",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7638,7 +7638,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:68",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:69",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7653,7 +7653,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:86",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:87",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7668,7 +7668,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:89",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:90",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7683,7 +7683,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:63",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:64",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7698,7 +7698,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:100",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:101",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],
@@ -7713,7 +7713,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:35",
+      "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:36",
       "existingTests": [
         "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
       ],

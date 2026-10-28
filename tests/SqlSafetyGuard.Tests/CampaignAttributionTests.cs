@@ -5,6 +5,37 @@ namespace SqlSafetyGuard.Tests;
 
 public class CampaignAttributionTests
 {
+    [Theory]
+    [InlineData("OPENQUERY(SgLoop,'SELECT Id FROM dbo.Target')")]
+    [InlineData("OPENROWSET('MSOLEDBSQL','connection','SELECT Id FROM dbo.Target')")]
+    public void OpaqueProviderWriteIsNotConcreteWrongTargetEvidence(string target)
+    {
+        Assert.Equal("UNRESOLVED TARGET", CampaignAttribution.Classify([target], ["SgRun_Test.dbo.Target"], "SgRun_Test", []));
+    }
+
+    [Fact]
+    public void VerifiedLoopbackDoesNotStripArbitraryRemoteNames()
+    {
+        var edges = CampaignAttribution.VerifiedLoopback(new Dictionary<string, string> { ["Core"] = "SgRun_Test" }, ["SgRun_Test.dbo.Target", "Other.dbo.Target"]);
+        Assert.Single(edges);
+        Assert.Equal("INDIRECT EFFECT", CampaignAttribution.Classify(["SgLoop.SgRun_Test.dbo.Target"], ["SgRun_Test.dbo.Target"], "SgRun_Test", edges));
+        Assert.Equal("WRONG TARGET", CampaignAttribution.Classify(["Remote.SgRun_Test.dbo.Target"], ["SgRun_Test.dbo.Target"], "SgRun_Test", edges));
+    }
+    [Fact]
+    public void SchemaTransferLinksOnlyTheNamedObject()
+    {
+        var edges = CampaignAttribution.Transfers("ALTER SCHEMA app TRANSFER dbo.IndSink;", "SgRun_Test", "dbo");
+        Assert.Single(edges);
+        Assert.Equal("INDIRECT EFFECT", CampaignAttribution.Classify(["dbo.IndSink"], ["SgRun_Test.dbo.IndSink", "SgRun_Test.app.IndSink"], "SgRun_Test", edges));
+        Assert.Equal("WRONG TARGET", CampaignAttribution.Classify(["dbo.IndSink"], ["SgRun_Test.app.Other"], "SgRun_Test", edges));
+    }
+
+    [Fact]
+    public void SchemaLessPartitionFunctionMatchesItsDatabase()
+    {
+        Assert.True(CampaignAttribution.Matches("EventPartition", "SgRun_Test.EventPartition", "SgRun_Test"));
+        Assert.False(CampaignAttribution.Matches("EventPartition", "Other.EventPartition", "SgRun_Test"));
+    }
     [Fact]
     public void AnalyzerHostUsesResolvedAliasTarget()
     {
@@ -61,9 +92,11 @@ public class CampaignAttributionTests
     [Fact]
     public void ExternalDatabaseInterferenceCannotHideOwnedChanges()
     {
-        var before = new CampaignSnapshot(new() { ["owned"] = ["row"] }, new(), new(), Enumerable.Repeat("unchanged", 8).ToArray(), [], []);
+        var initialServer = Enumerable.Repeat("[]", 8).ToArray();
+        initialServer[5] = "[{\"name\":\"SgPlay_Core\"}]";
+        var before = new CampaignSnapshot(new() { ["owned"] = ["row"] }, new(), new(), initialServer, [], []);
         var server = before.Server.ToArray();
-        server[5] = "external database recovering";
+        server[5] = "[{\"name\":\"SgPlay_Core\"},{\"name\":\"SgExt_OtherAgent\"}]";
         var after = before with { Server = server };
         Assert.True(CampaignOracle.OnlyExternalDatabaseChange(before, after));
         Assert.False(CampaignOracle.OnlyExternalDatabaseChange(before, after with { Databases = new() { ["owned"] = ["write"] } }));

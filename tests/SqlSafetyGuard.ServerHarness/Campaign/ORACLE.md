@@ -18,6 +18,10 @@ The campaign extends **CoverageDatabase.Capture**, the existing strict coverage 
 
 WRONG TARGET means at least one concrete modified object is neither named by a red finding nor reachable through the pre-execution effect graph. AnalyzerHost preserves the analyzer's ResolvedTarget (not just its alias token). Synonyms, single-base views, enabled trigger named INSERT/UPDATE/DELETE/MERGE targets, cascading foreign keys and temporal-history edges explain INDIRECT EFFECT. Every changed concrete object must be reachable. Opaque Broker variables/no targets yield UNRESOLVED TARGET. Catalog-only changes remain scope evidence. Graph edges are operation-nonspecific and limited to the simple world identifiers; alias/dynamic trigger targets and arbitrary remote metadata remain limitations.
 
+Wave 3 also retains schema-transfer pre/post-name edges and validates owned SgLoop four-part targets before adding remote attribution edges. OPENQUERY/OPENROWSET expressions with unmatched changed objects are opaque UNRESOLVED TARGET, not fabricated concrete WRONG TARGET evidence. The provider's arbitrary SQL is not assumed to identify a statically resolved base object.
+
+Parallel SgExt_* objects and foreign database availability-state drift are excluded only from the unrelated-server observation query. Raw external observation remains in the receipt; owned/system/tempdb/file observations are never discarded by that filter. This permits coexistence with the separately owned extension lane without hiding campaign mutations.
+
 EXTERNAL CHANGE requires error-free execution and exact equality of all owned rows/catalogs/object definitions/operation counters/tempdb/files and every server query except the unrelated-database metadata query. That external evidence remains Changed=true and is not reused after a before/after external difference. The host's unrelated AdventureWorks2012 was observed changing ONLINE/RECOVERING; it was never modified by this work. Any simultaneous owned write or other server-state change fails this exclusion.
 
 ## Worker reuse and isolation
