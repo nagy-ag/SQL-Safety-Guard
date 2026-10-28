@@ -1,0 +1,3448 @@
+{
+  "seed": 20261028,
+  "files": [
+    {
+      "path": "host\\rules.jsonl",
+      "cases": 52,
+      "sha256": "850be36ffc92a1a843bdd252a94848fd6b4c20a75e348224c441eaaacf14074c"
+    },
+    {
+      "path": "host\\combinatorial.jsonl",
+      "cases": 30928,
+      "sha256": "47e13cce25a69546b1a5e4715d103facb8f2e455b8f1fe15fe8a4d644932f1f0"
+    },
+    {
+      "path": "host\\company.jsonl",
+      "cases": 24,
+      "sha256": "1b33ad41be9b874f7904ccc61d9e5aab7ce02ddf705d59993057229806f225b7"
+    },
+    {
+      "path": "offline\\rules.jsonl",
+      "cases": 831,
+      "sha256": "d69bd2ce670ba46d53c9f75b9024db4d613a64094e5b475009df7d908823da4d"
+    },
+    {
+      "path": "validation.jsonl",
+      "cases": 316,
+      "sha256": "dd440e02e6dbc397e5bedd96e2c34db347033a836e4722abd7cedab6b1f4bb7b"
+    }
+  ],
+  "rules": [
+    {
+      "ruleId": "action-name.altertableaddclusterbystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertableaddtableelementstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablealtercolumnstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablealterindexstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablealterpartitionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablechangetrackingmodificationstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertableconstraintmodificationstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertabledroptableelementstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablefiletablenamespacestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablerebuildstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertablesetstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertableswitchstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.altertabletriggermodificationstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.backupdatabasestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.backuptransactionlogstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.begintransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.bulkinsertstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.committransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.dbccstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.declarecursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.declaretablevariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.declarevariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.executeasstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.gotostatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.insertbulkstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.raiseerrorlegacystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.raiseerrorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.rollbacktransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.savetransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.setvariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "action-name.updatestatisticsstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "aggregate.max",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Overall is the maximum finding severity, with parse errors flooring it at Unknown. Blocked findings remain included.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+      ]
+    },
+    {
+      "ruleId": "aggregate.presentation",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Warnings exclude green findings and sort by severity then offset; summary counts runnable writes, nondiagnostic unknowns, syntax errors and blocked warnings separately without changing Overall.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+      ]
+    },
+    {
+      "ruleId": "verdict.severity",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Severity is ReadOnly < TempOnly < AllowListed < Unknown < RealWrite; only the first three are green. Display names do not change severity.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+      ]
+    },
+    {
+      "ruleId": "allow.cross-database",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A cross-database target needs at least a three-part pattern unless its database equals current context.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+      ]
+    },
+    {
+      "ruleId": "allow.default-context",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Resolve absent schema/database using supplied default schema/current database, never invent dbo.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+      ]
+    },
+    {
+      "ruleId": "allow.empty-name",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A missing target name never matches.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+      ]
+    },
+    {
+      "ruleId": "allow.glob",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Glob * and ? match identifier parts case-insensitively with exact start/end and 100ms regex timeout.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+      ]
+    },
+    {
+      "ruleId": "allow.ignore-comments",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Ignore empty, --comment and #comment pattern lines.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
+      ]
+    },
+    {
+      "ruleId": "allow.invalid",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Reject unterminated quoting, empty parts, more than four parts, wildcard-only names and unsafe trusted-procedure qualifiers; report warnings.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214 (WildcardOnlyAllowListIsIgnoredVisibly)",
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+      ]
+    },
+    {
+      "ruleId": "allow.match",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Quote-aware name parsing and anchored case-insensitive glob matching restrict explicit cross-database/server targets; invalid patterns warn.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
+      ]
+    },
+    {
+      "ruleId": "allow.quoted-parts",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Quoted dots stay within identifiers, doubled delimiters unescape, trailing junk or unclosed quote rejects pattern.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
+        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+      ]
+    },
+    {
+      "ruleId": "allow.remote",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A remote target needs an explicit four-part pattern; a shorter pattern cannot confer trust.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+      ]
+    },
+    {
+      "ruleId": "changing-dbcc.addextendedproc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.cleantable",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.clearspacecaches",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dbrecover",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dbreindex",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dbreindexall",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dbrepair",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.detachdb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dropcleanbuffers",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.dropextendedproc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.errorlog",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.fixallocation",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.flushprocindb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.forceghostcleanup",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.free",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.freeproccache",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.freesessioncache",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.freesystemcache",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.freezeio",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.indexdefrag",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.movepage",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.pintable",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.renamecolumn",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.setcpuweight",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.setioweight",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.shrinkdatabase",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.shrinkfile",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.thawio",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.traceoff",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.traceon",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.unpintable",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.updateusage",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "changing-dbcc.writepage",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "dbcc.checkident",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "CHECKIDENT is green only for second IdentifierLiteral NORESEED; otherwise may reseed.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+      ]
+    },
+    {
+      "ruleId": "dbcc.clear",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLPERF CLEAR overrides its otherwise safe table entry.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+      ]
+    },
+    {
+      "ruleId": "dbcc.dll",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DLL form unloads an extended procedure DLL.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)"
+      ]
+    },
+    {
+      "ruleId": "dbcc.fallback",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "An unlisted DBCC command is Unknown.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)"
+      ]
+    },
+    {
+      "ruleId": "dbcc.repair",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Any literal REPAIR_ argument after first parameter overrides safe DBCC classification.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+      ]
+    },
+    {
+      "ruleId": "temp.name",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "temp.tempdb-opt-in",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "TempdbIsTemp opt-in treats a tempdb-qualified permanent target as temporary without a remote server.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)"
+      ]
+    },
+    {
+      "ruleId": "write.allow-list",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "entry.empty",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Empty or whitespace SQL produces no actions when settings are valid.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18 (EmptyText_IsReadOnlyWithNoFindings)"
+      ]
+    },
+    {
+      "ruleId": "entry.length",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Text over 5 Mi UTF-16 characters is not analyzed; return a warning rather than green.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:166 (OversizedScriptsFollowExplicitModePolicy)"
+      ]
+    },
+    {
+      "ruleId": "entry.limit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Work-limit failure adds Unknown without discarding earlier findings.",
+      "tests": []
+    },
+    {
+      "ruleId": "entry.settings",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Invalid allow list, procedure trust or configuration warnings contribute Unknown even on empty SQL.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+      ]
+    },
+    {
+      "ruleId": "environment.confirm-failure",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Confirmation exception cancels execution; negative confirmation also cancels.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:57 (ConfirmationFailureAlwaysPreventsExecution)"
+      ]
+    },
+    {
+      "ruleId": "environment.invalid-line",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Ignore malformed environment lines with visible settings warnings; do not partially apply them.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+      ]
+    },
+    {
+      "ruleId": "environment.invalid-list",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "An invalid allow/trusted list rejects the whole environment rule.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+      ]
+    },
+    {
+      "ruleId": "environment.off",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Off mode never requests warning confirmation; this does not change analyzer Overall.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+      ]
+    },
+    {
+      "ruleId": "environment.presentation-failure",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Presentation exception is reported but cannot suppress an already-required confirmation.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
+      ]
+    },
+    {
+      "ruleId": "environment.red",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Red mode asks only for RealWrite; Unknown can execute without confirmation in this explicit policy.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+      ]
+    },
+    {
+      "ruleId": "environment.selection",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "First matching environment wins; missing context uses global settings; per-rule lists add without leaking.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)",
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65 (PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments)"
+      ]
+    },
+    {
+      "ruleId": "environment.typed-disabled",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Typed database-name confirmation is always false, including legacy true configuration.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123 (LegacyTypedSettingNeverRequiresTyping)",
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129 (LegacyRuleFieldIsAcceptedAndIgnored)"
+      ]
+    },
+    {
+      "ruleId": "environment.unknown-context",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Missing server or database bypasses environment matching and returns global policy.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)"
+      ]
+    },
+    {
+      "ruleId": "environment.yellow-red",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "YellowRed mode asks for every nongreen result.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+      ]
+    },
+    {
+      "ruleId": "green-statement.begintransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.breakstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.closecursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.closemasterkeystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.closesymmetrickeystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.committransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.continuestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.cursorstatement",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "ReadOnlyStatementTypes contains CursorStatement; classify as ReadOnly after specialized dispatch/qualification overrides.",
+      "tests": []
+    },
+    {
+      "ruleId": "green-statement.deallocatecursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.declarecursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.declaretablevariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.declarevariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.executeasstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.fetchcursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.getconversationgroupstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.gotostatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.labelstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.linenostatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.opencursorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.openmasterkeystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.opensymmetrickeystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.printstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.raiseerrorlegacystatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.raiseerrorstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.readtextstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.returnstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.revertstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.rollbacktransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.savetransactionstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.setcommandstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.seterrorlevelstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.setidentityinsertstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.setonoffstatement",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "ReadOnlyStatementTypes contains SetOnOffStatement; classify as ReadOnly after specialized dispatch/qualification overrides.",
+      "tests": []
+    },
+    {
+      "ruleId": "green-statement.setrowcountstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.settextsizestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.settransactionisolationlevelstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.setuserstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.setvariablestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.throwstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.transactionstatement",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "ReadOnlyStatementTypes contains TransactionStatement; classify as ReadOnly after specialized dispatch/qualification overrides.",
+      "tests": []
+    },
+    {
+      "ruleId": "green-statement.usefederationstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.usestatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "green-statement.waitforstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "hidden.adhoc",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "OPENDATASOURCE source warns about opaque remote effects.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+      ]
+    },
+    {
+      "ruleId": "hidden.bulk-file",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "OPENROWSET BULK file reading is intentionally not a remote side effect.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57 (OpenRowsetBulk_ReadsAFile_IsReadOnly)"
+      ]
+    },
+    {
+      "ruleId": "hidden.deduplicate",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Resolve direct/alias/CTE/output write fragments so remote writes are not double-counted as opaque read sources.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49 (RemoteWriteTarget_IsReportedOnceAsRealWrite)"
+      ]
+    },
+    {
+      "ruleId": "hidden.internal-openrowset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Internal OPENROWSET source warns; remote effects not inspected.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+      ]
+    },
+    {
+      "ruleId": "hidden.openquery",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "OPENQUERY source can execute remote pass-through text and warns.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11 (OpenQuerySource_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "hidden.openrowset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "OPENROWSET provider query source warns.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+      ]
+    },
+    {
+      "ruleId": "hidden.sequence",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "limits.action-reset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Top-level action tokens reset condition nesting but do not reset total control-flow count.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:273 (NestingThatDefeatsStatementCountersIsRejectedBeforeParsing)"
+      ]
+    },
+    {
+      "ruleId": "limits.cancel",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Cancellation is propagated rather than silently returning green.",
+      "tests": []
+    },
+    {
+      "ruleId": "limits.control-count",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "More than 5000 IF/WHILE/ELSE keywords per batch rejects analysis; only GO resets count.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:293 (ControlFlowKeywordBudgetHasExactBatchBoundary)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:305 (ControlFlowKeywordBudgetResetsOnlyAtGo)"
+      ]
+    },
+    {
+      "ruleId": "limits.nesting-count",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Reject parentheses/blocks above 256 or condition/else-condition nesting above 512.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+      ]
+    },
+    {
+      "ruleId": "limits.syntax",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Bound parentheses/blocks, conditions and control tokens before ScriptDom recursion; GO resets nesting.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+      ]
+    },
+    {
+      "ruleId": "limits.work",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Cancellation propagates; 40 million work units or ten seconds abort to conservative warning.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:423 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
+      ]
+    },
+    {
+      "ruleId": "parser.lexical-errors",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Combine tokenization and parser errors instead of dropping lexical diagnostics.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147 (UnrecognizedCharacter_DoesNotHideWhatFollows)"
+      ]
+    },
+    {
+      "ruleId": "msdb-procedure.sp_add_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_add_jobschedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_add_jobserver",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_add_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_add_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_attach_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_delete_backuphistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_delete_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_delete_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_help_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_help_jobhistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_help_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_help_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_purge_jobhistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_send_dbmail",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_start_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_stop_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_update_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "msdb-procedure.sp_update_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "options.defaults",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Defaults are empty allow/trust lists, permanent tempdb, dynamic depth three and unknown SQLCMD mode; negative depth clamps to zero and caller context is preserved.",
+      "tests": []
+    },
+    {
+      "ruleId": "parser.newest",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Select newest numeric ScriptDom parser with quoted identifiers on; fallback parser if discovery cannot construct it.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11 (UsesNewestParser)"
+      ]
+    },
+    {
+      "ruleId": "position.offset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Offsets clamp at text length; CRLF is one newline and CR/LF independently advance line numbers. Empty text starts at line one, column one.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+      ]
+    },
+    {
+      "ruleId": "finding.metadata",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Finding stores as-written Target independently from ResolvedTarget; display arrows and all-rows notes are presentation only and must not be parsed as object identity. Null strings normalize to empty.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+      ]
+    },
+    {
+      "ruleId": "recovery.regions",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Bound retries/time/text size, preserve newline/offsets, and avoid treating malformed module bodies as executable scripts.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158 (GiveUp_WholeBatchIsNotAnalyzed_AndScanned)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.alter",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Alter token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.bulk",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Bulk token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.create",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Create token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.dbcc",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Dbcc token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.delete",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Delete token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.deny",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Deny token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.drop",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Drop token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.execute",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Execute token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.grant",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Grant token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.insert",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Insert token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.kill",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Kill token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.merge",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Merge token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.reconfigure",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Reconfigure token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.restore",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Restore token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.revoke",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Revoke token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.shutdown",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Shutdown token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.truncate",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Truncate token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "recovery-keyword.update",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unparsed non-trivia Update token adds a possible-write Unknown finding; this is not proof the statement executes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+      ]
+    },
+    {
+      "ruleId": "resolve.alias",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Resolve aliases before # name spelling and recursively resolve CTE/derived sources; explicit aliases outrank unaliased base names.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26 (DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable)"
+      ]
+    },
+    {
+      "ruleId": "resolve.alias-priority",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Explicit alias wins over unaliased base-name match; an aliased table does not expose its original name.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+      ]
+    },
+    {
+      "ruleId": "resolve.cte-budget",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "More than 256 simultaneously visited CTE names aborts bounded analysis.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+      ]
+    },
+    {
+      "ruleId": "resolve.cte-cache",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Memoize resolved CTE bases; merge provenance and deduplicate identity without exponential expansion.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+      ]
+    },
+    {
+      "ruleId": "resolve.cte-cycle",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Recursive CTE visits stop on cycles; anchor sources already collected remain.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59 (RecursiveCte_DoesNotLoopForever)"
+      ]
+    },
+    {
+      "ruleId": "resolve.derived",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Follow derived query sources and include via-derived-table provenance.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67 (UpdateViaDerivedTable_ResolvesToBaseTable)"
+      ]
+    },
+    {
+      "ruleId": "resolve.join",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Join source resolution follows both sides; parenthesized joins unwrap.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)"
+      ]
+    },
+    {
+      "ruleId": "resolve.no-base",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "No base found behind alias/CTE/derived target yields explicit unresolved target, not green.",
+      "tests": []
+    },
+    {
+      "ruleId": "resolve.union",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Binary query targets combine both branches conservatively.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42 (CteReferencingCte_ResolvesRecursively)"
+      ]
+    },
+    {
+      "ruleId": "resolve.variable",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Variable table targets resolve to table-variable kind.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37 (Case04_InsertTableVariable_IsTempOnly)"
+      ]
+    },
+    {
+      "ruleId": "safe-dbcc.activecursors",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.cachestats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checkalloc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checkcatalog",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checkconstraints",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checkdb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checkfilegroup",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.checktable",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.cursorstats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.extentinfo",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.help",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.inputbuffer",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.loginfo",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.memorystatus",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.opentran",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.outputbuffer",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.perfmonstats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.proccache",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showcontig",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showfilestats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showoffrules",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showonrules",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showstatistics",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showtext",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.showweights",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.sqlperf",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.tracestatus",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-dbcc.useroptions",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_column_privileges",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_columns",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_databases",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_depends",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_describe_first_result_set",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_describe_undeclared_parameters",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_fkeys",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_getapplock",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_help",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_help_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_help_jobhistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_help_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_help_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpconstraint",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpdb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpdbfixedrole",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpextendedproc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpfile",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpfilegroup",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpindex",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helplanguage",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helplogins",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpntgroup",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helprole",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helprolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helprotect",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpserver",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpsort",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpsrvrole",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpsrvrolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helptext",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helptrigger",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_helpuser",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_lock",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_monitor",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_pkeys",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_readerrorlog",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_releaseapplock",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_server_info",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_set_session_context",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_spaceused",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_special_columns",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_sproc_columns",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_statistics",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_stored_procedures",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_table_privileges",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_tables",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_who",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.sp_who2",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "safe-procedure.xp_readerrorlog",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "scope.batch-offset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "GO batch substrings preserve original offset and line deltas.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137 (Case15_SecondGoBatch_ReportsCorrectLine)"
+      ]
+    },
+    {
+      "ruleId": "scope.blocked",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Recovered batch retains blocking syntax-error line for WillRun metadata.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38 (OnlyTheBrokenBatchIsBlocked)"
+      ]
+    },
+    {
+      "ruleId": "scope.display",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Display text collapses whitespace and truncates long snippets; substitutions are offset-aware and do not confer trust.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+      ]
+    },
+    {
+      "ruleId": "scope.dynamic",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Nested dynamic findings inherit outer execution anchor, context and blocking error.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283 (DynamicSqlInsideBatch_ReportedAtExecLine)"
+      ]
+    },
+    {
+      "ruleId": "scope.newlines",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "CRLF is one line break; CR and LF individually also advance source positions.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128 (RecoveredFindings_KeepExactPositions)"
+      ]
+    },
+    {
+      "ruleId": "scope.target-truncate",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Display targets truncate at 200 characters; classification must use AST rather than display.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94 (DbccUsesParsedArgumentsBeyondDisplayTruncation)"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.contextinfo",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET CONTEXT_INFO 0x01 inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.datefirst",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET DATEFIRST 1 inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.dateformat",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET DATEFORMAT ymd inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.deadlockpriority",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET DEADLOCK_PRIORITY LOW inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.language",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET LANGUAGE us_english inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.locktimeout",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET LOCK_TIMEOUT 1000 inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.generalsetcommandtype.querygovernorcostlimit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET QUERY_GOVERNOR_COST_LIMIT 0 inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.compute",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS COMPUTE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.execute",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS EXECUTE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.from",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS FROM ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.order",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS ORDER ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.param",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS PARAM ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.procedure",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS PROCEDURE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.select",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS SELECT ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.statement",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS STATEMENT ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setoffsets.table",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET OFFSETS TABLE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setstatisticsoptions.io",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET STATISTICS IO ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setstatisticsoptions.profile",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET STATISTICS PROFILE ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setstatisticsoptions.time",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET STATISTICS TIME ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-family.setstatisticsoptions.xml",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET STATISTICS XML ON inherits green session SET classification; no exemption from strict session-residue contract is implied.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansidefaults",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_DEFAULTS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansinulldfltoff",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_NULL_DFLT_OFF ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansinulldflton",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_NULL_DFLT_ON ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansinulls",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_NULLS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansipadding",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_PADDING ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.ansiwarnings",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ANSI_WARNINGS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.arithabort",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ARITHABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.arithignore",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET ARITHIGNORE ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.concatnullyieldsnull",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET CONCAT_NULL_YIELDS_NULL ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.cursorcloseoncommit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET CURSOR_CLOSE_ON_COMMIT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.disabledefcnstchk",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET DISABLE_DEF_CNST_CHK ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.fmtonly",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET FMTONLY ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.forceplan",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET FORCEPLAN ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.implicittransactions",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET IMPLICIT_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.nobrowsetable",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET NO_BROWSETABLE ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.nocount",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET NOCOUNT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.noexec",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET NOEXEC ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.numericroundabort",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET NUMERIC_ROUNDABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.parseonly",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET PARSEONLY ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.quotedidentifier",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET QUOTED_IDENTIFIER ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.remoteproctransactions",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET REMOTE_PROC_TRANSACTIONS ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.showplanall",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET SHOWPLAN_ALL ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.showplantext",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET SHOWPLAN_TEXT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.showplanxml",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET SHOWPLAN_XML ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "set-option.xactabort",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SET XACT_ABORT ON/OFF uses the green SetOnOffStatement base classification; implicit transactions also change tracking.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd.ordered-definitions",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Only preceding setvar definitions supply display values; later definitions cannot retroactively grant trust.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143 (SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd.process",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Blank directive lines without shifting offsets, substitute only identifier-safe display names; unresolved references remain warnings.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:285 (SqlCmdScript_ParsesWithoutErrors)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd.remove-definition",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A setvar without value removes the variable, leaving later references unresolved.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.connect",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :connect; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.ed",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :ed; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.error",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :error; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.exit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :exit; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.help",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :help; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.list",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :list; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.listvar",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :listvar; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.on",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :on; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.os",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes !!; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.out",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :out; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.perftrace",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :perftrace; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.quit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :quit; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.r",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :r; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.reset",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :reset; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.serverlist",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :serverlist; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.setvar",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :setvar; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.variable",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes $(); connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd-command.xml",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SQLCMD mode recognizes :xml; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.addinstance",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC AddInstance is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.auditevent",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC AuditEvent is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.autopilot",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC AutoPilot is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.buffer",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Buffer is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.bytes",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Bytes is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.cacheprofile",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC CacheProfile is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.callfulltext",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC CallFullText is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.checkprimaryfile",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC CheckPrimaryFile is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.collectstats",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC CollectStats is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.concurrencyviolation",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC ConcurrencyViolation is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.debugbreak",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DebugBreak is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.deleteinstance",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DeleteInstance is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumpconfig",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpConfig is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumpdbinfo",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpDBInfo is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumpdbtable",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpDBTable is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumplock",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpLock is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumplog",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpLog is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumppage",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpPage is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumpresource",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpResource is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.dumptrigger",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC DumpTrigger is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.fileheader",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC FileHeader is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.flush",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Flush is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.icecapquery",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC IcecapQuery is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.incrementinstance",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC IncrementInstance is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.ind",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Ind is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.invalidatetextptr",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC InvalidateTextptr is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.invalidatetextptrobjid",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC InvalidateTextptrObjid is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.latch",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Latch is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.mapallocunit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC MapAllocUnit is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.memobjlist",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC MemObjList is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.memorymap",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC MemoryMap is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.metadata",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Metadata is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.notextptr",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC NoTextptr is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.optimizerwhatif",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC OptimizerWhatIf is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.persiststackhash",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC PersistStackHash is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.prtipage",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC PrtiPage is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.readpage",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC ReadPage is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.ruleoff",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC RuleOff is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.ruleon",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC RuleOn is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.semetadata",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC SeMetadata is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.setinstance",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC SetInstance is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.showdbaffinity",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC ShowDBAffinity is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.showtableaffinity",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC ShowTableAffinity is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.sqlmgrstats",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC SqlMgrStats is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.stackdump",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC StackDump is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.tec",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC Tec is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.throttleio",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC ThrottleIO is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-dbcc.useplan",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DBCC UsePlan is absent from both command tables and uses Unknown unless an argument override applies.",
+      "tests": [
+        "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
+      ]
+    },
+    {
+      "ruleId": "unknown-statement.backupstatement",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "UnknownStatementTypes contains BackupStatement; classify as Unknown after specialized dispatch/qualification overrides.",
+      "tests": []
+    },
+    {
+      "ruleId": "unknown-statement.checkpointstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "unknown-statement.updatestatisticsstatement",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "exec.dispatch",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Remote/variable execution is Unknown; qualify system names before built-in writer/safe tables or trusted procedures.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134 (ProcedureNameInVariable_IsUnknown)",
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+      ]
+    },
+    {
+      "ruleId": "exec.dynamic",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Literal strings and literal concatenation recurse with outer EXEC location; runtime text and excess nesting warn Unknown.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101 (DynamicSqlConcatenatedLiterals_AreAnalyzed)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108 (DynamicSqlWithVariablePart_IsUnknown)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115 (NestedDynamicSql_IsLimitedByDepth)"
+      ]
+    },
+    {
+      "ruleId": "exec.empty",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "No findings from literal dynamic text yields empty-dynamic-SQL green finding.",
+      "tests": []
+    },
+    {
+      "ruleId": "exec.linked",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "EXEC AT linked server is opaque even when text is literal.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "exec.missing",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Missing executable specification cannot be analyzed and warns.",
+      "tests": []
+    },
+    {
+      "ruleId": "exec.namespace",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "System dispatch permits local sys/dbo and qualified master; explicit msdb supports the enumerated Agent/mail/history names only.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141 (SchemaQualifiedReadOnlyProc_IsReadOnly)"
+      ]
+    },
+    {
+      "ruleId": "exec.ordinary",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Unrecognized procedure calls warn; INSERT EXEC warning is in addition to destination write.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:206 (UnknownProcedure_StaysYellow)",
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120 (Case13_InsertExec_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "exec.sp-executesql",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Only qualified system sp_executesql with literal first/@stmt argument recurses; runtime argument warns.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86 (SpExecuteSqlWithLiteral_IsAnalyzed)",
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93 (Case10_SpExecuteSqlWithVariable_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "exec.spaceused",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "sp_spaceused updateusage absent/false/0 is green; unknown or enabled usage correction is red.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75 (RealWritesAreNeverGreen)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107 (OrdinaryReadsRemainReadOnly)"
+      ]
+    },
+    {
+      "ruleId": "exec.streaming-wrapper",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "System sp_create_streaming_job is a writing procedure independently of batch-level parser rewriting, control-flow wrappers, or literal dynamic SQL.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224 (StreamingProcedureIsRedInEveryWrapper)",
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265 (StreamingParserHotswapIsOnlyAtBatchLevel)",
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250 (ProcedureTableVerdictsAreIndependentOfNesting)"
+      ]
+    },
+    {
+      "ruleId": "exec.trusted",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A qualified trusted-procedure pattern grants ReadOnly after built-in writer overrides. Body not inspected.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd.mode-off",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "When mode is off, recognizable SQLCMD syntax adds a mode-off hint at first actual syntax occurrence.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:337 (ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint)",
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:362 (ModeOff_DollarParenInAString_IsJustAString)"
+      ]
+    },
+    {
+      "ruleId": "sqlcmd.walk",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "connect invalidates target context; include/OS/query-exit and variable expansion warn; ordinary directives and plain exit/quit are green.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)"
+      ]
+    },
+    {
+      "ruleId": "txn.begin",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Track nested depth and highest opening position; implicit mode can add an extra nesting level.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:54 (BalancedTransaction_IsGreen)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:62 (NestedTransactions_Balanced)"
+      ]
+    },
+    {
+      "ruleId": "txn.commit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Commit decreases tracked depth; walker warns for lone or extra unguarded commits.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:39 (LoneCommit_IsUnknown)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:47 (ExtraCommit_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "txn.finish",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Warn for open or uncertain transactions at end, including implicit mode when work opened a transaction.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:68 (BeginWithoutCommit_ReportsOpenTransaction)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:148 (ImplicitTransactions_LeftOpen_IsReported)"
+      ]
+    },
+    {
+      "ruleId": "txn.if",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Both IF branches are analyzed; TRANCOUNT/XACT_STATE predicates refine transaction path state.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:120 (GuardedCommit_IsNotLone)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:127 (XactStateGuard_ClosesTheTransaction)"
+      ]
+    },
+    {
+      "ruleId": "txn.implicit-start",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Only enumerated operations start an implicit transaction; named SELECT tables are checked.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:157 (ImplicitTransactions_Committed_IsFine)"
+      ]
+    },
+    {
+      "ruleId": "txn.merge",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Merge branch depth, peaks, implicit and uncertainty; terminated paths are handled separately.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:96 (IfCommitElseRollback_IsBalanced)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:134 (UnguardedIf_StaysConservative)"
+      ]
+    },
+    {
+      "ruleId": "txn.rollback",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Full rollback clears depth; known savepoint rollback preserves the open transaction.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:81 (RollbackCloses)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:89 (RollbackToSavepoint_KeepsTransactionOpen)"
+      ]
+    },
+    {
+      "ruleId": "walk.blocked-transaction",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A syntactically blocked batch must not change tracked transaction state.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:165 (TransactionsInBrokenBatch_DontCount)"
+      ]
+    },
+    {
+      "ruleId": "walk.catch-exit",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "CATCH termination with open or uncertain transaction adds TRANSACTION FLOW warning.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160 (PossiblyOpenTransactionsAreReported)"
+      ]
+    },
+    {
+      "ruleId": "walk.composable",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Composable nested DML adds independent base-target and OUTPUT INTO findings.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+      ]
+    },
+    {
+      "ruleId": "walk.depth",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Statement recursion exceeding 1000 terminates analysis conservatively.",
+      "tests": []
+    },
+    {
+      "ruleId": "walk.dml-targets",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Resolve each DML base; unresolved target is Unknown, remote base RealWrite, table variable TempOnly.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220 (RemoteTargets_AreRealWrite)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35 (UpdateViaAliasOfTemp_IsTempOnly)"
+      ]
+    },
+    {
+      "ruleId": "walk.drop-index",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Legacy index names use the table portion for temporary classification, not the index name.",
+      "tests": []
+    },
+    {
+      "ruleId": "walk.drop-procedures",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "DROP PROCEDURE classifies each object separately and disallows table allow-list.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+      ]
+    },
+    {
+      "ruleId": "walk.drop-statistics",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "For table.statistics names use penultimate identifier to detect temporary tables.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:28 (DropStatistics_FollowsTempRules)"
+      ]
+    },
+    {
+      "ruleId": "walk.fallback",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "All unrecognized statement kinds default RealWrite; module definitions receive body-not-run note.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20 (ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution)"
+      ]
+    },
+    {
+      "ruleId": "walk.guess-target",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Fallback extracts a module/drop/name/database target via ordered reflection; failing getters are ignored.",
+      "tests": []
+    },
+    {
+      "ruleId": "walk.hidden",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Scan execution expressions for remote sources and sequence increments; skip already-counted write fragments.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+      ]
+    },
+    {
+      "ruleId": "walk.insert-exec",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "INSERT EXEC combines destination verdict with execution effects; nested composable DML is traversed.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147 (InsertExecOfReadOnlyProc_IsTempOnly)",
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:212 (InsertExecOfKnownWriter_IsRed)"
+      ]
+    },
+    {
+      "ruleId": "walk.module",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Classify module definition itself; do not execute or independently scan stored body statements.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197 (DefinitionAndSecurityChanges_AreRealWrite)"
+      ]
+    },
+    {
+      "ruleId": "walk.named-target",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Named DDL/TRUNCATE/INTO/bulk targets use resolved qualified names and eligibility flags.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+      ]
+    },
+    {
+      "ruleId": "walk.output",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "OUTPUT INTO writes its own target independently of the main DML target.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65 (Case07_OutputIntoPermanentTable_IsRealWrite)",
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+      ]
+    },
+    {
+      "ruleId": "walk.parse",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Top-level parse failures recover bounded batches; literal dynamic parse failure remains Unknown.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232 (ParseErrorInOneBatch_OtherBatchesStillAnalyzed)",
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126 (UnparseableDynamicSql_IsUnknown)"
+      ]
+    },
+    {
+      "ruleId": "walk.repeat",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A GO repetition count other than one requires warning; do not assume a single execution.",
+      "tests": []
+    },
+    {
+      "ruleId": "walk.return",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "RETURN marks current transaction path terminated, but does not suppress classification of later writes.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:340 (EarlyReturnPreservesContinuingTransactionPaths)"
+      ]
+    },
+    {
+      "ruleId": "walk.rowfilter",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "WHERE, non-percent TOP, restricting joins and CTE/derived resolution change all-rows notes; percent TOP and preserved outer sides do not establish restriction.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+      ]
+    },
+    {
+      "ruleId": "walk.select-into",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "SELECT INTO classifies its destination; plain SELECT begins ReadOnly then scans hidden effects.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",
+        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20 (Case02_SelectIntoTempThenDeleteTemp_IsTempOnly)"
+      ]
+    },
+    {
+      "ruleId": "walk.switch-both",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "ALTER TABLE SWITCH classifies source and destination independently, without allow-list.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15 (SwitchClassifiesBothTables)"
+      ]
+    },
+    {
+      "ruleId": "walk.target-switch",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "USE or federation/context switch invalidates contextual allow lists and trusted procedures for following statements.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:184 (FederationSwitchInvalidatesTargetContext)"
+      ]
+    },
+    {
+      "ruleId": "walk.temp-procedure",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "A temporary procedure definition is TempOnly; its stored body does not execute now.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186 (TemporaryProcedureDefinitionsDoNotExecuteBodies)"
+      ]
+    },
+    {
+      "ruleId": "walk.throw",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "THROW terminates the transaction path; following statement findings remain conservatively included.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+      ]
+    },
+    {
+      "ruleId": "walk.transfer",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "BREAK/CONTINUE/GOTO are Unknown while a transaction or implicit mode may skip cleanup, otherwise ReadOnly.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+      ]
+    },
+    {
+      "ruleId": "walk.try-peak",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "CATCH begins with potential peak depth from TRY, including a TRY that later committed.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:113 (CommitInCatch_AfterTryOpened_IsNotLone)"
+      ]
+    },
+    {
+      "ruleId": "walk.waitfor",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "WAITFOR with an embedded statement recursively uses that statement verdict.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31 (WaitForPreservesInnerStatementVerdict)"
+      ]
+    },
+    {
+      "ruleId": "walk.while-zero",
+      "status": "needs-focused-options-or-AST-probe",
+      "reason": "Merge loop state with pre-loop state to account for zero iterations and scan loop predicate effects.",
+      "tests": [
+        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153 (WhileAndTryCatch_AreWalked)"
+      ]
+    },
+    {
+      "ruleId": "writing-procedure.sp_add_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_add_jobschedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_add_jobserver",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_add_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_add_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addextendedproc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addextendedproperty",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addlinkedserver",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addlinkedsrvlogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addlogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addrolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_addsrvrolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_adduser",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_attach_db",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_attach_schedule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_attach_single_file_db",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_bindefault",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_bindrule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_change_users_login",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_changedbowner",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_changeobjectowner",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_configure",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_create_streaming_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_createstats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_cycle_errorlog",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dboption",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_defaultdb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_delete_backuphistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_delete_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_delete_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_denylogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_detach_db",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dropextendedproc",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dropextendedproperty",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_droplinkedsrvlogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_droplogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_droprolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dropserver",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dropsrvrolemember",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_dropuser",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_grantdbaccess",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_grantlogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_msforeachdb",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_msforeachtable",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_oacreate",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_oamethod",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_password",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_procoption",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_purge_jobhistory",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_recompile",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_refreshsqlmodule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_refreshview",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_rename",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_resetstatus",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_revokedbaccess",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_revokelogin",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_send_dbmail",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_serveroption",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_settriggerorder",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_start_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_stop_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_tableoption",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_trace_create",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_trace_setstatus",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_unbindefault",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_unbindrule",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_update_job",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_update_jobstep",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_updateextendedproperty",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.sp_updatestats",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    },
+    {
+      "ruleId": "writing-procedure.xp_cmdshell",
+      "status": "offline-candidate",
+      "reason": "Arguments, prerequisites and physical assertions require review before live execution; negative control is not proof of branch coverage."
+    }
+  ],
+  "limitations": [
+    "Offline candidates are not live coverage.",
+    "SQLCMD client execution is deliberately unsupported by the campaign runner.",
+    "No allow-list/trusted-procedure option injection is implemented in campaign cases."
+  ]
+}
