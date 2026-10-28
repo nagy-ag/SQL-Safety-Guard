@@ -91,7 +91,7 @@ namespace SqlSafetyGuard.UI
         public bool IsAllowed => Verdict.IsGreen() && Findings.Any(finding =>
             finding.Finding.Verdict == Verdict.AllowListed ||
             (finding.Finding.Verdict == Verdict.ReadOnly && (finding.Finding.Note ?? string.Empty).IndexOf("trusted procedure", StringComparison.OrdinalIgnoreCase) >= 0));
-        public string Section => Verdict.IsRed() ? "CHANGES FOR GOOD" : Verdict.IsYellow() ? "CAN'T SEE INSIDE" :
+        public string Section => Verdict.IsRed() ? "CHANGES TO PERMANENT OBJECTS" : Verdict.IsYellow() ? "CAN'T SEE INSIDE" :
             IsAllowed ? "ALLOWED BY YOUR SETTINGS" : "Safe";
         public bool IsWholeTarget => Findings.Any(finding => finding.Finding.AffectsAllRows ||
             finding.Finding.Action.StartsWith("TRUNCATE", StringComparison.OrdinalIgnoreCase) ||

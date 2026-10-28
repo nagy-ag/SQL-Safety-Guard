@@ -56,9 +56,11 @@ public class ExpandedPaneContractTests
         Assert.Empty(document.Descendants(Presentation + "GridViewColumn"));
         var template = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "GroupTemplate");
+        Assert.DoesNotContain(template.Descendants(Presentation + "TextBlock"), element =>
+            (string?)element.Attribute("Text") == "{Binding DatabasePrefix}");
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
-            (string?)element.Attribute("Text") == "{Binding DatabasePrefix}" &&
-            (string?)element.Attribute("Foreground") == "#5c6b7a" &&
+            (string?)element.Attribute("Text") == "{Binding ObjectName}" &&
+            (string?)element.Attribute("ToolTip") == "{Binding DisplayName}" &&
             (string?)element.Attribute("TextTrimming") == "CharacterEllipsis");
         Assert.Contains(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
@@ -86,4 +88,3 @@ public class ExpandedPaneContractTests
             (string?)element.Attribute("Text") == "{Binding Source}");
     }
 }
-

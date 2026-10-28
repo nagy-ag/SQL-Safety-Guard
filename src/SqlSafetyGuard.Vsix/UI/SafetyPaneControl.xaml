@@ -54,12 +54,8 @@
             <StackPanel>
                 <Grid ToolTip="{Binding Tooltip}">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <!-- Left-aligned so the database prefix (star column) shrinks first and schema.name stays readable. -->
-                    <Grid HorizontalAlignment="Left" Margin="0,0,12,0" ToolTip="{Binding DisplayName}">
-                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding DatabasePrefix}" Foreground="#5c6b7a" TextTrimming="CharacterEllipsis" />
-                        <TextBlock Grid.Column="1" Text="{Binding ObjectName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                    </Grid>
+                    <TextBlock Text="{Binding ObjectName}" Margin="0,0,12,0" ToolTip="{Binding DisplayName}"
+                               FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                     <TextBlock Grid.Column="1" Text="{Binding Subtitle}" FontWeight="{Binding ActionWeight}" HorizontalAlignment="Right">
                         <TextBlock.Style><Style TargetType="TextBlock">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
@@ -160,7 +156,7 @@
                                         <TextBlock DockPanel.Dock="Left" FontSize="10" FontWeight="Bold" Margin="0,0,8,0"><Run Text="{Binding Name, Mode=OneWay}" /><Run Text=" " /><Run Text="{Binding ItemCount, Mode=OneWay}" />
                                             <TextBlock.Style><Style TargetType="TextBlock">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Name}" Value="CHANGES FOR GOOD"><Setter Property="Foreground" Value="#A4262C" /></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Name}" Value="CHANGES TO PERMANENT OBJECTS"><Setter Property="Foreground" Value="#A4262C" /></DataTrigger>
                                                     <DataTrigger Binding="{Binding Name}" Value="CAN'T SEE INSIDE"><Setter Property="Foreground" Value="#8A5D00" /></DataTrigger>
                                                     <DataTrigger Binding="{Binding Name}" Value="ALLOWED BY YOUR SETTINGS"><Setter Property="Foreground" Value="#1F6B33" /></DataTrigger>
                                                 </Style.Triggers>
