@@ -83,12 +83,15 @@ namespace SqlSafetyGuard.UI
             _settingSelection = true;
             try
             {
+                var expandedKeys = new HashSet<string>(GroupList.Items.Cast<PaneGroup>().Concat(SafeList.Items.Cast<PaneGroup>())
+                    .Where(group => group.IsExpanded).Select(group => group.Key), StringComparer.OrdinalIgnoreCase);
+                foreach (var group in groups) group.IsExpanded = expandedKeys.Contains(group.Key);
                 var main = new ListCollectionView(groups.Where(group => group.Section != "Safe").ToList());
                 main.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PaneGroup.Section)));
                 GroupList.ItemsSource = main;
                 var safe = groups.Where(group => group.Section == "Safe").ToList();
                 SafeList.ItemsSource = safe;
-                SafeHeader.Text = "Safe · temp operations and reads · " + safe.Count;
+                SafeHeader.Text = "No permanent changes detected · " + safe.Count;
                 SafeSection.Visibility = safe.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
                 if (allSafe || _safeOpenedAutomatically) SafeSection.IsExpanded = allSafe;
                 _safeOpenedAutomatically = allSafe;
@@ -145,6 +148,7 @@ namespace SqlSafetyGuard.UI
             var list = group.Section == "Safe" ? SafeList : GroupList;
             if (list == SafeList) SafeSection.IsExpanded = true;
             list.SelectedItem = group;
+            group.IsExpanded = !group.IsExpanded;
         }
 
         internal void SetCollapsed(bool collapsed)
@@ -186,10 +190,22 @@ namespace SqlSafetyGuard.UI
             }
         }
 
+        private void OnGroupExpanded(object sender, RoutedEventArgs e)
+        {
+            if (_settingSelection || !(((Expander)sender).DataContext is PaneGroup group)) return;
+            var list = group.Section == "Safe" ? SafeList : GroupList;
+            list.SelectedItem = group;
+        }
+
         private void OnGroupKeyDown(object sender, KeyEventArgs e)
         {
             var list = (ListBox)sender;
-            if (e.Key == Key.Enter && list.SelectedItem is PaneGroup group)
+            if ((e.Key == Key.Space || e.Key == Key.Left || e.Key == Key.Right) && list.SelectedItem is PaneGroup selected)
+            {
+                selected.IsExpanded = e.Key == Key.Right || (e.Key == Key.Space && !selected.IsExpanded);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Enter && list.SelectedItem is PaneGroup group)
             {
                 GroupActivated?.Invoke(group);
                 e.Handled = true;

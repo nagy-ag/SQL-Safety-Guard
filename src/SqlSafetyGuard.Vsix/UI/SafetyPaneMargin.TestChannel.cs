@@ -143,7 +143,7 @@ namespace SqlSafetyGuard.UI
                     PaneTrace.Write($"  selected: {_selected?.Key ?? "(none)"} · caret line {_view.Caret.Position.BufferPosition.GetContainingLine().LineNumber + 1}");
                     PaneTrace.Write($"  width: {_control.Width:0} collapsed={_collapsed}");
                     foreach (var group in _groups)
-                        PaneTrace.Write($"  group: {group.Key} [{group.Verdict}] {group.Subtitle}; reason={group.Reason}; statements={group.Tooltip.Replace(Environment.NewLine, " | ")}");
+                        PaneTrace.Write($"  group: {group.Key} [{group.Verdict}] {group.Subtitle}; object={group.ObjectName}; line={group.Line}; expanded={group.IsExpanded}; wholeTarget={group.IsWholeTarget}; reason={group.Reason}; operations={group.OperationSummary}; lines={group.LineSummary}; statements={group.Tooltip.Replace(Environment.NewLine, " | ")}");
                     break;
                 default:
                     PaneTrace.Write($"cmd unknown verb '{verb}'");

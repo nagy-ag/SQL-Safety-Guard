@@ -50,28 +50,64 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="RowExpander" TargetType="Expander">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <StackPanel>
+                            <ToggleButton x:Name="RowHeader" Content="{TemplateBinding Header}"
+                                          HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          AutomationProperties.Name="{Binding Tooltip}"
+                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="FocusBorder" BorderThickness="1" BorderBrush="Transparent" Padding="0,2">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter x:Name="RowDetails" Visibility="Collapsed" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True"><Setter TargetName="RowDetails" Property="Visibility" Value="Visible" /></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="GroupTemplate">
-            <StackPanel>
-                <Grid ToolTip="{Binding Tooltip}">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding ObjectName}" Margin="0,0,12,0" ToolTip="{Binding DisplayName}"
-                               FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                    <TextBlock Grid.Column="1" Text="{Binding Subtitle}" FontWeight="{Binding ActionWeight}" HorizontalAlignment="Right">
+            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Expanded="OnGroupExpanded">
+                <Expander.Header>
+                    <Grid ToolTip="{Binding Tooltip}">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding ObjectName}" Margin="0,0,10,0" ToolTip="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Column="1" Text="{Binding Subtitle}" HorizontalAlignment="Right" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="2" Text="{Binding Line}" HorizontalAlignment="Right" Opacity="0.7" />
+                    </Grid>
+                </Expander.Header>
+                <StackPanel Margin="0,5,0,3">
+                    <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" FontSize="11">
                         <TextBlock.Style><Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
-                            <Style.Triggers><DataTrigger Binding="{Binding IsWholeTarget}" Value="True"><Setter Property="Foreground" Value="{Binding ActionBrush}" /></DataTrigger></Style.Triggers>
+                            <Setter Property="Opacity" Value="0.8" />
+                            <Style.Triggers><DataTrigger Binding="{Binding IsWholeTarget}" Value="True">
+                                <Setter Property="Foreground" Value="{x:Static Brushes.Firebrick}" /><Setter Property="FontWeight" Value="SemiBold" /><Setter Property="Opacity" Value="1" />
+                            </DataTrigger></Style.Triggers>
                         </Style></TextBlock.Style>
                     </TextBlock>
-                </Grid>
-                <TextBlock Text="{Binding Reason}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Reason}" Opacity="0.75" FontSize="11" Margin="0,3,0,0">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers><DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-            </StackPanel>
+                    <StackPanel Visibility="{Binding MultipleFindingsVisibility}" Margin="0,4,0,0" Opacity="0.75">
+                        <TextBlock Text="{Binding OperationSummary}" TextWrapping="Wrap" FontSize="11" />
+                        <TextBlock Text="{Binding LineSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,2,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Expander>
         </DataTemplate>
         <Style x:Key="ObjectList" TargetType="ListBox">
             <Setter Property="Background" Value="Transparent" />
@@ -143,7 +179,7 @@
             </Border>
             <Grid>
                 <DockPanel x:Name="AnalysisPage">
-                    <Expander x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="200">
+                    <Expander x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
                         <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
                         <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
                     </Expander>

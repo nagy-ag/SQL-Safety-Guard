@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -66,8 +67,10 @@ namespace SqlSafetyGuard.UI
         public override string ToString() => SafeText; // Name for UI Automation.
     }
 
-    internal sealed class PaneGroup
+    internal sealed class PaneGroup : INotifyPropertyChanged
     {
+        private bool _isExpanded;
+
         public PaneGroup(string key, IReadOnlyList<PaneFinding> findings)
         {
             Key = key;
@@ -77,7 +80,10 @@ namespace SqlSafetyGuard.UI
             var parts = SplitName(key).Select(Unquote).ToList();
             int prefix = Math.Max(0, parts.Count - 2);
             DatabasePrefix = prefix == 0 ? string.Empty : string.Join(".", parts.Take(prefix)) + ".";
-            ObjectName = string.Join(".", parts.Skip(prefix));
+            ObjectName = Findings.All(finding => string.IsNullOrEmpty(finding.Finding.ResolvedTarget ?? finding.Finding.Target))
+                ? Findings.All(finding => finding.Finding.Action == "BEGIN TRAN" || finding.Finding.Action == "COMMIT" ||
+                    finding.Finding.Action == "ROLLBACK" || finding.Finding.Action == "SAVE TRAN") ? "Transaction" : "—"
+                : string.Join(".", parts.Skip(prefix));
         }
 
         public string Key { get; }
@@ -87,31 +93,44 @@ namespace SqlSafetyGuard.UI
         public string DatabasePrefix { get; }
         public string ObjectName { get; }
         public string DisplayName => DatabasePrefix + ObjectName;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                if (_isExpanded == value) return;
+                _isExpanded = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
+            }
+        }
         public Brush Marker => VerdictBrushes.For(Verdict);
         public bool IsAllowed => Verdict.IsGreen() && Findings.Any(finding =>
             finding.Finding.Verdict == Verdict.AllowListed ||
             (finding.Finding.Verdict == Verdict.ReadOnly && (finding.Finding.Note ?? string.Empty).IndexOf("trusted procedure", StringComparison.OrdinalIgnoreCase) >= 0));
         public string Section => Verdict.IsRed() ? "CHANGES TO PERMANENT OBJECTS" : Verdict.IsYellow() ? "CAN'T SEE INSIDE" :
             IsAllowed ? "ALLOWED BY YOUR SETTINGS" : "Safe";
-        public bool IsWholeTarget => Findings.Any(finding => finding.Finding.AffectsAllRows ||
+        public bool IsWholeTarget => Findings.Any(finding => finding.Finding.Verdict.IsRed() && (finding.Finding.AffectsAllRows ||
             finding.Finding.Action.StartsWith("TRUNCATE", StringComparison.OrdinalIgnoreCase) ||
-            finding.Finding.Action.StartsWith("DROP ", StringComparison.OrdinalIgnoreCase));
-        public FontWeight ActionWeight => IsWholeTarget ? FontWeights.Bold : FontWeights.Normal;
-        public Brush ActionBrush => IsWholeTarget ? VerdictBrushes.Red : null;
-        public string Reason => Findings.OrderByDescending(finding => finding.Finding.Verdict)
+            finding.Finding.Action.StartsWith("DROP ", StringComparison.OrdinalIgnoreCase)));
+        public string Reason => Verdict == Verdict.TempOnly ? "Temporary-object operations only. No permanent-object changes detected." :
+            Findings.OrderByDescending(finding => finding.Finding.Verdict)
             .ThenByDescending(finding => finding.Finding.AffectsAllRows).Select(finding => finding.Note).FirstOrDefault(note => !string.IsNullOrEmpty(note)) ??
             (Verdict.IsRed() ? "Changes a permanent object." : Verdict.IsYellow() ? "The analyzer cannot see what runs." : "No permanent changes detected.");
         public string Subtitle
         {
             get
             {
-                var actions = Findings.GroupBy(finding => finding.Finding.Action).Select(action =>
-                    action.Key + (action.Count() > 1 ? " ×" + action.Count() : action.Any(finding => finding.Finding.AffectsAllRows) &&
-                    (action.Key == "UPDATE" || action.Key == "DELETE") ? " all rows" : string.Empty));
-                return string.Join(", ", actions) + " · " + Findings[0].EditorLine +
-                    (Findings.Count > 1 ? " +" + (Findings.Count - 1) : string.Empty);
+                var actions = Findings.Select(finding => finding.Finding.Action).Distinct().ToList();
+                return actions[0] + (actions.Count > 1 ? " +" + (actions.Count - 1) :
+                    Findings.Count > 1 ? " ×" + Findings.Count : string.Empty);
             }
         }
+        public int Line => Findings[0].EditorLine;
+        public string OperationSummary => string.Join(" · ", Findings.GroupBy(finding => finding.Finding.Action)
+            .Select(action => action.Key + (action.Count() > 1 ? " ×" + action.Count() : string.Empty)));
+        public string LineSummary => "Lines " + string.Join(", ", Findings.Select(finding => finding.EditorLine).Distinct());
+        public Visibility MultipleFindingsVisibility => Findings.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
         public string Tooltip => Key + Environment.NewLine + string.Join(Environment.NewLine,
             Findings.Select(finding => finding.Header + (string.IsNullOrEmpty(finding.Note) ? string.Empty : " · " + finding.Note)));
         public override string ToString() => Key;

@@ -110,15 +110,18 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
     analysis summary and what F5 will do. It never puts verdict words or the server name in the header.
   - A matched environment rule adds a small label tag and a 3 px top line: labels containing **PROD** are red,
     all others slate grey. Unknown connections and unmatched rules have no tag.
-  - **☰ Analysis** groups one row per resolved object into **Changes for good**, **Can't see inside**, and
+  - **☰ Analysis** groups one row per resolved object into **Changes to permanent objects**, **Can't see inside**, and
     **Allowed by your settings** (safe-table patterns and trusted procedures). Section counts match the red/yellow
-    circles. Each row shows the database in grey, the schema/object in semibold, and its action and line at the
-    right. Repeated actions use **×N** and **+N**; the tooltip lists every statement line. Whole-target actions,
-    TRUNCATE and DROP are bold red, without extra badges.
-  - **Safe · temp operations and reads · N** is an expandable footer, opened automatically when nothing is red
-    or yellow. Empty sections are omitted. **Click** any object to highlight its statements and reveal a short
-    explanation below its row; **double-click** or **Enter** jumps to it. The editor caret follows the corresponding
-    row, and arrow-key navigation works across the main and safe lists. Yellow/red statements retain light tinting.
+    circles. Each collapsed row shows only the schema/object, statement type, and first line number. The database
+    stays in the tooltip. Repeated statements use **×N**; additional statement types use **+N**. Collapsed actions
+    have neutral text; section headings carry the safety category. Targetless transaction statements show **Transaction**.
+  - **No permanent changes detected · N** is an expandable footer, opened automatically when nothing is red
+    or yellow. Empty sections are omitted. **Click** a row to expand or collapse a short explanation; groups with
+    multiple findings also show their statement types and lines. Only permanent whole-target destructive operations
+    have red warning text in the details; temporary-object operations remain neutral. Expansion survives reanalysis
+    for the same object. **Space** toggles details, **Right/Left** expands/collapses, and **double-click** or **Enter**
+    jumps to the statements. Selection highlights them; the editor caret follows the corresponding row without
+    automatically expanding it. Arrow-key navigation works across both lists. Yellow/red statements retain light tinting.
   - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, typed
     confirmation, safe tables, trusted procedures, and tempdb handling. Each effective pattern identifies its
     global or rule source. **Edit in Tools › Options…** opens SQL Safety Guard's options page.
@@ -140,8 +143,10 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
-The redesigned expanded pane has build and automated contract coverage only; it has not been exercised in SSMS.
-No running SSMS instance or desktop was touched during this redesign.
+The compact expandable rows have build and automated contract coverage (831 tests passed on 2026-10-28).
+The updated extension loaded in SSMS 22 using the isolated `/rootSuffix Exp` profile; an in-process smoke check
+verified a read-only row expands and collapses without executing SQL. Visual and keyboard testing across themes
+remains unverified because the desktop automation helper was unavailable.
 
 Historical verification of the previous expanded pane, checked in SSMS 22 on 2026-10-27 (Light theme, isolated `/rootSuffix Exp` profile, by real interaction
 and an in-process Debug test channel): loads in saved `.sql` files and new query windows; shows the server and

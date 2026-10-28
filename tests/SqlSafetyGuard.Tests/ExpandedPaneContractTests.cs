@@ -41,7 +41,7 @@ public class ExpandedPaneContractTests
     }
 
     [Fact]
-    public void ObjectRowsUseOneSharedTemplateAndSelectedInlineExplanation()
+    public void ObjectRowsUseOneSharedTemplateAndExplicitExpandableDetails()
     {
         var document = ReadPane();
         Assert.Equal("Bottom", (string?)Named(document, "SafeSection").Attribute("DockPanel.Dock"));
@@ -62,8 +62,28 @@ public class ExpandedPaneContractTests
             (string?)element.Attribute("Text") == "{Binding ObjectName}" &&
             (string?)element.Attribute("ToolTip") == "{Binding DisplayName}" &&
             (string?)element.Attribute("TextTrimming") == "CharacterEllipsis");
-        Assert.Contains(template.Descendants(Presentation + "DataTrigger"), element =>
+        var expander = Assert.Single(template.Elements(Presentation + "Expander"));
+        Assert.Equal("{Binding IsExpanded, Mode=TwoWay}", (string?)expander.Attribute("IsExpanded"));
+        Assert.Equal("OnGroupExpanded", (string?)expander.Attribute("Expanded"));
+        var header = Assert.Single(expander.Elements(Presentation + "Expander.Header"));
+        Assert.Equal(new[] { "{Binding ObjectName}", "{Binding Subtitle}", "{Binding Line}" },
+            header.Descendants(Presentation + "TextBlock").Select(element => (string?)element.Attribute("Text")));
+        Assert.Equal(3, header.Descendants(Presentation + "ColumnDefinition").Count());
+        Assert.Empty(header.Descendants(Presentation + "TextBlock").Attributes("Foreground"));
+        Assert.Empty(header.Descendants(Presentation + "TextBlock").Attributes("FontWeight"));
+        Assert.DoesNotContain(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
+        foreach (string binding in new[] { "Reason", "OperationSummary", "LineSummary" })
+            Assert.Contains(expander.Descendants(Presentation + "TextBlock"), element =>
+                (string?)element.Attribute("Text") == "{Binding " + binding + "}" &&
+                (string?)element.Attribute("TextWrapping") == "Wrap");
+        var style = Assert.Single(document.Descendants(Presentation + "Style"),
+            element => (string?)element.Attribute(Markup + "Key") == "RowExpander");
+        Assert.Equal("{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}",
+            (string?)Named(style, "RowHeader").Attribute("IsChecked"));
+        Assert.Equal("Collapsed", (string?)Named(style, "RowDetails").Attribute("Visibility"));
+        Assert.Contains(style.Descendants(Presentation + "Trigger"), element =>
+            (string?)element.Attribute("Property") == "IsExpanded" && (string?)element.Attribute("Value") == "True");
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
             (string?)element.Attribute("Text") == "{Binding Subtitle}" &&
             (string?)element.Attribute("HorizontalAlignment") == "Right");
