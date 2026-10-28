@@ -11,6 +11,7 @@
   <!-- The analyzer is loaded by path at runtime (the analyzer argument), so the same harness can check any branch's build.
        ScriptDom is referenced here so the loaded analyzer binds to it. -->
   <ItemGroup>
+    <Content Include="Campaign/*.sql" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />

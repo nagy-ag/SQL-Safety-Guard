@@ -4,7 +4,10 @@ using System.Reflection;
 namespace SqlSafetyGuard.ServerHarness;
 
 /// <summary>One analyzer verdict, read by reflection so any branch's build can be loaded.</summary>
-internal sealed record Verdict(string Overall, bool IsGreen, List<string> Findings, double Milliseconds, string? Error);
+internal sealed record Verdict(string Overall, bool IsGreen, List<string> Findings, double Milliseconds, string? Error)
+{
+    public List<string> Targets { get; init; } = [];
+}
 
 /// <summary>Loads SqlSafetyGuard.Analyzer.dll from a path and calls SqlSafetyAnalyzer.Analyze(sql) with default options.</summary>
 internal sealed class AnalyzerHost
@@ -47,16 +50,18 @@ internal sealed class AnalyzerHost
         var overall = result.GetType().GetProperty("Overall")!.GetValue(result)!.ToString()!;
         bool green = (bool)result.GetType().GetProperty("IsGreen")!.GetValue(result)!;
         var findings = new List<string>();
+        var targets = new List<string>();
         if (result.GetType().GetProperty("Findings")!.GetValue(result) is IEnumerable list)
         {
             foreach (var f in list)
             {
                 string P(string name) => f.GetType().GetProperty(name)?.GetValue(f)?.ToString() ?? "";
                 findings.Add($"L{P("Line")} {P("Verdict")} {P("Action")} {P("Target")} {P("Note")}".Trim());
+                if (P("Verdict") == "RealWrite" && P("Target").Length > 0) targets.Add(P("Target"));
             }
         }
 
-        return new Verdict(overall, green, findings, ms, null);
+        return new Verdict(overall, green, findings, ms, null) { Targets = targets };
     }
 
     private static object? DefaultOf(Type type) => type.IsValueType ? Activator.CreateInstance(type) : null;

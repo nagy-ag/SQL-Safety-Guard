@@ -11,9 +11,20 @@ using SqlSafetyGuard.ServerHarness;
 //       [--out <dir>] [--limit N] [--filter text] [--timeout 10] [--keep]
 
 var options = Args.Parse(args);
+using var harnessLease = new Mutex(false, "Local\\SqlSafetyGuard.ServerHarness");
+if (!options.ValidateCoverage)
+{
+    try
+    {
+        if (!harnessLease.WaitOne(0)) throw new InvalidOperationException("Another server harness owns the server lease.");
+    }
+    catch (AbandonedMutexException) { }
+}
 var outDir = Directory.CreateDirectory(options.Out).FullName;
 var analyzer = new AnalyzerHost(options.Analyzer);
 Console.WriteLine($"Analyzer: {analyzer.AssemblyPath}");
+if (options.Campaign != null)
+    return CampaignRunner.Run(options, analyzer);
 if (options.IsolatedLifecycle)
     return LifecycleCoverageRunner.Run(options, analyzer);
 if (options.IsolatedCoverage != null)
@@ -198,6 +209,12 @@ internal sealed class Args
     public bool RequireComplete { get; set; }
     public string? IsolatedCoverage { get; set; }
     public bool IsolatedLifecycle { get; set; }
+    public string? Campaign { get; set; }
+    public int Workers { get; set; } = Math.Clamp(Environment.ProcessorCount / 2, 1, 4);
+    public int BudgetMinutes { get; set; } = 480;
+    public int ShrinkAttempts { get; set; } = 24;
+    public bool CampaignIsolated { get; set; }
+    public bool PrepareWorld { get; set; }
 
     public static Args Parse(string[] args)
     {
@@ -222,11 +239,23 @@ internal sealed class Args
                 case "--isolated-lifecycle": a.IsolatedLifecycle = true; break;
                 case "--validate-coverage": a.ValidateCoverage = true; break;
                 case "--require-complete": a.RequireComplete = true; break;
+                case "--campaign": a.Campaign = Next(); break;
+                case "--workers": a.Workers = int.Parse(Next()); break;
+                case "--budget-minutes": a.BudgetMinutes = int.Parse(Next()); break;
+                case "--shrink-attempts": a.ShrinkAttempts = int.Parse(Next()); break;
+                case "--campaign-isolated": a.CampaignIsolated = true; break;
+                case "--prepare-world": a.PrepareWorld = true; break;
                 default: throw new ArgumentException($"Unknown argument {args[i]}");
             }
         }
 
         var coverageModes = (a.Coverage != null ? 1 : 0) + (a.IsolatedCoverage != null ? 1 : 0) + (a.IsolatedLifecycle ? 1 : 0);
+        if (a.Campaign != null && (coverageModes != 0 || a.Keep || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0 || a.ValidateCoverage || a.RequireComplete))
+            throw new ArgumentException("Campaign mode cannot combine coverage or discovery modes.");
+        if (a.Workers < 1 || a.Workers > 16 || a.BudgetMinutes < 1 || a.Timeout < 1 || a.ShrinkAttempts < 0)
+            throw new ArgumentException("Invalid campaign bounds.");
+        if (a.CampaignIsolated && a.Campaign == null) throw new ArgumentException("--campaign-isolated requires --campaign.");
+        if (a.PrepareWorld && a.Campaign == null) throw new ArgumentException("--prepare-world requires --campaign.");
         if (coverageModes > 1 || (coverageModes == 0 && (a.ValidateCoverage || a.RequireComplete)))
             throw new ArgumentException("Select exactly one coverage mode when using coverage-only options.");
         if (a.IsolatedCoverage != null && (a.Keep || a.Limit != 0 || a.Tests.Count + a.Sql.Count + a.Samples.Count != 0))
