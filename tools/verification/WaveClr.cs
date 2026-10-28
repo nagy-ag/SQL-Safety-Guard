@@ -3,7 +3,7 @@ using System.Data.SqlTypes;
 using Microsoft.SqlServer.Server;
 
 [Serializable]
-[SqlUserDefinedAggregate(Format.Native, IsInvariantToNulls = true)]
+[SqlUserDefinedAggregate(Format.Native, IsInvariantToNulls = true, IsInvariantToDuplicates = false, IsInvariantToOrder = true)]
 public struct WaveSum
 {
     private int total;
@@ -18,9 +18,12 @@ public struct WaveSum
 public struct WaveNumber : INullable
 {
     private int value;
-    private bool nullValue;
-    public bool IsNull { get { return nullValue; } }
-    public static WaveNumber Null { get { return new WaveNumber { nullValue = true }; } }
-    public static WaveNumber Parse(SqlString text) { return text.IsNull ? Null : new WaveNumber { value = int.Parse(text.Value) }; }
-    public override string ToString() { return nullValue ? "NULL" : value.ToString(); }
+    private bool isNull;
+    public bool IsNull { get { return isNull; } }
+    public static WaveNumber Null { get { return new WaveNumber { isNull = true }; } }
+    public static WaveNumber Parse(SqlString text)
+    {
+        return text.IsNull ? Null : new WaveNumber { value = int.Parse(text.Value), isNull = false };
+    }
+    public override string ToString() { return isNull ? "NULL" : value.ToString(); }
 }

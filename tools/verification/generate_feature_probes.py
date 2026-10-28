@@ -10,7 +10,7 @@ def generate(assembly):
     blob = "0x" + binary.hex()
     digest = "0x" + hashlib.sha512(binary).hexdigest()
     enable = "EXEC sp_configure 'show advanced options',1; RECONFIGURE; EXEC sp_configure 'clr enabled',1; RECONFIGURE; "
-    trust = f"EXEC sys.sp_add_trusted_assembly @hash={digest},@description=N'Wave2 reviewed trivial types'; "
+    trust = f"IF NOT EXISTS(SELECT 1 FROM sys.trusted_assemblies WHERE hash={digest}) EXEC sys.sp_add_trusted_assembly @hash={digest},@description=N'Wave3 reviewed trivial types'; "
     create = f"CREATE ASSEMBLY WaveClr FROM {blob} WITH PERMISSION_SET=SAFE;"
     rows = []
     def add(identity, kinds, setup, sql, verify, before, after, **extras):
@@ -42,6 +42,9 @@ def generate(assembly):
     add("agent-job", ["ExecuteStatement"], "", "EXEC msdb.dbo.sp_add_job @job_name=N'Wave2OwnedJob';", "SELECT COUNT(*) FROM msdb.dbo.sysjobs WHERE name=N'Wave2OwnedJob';", 0, 1)
     rows[-1]["cleanupSql"] = "EXEC msdb.dbo.sp_delete_job @job_name=N'Wave2OwnedJob';"
     add("fulltext-feature", ["CreateFullTextCatalogStatement"], "", "CREATE FULLTEXT CATALOG WaveFulltext;", "SELECT COUNT(*) FROM sys.fulltext_catalogs WHERE name=N'WaveFulltext';", 0, 1)
+    for row in rows:
+        if create in row['setupSql'] and trust not in row['setupSql']:
+            row['setupSql'] = row['setupSql'].replace(create, trust + create)
     return dict(schemaVersion=1, assemblySha256=hashlib.sha256(binary).hexdigest(), fixtures=rows)
 
 

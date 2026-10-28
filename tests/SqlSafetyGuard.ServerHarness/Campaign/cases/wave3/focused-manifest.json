@@ -1,0 +1,1252 @@
+[
+  {
+    "ruleId": "set-family.generalsetcommandtype.contextinfo",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.datefirst",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.dateformat",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.deadlockpriority",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.language",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.locktimeout",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.generalsetcommandtype.querygovernorcostlimit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.compute",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.execute",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.from",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.order",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.param",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.procedure",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.select",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.statement",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setoffsets.table",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setstatisticsoptions.io",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setstatisticsoptions.profile",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setstatisticsoptions.time",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-family.setstatisticsoptions.xml",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansidefaults",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansinulldfltoff",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansinulldflton",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansinulls",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansipadding",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.ansiwarnings",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.arithabort",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.arithignore",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.concatnullyieldsnull",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.cursorcloseoncommit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.disabledefcnstchk",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.fmtonly",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.forceplan",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.implicittransactions",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.nobrowsetable",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.nocount",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.noexec",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.numericroundabort",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.parseonly",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.quotedidentifier",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.remoteproctransactions",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.showplanall",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.showplantext",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.showplanxml",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "set-option.xactabort",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "aggregate.max",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "aggregate.presentation",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "verdict.severity",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "entry.empty",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "entry.settings",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "options.defaults",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "parser.newest",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "position.offset",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "finding.metadata",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.batch-offset",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.newlines",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.dynamic",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.dynamic",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.sp-executesql",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.namespace",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.ordinary",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.spaceused",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.dispatch",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.begin",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.commit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.rollback",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.finish",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.if",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.merge",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "txn.implicit-start",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.return",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.while-zero",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.select-into",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.output",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.waitfor",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.throw",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.rowfilter",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.dml-targets",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.alias",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.join",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.variable",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.derived",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.empty",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.hidden",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.fallback",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.parse",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "dbcc.checkident",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "dbcc.clear",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "dbcc.fallback",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.missing",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "green-statement.cursorstatement",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "green-statement.setonoffstatement",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "green-statement.transactionstatement",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.alias-priority",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.cte-cache",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.no-base",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.union",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.blocked",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.display",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.blocked-transaction",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.catch-exit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.composable",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.drop-index",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.drop-statistics",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.drop-procedures",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.insert-exec",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.module",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.named-target",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.guess-target",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.repeat",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.switch-both",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.target-switch",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.temp-procedure",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.transfer",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "walk.try-peak",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "temp.tempdb-opt-in",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd.process",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd.ordered-definitions",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd.remove-definition",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd.walk",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd-command.on",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd-command.setvar",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd-command.variable",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd-command.exit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "sqlcmd-command.quit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "hidden.bulk-file",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "hidden.adhoc",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "hidden.openrowset",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "dbcc.repair",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-statement.backupstatement",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.trusted",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.addinstance",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.auditevent",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.autopilot",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.buffer",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.bytes",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.cacheprofile",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.callfulltext",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.checkprimaryfile",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.collectstats",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.concurrencyviolation",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.debugbreak",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.deleteinstance",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumpconfig",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumpdbinfo",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumpdbtable",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumplock",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumplog",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumppage",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumpresource",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.dumptrigger",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.fileheader",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.flush",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.icecapquery",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.incrementinstance",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.ind",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.invalidatetextptr",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.invalidatetextptrobjid",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.latch",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.mapallocunit",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.memobjlist",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.memorymap",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.metadata",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.notextptr",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.optimizerwhatif",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.persiststackhash",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.prtipage",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.readpage",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.ruleoff",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.ruleon",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.semetadata",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.setinstance",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.showdbaffinity",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.showtableaffinity",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.sqlmgrstats",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.stackdump",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.tec",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.throttleio",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "unknown-dbcc.useplan",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.cross-database",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.default-context",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.glob",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.ignore-comments",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.invalid",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.match",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.quoted-parts",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.invalid-line",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.invalid-list",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.off",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.red",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.selection",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.typed-disabled",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.unknown-context",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "environment.yellow-red",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "resolve.cte-cycle",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "scope.target-truncate",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "exec.linked",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "hidden.openquery",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "hidden.deduplicate",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.remote",
+    "status": "focused-triple-generated",
+    "note": "Negative is a contrast, not evidence of this branch. Server outcomes must be joined by case id."
+  },
+  {
+    "ruleId": "allow.empty-name",
+    "status": "open-not-claimed",
+    "note": "Direct AllowList.Matches(null/empty) API guard; a parsed executable DML target is nonempty. Existing AllowList unit tests exercise the actual guard."
+  },
+  {
+    "ruleId": "dbcc.dll",
+    "status": "open-not-claimed",
+    "note": "Requires a genuine loaded extended stored procedure DLL. Linux Developer container has no reviewed xproc DLL/Windows loader. Unknown DBCC spelling only proves the failure branch, not DLL unloading."
+  },
+  {
+    "ruleId": "entry.length",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "entry.limit",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "environment.confirm-failure",
+    "status": "open-not-claimed",
+    "note": "Requires a throwing presentation/confirmation callback in GuardExecutionContract, not the Analyze SQL API. Server execution cannot trigger this host callback; targeted callback unit tests are the evidence."
+  },
+  {
+    "ruleId": "environment.presentation-failure",
+    "status": "open-not-claimed",
+    "note": "Requires a throwing presentation/confirmation callback in GuardExecutionContract, not the Analyze SQL API. Server execution cannot trigger this host callback; targeted callback unit tests are the evidence."
+  },
+  {
+    "ruleId": "exec.streaming-wrapper",
+    "status": "open-not-claimed",
+    "note": "Requires sys.sp_create_streaming_job and a streaming backend; the SQL2025 Linux Developer attempt returns missing/unsupported procedure. Wrapper recognition is unit-tested; no substitute procedure is installed."
+  },
+  {
+    "ruleId": "hidden.internal-openrowset",
+    "status": "open-not-claimed",
+    "note": "Internal OPENROWSET AST has no supported public standalone provider recipe for this engine. Constructed AST/parser coverage is not real provider execution."
+  },
+  {
+    "ruleId": "limits.action-reset",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "limits.cancel",
+    "status": "open-not-claimed",
+    "note": "Requires an externally cancelled CancellationToken during analysis; not representable in campaign SQL/settings. No server write is needed or appropriate for this API failure path."
+  },
+  {
+    "ruleId": "limits.control-count",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "limits.nesting-count",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "limits.syntax",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "limits.work",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "parser.lexical-errors",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.alter",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.bulk",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.create",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.dbcc",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.delete",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.deny",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.drop",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.execute",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.grant",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.insert",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.kill",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.merge",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.reconfigure",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.restore",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.revoke",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.shutdown",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.truncate",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery-keyword.update",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "recovery.regions",
+    "status": "open-not-claimed",
+    "note": "This branch requires unparsed/lexically invalid text. A successful SQL statement exercises the normal parser, not recovery. Server rejection is not semantic execution coverage; see the linked recovery unit tests."
+  },
+  {
+    "ruleId": "resolve.cte-budget",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  },
+  {
+    "ruleId": "sqlcmd-command.connect",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive connect, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.ed",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive ed, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.error",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive error, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.help",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive help, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.list",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive list, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.listvar",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive listvar, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.os",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive os, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.out",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive out, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.perftrace",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive perftrace, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.r",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive r, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.reset",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive reset, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.serverlist",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive serverlist, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd-command.xml",
+    "status": "open-not-claimed",
+    "note": "SQLCMD client directive xml, not T-SQL. SqlClient cannot execute it; the restricted campaign preprocessor refuses external/file/UI directives rather than executing shell commands or changing connections. Unit tests cover recognition; no surrogate SELECT is counted."
+  },
+  {
+    "ruleId": "sqlcmd.mode-off",
+    "status": "open-not-claimed",
+    "note": "Requires SQLCMD syntax with SQLCMD mode disabled, which is a deliberate T-SQL syntax error. Successful substitution would test mode-on instead."
+  },
+  {
+    "ruleId": "walk.depth",
+    "status": "open-not-claimed",
+    "note": "Analyzer resource/recursion guard, not a SQL feature. Crossing its bound may be rejected by SQL Server nesting/compile limits or abort analysis before an AST exists. Exact bounded-input unit tests are cited in rules.json; no successful ordinary read is relabeled guard execution."
+  }
+]
