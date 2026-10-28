@@ -13,7 +13,7 @@ namespace SqlSafetyGuard.UI
     {
         private readonly ITrackingSpan _span;
 
-        public PaneFinding(Finding finding, ITextSnapshot snapshot, int baseOffset)
+        public PaneFinding(Finding finding, ITextSnapshot snapshot, int baseOffset, string currentDatabase = null)
         {
             Finding = finding;
             int start = Math.Min(snapshot.Length, baseOffset + finding.StartOffset);
@@ -30,7 +30,7 @@ namespace SqlSafetyGuard.UI
             Snippet = snippet.Length > 70 ? snippet.Substring(0, 70) + "…" : more ? snippet + " …" : snippet;
 
             var target = finding.ResolvedTarget ?? finding.Target;
-            GroupKey = string.IsNullOrEmpty(target) ? finding.Action : target;
+            GroupKey = string.IsNullOrEmpty(target) ? finding.Action : PaneGroup.Qualify(target, currentDatabase);
         }
 
         public Finding Finding { get; }
@@ -66,50 +66,146 @@ namespace SqlSafetyGuard.UI
         public override string ToString() => SafeText; // Name for UI Automation.
     }
 
-    /// <summary>All yellow/red findings on one object (table, procedure...).</summary>
     internal sealed class PaneGroup
     {
         public PaneGroup(string key, IReadOnlyList<PaneFinding> findings)
         {
             Key = key;
-            Findings = findings.OrderBy(f => f.Finding.StartOffset).ToList();
-            Verdict = findings.Max(f => f.Finding.Verdict);
+            Findings = findings.OrderBy(finding => finding.Finding.StartOffset).ToList();
+            Verdict = findings.Max(finding => finding.Finding.Verdict);
             FirstOffset = Findings[0].Finding.StartOffset;
+            var parts = SplitName(key).Select(Unquote).ToList();
+            int prefix = Math.Max(0, parts.Count - 2);
+            DatabasePrefix = prefix == 0 ? string.Empty : string.Join(".", parts.Take(prefix)) + ".";
+            ObjectName = string.Join(".", parts.Skip(prefix));
         }
 
         public string Key { get; }
-
         public IReadOnlyList<PaneFinding> Findings { get; }
-
         public Verdict Verdict { get; }
-
         public int FirstOffset { get; }
-
-        public string Name => Key;
-
+        public string DatabasePrefix { get; }
+        public string ObjectName { get; }
+        public string DisplayName => DatabasePrefix + ObjectName;
         public Brush Marker => VerdictBrushes.For(Verdict);
-
-        public Visibility AllRowsVisibility => Findings.Any(f => f.Finding.AffectsAllRows) ? Visibility.Visible : Visibility.Collapsed;
-
-        /// <summary>DROP for dropped objects; ALL ROWS for TRUNCATE and UPDATE/DELETE that can change every row.</summary>
-        public string BadgeText => Findings.Any(f => f.Finding.AffectsAllRows && !f.Finding.Action.StartsWith("DROP ", StringComparison.Ordinal))
-            ? "ALL ROWS"
-            : "DROP";
-
+        public bool IsAllowed => Verdict.IsGreen() && Findings.Any(finding =>
+            finding.Finding.Verdict == Verdict.AllowListed ||
+            (finding.Finding.Verdict == Verdict.ReadOnly && (finding.Finding.Note ?? string.Empty).IndexOf("trusted procedure", StringComparison.OrdinalIgnoreCase) >= 0));
+        public string Section => Verdict.IsRed() ? "CHANGES TO PERMANENT OBJECTS" : Verdict.IsYellow() ? "CAN'T SEE INSIDE" :
+            IsAllowed ? "ALLOWED BY YOUR SETTINGS" : "Safe";
+        public bool IsWholeTarget => Findings.Any(finding => finding.Finding.AffectsAllRows ||
+            finding.Finding.Action.StartsWith("TRUNCATE", StringComparison.OrdinalIgnoreCase) ||
+            finding.Finding.Action.StartsWith("DROP ", StringComparison.OrdinalIgnoreCase));
+        public FontWeight ActionWeight => IsWholeTarget ? FontWeights.Bold : FontWeights.Normal;
+        public Brush ActionBrush => IsWholeTarget ? VerdictBrushes.Red : null;
+        public string Reason => Findings.OrderByDescending(finding => finding.Finding.Verdict)
+            .ThenByDescending(finding => finding.Finding.AffectsAllRows).Select(finding => finding.Note).FirstOrDefault(note => !string.IsNullOrEmpty(note)) ??
+            (Verdict.IsRed() ? "Changes a permanent object." : Verdict.IsYellow() ? "The analyzer cannot see what runs." : "No permanent changes detected.");
         public string Subtitle
         {
             get
             {
-                var actions = Findings.GroupBy(f => f.Finding.Action)
-                    .Select(g => g.Count() == 1 ? g.Key : $"{g.Key} ×{g.Count()}");
-                var lines = Findings.Select(f => f.EditorLine).Distinct().ToList();
-                var shown = string.Join(", ", lines.Take(4)) + (lines.Count > 4 ? $" +{lines.Count - 4} more" : string.Empty);
-                return string.Join(", ", actions) + " · " + (lines.Count == 1 ? "line " : "lines ") + shown;
+                var actions = Findings.GroupBy(finding => finding.Finding.Action).Select(action =>
+                    action.Key + (action.Count() > 1 ? " ×" + action.Count() : action.Any(finding => finding.Finding.AffectsAllRows) &&
+                    (action.Key == "UPDATE" || action.Key == "DELETE") ? " all rows" : string.Empty));
+                return string.Join(", ", actions) + " · " + Findings[0].EditorLine +
+                    (Findings.Count > 1 ? " +" + (Findings.Count - 1) : string.Empty);
             }
         }
+        public string Tooltip => Key + Environment.NewLine + string.Join(Environment.NewLine,
+            Findings.Select(finding => finding.Header + (string.IsNullOrEmpty(finding.Note) ? string.Empty : " · " + finding.Note)));
+        public override string ToString() => Key;
 
-        public override string ToString() => Key; // Name for UI Automation.
+        /// <summary>Normalizes a target to [database].[schema].[name] so the same object groups together however it was written.
+        /// #temp tables and @table variables are left as written: they don't belong to the current database.</summary>
+        internal static string Qualify(string target, string database)
+        {
+            var parts = SplitName(target);
+            string last = Unquote(parts[parts.Count - 1]);
+            if (last.StartsWith("#", StringComparison.Ordinal) || last.StartsWith("@", StringComparison.Ordinal))
+                return target;
+            if (parts.Count < 3 && !string.IsNullOrEmpty(database))
+            {
+                if (parts.Count == 1) parts.Insert(0, string.Empty);
+                parts.Insert(0, "[" + database.Replace("]", "]]") + "]");
+            }
+            return string.Join(".", parts.Select(part =>
+            {
+                string value = Unquote(part);
+                return value.Length == 0 ? string.Empty : "[" + value.Replace("]", "]]") + "]";
+            }));
+        }
 
-        public string DetailTitle => $"{Key} · {(Findings.Count == 1 ? "1 statement" : Findings.Count + " statements")}";
+        /// <summary>One name part without [brackets] or "quotes", for display.</summary>
+        private static string Unquote(string part)
+        {
+            string value = part.Trim();
+            if (value.StartsWith("[", StringComparison.Ordinal) && value.EndsWith("]", StringComparison.Ordinal))
+                return value.Substring(1, value.Length - 2).Replace("]]", "]");
+            if (value.Length > 1 && value.StartsWith("\"", StringComparison.Ordinal) && value.EndsWith("\"", StringComparison.Ordinal))
+                return value.Substring(1, value.Length - 2).Replace("\"\"", "\"");
+            return value;
+        }
+
+        private static List<string> SplitName(string name)
+        {
+            var parts = new List<string>();
+            int start = 0;
+            char quote = '\0';
+            for (int index = 0; index < name.Length; index++)
+            {
+                char character = name[index];
+                if (quote != '\0')
+                {
+                    if (character != quote) continue;
+                    if (index + 1 < name.Length && name[index + 1] == quote) { index++; continue; }
+                    quote = '\0';
+                }
+                else if (character == '[' || character == '"') quote = character == '[' ? ']' : '"';
+                else if (character == '.') { parts.Add(name.Substring(start, index - start)); start = index + 1; }
+            }
+            parts.Add(name.Substring(start));
+            return parts;
+        }
+    }
+
+    internal sealed class PanePattern
+    {
+        public PanePattern(string pattern, string source) { Pattern = pattern; Source = source; }
+        public string Pattern { get; }
+        public string Source { get; }
+    }
+
+    internal sealed class PaneSettings
+    {
+        public PaneSettings(string server, string database, GuardSettings settings, AnalyzerOptions options,
+            int globalTables, int globalProcedures)
+        {
+            Server = server ?? "Unknown";
+            Database = database ?? "Unknown";
+            EnvironmentLabel = settings.MatchedRule == null ? null : settings.Environment;
+            EnvironmentDescription = EnvironmentLabel == null ? "global settings" : EnvironmentLabel + " rule · " + settings.MatchedRule;
+            WhenToAsk = settings.Mode == ExecutionMode.Off ? "Off" : settings.Mode == ExecutionMode.Red ? "Red only" : "Red and yellow";
+            TypedConfirmation = !settings.RequireTypedConfirmation ? "No database name required" :
+                settings.Mode == ExecutionMode.Off ? "Configured, but inactive while the F5 guard is off" :
+                "Type the database name for red unfiltered UPDATE/DELETE, TRUNCATE and DROP" +
+                (database == null ? "; unknown database cannot be confirmed" : string.Empty);
+            Tempdb = options.TempdbIsTemp ? "Treated as temp" : "Not treated as temp";
+            SafeTables = options.AllowList.Patterns.Select((pattern, index) => new PanePattern(pattern,
+                index < globalTables ? "global" : EnvironmentLabel + " rule")).ToList();
+            TrustedProcedures = options.TrustedProcedures.Patterns.Select((pattern, index) => new PanePattern(pattern,
+                index < globalProcedures ? "global" : EnvironmentLabel + " rule")).ToList();
+        }
+        public string Server { get; }
+        public string Database { get; }
+        public string EnvironmentLabel { get; }
+        public string EnvironmentDescription { get; }
+        public string WhenToAsk { get; }
+        public string TypedConfirmation { get; }
+        public string Tempdb { get; }
+        public IReadOnlyList<PanePattern> SafeTables { get; }
+        public IReadOnlyList<PanePattern> TrustedProcedures { get; }
+        public string SafeTablesHeading => "Safe tables " + SafeTables.Count;
+        public string TrustedProceduresHeading => "Trusted procedures " + TrustedProcedures.Count;
     }
 }

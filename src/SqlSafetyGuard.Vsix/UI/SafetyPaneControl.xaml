@@ -6,13 +6,12 @@
              Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
              FontSize="12">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="BadgeBrush" Color="#C62828" />
-
         <Style x:Key="PaneItem" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="Bd" Background="Transparent" BorderThickness="3,0,0,0" BorderBrush="Transparent" Padding="8,4">
+                        <Border x:Name="Bd" Background="Transparent" BorderThickness="3,0,0,0" BorderBrush="Transparent" Padding="8,5">
                             <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -20,132 +19,175 @@
                                 <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemInactiveBrushKey}}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemActiveBrushKey}}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemInactiveBrushKey}}" />
                                 <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemActiveTextBrushKey}}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style x:Key="PageButton" TargetType="RadioButton">
+            <Setter Property="Padding" Value="6,3" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="ButtonBorder" Background="Transparent" BorderThickness="1" BorderBrush="Transparent" CornerRadius="2" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemInactiveBrushKey}}" />
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="GroupTemplate">
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Ellipse Width="9" Height="9" Fill="{Binding Marker}" Margin="0,0,7,0" VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                    <Border Background="{StaticResource BadgeBrush}" CornerRadius="2" Margin="6,0,0,0" Padding="4,0" VerticalAlignment="Center"
-                            Visibility="{Binding AllRowsVisibility}">
-                        <TextBlock Text="{Binding BadgeText}" Foreground="White" FontSize="9.5" FontWeight="Bold" />
-                    </Border>
-                </StackPanel>
-                <TextBlock Text="{Binding Subtitle}" Opacity="0.75" Margin="16,1,0,0" TextTrimming="CharacterEllipsis" />
+                <Grid ToolTip="{Binding Tooltip}">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding ObjectName}" Margin="0,0,12,0" ToolTip="{Binding DisplayName}"
+                               FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="1" Text="{Binding Subtitle}" FontWeight="{Binding ActionWeight}" HorizontalAlignment="Right">
+                        <TextBlock.Style><Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+                            <Style.Triggers><DataTrigger Binding="{Binding IsWholeTarget}" Value="True"><Setter Property="Foreground" Value="{Binding ActionBrush}" /></DataTrigger></Style.Triggers>
+                        </Style></TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <TextBlock Text="{Binding Reason}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Reason}" Opacity="0.75" FontSize="11" Margin="0,3,0,0">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers><DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </StackPanel>
         </DataTemplate>
+        <Style x:Key="ObjectList" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource PaneItem}" />
+            <Setter Property="ItemTemplate" Value="{StaticResource GroupTemplate}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+        <DataTemplate x:Key="PatternTemplate">
+            <DockPanel Margin="0,3">
+                <Border DockPanel.Dock="Right" BorderThickness="1" CornerRadius="2" Padding="4,1" Margin="8,0,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                    <TextBlock Text="{Binding Source}" FontSize="10" />
+                </Border>
+                <TextBlock Text="{Binding Pattern}" FontFamily="Consolas" TextTrimming="CharacterEllipsis" ToolTip="{Binding Pattern}" VerticalAlignment="Center" />
+            </DockPanel>
+        </DataTemplate>
     </UserControl.Resources>
-
     <DockPanel>
-        <!-- Drag the left edge to resize. -->
         <Thumb x:Name="Grip" DockPanel.Dock="Left" Width="4" Cursor="SizeWE" DragDelta="OnGripDragDelta">
-            <Thumb.Template>
-                <ControlTemplate TargetType="Thumb">
-                    <Border Background="Transparent" BorderThickness="1,0,0,0"
-                            BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
-                </ControlTemplate>
-            </Thumb.Template>
+            <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" /></ControlTemplate></Thumb.Template>
         </Thumb>
-
-        <!-- Collapsed: a thin coloured strip; click to expand. -->
         <Border x:Name="CollapsedStrip" Visibility="Collapsed" Cursor="Hand" Background="Transparent"
-                MouseLeftButtonUp="OnToggleClicked" ToolTip="Show the SQL Safety Guard pane">
-            <StackPanel>
-                <Ellipse x:Name="CollapsedDot" Width="12" Height="12" Margin="0,10,0,8" Fill="Gray" />
-                <TextBlock Text="Safety" HorizontalAlignment="Center">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="90" />
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
+                MouseLeftButtonUp="OnToggleClicked">
+            <StackPanel Margin="2,10,2,0">
+                <Grid x:Name="CollapsedStatus" Width="20" Height="20">
+                    <Ellipse x:Name="CollapsedDot" Fill="Gray" />
+                    <TextBlock x:Name="CollapsedGlyph" Foreground="White" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <Grid x:Name="CollapsedRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,0,6">
+                    <Ellipse x:Name="CollapsedRedDot" />
+                    <Viewbox Margin="2" StretchDirection="DownOnly">
+                        <TextBlock x:Name="CollapsedRedCount" FontWeight="Bold" />
+                    </Viewbox>
+                </Grid>
+                <Grid x:Name="CollapsedYellow" Width="20" Height="20" Visibility="Collapsed">
+                    <Ellipse x:Name="CollapsedYellowDot" />
+                    <Viewbox Margin="2" StretchDirection="DownOnly">
+                        <TextBlock x:Name="CollapsedYellowCount" FontWeight="Bold" />
+                    </Viewbox>
+                </Grid>
             </StackPanel>
         </Border>
 
         <DockPanel x:Name="Expanded">
-            <!-- Summary -->
-            <Border DockPanel.Dock="Top" Padding="10,8" BorderThickness="0,0,0,1"
-                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+            <Border x:Name="EnvironmentLine" DockPanel.Dock="Top" Height="3" Visibility="Collapsed" />
+            <Border DockPanel.Dock="Top" Height="34" Padding="8,0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
                 <DockPanel>
-                    <TextBlock x:Name="CollapseButton" DockPanel.Dock="Right" Text="»" FontSize="15" Margin="8,-3,0,0" Cursor="Hand" Opacity="0.7"
-                               ToolTip="Collapse the pane" MouseLeftButtonUp="OnToggleClicked" />
-                    <Grid DockPanel.Dock="Left" Width="20" Height="20" Margin="0,1,9,0" VerticalAlignment="Top">
-                        <Ellipse x:Name="VerdictDot" Fill="Gray" />
-                        <TextBlock x:Name="VerdictGlyph" Text="!" Foreground="White" FontWeight="Bold"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                    <StackPanel>
-                        <TextBlock x:Name="Headline" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
-                        <TextBlock x:Name="SubText" Opacity="0.75" TextWrapping="Wrap" Margin="0,2,0,0" />
-                        <TextBlock x:Name="ConnectionText" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,3,0,0" Visibility="Collapsed" />
+                    <Button x:Name="CollapseButton" DockPanel.Dock="Right" Content="»" FontSize="15" Padding="4,0" Margin="5,0,0,0" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" ToolTip="Collapse the pane" Click="OnCollapseClicked" />
+                    <Border DockPanel.Dock="Right" VerticalAlignment="Center" BorderThickness="1" CornerRadius="2"
+                            BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="AnalysisButton" Content="☰" ToolTip="Analysis" AutomationProperties.Name="Analysis" GroupName="Page" Style="{StaticResource PageButton}" IsChecked="True" Checked="OnAnalysisPage" />
+                            <RadioButton x:Name="SettingsButton" Content="⚙" ToolTip="Settings" AutomationProperties.Name="Settings" GroupName="Page" Style="{StaticResource PageButton}" Checked="OnSettingsPage" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel x:Name="HeaderCounts" DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,7,0">
+                        <Grid x:Name="HeaderStatus" Width="20" Height="20"><Ellipse x:Name="HeaderDot" Fill="Gray" /><TextBlock x:Name="HeaderGlyph" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Grid>
+                        <Grid x:Name="HeaderRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,4,0"><Ellipse x:Name="HeaderRedDot" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderRedCount" Foreground="White" FontWeight="Bold" /></Viewbox></Grid>
+                        <Grid x:Name="HeaderYellow" Width="20" Height="20" Visibility="Collapsed"><Ellipse x:Name="HeaderYellowDot" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderYellowCount" Foreground="Black" FontWeight="Bold" /></Viewbox></Grid>
                     </StackPanel>
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBlock x:Name="ScopeText" Text="Whole window" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                        <Border x:Name="EnvironmentTag" Grid.Column="1" Padding="4,1" CornerRadius="2" Margin="6,0,5,0" MaxWidth="90" Visibility="Collapsed"><TextBlock x:Name="EnvironmentText" Foreground="White" FontSize="10" TextTrimming="CharacterEllipsis" /></Border>
+                    </Grid>
                 </DockPanel>
             </Border>
-
-            <!-- Safe statements, collapsed by default -->
-            <StackPanel DockPanel.Dock="Bottom">
-                <Border BorderThickness="0,1,0,0" Padding="10,6" Cursor="Hand" Background="Transparent" MouseLeftButtonUp="OnSafeHeaderClicked"
-                        BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
-                    <TextBlock x:Name="SafeHeader" />
-                </Border>
-                <ItemsControl x:Name="SafeList" Visibility="Collapsed" Margin="10,0,10,8" MaxHeight="160">
-                    <ItemsControl.Template>
-                        <ControlTemplate TargetType="ItemsControl">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto"><ItemsPresenter /></ScrollViewer>
-                        </ControlTemplate>
-                    </ItemsControl.Template>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="0,1">
-                                <Ellipse Width="7" Height="7" Fill="{Binding Marker}" Margin="0,0,6,0" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SafeText}" Opacity="0.8" TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-
-            <!-- Detail card for the selected object -->
-            <Border x:Name="DetailCard" DockPanel.Dock="Bottom" Margin="10,6,10,10" Padding="10,8" BorderThickness="1" Visibility="Collapsed"
-                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
-                <StackPanel>
-                    <TextBlock x:Name="DetailTitle" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4" />
-                    <ItemsControl x:Name="DetailItems">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="0,3">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Ellipse Width="7" Height="7" Fill="{Binding Marker}" Margin="0,0,6,0" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding Header}" />
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Note}" Opacity="0.75" TextWrapping="Wrap" Margin="13,1,0,0" Visibility="{Binding NoteVisibility}" />
-                                    <Border Margin="13,3,0,0" Padding="6,2" BorderThickness="1"
-                                            BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
-                                        <TextBlock Text="{Binding Snippet}" FontFamily="Consolas" TextTrimming="CharacterEllipsis" />
-                                    </Border>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <TextBlock Text="Double-click an object to put the caret there." Opacity="0.6" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" />
-                </StackPanel>
-            </Border>
-
-            <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Margin="10,10" Opacity="0.7" TextWrapping="Wrap" Visibility="Collapsed"
-                       Text="Nothing here writes to a permanent object." />
-
-            <ListBox x:Name="GroupList" Background="Transparent" BorderThickness="0"
-                     Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
-                     ItemContainerStyle="{StaticResource PaneItem}" ItemTemplate="{StaticResource GroupTemplate}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
+            <Grid>
+                <DockPanel x:Name="AnalysisPage">
+                    <Expander x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="200">
+                        <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
+                        <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
+                    </Expander>
+                    <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Margin="10" Opacity="0.7" TextWrapping="Wrap" Visibility="Collapsed" />
+                    <ListBox x:Name="GroupList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown">
+                        <ListBox.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate><DataTemplate>
+                                    <DockPanel Margin="10,12,10,4">
+                                        <TextBlock DockPanel.Dock="Left" FontSize="10" FontWeight="Bold" Margin="0,0,8,0"><Run Text="{Binding Name, Mode=OneWay}" /><Run Text=" " /><Run Text="{Binding ItemCount, Mode=OneWay}" />
+                                            <TextBlock.Style><Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Name}" Value="CHANGES TO PERMANENT OBJECTS"><Setter Property="Foreground" Value="#A4262C" /></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Name}" Value="CAN'T SEE INSIDE"><Setter Property="Foreground" Value="#8A5D00" /></DataTrigger>
+                                                    <DataTrigger Binding="{Binding Name}" Value="ALLOWED BY YOUR SETTINGS"><Setter Property="Foreground" Value="#1F6B33" /></DataTrigger>
+                                                </Style.Triggers>
+                                            </Style></TextBlock.Style>
+                                        </TextBlock>
+                                        <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+                                    </DockPanel>
+                                </DataTemplate></GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListBox.GroupStyle>
+                    </ListBox>
+                </DockPanel>
+                <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="12,10">
+                        <TextBlock Text="Connection" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <TextBlock TextWrapping="Wrap"><Run Text="Server: " /><Run Text="{Binding Server, Mode=OneWay}" /></TextBlock>
+                        <TextBlock TextWrapping="Wrap"><Run Text="Database: " /><Run Text="{Binding Database, Mode=OneWay}" /></TextBlock>
+                        <TextBlock TextWrapping="Wrap"><Run Text="Environment: " /><Run Text="{Binding EnvironmentDescription, Mode=OneWay}" /></TextBlock>
+                        <TextBlock Text="F5 guard" FontWeight="SemiBold" Margin="0,16,0,6" />
+                        <TextBlock TextWrapping="Wrap"><Run Text="When it asks: " /><Run Text="{Binding WhenToAsk, Mode=OneWay}" /></TextBlock>
+                        <TextBlock Text="{Binding TypedConfirmation}" TextWrapping="Wrap" Margin="0,3,0,0" />
+                        <TextBlock Text="{Binding SafeTablesHeading}" FontWeight="SemiBold" Margin="0,16,0,6" />
+                        <ItemsControl ItemsSource="{Binding SafeTables}" ItemTemplate="{StaticResource PatternTemplate}" />
+                        <TextBlock Text="{Binding TrustedProceduresHeading}" FontWeight="SemiBold" Margin="0,16,0,6" />
+                        <ItemsControl ItemsSource="{Binding TrustedProcedures}" ItemTemplate="{StaticResource PatternTemplate}" />
+                        <TextBlock Text="tempdb tables" FontWeight="SemiBold" Margin="0,16,0,6" />
+                        <TextBlock Text="{Binding Tempdb}" />
+                        <Button Content="Edit in Tools › Options…" HorizontalAlignment="Left" Margin="0,18,0,0" Padding="8,4" Click="OnEditOptions" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </DockPanel>
     </DockPanel>
 </UserControl>

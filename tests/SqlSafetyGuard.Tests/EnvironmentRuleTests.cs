@@ -38,6 +38,30 @@ public class EnvironmentRuleTests
     }
 
     [Fact]
+    public void MatchedRuleRetainsSourceLineAndPatternsEvenWithGlobalLabel()
+    {
+        var rules = new EnvironmentRules("-- environments\ninvalid\n\nPROD-* | Orders | Global | Red | true | dbo.Stage | dbo.Known\n* | | Later | Off | false");
+        var global = new GuardSettings(allowList: new[] { "dbo.Shared" }, trustedProcedures: new[] { "dbo.SharedProc" });
+        var settings = rules.Resolve("PROD-A", "Orders", global);
+        Assert.Equal("Global", settings.Environment);
+        Assert.Equal("line 4: PROD-* | Orders", settings.MatchedRule);
+        Assert.Equal(new[] { "dbo.Shared", "dbo.Stage" }, settings.AllowList);
+        Assert.Equal(new[] { "dbo.SharedProc", "dbo.Known" }, settings.TrustedProcedures);
+        Assert.Null(rules.Resolve(null, "Orders", global).MatchedRule);
+        Assert.Null(rules.Resolve("PROD-A", null, global).MatchedRule);
+        Assert.Single(rules.Warnings);
+    }
+
+    [Fact]
+    public void UnmatchedConnectionHasNoRuleProvenance()
+    {
+        var rules = new EnvironmentRules("DEV-* | | DEV | Off | false");
+        var settings = rules.Resolve("OTHER", "Orders", new GuardSettings());
+        Assert.Null(settings.MatchedRule);
+        Assert.Equal("line 1: DEV-* | (any database)", rules.Resolve("DEV-A", "Orders", new GuardSettings()).MatchedRule);
+    }
+
+    [Fact]
     public void PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments()
     {
         var rules = new EnvironmentRules("PROD-* | | Production | YellowRed | true | dbo.Stage*;dbo.Audit | dbo.sp_WhoIsActive;master.dbo.sp_Blitz*");

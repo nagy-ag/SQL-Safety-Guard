@@ -15,13 +15,15 @@ namespace SqlSafetyGuard.Analyzer
     public sealed class GuardSettings
     {
         public GuardSettings(ExecutionMode mode = ExecutionMode.YellowRed, string environment = "Global",
-            bool requireTypedConfirmation = false, IEnumerable<string> allowList = null, IEnumerable<string> trustedProcedures = null)
+            bool requireTypedConfirmation = false, IEnumerable<string> allowList = null, IEnumerable<string> trustedProcedures = null,
+            string matchedRule = null)
         {
             Mode = mode;
             Environment = environment;
             RequireTypedConfirmation = requireTypedConfirmation;
             AllowList = (allowList ?? Enumerable.Empty<string>()).ToArray();
             TrustedProcedures = (trustedProcedures ?? Enumerable.Empty<string>()).ToArray();
+            MatchedRule = matchedRule;
         }
 
         public ExecutionMode Mode { get; }
@@ -29,6 +31,7 @@ namespace SqlSafetyGuard.Analyzer
         public bool RequireTypedConfirmation { get; }
         public IReadOnlyList<string> AllowList { get; }
         public IReadOnlyList<string> TrustedProcedures { get; }
+        public string MatchedRule { get; }
 
         public bool ShouldWarn(AnalysisResult result) => Mode != ExecutionMode.Off &&
             (Mode == ExecutionMode.Red ? result.Overall == Verdict.RealWrite : !result.IsGreen);
@@ -41,7 +44,7 @@ namespace SqlSafetyGuard.Analyzer
             string.Equals(database, entered, StringComparison.Ordinal);
 
         public GuardSettings Add(GuardSettings global) => new GuardSettings(Mode, Environment, RequireTypedConfirmation,
-            global.AllowList.Concat(AllowList), global.TrustedProcedures.Concat(TrustedProcedures));
+            global.AllowList.Concat(AllowList), global.TrustedProcedures.Concat(TrustedProcedures), MatchedRule);
     }
 
     public sealed class EnvironmentRules
@@ -83,7 +86,8 @@ namespace SqlSafetyGuard.Analyzer
                 {
                     Server = AllowList.ToRegex(fields[0]),
                     Database = fields[1].Length == 0 ? null : AllowList.ToRegex(fields[1]),
-                    Settings = new GuardSettings(mode, fields[2], typed, allowList.Patterns, trusted.Patterns),
+                    Settings = new GuardSettings(mode, fields[2], typed, allowList.Patterns, trusted.Patterns,
+                        $"line {index + 1}: {fields[0]} | {(fields[1].Length == 0 ? "(any database)" : fields[1])}"),
                 });
             }
             Warnings = warnings;
