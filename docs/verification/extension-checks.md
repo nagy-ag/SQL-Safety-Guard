@@ -1,6 +1,136 @@
 # SSMS 22 extension execution verification
 
-## Outcome
+## Outcome after execution-target fix
+
+**35 PASS, 0 FAIL, 1 BLOCKED across 36 scenarios** on October 28, 2026. Both prior FAIL rows now PASS;
+all 30 previously passing scenario names still PASS. Three additional mismatch cases cover approved execution,
+Off mode and Red-only mode. The toolbar UIA surface remains BLOCKED (unchanged, not counted as a pass).
+The original 33-row baseline, exact reproductions and raw evidence references are preserved below as historical evidence.
+
+### Final run identity
+
+- Source: branch fix/execution-target, based on main f457eb5; final implementation verified before this report-only edit.
+- Host: SSMS 22.11.2, isolated /rootSuffix SgExtd65f60f24ed2; Windows authentication to .\SQLEXPRESS.
+- Owned PID: 20600, started 2026-10-28T18:36:47.2071135Z; scenario journal 18:37:29 through 18:40:04 UTC.
+- Owned database/XE: SgExt_d65f60f24ed2; raw evidence: C:\Users\nagya\AppData\Local\Temp\SgExtd65f60f24ed2.
+- Debug VSIX SHA-256: 538f95a47169c62a586e3a99fbb22170a15b6cd3fec789ce41fe63cbfcf85465.
+- Retained: [final ledger](extension-target-evidence.json), [Debug journal](extension-target-events.tsv),
+  [command inventory](extension-target-commands.tsv). Large SQL is abbreviated with length/SHA-256; raw local JSON retains full text.
+- Independent repeat immediately before the final frame cross-check: SgExt63f137921c8a, PID 11136: also 35 PASS, 1 BLOCKED.
+
+### Root cause and target-source experiment
+
+Local inspection of SSMS 22.11.2 SqlPackageBase.dll's ShellWindowPaneUserControl.Exec shows a thread-local GetFocus
+lookup followed by Control.FromChildHandle and the WinForms parent chain. Each IOleCommandTarget gets an Exec
+opportunity before the selected pane's own menu command is invoked. With selected frame B but a focused child
+under SQL editor A, A handles Execute. In SQLEditors.dll, ScriptAndResultsEditorControl binds Execute to its
+instance OnExecScript; that path uses its own GetSelectedTextSpan and connection. The selected DTE document is
+not the execution authority. No focus-changing workaround was added to the driver.
+
+The diagnostic campaign SgExta8f005ec323f compared sources without changing routing:
+
+| Candidate source | No-focus B activation | Does it identify executed A? |
+|---|---|---|
+| DTE.ActiveDocument | B | No |
+| Monitor SEID_WindowFrame / SEID_DocumentFrame DocView | B / B | No, useful disagreement signals |
+| GenericUtilityView.ActiveEditorHandle | B | No; rejected as execution authority |
+| IVsTextManager.GetActiveView(0/1) | Often A's plain-text Results view | Not directly; Results text is not SQL source |
+| Thread-focused control's SQL-editor ancestor | A | Yes in final full campaign |
+| That owner's IVsCodeWindow last-active SQL view and GetSelectedTextSpan | A's SQL/selection | Matches guard hash and executed XE text |
+
+Results buffer language was 8239bec4-ee87-11d0-8c98-00c04fc2ab22; SQL source was c4d96929-a9b0-42cc-b3e0-adac0435d7f2.
+The resolver never analyzes the Results buffer as SQL: a differently typed focused view must have the same SQL
+owner. Same-language views must agree on buffer/selection. The selected window and document frames, DTE identity
+and host execution span are cross-checks; any missing source or disagreement forces warning.
+
+ExecutionTarget captures text, normalized selection coordinates, SQLCMD mode and live DataSource/Database from
+one SQL editor owner (requiring one ConnectionInfoList entry). The execution path does not read the global
+active-window connection or database combo. Capture failures return an explicit unverified target, not green.
+The dialog states "The guard could not verify which window will run", labels its analysis as a captured candidate,
+and defaults to Cancel, independently of analyzed verdict and Off/Red/YellowRed mode. Run anyway resumes the
+original paused command exactly once. Genuine unrelated guard crashes retain the visible failure policy;
+a failed required confirmation cancels and reports failure. Explicit cancellation in the analysis progress UI
+continues to cancel execution as a deliberate user action, rather than an implicit target-lookup rejection.
+
+### Before/after safety assertions
+
+| Regression | Before | After |
+|---|---|---|
+| active-B-red-run: A SELECT, B UPDATE | Red B dialog; Run executed A (FAIL) | Captures A ReadOnly + yellow target warning; Run executes exactly A SELECT once, zero writes (PASS) |
+| mismatch-green-B-red-A: A UPDATE, B SELECT | Green B; no dialog; A UPDATE once (FAIL) | Captures A RealWrite + yellow target warning; Cancel: zero batches/writes (PASS) |
+| active-B-red-cancel | Cancel prevented submission, but analyzed B | Captures A ReadOnly + target warning; Cancel: zero batches/writes (PASS) |
+| mismatch-green-B-red-A-run (new) | Not tested | A warning approved explicitly; exactly one A UPDATE, outside delta=1 (PASS) |
+| mismatch-off (new) | Not tested | Off does not suppress ambiguity warning; Cancel: zero (PASS) |
+| mismatch-redonly-green (new) | Not tested | Red-only + green A still prompts for ambiguity; Cancel: zero (PASS) |
+
+For the final inverse case, analyzed A hash is 69203a3bb4a083f842289e14c5cd7dd2d64e9555566900bf5c726e59ceb110e6.
+For the write-capable case, analyzed A hash is 40b323f126748614adf65f8c1a6880f0400afa6585172f260a01de278e0ee504.
+All guarded scenarios assert document identity, exact source hash, target server/database and expected ambiguity
+state; all submissions compare XE text with the captured target (SQLCMD retains its explicit expansion exception).
+NoGuard rows retain intentional policy/Parse/estimated-plan behavior. Counter order is [red, yellow, outside].
+
+### Final complete scenario ledger
+
+| Scenario | Verdict | Dialog/decision | Batches | Counter delta | Result |
+|---|---|---|---|---|---|
+| green | ReadOnly | None | 1 | [0,0,0] | PASS |
+| red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| red-run | RealWrite | Run | 1 | [1,0,0] | PASS |
+| yellow-cancel | Unknown | Cancel | 0 | [0,0,0] | PASS |
+| yellow-run | Unknown | Run | 1 | [0,1,0] | PASS |
+| select-green | ReadOnly | None | 1 | [0,0,0] | PASS |
+| select-red | RealWrite | Run | 1 | [1,0,0] | PASS |
+| select-red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| off-red | No guard | None | 1 | [1,0,0] | PASS |
+| redonly-yellow | Unknown | None | 1 | [0,1,0] | PASS |
+| redonly-red | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| rule-off | No guard | None | 1 | [1,0,0] | PASS |
+| large-red | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| large-red-run | RealWrite | Run | 1 | [1,0,0] | PASS |
+| stale-green-to-red | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| toolbar-red | No guard | None | 0 | [0,0,0] | BLOCKED |
+| parse-red | No guard | None | 1 | [0,0,0] | PASS |
+| estimated-red | No guard | None | 1 | [0,0,0] | PASS |
+| actual-red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| actual-red-run | RealWrite | Run | 1 | [1,0,0] | PASS |
+| text-red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| text-red-run | RealWrite | Run | 1 | [1,0,0] | PASS |
+| livestats-red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| livestats-red-run | RealWrite | Run | 1 | [1,0,0] | PASS |
+| active-A-green | ReadOnly | None | 1 | [0,0,0] | PASS |
+| active-B-red-cancel | ReadOnly | Cancel | 0 | [0,0,0] | PASS |
+| active-B-red-run | ReadOnly | Run | 1 | [0,0,0] | PASS |
+| mismatch-green-B-red-A | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| mismatch-green-B-red-A-run | RealWrite | Run | 1 | [0,0,1] | PASS |
+| mismatch-off | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| mismatch-redonly-green | ReadOnly | Cancel | 0 | [0,0,0] | PASS |
+| sqlcmd-on | RealWrite | Run | 1 | [1,0,0] | PASS |
+| sqlcmd-off-cancel | Unknown | Cancel | 0 | [0,0,0] | PASS |
+| sqlcmd-off-run | Unknown | Run | 1 | [0,0,0] | PASS |
+| file-red-cancel | RealWrite | Cancel | 0 | [0,0,0] | PASS |
+| file-run-savecancel | RealWrite | Run | 0 | [0,0,0] | PASS |
+
+### Validation, isolation and remaining limits
+
+- dotnet test tests\SqlSafetyGuard.Tests: **1,427 passed, 0 failed, 0 skipped** (original 1,400 plus 27 ambiguity-policy cases).
+- VS 18 MSBuild SqlSafetyGuard.sln /restore /p:Configuration=Release: **0 warnings, 0 errors**; log %TEMP%\SgExtRelease.log.
+- All extension-check PowerShell files parse successfully. Full campaign was rerun after the last production edit.
+- Final ownership.json: Cleaned=true, DatabaseCreated=false, SessionCreated=false. PID 20600 absent.
+  Independent master lookup confirmed zero remaining database/XE resources for all nine owned runs that created resources
+  during this implementation. Experimental profile installs/evidence remain intentionally. No normal SSMS profile,
+  other SSMS process, SgPlay_* or SgRun_* resource was touched.
+- Only Debug channel and PID-owned UIA/native button patterns were used. GetFocus is a read-only lookup inside
+  the executing SSMS UI thread; no SetFocus/SetForegroundWindow, real input, clipboard or focus manipulation was used.
+  Startup closes only this process's "What's new" DTE surface; it does not refocus either editor to hide the mismatch.
+- Toolbar Invoke remains unavailable; physical shortcuts/tab clicks are not independently tested. Shared Query.Execute
+  dispatch is tested, not the entire keyboard input stack. Successful Results-to-File save remains untested.
+- Host members are undocumented/version-specific; other SSMS versions/providers, split/partial-line/box selections,
+  different-connection or different-SQLCMD multi-window combinations, target mutation during a modal/nested dispatch,
+  reconnects, configured stored-procedure shortcuts and non-Query.Execute routes are not exhaustively covered.
+  Their absence must not be mistaken for verified compatibility; unavailable capture sources force warning.
+- These checks do not turn the extension into a security boundary. The baseline coverage caveats below still apply.
+
+## Baseline outcome (before fix)
 
 **30 PASS, 2 FAIL, 1 BLOCKED across 33 scenarios. The exact-executed-text requirement is NOT satisfied for the tested no-focus multi-editor command-dispatch path.** A green guard decision for B allowed an UPDATE from A without a confirmation. The opposite direction also showed a red confirmation for B followed by execution of A's SELECT. No production fix was made; these remain explicit failing regressions.
 

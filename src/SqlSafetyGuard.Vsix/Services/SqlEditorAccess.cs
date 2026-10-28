@@ -10,7 +10,7 @@ namespace SqlSafetyGuard.Services
     internal static class SqlEditorAccess
     {
         /// <summary>
-        /// Captures exactly what Query.Execute would run: the selection when there is one, otherwise the whole window.
+        /// Captures the DTE document for manual analysis, not the Query.Execute command target.
         /// Returns null when the active document is not a T-SQL editor.
         /// </summary>
         public static QuerySnapshot TryCapture(DTE2 dte)

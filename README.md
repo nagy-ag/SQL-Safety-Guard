@@ -8,7 +8,8 @@ and tells you whether it changes real data or only reads / touches temp objects.
   objects touched grouped by risk, and what F5 will do. **Never executes anything.** **Analyze Query Safety** (Tools
   menu, SQL Editor toolbar button, or **Ctrl+Shift+F5**) expands the pane if it is collapsed and re-analyzes now.
 - **F5 guard**: when you execute (F5, Ctrl+E, Alt+X, the Execute button), the exact text SSMS is about to run is
-  analyzed. **Green runs with no interruption**; yellow/red shows a confirmation dialog first by default.
+  analyzed. **Green runs with no interruption only when the execution target is verified**; yellow/red shows a
+  confirmation dialog first by default. An unverified target always shows a yellow warning, even in Off/Red mode.
 - **Environment rules**: first-match server/database rules choose an environment label, warning mode, additive
   allow/trusted lists. Confirmation uses buttons only, with no typed database name.
 - **Visible guard health**: the SQL Editor toolbar caption and status bar show on/off, environment, unknown
@@ -250,7 +251,8 @@ TEST-* | Sandbox* | Test | Red | false | dbo.Test_* |
 DEV-* | | Development | Off | false
 ```
 
-`Off` skips execution checks, `Red` prompts only on real writes, `YellowRed` prompts on yellow and red.
+`Off` skips verified-target execution checks, `Red` prompts only on real writes, `YellowRed` prompts on yellow and red.
+An ambiguous execution target overrides all three modes: confirmation is required and Cancel remains the default.
 Rule allow-lists and trusted procedures **add to** the global lists; they do not replace them. Use narrow global
 lists if production rules must be restrictive. List entries within a rule are semicolon-separated. The text
 format has no escaping for field/list delimiters (`|` and `;`).
@@ -398,7 +400,8 @@ The guard hooks `Query.Execute` via **`DTE.Events.CommandEvents[guid, id].Before
   in the IDE, and a bug there can break unrelated commands.
 - `CancelDefault` is a supported way to stop the command.
 - It has worked for SSMS extensions since SSMS 17. It fires for every route into the command: F5, Ctrl+E, Alt+X,
-  the Execute button and `DTE.ExecuteCommand`. All five were tested on SSMS 22.
+  the Execute button and `DTE.ExecuteCommand`. The isolated SSMS 22 campaign verifies shared Query.Execute dispatch;
+  physical shortcuts and the unavailable toolbar UIA surface are not independently covered.
 
 **Loading early.** SSMS defers background auto-loaded packages until startup has finished, which took 10–30 s in
 testing. A query window opened at startup, for example by double-clicking a `.sql` file, is usable within a second
@@ -412,7 +415,7 @@ intercepted twice, and a re-entrancy flag guards the handler anyway. Tested: the
 
 Safety rules:
 
-- A failure **before classification fails open visibly**: the Output pane logs it, the guard becomes degraded,
+- A genuine guard crash **before classification fails open visibly** (unverified targets instead require confirmation): the Output pane logs it, the guard becomes degraded,
   and a once-per-session InfoBar is attempted. After a red/yellow result is computed, status, logging or
   wait-dialog cleanup failures cannot authorize execution. A failed confirmation dialog cancels that execution.
 - The safety pane and the dialog use Visual Studio theme colours. The safety pane has only been checked in the Light
@@ -434,16 +437,27 @@ Safety rules:
   finding. They prompt in the default YellowRed mode; explicit Red-only and Off modes still apply. The old
   100 Ki-character threshold only controls a tool-window loading placeholder, not UI-thread analysis.
 
-### Server/database line (undocumented)
+### Execution target and connection (SSMS-specific)
 
-- Server comes from `Microsoft.SqlServer.Management.UI.VSIntegration.ServiceCache.ScriptFactory.CurrentlyActiveWndConnectionInfo.UIConnectionInfo.ServerName`,
-  read by reflection. In SSMS 22 that type lives in `SqlPackageBase.dll`.
-- Database is the current value of the SQL Editor's **Available Databases** combo, read through the standard VS
-  combo protocol (`Exec` with no input and an output VARIANT), so it reflects `USE` statements that already ran.
-  If the combo can't be read, the connection's initial database is used.
-- Unknown fields are shown explicitly, and unknown connection context uses global settings, never an inferred
-  Development/Off rule. The connection-reading mechanism was previously verified on SSMS 22.11.2 with `.\SQLEXPRESS`;
-  the new policy and health UI still need runtime validation there.
+Execution capture does not use DTE.ActiveDocument. SSMS 22's ShellWindowPaneUserControl dispatches commands
+through the thread-focused WinForms control's IOleCommandTarget ancestor chain. DTE activation can select B
+while that chain still reaches SQL editor A. The guard reads GetFocus (it never sets focus), resolves the owning
+SqlScriptEditorControl, and reads that owner's IVsCodeWindow last-active SQL view and selection. It cross-checks
+the host's GetSelectedTextSpan, both monitor-selection window/document frames, DTE identity and the focused
+IVsTextManager view. A Results text view must resolve to the same SQL owner, not be mistaken for SQL source.
+
+The same owner supplies IsSqlCmdModeEnabled, its single ConnectionInfoList, and the live m_connection's
+DataSource/Database. These execution fields never fall back to another window's global connection/combo.
+Manual pane analysis still uses the active-document connection service and may describe a different candidate.
+
+Missing services, unsupported host members, multiple connections or disagreeing sources produce a yellow
+"The guard could not verify which window will run" confirmation, independent of verdict and mode (including Off).
+The captured candidate is identified as such; Cancel is default. Target lookup failure is not a green result or a
+fail-open crash. Genuine unrelated guard crashes retain the visible failure policy described above.
+
+These undocumented host members are version-sensitive. SSMS 22.11.2 was checked with isolated-profile Debug
+instrumentation, SQL Server Extended Events and independent counters. See
+[execution verification](docs/verification/extension-checks.md) for before/after evidence and coverage limits.
 
 ## Limitations
 

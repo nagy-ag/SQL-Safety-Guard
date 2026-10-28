@@ -4,6 +4,31 @@ namespace SqlSafetyGuard.Tests;
 
 public class GuardExecutionContractTests
 {
+    [Theory]
+    [MemberData(nameof(Decisions))]
+    public void UnverifiedTargetAlwaysRequiresApproval(ExecutionMode mode, string sql, bool approved)
+    {
+        int confirmations = 0;
+        bool cancelled = GuardDecision.ShouldCancel(new GuardSettings(mode), SqlSafetyAnalyzer.Analyze(sql), () => { },
+            () => { confirmations++; return approved; }, _ => Assert.Fail("Unexpected failure"), executionTargetVerified: false);
+        Assert.Equal(1, confirmations);
+        Assert.Equal(!approved, cancelled);
+    }
+
+    [Theory]
+    [InlineData(ExecutionMode.Off)]
+    [InlineData(ExecutionMode.Red)]
+    [InlineData(ExecutionMode.YellowRed)]
+    public void UnknownTargetAndGreenTextDoNotBypassBrokenConfirmation(ExecutionMode mode)
+    {
+        int reports = 0;
+        bool cancelled = GuardDecision.ShouldCancel(new GuardSettings(mode), SqlSafetyAnalyzer.Analyze(""),
+            () => throw new InvalidOperationException("presentation"),
+            () => throw new InvalidOperationException("confirmation"), _ => reports++, executionTargetVerified: false);
+        Assert.True(cancelled);
+        Assert.Equal(2, reports);
+    }
+
     public static IEnumerable<object[]> Decisions()
     {
         foreach (var mode in Enum.GetValues<ExecutionMode>())

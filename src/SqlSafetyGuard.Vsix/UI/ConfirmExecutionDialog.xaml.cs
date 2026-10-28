@@ -8,9 +8,15 @@ namespace SqlSafetyGuard.UI
 {
     public partial class ConfirmExecutionDialog : DialogWindow
     {
-        internal ConfirmExecutionDialog(AnalysisResult result, QuerySnapshot snapshot, ConnectionContext connection, GuardSettings settings, bool showConnection)
+        internal ConfirmExecutionDialog(AnalysisResult result, QuerySnapshot snapshot, ConnectionContext connection, GuardSettings settings, bool showConnection, string targetWarning = null)
         {
             InitializeComponent();
+            if (targetWarning != null)
+            {
+                TargetWarningText.Text = targetWarning;
+                TargetWarningText.Foreground = VerdictBrushes.For(Verdict.Unknown);
+                TargetWarningText.Visibility = Visibility.Visible;
+            }
             MaxHeight = SystemParameters.WorkArea.Height * 0.9;
             EnvironmentText.Text = settings.Environment + " · " + snapshot.Describe();
             if (showConnection || connection.Server == null || connection.Database == null)
