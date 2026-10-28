@@ -1,0 +1,916 @@
+{
+  "Run": "2026-10-28T17:27:56Z",
+  "SsmsPid": 10392,
+  "Profile": "SgExt8a6c7b6ac999",
+  "Database": "SgExt_8a6c7b6ac999",
+  "Results": [
+    {
+      "Scenario": "green",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 1,
+      "GuardVerdict": "ReadOnly",
+      "ExpectedHash": "f633bb5eb858affabb358ea005f05e3bf8c45a439b2c034ed856cc02cf396414",
+      "GuardHash": "f633bb5eb858affabb358ea005f05e3bf8c45a439b2c034ed856cc02cf396414",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:27:58.798Z",
+          "Text": "-- SgExt:172756:green\nSELECT N'green';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "3d458700f9283611ad691de9486ee9536b94c406eeeb1ced2833549a8824e13e",
+      "GuardHash": "3d458700f9283611ad691de9486ee9536b94c406eeeb1ced2833549a8824e13e",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "5e518aa2489f8e6b107a8869af19f4cb1407104f36efdb329b9dfcc541b72ae3",
+      "GuardHash": "5e518aa2489f8e6b107a8869af19f4cb1407104f36efdb329b9dfcc541b72ae3",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:06.067Z",
+          "Text": "-- SgExt:172756:red-run\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "yellow-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "Unknown",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "Unknown",
+      "ExpectedHash": "e38d044be4abd4bc1e1c0079e4b93446ca4339a36f0044f77c0050cf5c6a023e",
+      "GuardHash": "e38d044be4abd4bc1e1c0079e4b93446ca4339a36f0044f77c0050cf5c6a023e",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "yellow-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "Unknown",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        1,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "Unknown",
+      "ExpectedHash": "6dd54b513979b3506d4bc26474d6e981f7ce8e636b1a75ebcf416d23b9cb096b",
+      "GuardHash": "6dd54b513979b3506d4bc26474d6e981f7ce8e636b1a75ebcf416d23b9cb096b",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:11.849Z",
+          "Text": "-- SgExt:172756:yellow-run\nEXEC dbo.Tick;",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "select-green",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 1,
+      "GuardVerdict": "ReadOnly",
+      "ExpectedHash": "7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e",
+      "GuardHash": "7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:15.037Z",
+          "Text": "SELECT N'green';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "select-red",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796",
+      "GuardHash": "2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:18.076Z",
+          "Text": "UPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "select-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796",
+      "GuardHash": "2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "off-red",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 0,
+      "GuardVerdict": "",
+      "ExpectedHash": "0e5a1da3d3f194b1a8529efda99fa43c0b59ad614d3e038bab567b192732fda4",
+      "GuardHash": "",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:25.321Z",
+          "Text": "-- SgExt:172756:off-red\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "redonly-yellow",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "Unknown",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        1,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 1,
+      "GuardVerdict": "Unknown",
+      "ExpectedHash": "942de5195ba81c0252243399f2f1474eab58f76e2bc14c6b1a02b4db6514bb24",
+      "GuardHash": "942de5195ba81c0252243399f2f1474eab58f76e2bc14c6b1a02b4db6514bb24",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:28.830Z",
+          "Text": "-- SgExt:172756:redonly-yellow\nEXEC dbo.Tick;",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "redonly-red",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "a771e8e16942970351cfd8f5741227e9562274e4db151cfd37f8516285805260",
+      "GuardHash": "a771e8e16942970351cfd8f5741227e9562274e4db151cfd37f8516285805260",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "rule-off",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 0,
+      "GuardVerdict": "",
+      "ExpectedHash": "7a87b68f6ca750b8bfa1bd1ad6c36b239c0a700d4589e05de7e21c385eea7475",
+      "GuardHash": "",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:36.091Z",
+          "Text": "-- SgExt:172756:rule-off\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "large-red",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "4305ef629bf5c15da634ec0ce536fd67b6d7d72921cc12b4735c80f806252b22",
+      "GuardHash": "4305ef629bf5c15da634ec0ce536fd67b6d7d72921cc12b4735c80f806252b22",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "large-red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "cc52f83dac4d024da7e1f37176d7230b8c3f05fe7b6608f4971b92cc3a1df75d",
+      "GuardHash": "cc52f83dac4d024da7e1f37176d7230b8c3f05fe7b6608f4971b92cc3a1df75d",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:42.795Z",
+          "Text": "-- SgExt:172756:large-red-run\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padding\n-- padd\n[repeated padding omitted; see SHA-256]",
+          "Result": 0,
+          "TextLength": 56193,
+          "TextSha256": "3598f7f49a5e220658d1ed7200e9f6e9324d70627f8209b8e1ad232aebc9cdf0"
+        }
+      ]
+    },
+    {
+      "Scenario": "stale-green-to-red",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "f2a46ac3a1c057f3e3a016b05669b930cae43a0c48188360ba5aeda540484d24",
+      "GuardHash": "f2a46ac3a1c057f3e3a016b05669b930cae43a0c48188360ba5aeda540484d24",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "toolbar-red",
+      "Entry": "Toolbar Invoke",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 0,
+      "GuardVerdict": "",
+      "ExpectedHash": "6e55a46a97376c1fe8e745d2ef8bfc7f346d7671cc772f5ef7626940c8ff2819",
+      "GuardHash": "",
+      "HashMatches": false,
+      "TextMatches": true,
+      "Status": "BLOCKED",
+      "Error": "Execute toolbar is not exposed through this process UIA tree.",
+      "Batches": []
+    },
+    {
+      "Scenario": "parse-red",
+      "Entry": "Query.Parse",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 0,
+      "GuardVerdict": "",
+      "ExpectedHash": "1b20ce77fc228aa4e20ace3937e95adeb5403b55daa7cf1ac855fcb17e28e07e",
+      "GuardHash": "",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:50.345Z",
+          "Text": "-- SgExt:172756:parse-red\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "estimated-red",
+      "Entry": "Query.DisplayEstimatedExecutionPlan",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 0,
+      "GuardVerdict": "",
+      "ExpectedHash": "00bbc0cc3b11003cbbb840b9473bfecbf357e56efa97124701593e6ae212bf65",
+      "GuardHash": "",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:28:53.499Z",
+          "Text": "-- SgExt:172756:estimated-red\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "actual-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "2960e401c4024584a9134b3b69ba98486a7095cf8ef07d8090af6189aace6445",
+      "GuardHash": "2960e401c4024584a9134b3b69ba98486a7095cf8ef07d8090af6189aace6445",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "actual-red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "3aec1d5b92db2bba56b13ba20b73eab971f7225bd5601538c6d04030423a3bf9",
+      "GuardHash": "3aec1d5b92db2bba56b13ba20b73eab971f7225bd5601538c6d04030423a3bf9",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:00.495Z",
+          "Text": "-- SgExt:172756:actual-red-run\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "text-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "fa3be68a4abec37b86733b32f8cb3924ac48b286df7755033ca54956fb7f2d11",
+      "GuardHash": "fa3be68a4abec37b86733b32f8cb3924ac48b286df7755033ca54956fb7f2d11",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "text-red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "a0ee28dc69620041280326e6ecf04d9e14884c73f8cf0f48052d8cdd98ef23eb",
+      "GuardHash": "a0ee28dc69620041280326e6ecf04d9e14884c73f8cf0f48052d8cdd98ef23eb",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:07.868Z",
+          "Text": "-- SgExt:172756:text-red-run\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "livestats-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "9c7a2e58f4e499f01e0cacd938bd3155a64f329e8ad5d0c4f3e804193503ec35",
+      "GuardHash": "9c7a2e58f4e499f01e0cacd938bd3155a64f329e8ad5d0c4f3e804193503ec35",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "livestats-red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "d282e15f18cb0c13ef4ba88a9095d9aba8beeb4c3a733bdbbba6e98f5974062a",
+      "GuardHash": "d282e15f18cb0c13ef4ba88a9095d9aba8beeb4c3a733bdbbba6e98f5974062a",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:14.063Z",
+          "Text": "-- SgExt:172756:livestats-red-run\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "active-A-green",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": false,
+      "GuardCount": 1,
+      "GuardVerdict": "ReadOnly",
+      "ExpectedHash": "490a422b3fe145a7b8ebea2cbd1854e57cb9b5a09e1f0bafba301f607c0a73f2",
+      "GuardHash": "490a422b3fe145a7b8ebea2cbd1854e57cb9b5a09e1f0bafba301f607c0a73f2",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:17.889Z",
+          "Text": "-- SgExt:172756:active-A-green\nSELECT N'green';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "active-B-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "dbd895fa1ba2b836ca74c15887577e892c787e6580a321d6553032833ba632d7",
+      "GuardHash": "dbd895fa1ba2b836ca74c15887577e892c787e6580a321d6553032833ba632d7",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "active-B-red-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "2f47862b7286a2907ce6e3a821c678e4860ff010f07409f00fb3051e5aaea851",
+      "GuardHash": "2f47862b7286a2907ce6e3a821c678e4860ff010f07409f00fb3051e5aaea851",
+      "HashMatches": true,
+      "TextMatches": false,
+      "Status": "FAIL",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:24.066Z",
+          "Text": "-- SgExt:172756:active-A-green\nSELECT N'green';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "mismatch-green-B-red-A",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "ReadOnly",
+      "Decision": "None",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        1
+      ],
+      "Dialog": false,
+      "GuardCount": 1,
+      "GuardVerdict": "ReadOnly",
+      "ExpectedHash": "900b1dad69f8872e37cb7f5885d7dd2d0c4060b379b6e9c2f184e433419f1838",
+      "GuardHash": "900b1dad69f8872e37cb7f5885d7dd2d0c4060b379b6e9c2f184e433419f1838",
+      "HashMatches": true,
+      "TextMatches": false,
+      "Status": "FAIL",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:27.878Z",
+          "Text": "UPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='outside';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "sqlcmd-on",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        1,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "3ea5b2274f6f1fcc91328695cec611278a35aad26c3d02a904bd9265c6809d72",
+      "GuardHash": "3ea5b2274f6f1fcc91328695cec611278a35aad26c3d02a904bd9265c6809d72",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:31.704Z",
+          "Text": "-- SgExt:172756:sqlcmd-on\nUPDATE dbo.Counter SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "sqlcmd-off-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "Unknown",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "Unknown",
+      "ExpectedHash": "36dbeea44c398fb872ca3c11b0563a510be44cffc63ec717180c17caa49d6d1f",
+      "GuardHash": "36dbeea44c398fb872ca3c11b0563a510be44cffc63ec717180c17caa49d6d1f",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "sqlcmd-off-run",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "Unknown",
+      "Decision": "Run",
+      "ExpectedCount": 1,
+      "ObservedCount": 1,
+      "BatchSubmissionCount": 1,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "Unknown",
+      "ExpectedHash": "1597b6067c188da3110e0a5c3be34d6b0c97b0ef5cb2f31a17304fded263a31e",
+      "GuardHash": "1597b6067c188da3110e0a5c3be34d6b0c97b0ef5cb2f31a17304fded263a31e",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": [
+        {
+          "Time": "2026-10-28T17:29:37.927Z",
+          "Text": "-- SgExt:172756:sqlcmd-off-run\n:setvar Target dbo.Counter\nUPDATE $(Target) SET Executions=Executions+1 WHERE Tag='red';",
+          "Result": 0
+        }
+      ]
+    },
+    {
+      "Scenario": "file-red-cancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Cancel",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "cdac0ebed9577f5f06b8707062d596687bb8b806e4b9204fe9da78b54ad2175b",
+      "GuardHash": "cdac0ebed9577f5f06b8707062d596687bb8b806e4b9204fe9da78b54ad2175b",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    },
+    {
+      "Scenario": "file-run-savecancel",
+      "Entry": "Query.Execute",
+      "ExpectedVerdict": "RealWrite",
+      "Decision": "Run",
+      "ExpectedCount": 0,
+      "ObservedCount": 0,
+      "BatchSubmissionCount": 0,
+      "CounterDelta": [
+        0,
+        0,
+        0
+      ],
+      "Dialog": true,
+      "GuardCount": 1,
+      "GuardVerdict": "RealWrite",
+      "ExpectedHash": "2a47d849b8b5583138b599b093d4fa0bf8b4dc18aadcd3930a44468e89536cd4",
+      "GuardHash": "2a47d849b8b5583138b599b093d4fa0bf8b4dc18aadcd3930a44468e89536cd4",
+      "HashMatches": true,
+      "TextMatches": true,
+      "Status": "PASS",
+      "Error": "",
+      "Batches": []
+    }
+  ]
+}

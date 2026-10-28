@@ -1,7 +1,10 @@
 #if DEBUG
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Threading;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
@@ -15,7 +18,8 @@ namespace SqlSafetyGuard.UI
     /// </summary>
     internal sealed partial class SafetyPaneMargin
     {
-        private static readonly string CommandFile = Path.Combine(Path.GetTempPath(), "SqlSafetyGuard-pane-cmd.txt");
+        private static readonly string CommandFile = Path.Combine(
+            Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY") ?? Path.GetTempPath(), "SqlSafetyGuard-pane-cmd.txt");
 
         partial void StartTestChannel()
         {
@@ -61,10 +65,12 @@ namespace SqlSafetyGuard.UI
                 try
                 {
                     RunCommand(verb, arg);
+                    ExtensionCheckTrace.Write("ack", verb);
                 }
                 catch (Exception ex)
                 {
                     PaneTrace.Write($"cmd {verb} FAILED: {ex.GetType().Name}: {ex.Message}");
+                    ExtensionCheckTrace.Write("error", verb, ex.ToString());
                 }
             }
         }
@@ -85,6 +91,48 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"cmd {verb} {(verb == "append" ? arg.Length + " chars" : arg)}");
             switch (verb)
             {
+                case "replacefile":
+                    _view.TextBuffer.Replace(new Span(0, snapshot.Length), File.ReadAllText(arg));
+                    _view.Selection.Clear();
+                    break;
+                case "document":
+                    TryGetPackage().Dte.Documents.Item(arg).Activate();
+                    break;
+                case "open":
+                    TryGetPackage().Dte.ItemOperations.OpenFile(arg);
+                    break;
+                case "execute":
+                    TryGetPackage().Dte.ExecuteCommand(arg);
+                    break;
+                case "mode":
+                    TryGetPackage().Options.GuardMode = (Options.GuardMode)int.Parse(arg);
+                    break;
+                case "rulesfile":
+                    TryGetPackage().Options.EnvironmentRules = File.ReadAllText(arg);
+                    break;
+                case "commands":
+                    var commands = new List<string>();
+                    foreach (EnvDTE.Command command in TryGetPackage().Dte.Commands)
+                    {
+                        if (command.Name.StartsWith("Query.", StringComparison.OrdinalIgnoreCase))
+                            commands.Add(command.Name + "\t" + command.Guid + "\t" + command.ID + "\t" +
+                                string.Join(";", ((object[])command.Bindings).Select(binding => binding.ToString())));
+                    }
+                    File.WriteAllLines(arg, commands);
+                    break;
+                case "state":
+                    var package = TryGetPackage();
+                    var captured = Services.SqlEditorAccess.TryCapture(package.Dte);
+                    ExtensionCheckTrace.Write("state", package.Dte.ActiveDocument?.FullName,
+                        Services.SqlCmdModeReader.TryRead(package).ToString(), captured == null ? "none" : ExtensionCheckTrace.Hash(captured.Text),
+                        _control.HeaderRedCount.Text, _control.HeaderYellowCount.Text, _control.Summary,
+                        _control.WindowSettings?.Database, _control.WindowSettings?.WhenToAsk);
+                    break;
+                case "close":
+                    foreach (EnvDTE.Document document in TryGetPackage().Dte.Documents)
+                        document.Saved = true;
+                    TryGetPackage().Dte.Quit();
+                    break;
                 case "caret":
                     _view.Selection.Clear();
                     _view.Caret.MoveTo(snapshot.GetLineFromLineNumber(int.Parse(arg) - 1).Start);
@@ -149,6 +197,27 @@ namespace SqlSafetyGuard.UI
                     PaneTrace.Write($"cmd unknown verb '{verb}'");
                     break;
             }
+        }
+    }
+
+    internal static class ExtensionCheckTrace
+    {
+        internal static string Hash(string text)
+        {
+            using (var hash = SHA256.Create())
+                return BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(text))).Replace("-", "").ToLowerInvariant();
+        }
+
+        internal static void Write(params string[] fields)
+        {
+            var directory = Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY");
+            if (string.IsNullOrEmpty(directory)) return;
+            try
+            {
+                File.AppendAllText(Path.Combine(directory, "events.tsv"), DateTime.UtcNow.ToString("O") + "\t" +
+                    string.Join("\t", fields.Select(field => (field ?? "").Replace("\t", " ").Replace("\r", " ").Replace("\n", " "))) + Environment.NewLine);
+            }
+            catch (IOException) { }
         }
     }
 }
