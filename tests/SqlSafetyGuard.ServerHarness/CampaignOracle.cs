@@ -19,8 +19,8 @@ internal static class CampaignOracle
 
     internal static bool Equivalent(CampaignSnapshot expected, CampaignSnapshot actual) =>
         expected.Databases.Count == actual.Databases.Count && expected.Databases.All(pair => actual.Databases.TryGetValue(pair.Key, out var rows) && pair.Value.SequenceEqual(rows)) &&
-        expected.Objects.Count == actual.Objects.Count && expected.Objects.All(pair => actual.Objects.GetValueOrDefault(pair.Key) == pair.Value) &&
-        expected.Operations.Count == actual.Operations.Count && expected.Operations.All(pair => actual.Operations.GetValueOrDefault(pair.Key) == pair.Value) &&
+        expected.Objects.Count == actual.Objects.Count && expected.Objects.All(pair => actual.Objects.TryGetValue(pair.Key, out var definition) && definition == pair.Value) &&
+        expected.Operations.Count == actual.Operations.Count && expected.Operations.All(pair => actual.Operations.TryGetValue(pair.Key, out var count) && count == pair.Value) &&
         expected.Server.SequenceEqual(actual.Server) && expected.Tempdb.SequenceEqual(actual.Tempdb) && expected.Files.SequenceEqual(actual.Files);
 
     public static CampaignSession Session(SqlConnection connection)

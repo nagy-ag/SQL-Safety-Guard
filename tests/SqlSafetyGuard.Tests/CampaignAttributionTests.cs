@@ -72,6 +72,13 @@ public class CampaignAttributionTests
     }
 
     [Fact]
+    public void PristineCheckRejectsMissingZeroValuedCounterKeys()
+    {
+        var snapshot = new CampaignSnapshot(new(), new() { ["Counter"] = 0 }, new(), [], [], []);
+        Assert.False(CampaignOracle.Equivalent(snapshot, snapshot with { Operations = new() { ["Other"] = 0 } }));
+    }
+
+    [Fact]
     public void PristineCheckIncludesTypedRowsMetadataAndWrites()
     {
         var snapshot = new CampaignSnapshot(new() { ["SgRun_Test"] = ["[dbo].[Counter]:int:MQ=="] }, new() { ["Counter"] = 0 }, new() { ["Counter"] = "definition" }, [], [], []);
