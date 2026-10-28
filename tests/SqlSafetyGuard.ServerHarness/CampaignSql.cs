@@ -9,9 +9,9 @@ internal static class CampaignSql
 {
     public static string Quote(string name) => "[" + name.Replace("]", "]]") + "]";
     public static string Literal(string value) => "N'" + value.Replace("'", "''") + "'";
-    public static SqlConnection Open(string connectionString, string database = "master")
+    public static SqlConnection Open(string connectionString, string database = "master", bool? pooled = null)
     {
-        var builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = database, Pooling = false, TrustServerCertificate = true, ConnectTimeout = 15, ApplicationName = "SqlGuardCampaign" };
+        var builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = database, Pooling = pooled ?? database is "master" or "SgRun_Results", TrustServerCertificate = true, ConnectTimeout = 15, ApplicationName = "SqlGuardCampaign" };
         var connection = new SqlConnection(builder.ConnectionString);
         connection.Open();
         return connection;
@@ -35,6 +35,14 @@ internal static class CampaignSql
         return command.ExecuteScalar();
     }
     public static List<string[]> Rows(SqlConnection connection, string sql, int timeout = 30)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            try { return ReadRows(connection, sql, timeout); }
+            catch (SqlException exception) when (exception.Number == 1205 && attempt < 2) { Thread.Sleep(50 * (attempt + 1)); }
+        }
+    }
+    private static List<string[]> ReadRows(SqlConnection connection, string sql, int timeout)
     {
         using var command = new SqlCommand(sql, connection) { CommandTimeout = timeout };
         using var reader = command.ExecuteReader();
@@ -68,4 +76,3 @@ internal static class CampaignSql
         return container;
     }
 }
-

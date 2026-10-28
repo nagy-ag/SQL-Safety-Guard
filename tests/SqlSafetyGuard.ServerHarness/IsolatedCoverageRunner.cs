@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 namespace SqlSafetyGuard.ServerHarness;
 
 internal sealed record IsolatedFixture(string Id, string[] StatementTypes, string SetupSql, string Sql,
-    string ExpectedVerdict, string VerifySql, JsonElement BeforeScalar, JsonElement AfterScalar, string CleanupSql, bool SessionOnly = false);
+    string ExpectedVerdict, string VerifySql, JsonElement BeforeScalar, JsonElement AfterScalar, string CleanupSql, bool SessionOnly = false, bool BulkCopy = false, bool ObserveChange = false);
 internal sealed record IsolatedFixtures(int SchemaVersion, IsolatedFixture[] Fixtures);
 
 internal static class IsolatedCoverageRunner
@@ -79,10 +79,19 @@ internal static class IsolatedCoverageRunner
                 Execute(connection, fixture.SetupSql, options.Timeout);
                 before = CoverageCorpus.Scalar(Scalar(connection, fixture.VerifySql, options.Timeout));
                 stage = "execute";
-                Execute(connection, fixture.Sql, options.Timeout);
+                if (fixture.BulkCopy)
+                {
+                    if (fixture.StatementTypes.Length != 1 || fixture.StatementTypes[0] != "InsertBulkStatement") throw new InvalidDataException("Bulk protocol requires InsertBulkStatement.");
+                    using var bulk = new SqlBulkCopy(connection) { DestinationTableName = "dbo.BulkTarget", BulkCopyTimeout = options.Timeout };
+                    var rows = new System.Data.DataTable();
+                    rows.Columns.Add("Id", typeof(int));
+                    rows.Rows.Add(1);
+                    bulk.WriteToServer(rows);
+                }
+                else Execute(connection, fixture.Sql, options.Timeout);
                 stage = "verify";
                 after = CoverageCorpus.Scalar(Scalar(connection, fixture.VerifySql, options.Timeout));
-                if (before != CoverageCorpus.Scalar(fixture.BeforeScalar) || after != CoverageCorpus.Scalar(fixture.AfterScalar) || verdict.Overall != fixture.ExpectedVerdict || verdict.Error != null)
+                if ((fixture.ObserveChange ? before == after || before == "null" || after == "null" : before != CoverageCorpus.Scalar(fixture.BeforeScalar) || after != CoverageCorpus.Scalar(fixture.AfterScalar)) || verdict.Overall != fixture.ExpectedVerdict || verdict.Error != null)
                     throw new InvalidDataException($"Expected {fixture.BeforeScalar} -> {fixture.AfterScalar}, got {before} -> {after}; verdict {verdict.Overall}, expected {fixture.ExpectedVerdict}.");
                 if (verdict.IsGreen && !fixture.SessionOnly && before != after)
                     throw new InvalidDataException("FALSE GREEN: verified state changed.");
@@ -109,6 +118,7 @@ internal static class IsolatedCoverageRunner
             File.Move(output + ".tmp", output, true);
             Console.WriteLine($"{fixture.Id}: {(error == null ? "pass" : error)}");
         }
+        File.WriteAllText(Path.Combine(options.Out, "isolated-results.json"), JsonSerializer.Serialize(new { StartedUtc = startedUtc, RunUtc = DateTimeOffset.UtcNow, AnalyzerSha256 = analyzerSha256, HarnessSha256 = harnessSha256, FixturesSha256 = fixturesSha256, Container = container, ServerVersion = admin.ServerVersion, Complete = true, Results = results }, CoverageCorpus.Json));
         return failed || options.RequireComplete || results.Count == 0 ? 1 : 0;
     }
 

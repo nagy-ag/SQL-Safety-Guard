@@ -161,8 +161,18 @@ internal sealed class CoverageDatabase : IDisposable
             "SELECT xml_collection_id, xml_component_id, name, kind, derivation FROM sys.xml_schema_components WHERE xml_collection_id > 0 ORDER BY xml_component_id FOR JSON PATH, INCLUDE_NULL_VALUES",
             "SELECT stats.object_id, stats.stats_id, properties.last_updated, properties.rows, properties.rows_sampled, properties.steps, properties.unfiltered_rows, properties.modification_counter FROM sys.stats CROSS APPLY sys.dm_db_stats_properties(stats.object_id, stats.stats_id) properties WHERE stats.object_id IN (SELECT object_id FROM sys.tables WHERE is_ms_shipped = 0) ORDER BY stats.object_id, stats.stats_id FOR JSON PATH, INCLUDE_NULL_VALUES"
         };
-        for (int index = 0; index < catalogQueries.Length; index++)
-            lines.Add($"catalog:{index}:" + ReadJson(connection, catalogQueries[index], timeout));
+        using (var catalogCommand = new SqlCommand(string.Join(";\n", catalogQueries), connection) { CommandTimeout = timeout })
+        using (var catalogReader = catalogCommand.ExecuteReader())
+        {
+            int catalogIndex = 0;
+            do
+            {
+                var json = new StringBuilder();
+                while (catalogReader.Read()) json.Append(catalogReader.GetString(0));
+                lines.Add($"catalog:{catalogIndex++}:" + json);
+            } while (catalogReader.NextResult());
+            if (catalogIndex != catalogQueries.Length) throw new InvalidDataException("Incomplete catalog snapshot.");
+        }
         var tables = new List<string>();
         using (var command = new SqlCommand("SELECT QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) FROM sys.tables WHERE is_ms_shipped = 0 ORDER BY object_id", connection) { CommandTimeout = timeout })
         using (var reader = command.ExecuteReader())

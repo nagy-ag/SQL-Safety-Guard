@@ -7,20 +7,28 @@ param(
     [ValidateRange(1,3600)][int]$TimeoutSeconds = 10,
     [string]$Output,
     [switch]$PrepareOnly,
-    [switch]$Isolated
+    [switch]$Isolated,
+    [string]$HarnessPath,
+    [string]$AnalyzerPath
 )
 $ErrorActionPreference = 'Stop'
 if (-not $Cases) { $Cases = Join-Path $PSScriptRoot 'cases\smoke.jsonl' }
-$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+$root = if ($HarnessPath -and $AnalyzerPath) { $PSScriptRoot } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..')) }
 if (-not $Output) { $Output = Join-Path $root ('..\harness-out\campaign\' + (Get-Date -Format 'yyyy-MM-dd')) }
 Push-Location $root
 try {
-    & dotnet build src\SqlSafetyGuard.Analyzer -c Release --nologo
-    if ($LASTEXITCODE -ne 0) { throw 'Analyzer build failed.' }
-    & dotnet build tests\SqlSafetyGuard.ServerHarness -c Release --nologo
-    if ($LASTEXITCODE -ne 0) { throw 'Harness build failed.' }
-    $arguments = @('tests\SqlSafetyGuard.ServerHarness\bin\Release\net10.0\SqlSafetyGuard.ServerHarness.dll',
-        '--analyzer','src\SqlSafetyGuard.Analyzer\bin\Release\netstandard2.0\SqlSafetyGuard.Analyzer.dll',
+    if ([bool]$HarnessPath -ne [bool]$AnalyzerPath) { throw 'Supply both frozen binary paths or neither.' }
+    if (-not $HarnessPath) {
+        & dotnet build src\SqlSafetyGuard.Analyzer -c Release --nologo
+        if ($LASTEXITCODE -ne 0) { throw 'Analyzer build failed.' }
+        & dotnet build tests\SqlSafetyGuard.ServerHarness -c Release --nologo
+        if ($LASTEXITCODE -ne 0) { throw 'Harness build failed.' }
+        $HarnessPath = 'tests\SqlSafetyGuard.ServerHarness\bin\Release\net10.0\SqlSafetyGuard.ServerHarness.dll'
+        $AnalyzerPath = 'src\SqlSafetyGuard.Analyzer\bin\Release\netstandard2.0\SqlSafetyGuard.Analyzer.dll'
+    }
+    if (-not (Test-Path -LiteralPath $HarnessPath) -or -not (Test-Path -LiteralPath $AnalyzerPath)) { throw 'Frozen binaries are missing.' }
+    $arguments = @($HarnessPath,
+        '--analyzer',$AnalyzerPath,
         '--campaign',$Cases,'--server',$Server,'--workers',"$Workers",'--budget-minutes',"$BudgetMinutes",
         '--timeout',"$TimeoutSeconds",'--out',$Output)
     if ($PrepareOnly) { $arguments += '--prepare-world' }

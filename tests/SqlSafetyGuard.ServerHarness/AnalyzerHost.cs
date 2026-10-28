@@ -57,7 +57,9 @@ internal sealed class AnalyzerHost
             {
                 string P(string name) => f.GetType().GetProperty(name)?.GetValue(f)?.ToString() ?? "";
                 findings.Add($"L{P("Line")} {P("Verdict")} {P("Action")} {P("Target")} {P("Note")}".Trim());
-                if (P("Verdict") == "RealWrite" && P("Target").Length > 0) targets.Add(P("Target"));
+                string target = P("ResolvedTarget");
+                if (target.Length == 0) target = P("Target");
+                if (P("Verdict") == "RealWrite" && target.Length > 0) targets.Add(target);
             }
         }
 

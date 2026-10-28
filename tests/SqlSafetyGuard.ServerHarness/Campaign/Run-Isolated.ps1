@@ -4,7 +4,8 @@ param(
     [string]$Image = 'mcr.microsoft.com/mssql/server:2025-latest',
     [int]$BudgetMinutes = 60,
     [ValidateRange(1,3600)][int]$TimeoutSeconds = 10,
-    [string]$Output
+    [string]$Output,
+    [switch]$CoverageFixtures
 )
 $ErrorActionPreference = 'Stop'
 if (-not $Cases) { $Cases = Join-Path $PSScriptRoot 'cases\isolated.jsonl' }
@@ -14,7 +15,7 @@ $local = Join-Path $root '.campaign-local'
 $name = 'sqlguard-cov-' + [Guid]::NewGuid().ToString('N').Substring(0,16)
 $envFile = Join-Path $local ($name + '.env')
 $password = [Guid]::NewGuid().ToString('N') + 'Aa1!'
-[IO.File]::WriteAllText($envFile, (@('ACCEPT_EULA=Y','MSSQL_PID=Developer',"MSSQL_SA_PASSWORD=$password") -join [Environment]::NewLine) + [Environment]::NewLine)
+[IO.File]::WriteAllText($envFile, (@('ACCEPT_EULA=Y','MSSQL_PID=Developer','MSSQL_AGENT_ENABLED=true',"MSSQL_SA_PASSWORD=$password") -join [Environment]::NewLine) + [Environment]::NewLine)
 $previousConnection = $env:SQLGUARD_COVERAGE_CONNECTION
 $previousContainer = $env:SQLGUARD_COVERAGE_CONTAINER
 try {
@@ -36,7 +37,13 @@ try {
     $env:SQLGUARD_COVERAGE_CONNECTION = "Server=127.0.0.1,$($Matches[1]);Database=master;User ID=sa;Password=$password;TrustServerCertificate=true;Pooling=false"
     if (-not $Output) { $Output=Join-Path $root ('..\harness-out\campaign\' + (Get-Date -Format 'yyyy-MM-dd') + '\isolated-' + $name) }
     $shell = (Get-Process -Id $PID).Path
-    & $shell -NoProfile -File (Join-Path $PSScriptRoot 'Run-Overnight.ps1') -Cases $Cases -Workers 1 -BudgetMinutes $BudgetMinutes -TimeoutSeconds $TimeoutSeconds -Output $Output -Isolated
+    if ($CoverageFixtures) {
+        & dotnet build tests\SqlSafetyGuard.ServerHarness -c Release --nologo
+        if ($LASTEXITCODE -ne 0) { throw 'Harness build failed.' }
+        & dotnet tests\SqlSafetyGuard.ServerHarness\bin\Release\net10.0\SqlSafetyGuard.ServerHarness.dll --analyzer src\SqlSafetyGuard.Analyzer\bin\Release\netstandard2.0\SqlSafetyGuard.Analyzer.dll --isolated-coverage $Cases --timeout $TimeoutSeconds --out $Output
+    } else {
+        & $shell -NoProfile -File (Join-Path $PSScriptRoot 'Run-Overnight.ps1') -Cases $Cases -Workers 1 -BudgetMinutes $BudgetMinutes -TimeoutSeconds $TimeoutSeconds -Output $Output -Isolated
+    }
     $exitCode = $LASTEXITCODE
 }
 finally {

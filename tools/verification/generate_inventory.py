@@ -172,29 +172,6 @@ def main():
         add(identifier, CATEGORIES[stem], condition, verdicts.split(",") if verdicts else [],
             stem, offset, reviewStatus="reviewed-semantic",
             testMethodNames=tests.split(",") if tests not in ("", "-") else [])
-    for stem, text in texts.items():
-        method = stem
-        seen = collections.Counter()
-        for number, line in enumerate(text.splitlines(), 1):
-            declaration = re.search(r'\b(?:public|private|internal|protected)\s+(?:(?:static|override|sealed|readonly)\s+)*[\w<>?\[\], ]+\s+(\w+)\(', line)
-            if declaration:
-                method = declaration.group(1)
-            stripped = line.strip()
-            if stripped.startswith(("//", "*")):
-                continue
-            if not re.search(r'\b(if|else|case|catch|default|return|throw)\b|\?|=>|\bAdd(?:At)?\(', stripped):
-                continue
-            expression = " ".join(stripped.split())
-            digest = hashlib.sha256((method + ":" + expression).encode()).hexdigest()[:12]
-            seen[digest] += 1
-            identifier = f"decision.{stem.lower()}.{digest}"
-            if seen[digest] > 1:
-                identifier += f".{seen[digest]}"
-            offset = sum(len(value) + 1 for value in text.splitlines()[:number-1])
-            add(identifier, CATEGORIES[stem],
-                f"In {method}, select the branch or fallback shown in sourceExpression; it can affect downstream verdict, note, target or traversal.",
-                ALL, stem, offset, sourceExpression=expression, method=method,
-                reviewStatus="needs-review", uncertainty="Overinclusive line-level decision checkpoint; multi-line predicates and expression bodies require source review. Verdicts are possible downstream outcomes, not asserted direct outputs.")
     mapping = {}
     table_test = "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
     test_texts = [(path, path.read_text(encoding="utf-8-sig")) for path in
@@ -213,15 +190,16 @@ def main():
             mapping[rule["id"]] = rule["existingTests"]
         if rule["category"] in ("safe-procedure", "writing-procedure", "safe-dbcc", "changing-dbcc", "unknown-dbcc", "set-option", "set-family"):
             mapping[rule["id"]] = [table_test]
+            rule["existingTests"] = [table_test]
     rules.sort(key=lambda rule: (rule["category"], rule["id"]))
     counts = dict(sorted(collections.Counter(rule["category"] for rule in rules).items()))
-    payload = dict(schemaVersion=1, baseline="edea579", generator="tools/verification/generate_inventory.py",
-                   limitations=["Semantic and table entries are reviewed; decision.* is an explicitly unreviewed, overlapping source checklist, not a completeness certificate.",
-                                "existingTests records conservative named-method associations, not observed branch coverage. Empty means no reviewed association.",
-                                "Source line positions refer to this checkout; IDs hash normalized decision text and method, not line numbers. Changed logic creates a new ID."],
+    payload = dict(schemaVersion=2, baseline="3fff9b0", generator="tools/verification/generate_inventory.py",
+                   limitations=["Reviewed semantic rules and explicit dispatch tables, not a completeness certificate.",
+                                "existingTests records named-method associations, not observed branch coverage. Empty means uncovered.",
+                                "Retired overlapping source checkpoints are mapped in rule-id-migrations.json; they are not semantic rules."],
                    categories=counts, rules=rules)
     markdown = ["# Analyzer rule inventory", "", "Generated from rules.json; regenerate with `python tools/verification/generate_inventory.py`.", "",
-                "`decision.*` entries are overinclusive source checkpoints awaiting semantic review. They deliberately expose uncertainty; neither mappings nor coverage prove server behavior.", "",
+                "Every entry is a reviewed semantic rule or dispatch-table member. Retired line-level checkpoints are recorded in `rule-id-migrations.json`. Named tests are associations, not server or branch coverage.", "",
                 "| Category | Entries |", "| --- | ---: |"]
     markdown += [f"| {category} | {count} |" for category, count in counts.items()]
     for rule in rules:
