@@ -118,7 +118,9 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   - **No permanent changes detected · N** is an expandable footer, opened automatically when nothing is red
     or yellow. Empty sections are omitted. **Click** a row to expand or collapse a short explanation; groups with
     multiple findings also show their statement types and lines. Only permanent whole-target destructive operations
-    have red warning text in the details; temporary-object operations remain neutral. Expansion survives reanalysis
+    have red warning text in the details; temporary-object operations remain neutral. Only one row can be expanded;
+    selecting another row closes the previous details. Clicking blank space in the pane or whitespace in the SQL
+    editor clears the selected row and closes its details. Expansion survives reanalysis
     for the same object. **Space** toggles details, **Right/Left** expands/collapses, and **double-click** or **Enter**
     jumps to the statements. Selection highlights them; the editor caret follows the corresponding row without
     automatically expanding it. Arrow-key navigation works across both lists. Yellow/red statements retain light tinting.
@@ -143,7 +145,11 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   clears the degraded indicator. Environment rules override the global warning mode, not this failure reporting.
 - Messages and errors go to the **SQL Safety Guard** pane of the Output window. Query text is never logged or stored.
 
-The compact expandable rows have build and automated contract coverage (831 tests passed on 2026-10-28).
+The compact expandable rows have build and automated contract coverage (832 tests passed on 2026-10-28).
+After a Debug build, `powershell.exe -NoProfile -Sta -File scripts/PaneInteractionTests.ps1` runs 13 in-process
+WPF interaction checks for exclusive expansion, cross-section selection, reanalysis, background deselection,
+and preserving row/scrollbar/toggle interactions. It does not open SSMS or execute SQL. Actual editor mouse
+hit-testing still needs manual verification in SSMS.
 The updated extension loaded in SSMS 22 using the isolated `/rootSuffix Exp` profile; an in-process smoke check
 verified a read-only row expands and collapses without executing SQL. Visual and keyboard testing across themes
 remains unverified because the desktop automation helper was unavailable.

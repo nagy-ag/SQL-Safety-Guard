@@ -178,7 +178,7 @@
                 </DockPanel>
             </Border>
             <Grid>
-                <DockPanel x:Name="AnalysisPage">
+                <DockPanel x:Name="AnalysisPage" Background="Transparent" PreviewMouseLeftButtonDown="OnAnalysisBackgroundMouseDown">
                     <Expander x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
                         <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
                         <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />

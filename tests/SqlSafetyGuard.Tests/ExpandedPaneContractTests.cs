@@ -90,6 +90,16 @@ public class ExpandedPaneContractTests
     }
 
     [Fact]
+    public void AnalysisBackgroundCanClearSelectionWithoutConsumingRowClicks()
+    {
+        var document = ReadPane();
+        var analysis = Named(document, "AnalysisPage");
+        Assert.Equal("Transparent", (string?)analysis.Attribute("Background"));
+        Assert.Equal("OnAnalysisBackgroundMouseDown", (string?)analysis.Attribute("PreviewMouseLeftButtonDown"));
+        Assert.Null(Named(document, "SettingsPage").Attribute("PreviewMouseLeftButtonDown"));
+    }
+
+    [Fact]
     public void SettingsAreReadOnlyWithExplicitOptionsActionAndPatternProvenance()
     {
         var document = ReadPane();

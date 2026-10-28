@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Microsoft.VisualStudio;
@@ -39,11 +40,13 @@ namespace SqlSafetyGuard.UI
         private readonly IAdornmentLayer _layer;
         private readonly SafetyPaneControl _control;
         private readonly DispatcherTimer _debounce;
+        private readonly DispatcherTimer _clearSelection;
 
         private int _version;
         private CancellationTokenSource _analysis;
         private List<PaneGroup> _groups = new List<PaneGroup>();
         private PaneGroup _selected;
+        private bool _clearingFromEditorBackground;
         private bool _disposed;
         private long _lastEditTimestamp;
         private string _reason = "open";
@@ -79,9 +82,18 @@ namespace SqlSafetyGuard.UI
                 StartAnalysis();
             };
 
+            _clearSelection = new DispatcherTimer(DispatcherPriority.Input);
+            _clearSelection.Tick += (sender, args) =>
+            {
+                _clearSelection.Stop();
+                _clearingFromEditorBackground = false;
+                if (!_disposed) ClearGroupSelection();
+            };
+
             _view.TextBuffer.Changed += OnBufferChanged;
             _view.Selection.SelectionChanged += OnSelectionChanged;
             _view.Caret.PositionChanged += OnCaretMoved;
+            _view.VisualElement.PreviewMouseLeftButtonDown += OnEditorMouseDown;
             _view.LayoutChanged += OnLayoutChanged;
             _view.GotAggregateFocus += OnGotFocus;
             _view.Closed += (s, e) => Dispose();
@@ -122,10 +134,12 @@ namespace SqlSafetyGuard.UI
             _disposed = true;
             Live.Remove(this);
             _debounce.Stop();
+            _clearSelection.Stop();
             _analysis?.Cancel();
             _view.TextBuffer.Changed -= OnBufferChanged;
             _view.Selection.SelectionChanged -= OnSelectionChanged;
             _view.Caret.PositionChanged -= OnCaretMoved;
+            _view.VisualElement.PreviewMouseLeftButtonDown -= OnEditorMouseDown;
             _view.LayoutChanged -= OnLayoutChanged;
             _view.GotAggregateFocus -= OnGotFocus;
         }
@@ -365,20 +379,41 @@ namespace SqlSafetyGuard.UI
 
         // ---- editor → pane ------------------------------------------------------------------------------
 
+        private void OnEditorMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_disposed || _view.IsClosed || _view.InLayout) return;
+            var location = e.GetPosition(_view.VisualElement);
+            var line = _view.TextViewLines.GetTextViewLineContainingYCoordinate(location.Y + _view.ViewportTop);
+            var position = line?.GetBufferPositionFromXCoordinate(location.X + _view.ViewportLeft);
+            if (position.HasValue && position.Value.Position < position.Value.Snapshot.Length &&
+                !char.IsWhiteSpace(position.Value.Snapshot[position.Value.Position])) return;
+            _clearingFromEditorBackground = true;
+            ClearGroupSelection();
+            _clearSelection.Start();
+        }
+
+        private void ClearGroupSelection()
+        {
+            _selected = null;
+            _control.Select(null);
+            Redraw();
+        }
+
         private void OnCaretMoved(object sender, CaretPositionChangedEventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            if (_clearingFromEditorBackground) return;
             var caret = e.NewPosition.BufferPosition;
             var hit = _groups.FirstOrDefault(g => g.Findings.Any(f => f.SpanIn(caret.Snapshot).IntersectsWith(new Span(caret.Position, 0)) ||
                                                                        f.SpanIn(caret.Snapshot).Contains(caret.Position)));
-            if (hit == null || hit == _selected)
+            if (hit == _selected)
                 return;
 
             // Follow the caret: select and highlight, but don't scroll (the user is already looking there).
             _selected = hit;
             _control.Select(hit);
             Redraw();
-            PaneTrace.Write($"select '{hit.Key}' source=caret line={caret.GetContainingLine().LineNumber + 1}");
+            PaneTrace.Write($"select '{hit?.Key}' source=caret line={caret.GetContainingLine().LineNumber + 1}");
         }
 
         // ---- highlights ---------------------------------------------------------------------------------

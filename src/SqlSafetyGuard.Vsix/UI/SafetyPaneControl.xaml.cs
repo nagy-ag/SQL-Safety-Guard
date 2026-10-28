@@ -83,9 +83,8 @@ namespace SqlSafetyGuard.UI
             _settingSelection = true;
             try
             {
-                var expandedKeys = new HashSet<string>(GroupList.Items.Cast<PaneGroup>().Concat(SafeList.Items.Cast<PaneGroup>())
-                    .Where(group => group.IsExpanded).Select(group => group.Key), StringComparer.OrdinalIgnoreCase);
-                foreach (var group in groups) group.IsExpanded = expandedKeys.Contains(group.Key);
+                var expandedKey = AllGroups().FirstOrDefault(group => group.IsExpanded)?.Key;
+                foreach (var group in groups) group.IsExpanded = string.Equals(group.Key, expandedKey, StringComparison.OrdinalIgnoreCase);
                 var main = new ListCollectionView(groups.Where(group => group.Section != "Safe").ToList());
                 main.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PaneGroup.Section)));
                 GroupList.ItemsSource = main;
@@ -128,6 +127,7 @@ namespace SqlSafetyGuard.UI
 
         internal void Select(PaneGroup group)
         {
+            CollapseOtherGroups(group);
             _settingSelection = true;
             try
             {
@@ -145,10 +145,32 @@ namespace SqlSafetyGuard.UI
 
         internal void ClickGroup(PaneGroup group)
         {
+            CollapseOtherGroups(group);
             var list = group.Section == "Safe" ? SafeList : GroupList;
             if (list == SafeList) SafeSection.IsExpanded = true;
             list.SelectedItem = group;
             group.IsExpanded = !group.IsExpanded;
+        }
+
+        private IEnumerable<PaneGroup> AllGroups() =>
+            GroupList.Items.Cast<PaneGroup>().Concat(SafeList.Items.Cast<PaneGroup>());
+
+        private void CollapseOtherGroups(PaneGroup selected)
+        {
+            foreach (var group in AllGroups())
+                if (group != selected) group.IsExpanded = false;
+        }
+
+        private void OnAnalysisBackgroundMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var source = e.OriginalSource as DependencyObject;
+            while (source != null && source != AnalysisPage)
+            {
+                if (source is ListBoxItem || source is ButtonBase || source is ScrollBar) return;
+                source = source is Visual ? VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
+            }
+            Select(null);
+            GroupSelected?.Invoke(null);
         }
 
         internal void SetCollapsed(bool collapsed)
@@ -174,6 +196,7 @@ namespace SqlSafetyGuard.UI
             var list = (ListBox)sender;
             var group = list.SelectedItem as PaneGroup;
             if (group == null) return;
+            CollapseOtherGroups(group);
             _settingSelection = true;
             try { (list == GroupList ? SafeList : GroupList).SelectedItem = null; }
             finally { _settingSelection = false; }
@@ -193,6 +216,7 @@ namespace SqlSafetyGuard.UI
         private void OnGroupExpanded(object sender, RoutedEventArgs e)
         {
             if (_settingSelection || !(((Expander)sender).DataContext is PaneGroup group)) return;
+            CollapseOtherGroups(group);
             var list = group.Section == "Safe" ? SafeList : GroupList;
             list.SelectedItem = group;
         }
