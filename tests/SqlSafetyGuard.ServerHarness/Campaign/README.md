@@ -1,8 +1,8 @@
 # Real-server campaign
 
-See VALIDATION.md for measured smoke outcomes, build hashes, interruption/recovery checks and remaining scope.
+See ../../../docs/verification/validation-wave2.md for the newer wave-2 evidence and registered one-time task; VALIDATION.md preserves the original smoke. See VALIDATION.md for historical measured smoke outcomes, build hashes, interruption/recovery checks and remaining scope.
 
-This is a separate mode, not legacy schema discovery and not a replacement for strict coverage. It executes trusted test SQL against fresh four-database sets and persists evidence. Start with ORACLE.md and WORLD.md. The supplied 50-case smoke corpus is representative infrastructure validation, **not every analyzer rule/combination proven safe**. Default analyzer options apply; rule inventory and configurable allow-list contracts belong to the separate verification work.
+This is a separate mode, not legacy schema discovery and not a replacement for strict coverage. It executes trusted test SQL against worker-owned, pristine-verified four-database sets and persists evidence. Start with ORACLE.md and WORLD.md. The supplied 50-case smoke corpus is representative infrastructure validation, **not every analyzer rule/combination proven safe**. Default analyzer options apply; rule inventory and configurable allow-list contracts belong to the separate verification work.
 
 ## Prepare / run
 
@@ -43,13 +43,13 @@ privileged=true requires verified Docker isolation and workers1. controlVerdict=
 
 SgRun_Results is a separately marked retained database. dbo.CampaignResults stores the full JSON payload keyed by SHA-256 campaign identity and case ID. Identity covers analyzer/harness binaries, corpus bytes, world scripts, server/version, timeout/filter/limit/shrink settings and container identity; worker count is informational. The same binaries/input/output and server resume completed cases without execution. Changes require a new output directory. A new Docker container is intentionally a different identity (its results DB is ephemeral); host JSONL remains, but cross-container resume is not implemented.
 
-Default output is <repository>\..\harness-out\campaign\<local-date>\report.md plus results.jsonl and campaign-identity.json. Every completion rewrites JSONL and report atomically; the SQL results DB is authoritative after a crash. Failure evidence is saved before shrinking. A hard interruption during shrinking can retain the original failure without a minimized repro; rerun its SQL as a new case/identity to shrink again. Resume writes a current invocation report with historical per-case timings.
+Default output is <repository>\..\harness-out\campaign\<local-date>\report.md plus results.jsonl and campaign-identity.json. Every 100 completions and clean termination rewrites JSONL and report atomically; the SQL results DB is authoritative after a crash. Failure evidence is saved before shrinking. A hard interruption during shrinking can retain the original failure without a minimized repro; rerun its SQL as a new case/identity to shrink again. Resume writes a current invocation report with historical per-case timings.
 
 An owned-set registry in dbo.CampaignOwnedSets reserves a cryptographically random GUID before creating databases/login and records no password. Startup under the instance lease drops only the exact four derived names and login in outstanding registered sets, then removes the registry row. Names are validated and checked for preexistence before reservation. A failed cleanup keeps its reservation for recovery. **Never wildcard-drop SgRun_*:** preserve Results and other independently owned data. Templates and backups remain for later runs. Incomplete template provisioning requires manual inspection; it is never silently rebuilt.
 
 --budget-minutes defaults480; Ctrl+C requests a clean stop. No further cases/trials start, active commands receive cancellation, and workers drain cleanup. Budget-cancelled TIMEOUT/CRASH cases are left uncompleted for resume. Other completed failures remain evidence. Hard process termination relies on registered recovery next time; leave cleanup margin in scheduler limits.
 
-Outcomes: FALSE GREEN = green plus logical or physical mutation evidence; WRONG TARGET = red but no target matches a known modified base object; NOISE = conservative non-green without mutation; CRASH = analyzer/provision/observer/cleanup failure; TIMEOUT / NOT EXECUTABLE retain SQL errors; PASS = executable, no contradiction under this oracle. Session leftovers are independently reported. Exit1 signals defects, execution failures, expectation mismatches or incomplete budget; exit0 allows NOISE and expected negative controls. A changed green followed by a SQL error still reports FALSE GREEN.
+Outcomes: FALSE GREEN = green plus logical or physical mutation evidence; WRONG TARGET = an observed concrete write is not attributable; INDIRECT EFFECT = catalog-backed secondary writes; UNRESOLVED TARGET = opaque target; EXTERNAL CHANGE = unrelated database metadata interference only; NOISE = conservative non-green without mutation; CRASH = analyzer/provision/observer/cleanup failure; TIMEOUT / NOT EXECUTABLE retain SQL errors; PASS = executable, no contradiction under this oracle. Session leftovers are independently reported. Exit1 signals defects, execution failures, expectation mismatches or incomplete budget; exit0 allows NOISE and expected negative controls. A changed green followed by a SQL error still reports FALSE GREEN.
 
 Shrinking greedily removes top-level statements and WHERE/ORDER BY/TOP clauses using ScriptDom offsets. Every trial restores a fresh four-database set with original setup/principal/seed and must reproduce the same outcome without execution errors. Trials are bounded (--shrink-attempts default24) and obey the run budget. This produces a local minimum among attempted reductions, **not a globally smallest proof**. Repro SQL retains template tokens and needs the original JSON setup/context; report and repro-*.sql save it.
 
@@ -63,17 +63,16 @@ The wrapper creates one sqlguard-cov-<16hex> SQL2025 Developer container, label 
 
 Docker-only SgLoop uses MSOLEDBSQL at explicit IPv4 127.0.0.1,1433, encrypt=optional, trusted container certificate and explicit SA mapping. The explicit IPv4 endpoint avoids the observed Linux localhost provider timeouts. It exists only inside the disposable container and permits OPENQUERY/EXEC AT against that case's own restored databases. It is not installed on .\SQLEXPRESS. The isolated sample includes a backup file, server role/configuration changes, permanent tempdb table, loopback read/writes, and an intentional 15second WAITFOR timeout against the default10second limit. That intentional timeout gives exit1. Run-Isolated also accepts -TimeoutSeconds when a feature needs a longer execution deadline. Developer image availability does not prove SQL Agent/CLR/full-text functionality; unsupported probes need their own executable fixtures. Container destruction, not SQL reversal, resets server/tempdb/files between separate isolated runs; individual cases observe current state and mutate it serially.
 
-## Overnight Task Scheduler (instructions only)
+## Overnight Task Scheduler
 
-Run interactively once first. The parent/operator chooses whether to register. Example, execute yourself in PowerShell with the **actual checkout** path (not a disposable worktree) and a Windows identity with SQL access:
+Wave 2 registers the user-approved one-time task **SQL Safety Guard Wave2 2026-10-28** for October 28, 2026 at **22:00 Europe/Bucharest (UTC+02:00)**, with an eight-hour campaign budget and nine-hour scheduler cleanup limit. See `../../../docs/verification/validation-wave2.md` for evidence, limitations and receipt locations.
+
+After committing and building a clean branch head, run `tools/verification/Register-Wave2Overnight.ps1` from the repository. It freezes the Release analyzer/harness, world resources, generated host corpus and overnight script under the external `harness-out/campaign/bin/<full-head-sha>/` directory, hashes every file, registers once and exports the exact command/task XML. Later worktree builds cannot alter those binaries. No daily trigger is created.
+
+Interactive logon requires the user to remain logged on; Windows power conditions still apply. Never overlap this task with another host or Docker harness. A completed corpus does not repeat for eight hours: the 31,004 generated host cases supply work, while identity-matched unfinished runs can resume. Permission-denied and unresolved cases are evidence gaps, not safety passes.
+
+Remove the task before it starts (artifacts remain):
 
 ~~~powershell
-$script = 'C:\Users\nagya\dev\work_exim\ssmsextensions\safequery\tests\SqlSafetyGuard.ServerHarness\Campaign\Run-Overnight.ps1'
-$action = New-ScheduledTaskAction -Execute (Get-Process -Id $PID).Path -Argument ('-NoProfile -File "' + $script + '" -BudgetMinutes 480 -Workers 2')
-$trigger = New-ScheduledTaskTrigger -Daily -At '22:00'
-$principal = New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Highest
-$settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 9)
-Register-ScheduledTask -TaskName 'SQL Safety Guard campaign' -Action $action -Trigger $trigger -Principal $principal -Settings $settings
+Unregister-ScheduledTask -TaskName 'SQL Safety Guard Wave2 2026-10-28' -Confirm:$false
 ~~~
-
-Interactive logon requires the user to remain logged on. Choose an approved service/logon policy separately for unattended runs; never embed a Windows password in this script. Do not schedule Docker and shared-instance harness runs simultaneously. No task is registered by this repository's scripts. Reusing a date's directory resumes the same identity, so a completed smoke corpus does not repeat for8hours; provide a larger case directory and new output identity for an actual overnight campaign. This runner consumes a corpus; it is not an exhaustive/random SQL generator.
