@@ -1,0 +1,135 @@
+2026-10-28T17:27:52.9231286Z	state	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	False	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	0	0	Analyzing…  Nothing is executed.
+2026-10-28T17:27:52.9241609Z	ack	state
+2026-10-28T17:27:53.9842385Z	ack	commands
+2026-10-28T17:27:54.8960899Z	ack	open
+2026-10-28T17:27:55.2151556Z	ack	document
+2026-10-28T17:27:55.5479768Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	17db4fd369edb9244b9f91d9aeed145c3d04ad8ba6e95d06247f07a63527d11a	ReadOnly	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:27:55.8420138Z	ack	execute
+2026-10-28T17:27:56.4879933Z	ack	document
+2026-10-28T17:27:56.8086565Z	ack	mode
+2026-10-28T17:27:57.1197184Z	ack	rulesfile
+2026-10-28T17:27:57.4567481Z	ack	replacefile
+2026-10-28T17:27:58.7171689Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	f633bb5eb858affabb358ea005f05e3bf8c45a439b2c034ed856cc02cf396414	ReadOnly	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:27:58.7702648Z	ack	execute
+2026-10-28T17:28:01.2139748Z	ack	replacefile
+2026-10-28T17:28:02.1946188Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	3d458700f9283611ad691de9486ee9536b94c406eeeb1ced2833549a8824e13e	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:02.7417093Z	ack	execute
+2026-10-28T17:28:04.8245230Z	ack	replacefile
+2026-10-28T17:28:05.7613301Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	5e518aa2489f8e6b107a8869af19f4cb1407104f36efdb329b9dfcc541b72ae3	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:06.0605620Z	ack	execute
+2026-10-28T17:28:07.6459951Z	ack	replacefile
+2026-10-28T17:28:08.5970168Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	e38d044be4abd4bc1e1c0079e4b93446ca4339a36f0044f77c0050cf5c6a023e	Unknown	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:08.9252131Z	ack	execute
+2026-10-28T17:28:10.4965702Z	ack	replacefile
+2026-10-28T17:28:11.4553813Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	6dd54b513979b3506d4bc26474d6e981f7ce8e636b1a75ebcf416d23b9cb096b	Unknown	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:11.8435591Z	ack	execute
+2026-10-28T17:28:13.4150849Z	ack	replacefile
+2026-10-28T17:28:13.7420787Z	ack	select
+2026-10-28T17:28:15.0017460Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	ReadOnly	True	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:15.0371175Z	ack	execute
+2026-10-28T17:28:16.6115515Z	ack	replacefile
+2026-10-28T17:28:16.9241663Z	ack	select
+2026-10-28T17:28:17.8701888Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	RealWrite	True	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:18.0692316Z	ack	execute
+2026-10-28T17:28:19.9497145Z	ack	replacefile
+2026-10-28T17:28:20.2761647Z	ack	select
+2026-10-28T17:28:21.5282461Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	2f8b5f03c54a38ac772245df0f42fb24943a212d0524b255418d7d1d48562796	RealWrite	True	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:21.8405679Z	ack	execute
+2026-10-28T17:28:23.7266296Z	ack	mode
+2026-10-28T17:28:24.0410930Z	ack	replacefile
+2026-10-28T17:28:25.3157035Z	ack	execute
+2026-10-28T17:28:27.1865646Z	ack	mode
+2026-10-28T17:28:27.5147217Z	ack	replacefile
+2026-10-28T17:28:28.7870264Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	942de5195ba81c0252243399f2f1474eab58f76e2bc14c6b1a02b4db6514bb24	Unknown	False	SgExt_8a6c7b6ac999	Red
+2026-10-28T17:28:28.8250698Z	ack	execute
+2026-10-28T17:28:30.6870658Z	ack	replacefile
+2026-10-28T17:28:31.9570499Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	a771e8e16942970351cfd8f5741227e9562274e4db151cfd37f8516285805260	RealWrite	False	SgExt_8a6c7b6ac999	Red
+2026-10-28T17:28:32.2625762Z	ack	execute
+2026-10-28T17:28:34.1534911Z	ack	mode
+2026-10-28T17:28:34.4776237Z	ack	rulesfile
+2026-10-28T17:28:34.7960618Z	ack	replacefile
+2026-10-28T17:28:36.0857912Z	ack	execute
+2026-10-28T17:28:37.6422515Z	ack	rulesfile
+2026-10-28T17:28:37.9647662Z	ack	replacefile
+2026-10-28T17:28:39.2369475Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	4305ef629bf5c15da634ec0ce536fd67b6d7d72921cc12b4735c80f806252b22	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:39.6541168Z	ack	execute
+2026-10-28T17:28:41.2279887Z	ack	replacefile
+2026-10-28T17:28:42.5056899Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	cc52f83dac4d024da7e1f37176d7230b8c3f05fe7b6608f4971b92cc3a1df75d	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:42.7452547Z	ack	execute
+2026-10-28T17:28:44.6238498Z	ack	replacefile
+2026-10-28T17:28:45.8833274Z	state	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	False	7754dc293692dd563b54cdea8b8b48b9d35531ba2956e202e71598650361772e	0	0	Read-only  F5 runs without asking	SgExt_8a6c7b6ac999	Red and yellow
+2026-10-28T17:28:45.8833274Z	ack	state
+2026-10-28T17:28:46.1942843Z	ack	replacefile
+2026-10-28T17:28:46.1966857Z	state	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	False	f2a46ac3a1c057f3e3a016b05669b930cae43a0c48188360ba5aeda540484d24	0	0	Read-only  F5 runs without asking	SgExt_8a6c7b6ac999	Red and yellow
+2026-10-28T17:28:46.1966857Z	ack	state
+2026-10-28T17:28:46.2058295Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	f2a46ac3a1c057f3e3a016b05669b930cae43a0c48188360ba5aeda540484d24	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:46.5642573Z	ack	execute
+2026-10-28T17:28:48.1346730Z	ack	replacefile
+2026-10-28T17:28:49.3791378Z	ack	replacefile
+2026-10-28T17:28:50.3422759Z	ack	execute
+2026-10-28T17:28:52.2246070Z	ack	replacefile
+2026-10-28T17:28:53.4957743Z	ack	execute
+2026-10-28T17:28:55.2509376Z	ack	execute
+2026-10-28T17:28:55.5657223Z	ack	replacefile
+2026-10-28T17:28:56.8292175Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	2960e401c4024584a9134b3b69ba98486a7095cf8ef07d8090af6189aace6445	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:28:57.1580507Z	ack	execute
+2026-10-28T17:28:59.0327340Z	ack	replacefile
+2026-10-28T17:28:59.9767089Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	3aec1d5b92db2bba56b13ba20b73eab971f7225bd5601538c6d04030423a3bf9	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:00.4881828Z	ack	execute
+2026-10-28T17:29:02.3615735Z	ack	execute
+2026-10-28T17:29:02.6899491Z	ack	execute
+2026-10-28T17:29:03.0125313Z	ack	replacefile
+2026-10-28T17:29:04.2796906Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	fa3be68a4abec37b86733b32f8cb3924ac48b286df7755033ca54956fb7f2d11	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:04.6075668Z	ack	execute
+2026-10-28T17:29:06.4873193Z	ack	replacefile
+2026-10-28T17:29:07.4327966Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	a0ee28dc69620041280326e6ecf04d9e14884c73f8cf0f48052d8cdd98ef23eb	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:07.8642339Z	ack	execute
+2026-10-28T17:29:09.4478883Z	ack	execute
+2026-10-28T17:29:09.7608556Z	ack	execute
+2026-10-28T17:29:10.0737297Z	ack	replacefile
+2026-10-28T17:29:11.0165796Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	9c7a2e58f4e499f01e0cacd938bd3155a64f329e8ad5d0c4f3e804193503ec35	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:11.2168624Z	ack	execute
+2026-10-28T17:29:12.7848333Z	ack	replacefile
+2026-10-28T17:29:13.7575560Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	d282e15f18cb0c13ef4ba88a9095d9aba8beeb4c3a733bdbbba6e98f5974062a	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:14.0487065Z	ack	execute
+2026-10-28T17:29:15.9290230Z	ack	execute
+2026-10-28T17:29:16.1318007Z	ack	document
+2026-10-28T17:29:16.4464389Z	ack	replacefile
+2026-10-28T17:29:16.5565596Z	ack	document
+2026-10-28T17:29:16.8653713Z	ack	replacefile
+2026-10-28T17:29:17.8180331Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	490a422b3fe145a7b8ebea2cbd1854e57cb9b5a09e1f0bafba301f607c0a73f2	ReadOnly	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:17.8873271Z	ack	execute
+2026-10-28T17:29:19.5722358Z	ack	document
+2026-10-28T17:29:19.8779902Z	ack	replacefile
+2026-10-28T17:29:20.8414814Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtB.sql	dbd895fa1ba2b836ca74c15887577e892c787e6580a321d6553032833ba632d7	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:21.0487434Z	ack	execute
+2026-10-28T17:29:22.6108093Z	ack	replacefile
+2026-10-28T17:29:23.8731354Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtB.sql	2f47862b7286a2907ce6e3a821c678e4860ff010f07409f00fb3051e5aaea851	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:24.0600866Z	ack	execute
+2026-10-28T17:29:25.7405384Z	ack	document
+2026-10-28T17:29:26.0639511Z	ack	replacefile
+2026-10-28T17:29:26.2683903Z	ack	document
+2026-10-28T17:29:26.5919117Z	ack	replacefile
+2026-10-28T17:29:27.8523705Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtB.sql	900b1dad69f8872e37cb7f5885d7dd2d0c4060b379b6e9c2f184e433419f1838	ReadOnly	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:27.8744117Z	ack	execute
+2026-10-28T17:29:29.5320357Z	ack	document
+2026-10-28T17:29:29.8756581Z	ack	execute
+2026-10-28T17:29:30.2065589Z	ack	replacefile
+2026-10-28T17:29:31.4711976Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	3ea5b2274f6f1fcc91328695cec611278a35aad26c3d02a904bd9265c6809d72	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:31.6971252Z	ack	execute
+2026-10-28T17:29:33.2558679Z	ack	execute
+2026-10-28T17:29:33.5783989Z	ack	replacefile
+2026-10-28T17:29:34.5273140Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	36dbeea44c398fb872ca3c11b0563a510be44cffc63ec717180c17caa49d6d1f	Unknown	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:34.8342276Z	ack	execute
+2026-10-28T17:29:36.7122152Z	ack	replacefile
+2026-10-28T17:29:37.6526246Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	1597b6067c188da3110e0a5c3be34d6b0c97b0ef5cb2f31a17304fded263a31e	Unknown	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:37.9258955Z	ack	execute
+2026-10-28T17:29:39.4979337Z	ack	execute
+2026-10-28T17:29:39.8277778Z	ack	replacefile
+2026-10-28T17:29:40.7853180Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	cdac0ebed9577f5f06b8707062d596687bb8b806e4b9204fe9da78b54ad2175b	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:41.0844049Z	ack	execute
+2026-10-28T17:29:42.9553310Z	ack	replacefile
+2026-10-28T17:29:44.2160197Z	guard	C:\Users\nagya\AppData\Local\Temp\SgExt8a6c7b6ac999\SgExtA.sql	2a47d849b8b5583138b599b093d4fa0bf8b4dc18aadcd3930a44468e89536cd4	RealWrite	False	SgExt_8a6c7b6ac999	YellowRed
+2026-10-28T17:29:46.3630346Z	ack	execute
+2026-10-28T17:29:47.9332886Z	ack	execute
+2026-10-28T17:29:48.5774018Z	ack	close

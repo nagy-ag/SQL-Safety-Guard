@@ -116,6 +116,10 @@ namespace SqlSafetyGuard.Guard
             }
 
             var result = check.Result;
+#if DEBUG
+            ExtensionCheckTrace.Write("guard", snapshot.Document.FullName, ExtensionCheckTrace.Hash(snapshot.Text),
+                result.Overall.ToString(), snapshot.IsSelection.ToString(), connection.Database, settings.Mode.ToString());
+#endif
             return GuardDecision.ShouldCancel(settings, result,
                 () => _package.RefreshHealth(settings, successfulCheck: true),
                 () =>
