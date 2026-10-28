@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,6 +17,10 @@ namespace SqlSafetyGuard.UI
         public SafetyPaneControl()
         {
             InitializeComponent();
+            CollapsedRedDot.Fill = VerdictBrushes.Red;
+            CollapsedRedCount.Foreground = VerdictBrushes.TextOn(Verdict.RealWrite);
+            CollapsedYellowDot.Fill = VerdictBrushes.Yellow;
+            CollapsedYellowCount.Foreground = VerdictBrushes.TextOn(Verdict.Unknown);
         }
 
         internal event Action<PaneGroup> GroupSelected;
@@ -30,9 +35,8 @@ namespace SqlSafetyGuard.UI
         {
             VerdictDot.Fill = System.Windows.Media.Brushes.Gray;
             VerdictGlyph.Text = "…";
-            CollapsedDot.Fill = System.Windows.Media.Brushes.Gray;
-            Headline.Text = headline;
-            SubText.Text = detail;
+            ShowCollapsedPending();
+            ShowSummary(headline, detail);
             GroupList.ItemsSource = null;
             DetailCard.Visibility = Visibility.Collapsed;
             SafeHeader.Text = string.Empty;
@@ -43,11 +47,19 @@ namespace SqlSafetyGuard.UI
         {
             var brush = VerdictBrushes.For(overall);
             VerdictDot.Fill = brush;
-            CollapsedDot.Fill = brush;
+            int redCount = groups.Count(group => group.Verdict.IsRed());
+            int yellowCount = groups.Count(group => group.Verdict.IsYellow());
+            bool allSafe = redCount == 0 && yellowCount == 0;
+            CollapsedStatus.Visibility = allSafe ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedDot.Fill = VerdictBrushes.Green;
+            CollapsedGlyph.Text = "\u2713";
+            CollapsedRed.Visibility = redCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedRedCount.Text = redCount.ToString();
+            CollapsedYellow.Visibility = yellowCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedYellowCount.Text = yellowCount.ToString();
             VerdictGlyph.Text = overall.IsGreen() ? "✓" : "!";
             VerdictGlyph.Foreground = VerdictBrushes.TextOn(overall);
-            Headline.Text = headline;
-            SubText.Text = detail;
+            ShowSummary(headline, detail);
             ConnectionText.Text = connection ?? string.Empty;
             ConnectionText.Visibility = string.IsNullOrEmpty(connection) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -76,6 +88,28 @@ namespace SqlSafetyGuard.UI
             SafeList.ItemsSource = null;
         }
 
+        internal void ShowAnalysisPending()
+        {
+            ShowCollapsedPending();
+            ShowSummary("Analyzing\u2026", "The F5 guard still checks before running.");
+        }
+
+        private void ShowSummary(string headline, string detail)
+        {
+            Headline.Text = headline;
+            SubText.Text = detail;
+            CollapsedStrip.ToolTip = headline + Environment.NewLine + detail;
+        }
+
+        private void ShowCollapsedPending()
+        {
+            CollapsedStatus.Visibility = Visibility.Visible;
+            CollapsedDot.Fill = System.Windows.Media.Brushes.Gray;
+            CollapsedGlyph.Text = string.Empty;
+            CollapsedRed.Visibility = Visibility.Collapsed;
+            CollapsedYellow.Visibility = Visibility.Collapsed;
+        }
+
         /// <summary>Selects a group without raising <see cref="GroupSelected"/> as a user action (used for caret sync and refresh).</summary>
         internal void Select(PaneGroup group)
         {
@@ -101,6 +135,7 @@ namespace SqlSafetyGuard.UI
         {
             Expanded.Visibility = collapsed ? Visibility.Collapsed : Visibility.Visible;
             CollapsedStrip.Visibility = collapsed ? Visibility.Visible : Visibility.Collapsed;
+            Grip.Visibility = collapsed ? Visibility.Collapsed : Visibility.Visible;
             Grip.Cursor = collapsed ? Cursors.Arrow : Cursors.SizeWE;
         }
 

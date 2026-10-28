@@ -27,7 +27,7 @@ namespace SqlSafetyGuard.UI
         public const string MarginName = "SqlSafetyGuardPane";
         public const string HighlightLayerName = "SqlSafetyGuardHighlight";
 
-        private const double CollapsedWidth = 24;
+        private const double CollapsedWidth = 28;
 
         // Shared by all query windows for the session, so a resize or collapse sticks.
         private static double _expandedWidth = 300;
@@ -173,6 +173,9 @@ namespace SqlSafetyGuard.UI
             if (_disposed)
                 return;
             _reason = reason;
+            ++_version;
+            _analysis?.Cancel();
+            _control.ShowAnalysisPending();
             _debounce.Stop();
             _debounce.Start();
         }
@@ -183,6 +186,7 @@ namespace SqlSafetyGuard.UI
             if (_disposed)
                 return;
             _debounce.Stop();
+            _control.ShowAnalysisPending();
 
             // Same rule as Query.Execute: the selection if there is one, otherwise the whole window.
             var snapshot = _view.TextSnapshot;
