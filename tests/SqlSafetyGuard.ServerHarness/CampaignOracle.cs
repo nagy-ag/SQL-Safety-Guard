@@ -13,9 +13,33 @@ internal sealed record CampaignObservation(bool Changed, string[] ModifiedObject
 internal static class CampaignOracle
 {
     internal static bool OnlyExternalDatabaseChange(CampaignSnapshot before, CampaignSnapshot after) =>
-        before.Server.Length == 8 && after.Server.Length == 8 && before.Server[5] != after.Server[5] &&
-        before.Server.Where((value, index) => index != 5).SequenceEqual(after.Server.Where((value, index) => index != 5)) &&
+        before.Server.Length == 8 && after.Server.Length == 8 &&
+        (before.Server[5] != after.Server[5] || before.Server[7] != after.Server[7]) &&
+        before.Server.Where((value, index) => index != 5 && index != 7).SequenceEqual(after.Server.Where((value, index) => index != 5 && index != 7)) &&
+        NormalizeForeignDatabaseState(before.Server[5]) == NormalizeForeignDatabaseState(after.Server[5]) &&
+        WithoutExtensionObjects(before.Server[7]) == WithoutExtensionObjects(after.Server[7]) &&
         Equivalent(before with { Server = after.Server }, after);
+
+    private static string NormalizeForeignDatabaseState(string snapshot)
+    {
+        var rows = System.Text.Json.Nodes.JsonNode.Parse(WithoutExtensionObjects(snapshot))!.AsArray();
+        foreach (var row in rows)
+        {
+            var name = row!["name"]!.GetValue<string>();
+            if (!new[] { "master", "model", "msdb", "tempdb" }.Contains(name, StringComparer.OrdinalIgnoreCase) &&
+                !name.StartsWith("SgPlay_", StringComparison.OrdinalIgnoreCase) &&
+                !name.StartsWith("SgRun_", StringComparison.OrdinalIgnoreCase) && row["state"] != null)
+                row["state"] = 0;
+        }
+        return rows.ToJsonString();
+    }
+
+    private static string WithoutExtensionObjects(string snapshot)
+    {
+        using var document = JsonDocument.Parse(string.IsNullOrEmpty(snapshot) ? "[]" : snapshot);
+        return JsonSerializer.Serialize(document.RootElement.EnumerateArray().Where(row =>
+            !row.GetProperty("name").GetString()!.StartsWith("SgExt_", StringComparison.Ordinal)).ToArray());
+    }
 
     internal static bool Equivalent(CampaignSnapshot expected, CampaignSnapshot actual) =>
         expected.Databases.Count == actual.Databases.Count && expected.Databases.All(pair => actual.Databases.TryGetValue(pair.Key, out var rows) && pair.Value.SequenceEqual(rows)) &&
@@ -25,8 +49,11 @@ internal static class CampaignOracle
 
     public static CampaignSession Session(SqlConnection connection)
     {
-        var row = CampaignSql.Rows(connection, "SELECT @@TRANCOUNT,@@OPTIONS,ORIGINAL_LOGIN(),SUSER_SNAME(),USER_NAME(),DB_NAME()")[0];
-        return new CampaignSession(int.Parse(row[0]), int.Parse(row[1]), row[2], row[3], row[4], row[5]);
+        var rows = CampaignSql.Rows(connection, "SELECT @@TRANCOUNT,@@OPTIONS,ORIGINAL_LOGIN(),SUSER_SNAME(),USER_NAME(),DB_NAME()");
+        if (rows.Count != 1 || rows[0].Length != 6 || !int.TryParse(rows[0][0], out var transactions) || !int.TryParse(rows[0][1], out var options))
+            throw new InvalidDataException("Session SELECT was suppressed or replaced by a plan result; session modes remain unobserved (not reset).");
+        var row = rows[0];
+        return new CampaignSession(transactions, options, row[2], row[3], row[4], row[5]);
     }
     public static CampaignSnapshot Capture(string connectionString, IReadOnlyDictionary<string, string> databases, int timeout, string? container)
     {

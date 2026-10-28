@@ -35,7 +35,8 @@ internal static class SqlCmdLite
         var vars = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var current = new StringBuilder();
         string? batchError = null;
-        bool inBlockComment = false;
+        int commentDepth = 0;
+        char quoted = '\0';
 
         void Flush(int repeat)
         {
@@ -49,7 +50,7 @@ internal static class SqlCmdLite
         foreach (var rawLine in sql.Replace("\r\n", "\n").Split('\n'))
         {
             var line = rawLine;
-            if (sqlCmdMode && !inBlockComment)
+            if (sqlCmdMode)
             {
                 // Variables are substituted before the line is interpreted (sqlcmd semantics).
                 line = Variable.Replace(line, m =>
@@ -60,7 +61,7 @@ internal static class SqlCmdLite
                     return m.Value;
                 });
 
-                var cmd = Command.Match(line);
+                var cmd = commentDepth == 0 && quoted == '\0' ? Command.Match(line) : Match.Empty;
                 if (cmd.Success)
                 {
                     var name = cmd.Groups[1].Value.ToLowerInvariant();
@@ -99,13 +100,13 @@ internal static class SqlCmdLite
                 }
             }
 
-            if (!inBlockComment && Go.Match(line) is { Success: true } go)
+            if (commentDepth == 0 && quoted == '\0' && Go.Match(line) is { Success: true } go)
             {
                 Flush(go.Groups[1].Success ? int.Parse(go.Groups[1].Value) : 1);
                 continue;
             }
 
-            inBlockComment = UpdateBlockComment(line, inBlockComment);
+            UpdateLexicalState(line, ref commentDepth, ref quoted);
             current.Append(line).Append('\n');
         }
 
@@ -114,29 +115,27 @@ internal static class SqlCmdLite
     }
 
     /// <summary>Tracks /* */ across lines (SSMS doesn't split on a GO inside a block comment). Strings and -- are respected.</summary>
-    private static bool UpdateBlockComment(string line, bool inComment)
+    private static void UpdateLexicalState(string line, ref int depth, ref char quoted)
     {
-        int depth = inComment ? 1 : 0;
-        bool inString = false;
-        for (int i = 0; i < line.Length; i++)
+        for (int index = 0; index < line.Length; index++)
         {
-            char c = line[i];
-            char next = i + 1 < line.Length ? line[i + 1] : '\0';
+            char current = line[index];
+            char next = index + 1 < line.Length ? line[index + 1] : '\0';
             if (depth > 0)
             {
-                if (c == '*' && next == '/') { depth--; i++; }
-                else if (c == '/' && next == '*') { depth++; i++; }
+                if (current == '*' && next == '/') { depth--; index++; }
+                else if (current == '/' && next == '*') { depth++; index++; }
             }
-            else if (inString)
+            else if (quoted != '\0')
             {
-                if (c == '\'') inString = false;
+                if (current == quoted && next == quoted) index++;
+                else if (current == quoted) quoted = '\0';
             }
-            else if (c == '\'') inString = true;
-            else if (c == '-' && next == '-') break;
-            else if (c == '/' && next == '*') { depth++; i++; }
+            else if (current is '\'' or '"') quoted = current;
+            else if (current == '[') quoted = ']';
+            else if (current == '-' && next == '-') break;
+            else if (current == '/' && next == '*') { depth++; index++; }
         }
-
-        return depth > 0;
     }
 
     /// <summary>The script's T-SQL with SQLCMD lines expanded, for schema discovery only.</summary>
