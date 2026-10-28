@@ -448,7 +448,8 @@ Safety rules:
   statement type not listed above are red (conservative). BACKUP, UPDATE STATISTICS, CHECKPOINT and unrecognized
   DBCC commands are yellow; DBCC is otherwise judged per command (read-only green, changing red).
   [docs/statement-coverage.md](docs/statement-coverage.md) records the reviewed ScriptDom statement inventory and
-  important semantic/resource limits; an inventory is not a proof of soundness. The
+  important semantic/resource limits; an inventory is not a proof of soundness. See also the
+  [statement verdicts](docs/statement-verdicts.md) for representative SQL examples and their colours. The
   [systematic verification report](docs/verification/2026-10-27-all-kinds/README.md) separates all 334 static
   checks from 267 live-passed kinds, three failed-only kinds, and 64 not live tested.
 - **Transactions are tracked by reading the text, not the session.** A `COMMIT` with no `BEGIN TRAN` in the text is
