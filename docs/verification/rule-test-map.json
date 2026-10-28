@@ -1590,5 +1590,17 @@
   ],
   "parser.lexical-errors": [
     "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147 (UnrecognizedCharacter_DoesNotHideWhatFollows)"
+  ],
+  "verdict.severity": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+  ],
+  "finding.metadata": [
+    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+  ],
+  "position.offset": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+  ],
+  "aggregate.presentation": [
+    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
   ]
 }

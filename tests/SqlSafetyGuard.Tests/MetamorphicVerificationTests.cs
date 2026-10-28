@@ -258,7 +258,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
             Assert.Empty(result.ParseErrors);
             Assert.Equal(baseline.Overall, result.Overall);
         }
-        output.WriteLine("NESTING AUDIT " + ruleId);
+        output.WriteLine("NESTING AUDIT " + ruleId + "; option=" + sqlOption);
     }
 
     [Fact]
