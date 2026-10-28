@@ -7,6 +7,60 @@ namespace SqlSafetyGuard.Tests;
 public class SoundnessRegressionTests
 {
     [Theory]
+    [InlineData("#Items", "t2", Verdict.RealWrite)]
+    [InlineData("t1", "#Items", Verdict.RealWrite)]
+    [InlineData("t1", "t2", Verdict.RealWrite)]
+    [InlineData("#Items", "#Other", Verdict.TempOnly)]
+    [InlineData("##Items", "#Other", Verdict.TempOnly)]
+    public void SwitchClassifiesBothTables(string source, string destination, Verdict expected)
+    {
+        foreach (var partitions in new[] { ("", ""), (" PARTITION 1", ""), ("", " PARTITION 2"), (" PARTITION 1", " PARTITION 2") })
+        {
+            var result = SqlSafetyAnalyzer.Analyze($"ALTER TABLE {source} SWITCH{partitions.Item1} TO {destination}{partitions.Item2};");
+            Assert.Empty(result.ParseErrors);
+            Assert.Equal(expected, result.Overall);
+            Assert.Contains(result.Findings, finding => finding.Target == source);
+            Assert.Contains(result.Findings, finding => finding.Target == destination);
+        }
+    }
+
+    [Theory]
+    [InlineData("RECEIVE TOP (1) * FROM dbo.q", Verdict.RealWrite)]
+    [InlineData("RECEIVE TOP (1) * FROM dbo.q INTO @Items", Verdict.RealWrite)]
+    [InlineData("GET CONVERSATION GROUP @g FROM dbo.q", Verdict.ReadOnly)]
+    public void WaitForPreservesInnerStatementVerdict(string statement, Verdict expected)
+    {
+        var standalone = SqlSafetyAnalyzer.Analyze(statement + ";");
+        var wrapped = SqlSafetyAnalyzer.Analyze($"WAITFOR ({statement}), TIMEOUT 1000;");
+        Assert.Empty(standalone.ParseErrors);
+        Assert.Empty(wrapped.ParseErrors);
+        Assert.Equal(expected, standalone.Overall);
+        Assert.Equal(standalone.Overall, wrapped.Overall);
+        Assert.Equal(standalone.Findings.Select(finding => finding.Action), wrapped.Findings.Select(finding => finding.Action));
+    }
+
+    [Fact]
+    public void ReceiveIntoTempTableIsInvalidAndNeverGreen()
+    {
+        var statement = "RECEIVE TOP (1) * FROM dbo.q INTO #Items";
+        foreach (var sql in new[] { statement + ";", $"WAITFOR ({statement}), TIMEOUT 10;" })
+        {
+            var result = SqlSafetyAnalyzer.Analyze(sql);
+            Assert.NotEmpty(result.ParseErrors);
+            Assert.Equal(Verdict.Unknown, result.Overall);
+        }
+    }
+
+    [Fact]
+    public void UnknownDbccNameIsClassifiedAsDllUnload()
+    {
+        var result = SqlSafetyAnalyzer.Analyze("DBCC SSG_UNKNOWN;");
+        Assert.Empty(result.ParseErrors);
+        Assert.Equal(Verdict.RealWrite, result.Overall);
+        Assert.Contains(result.Findings, finding => finding.Note == "unloads an extended procedure DLL");
+    }
+
+    [Theory]
     [InlineData("INSERT INTO #audit SELECT Id FROM (DELETE FROM dbo.Customers OUTPUT deleted.Id) AS c")]
     [InlineData("CREATE TABLE #t (Id int); UPDATE [#t] SET Id=2 FROM dbo.Orders AS [#t]")]
     [InlineData("CREATE TABLE #t (Id int); DELETE [#t] FROM dbo.Orders AS [#t]")]
@@ -216,13 +270,45 @@ DROP TABLE #work{index}");
     }
 
     [Fact]
-    public void NestingThatDefeatsTokenCountsIsRejectedWithoutStackOverflow()
+    public void NestingThatDefeatsStatementCountersIsRejectedBeforeParsing()
     {
-        // Each IF ... SELECT resets the token-level counters, but the walker still recurses per level.
         var sql = string.Concat(Enumerable.Repeat("IF 1=1 SELECT 1 ELSE WHILE 1=0 ", 40000)) + "SELECT 1";
         var result = SqlSafetyAnalyzer.Analyze(sql);
         Assert.Equal(Verdict.Unknown, result.Overall);
-        Assert.Contains(result.Findings, finding => finding.Note.Contains("nested too deeply"));
+        Assert.Contains(result.Findings, finding => finding.Note?.Contains("too complex to analyze: control-flow keyword budget exceeded") == true);
+    }
+
+    [Fact]
+    public void ParsedAlternatingNestingIsRejectedByWalkerDepthLimit()
+    {
+        var sql = string.Concat(Enumerable.Repeat("IF 1=1 SELECT 1 ELSE WHILE 1=0 ", 600)) + "SELECT 1";
+        var result = SqlSafetyAnalyzer.Analyze(sql);
+        Assert.Equal(Verdict.Unknown, result.Overall);
+        Assert.Contains(result.Findings, finding => finding.Note?.Contains("nested too deeply") == true);
+    }
+
+    [Theory]
+    [InlineData(2500, Verdict.ReadOnly)]
+    [InlineData(2501, Verdict.Unknown)]
+    public void ControlFlowKeywordBudgetHasExactBatchBoundary(int steps, Verdict expected)
+    {
+        var sql = string.Concat(Enumerable.Repeat("IF 1=0 SELECT 1 ELSE SELECT 2; ", steps));
+        var result = SqlSafetyAnalyzer.Analyze(sql);
+        Assert.Equal(expected, result.Overall);
+        if (expected == Verdict.Unknown)
+            Assert.Contains(result.Findings, finding => finding.Note.Contains("control-flow keyword budget exceeded"));
+        else
+            Assert.Empty(result.ParseErrors);
+    }
+
+    [Fact]
+    public void ControlFlowKeywordBudgetResetsOnlyAtGo()
+    {
+        var batch = string.Concat(Enumerable.Repeat("IF 1=0 SELECT 1 ELSE SELECT 2;\n", 1400));
+        var result = SqlSafetyAnalyzer.Analyze(batch + "GO\n" + batch);
+        Assert.Empty(result.ParseErrors);
+        Assert.Equal(Verdict.ReadOnly, result.Overall);
+        Assert.Equal(5600, result.Findings.Count);
     }
 
     [Fact]

@@ -645,6 +645,10 @@ namespace SqlSafetyGuard.Analyzer
                 case CreateTableStatement createTable:
                     AddNamedWrite(scope, createTable, "CREATE TABLE", createTable.SchemaObjectName, allowListApplies: false);
                     return;
+                case AlterTableSwitchStatement switchTable:
+                    AddNamedWrite(scope, switchTable, Classifier.ActionName(switchTable), switchTable.SchemaObjectName, allowListApplies: false);
+                    AddNamedWrite(scope, switchTable, Classifier.ActionName(switchTable), switchTable.TargetTable, allowListApplies: false);
+                    return;
                 case AlterTableStatement alterTable:
                     AddNamedWrite(scope, alterTable, Classifier.ActionName(alterTable), alterTable.SchemaObjectName, allowListApplies: false);
                     return;
