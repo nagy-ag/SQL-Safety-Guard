@@ -14,8 +14,8 @@ namespace SqlSafetyGuard.UI
             if (targetWarning != null)
             {
                 TargetWarningText.Text = targetWarning;
-                TargetWarningText.Foreground = VerdictBrushes.For(Verdict.Unknown);
-                TargetWarningText.Visibility = Visibility.Visible;
+                TargetWarningBorder.BorderBrush = VerdictBrushes.For(Verdict.Unknown);
+                TargetWarningBorder.Visibility = Visibility.Visible;
             }
             MaxHeight = SystemParameters.WorkArea.Height * 0.9;
             EnvironmentText.Text = settings.Environment + " · " + snapshot.Describe();

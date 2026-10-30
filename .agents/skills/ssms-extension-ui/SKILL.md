@@ -54,7 +54,7 @@ settings, so close that run cleanly and restore `settings.original.json` again b
 
 The Debug file channel accepts `document.sql|verb|argument` in its private test directory. `showconfirm`, `showfailure`,
 `showlisteditor allowList|trustedProcedures|environmentRules`, and `showimportpreview <absolute .ssgsettings.json path>` show
-the real dialogs modeless with ShowActivated=false, owned by SSMS. Run buttons are inert; Save/Import are disabled.
+the real dialogs modeless with ShowActivated=false, owned by SSMS. Run, Save and Import handlers are inert in previews; buttons retain their production enabled state.
 `showoptions` opens the real integrated options page. `capture <surface> <absolute PNG path>` waits through dispatcher
 ContextIdle/ApplicationIdle and uses RenderTargetBitmap at actual layout size/DPI for `pane`, `confirm`, `failure`,
 `allowList`, `trustedProcedures`, `environmentRules`, `importpreview` (dialogs use their client root, excluding native chrome).

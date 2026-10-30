@@ -26,6 +26,7 @@ public class SettingsTransferTests
         var imported = SettingsTransfer.PrepareImport(json, Defaults).Proposed;
         Assert.Empty(SettingsTransfer.Diff(settings, imported));
         Assert.Equal(6, Import(Defaults, settings).Changes.Count);
+        Assert.Contains(Import(Defaults, settings).Changes, change => change.Name == "Trusted procedures");
     }
 
     [Theory]
@@ -305,6 +306,7 @@ public class SettingsTransferTests
         Assert.All(buttons.Where(button => new[] { "cmdidExportSettings", "cmdidImportSettings" }.Contains((string?)button.Attribute("id"))),
             button => Assert.Null(button.Element(ns + "Parent")));
         var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
+        Assert.DoesNotContain("docs/", registration.ToString());
         var actions = (Newtonsoft.Json.Linq.JArray)registration["categories"]!["sqlSafetyGuard"]!["commands"]!;
         Assert.Equal(new[] { "Import Settings...", "Export Settings..." }, actions.Select(action => (string?)action["vsct"]!["text"]));
         Assert.Equal(new[] { 0x102, 0x101 }, actions.Select(action => (int)action["vsct"]!["id"]!));

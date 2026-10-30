@@ -147,7 +147,7 @@ namespace SqlSafetyGuard.Options
             AddChange(changes, "Show server and database", before.ShowServerAndDatabase.ToString(), after.ShowServerAndDatabase.ToString());
             AddChange(changes, "Safe tables allow-list", before.AllowList, after.AllowList);
             AddChange(changes, "Treat permanent tempdb objects as temporary", before.TempdbIsTemp.ToString(), after.TempdbIsTemp.ToString());
-            AddChange(changes, "Trusted read-only procedures", before.TrustedProcedures, after.TrustedProcedures);
+            AddChange(changes, "Trusted procedures", before.TrustedProcedures, after.TrustedProcedures);
             AddChange(changes, "Server / environment rules (first match wins)", before.EnvironmentRules, after.EnvironmentRules);
             return changes.AsReadOnly();
         }

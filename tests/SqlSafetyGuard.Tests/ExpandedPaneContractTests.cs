@@ -69,7 +69,8 @@ public class ExpandedPaneContractTests
         Assert.Equal(new[] { "{Binding ObjectName}", "{Binding Subtitle}", "{Binding Line}" },
             header.Descendants(Presentation + "TextBlock").Select(element => (string?)element.Attribute("Text")));
         Assert.Equal(3, header.Descendants(Presentation + "ColumnDefinition").Count());
-        Assert.Empty(header.Descendants(Presentation + "TextBlock").Attributes("Foreground"));
+        Assert.All(header.Descendants(Presentation + "TextBlock").Attributes("Foreground"), attribute =>
+            Assert.Contains("EnvironmentColors.SystemGrayTextBrushKey", attribute.Value));
         Assert.Empty(header.Descendants(Presentation + "TextBlock").Attributes("FontWeight"));
         Assert.DoesNotContain(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
@@ -107,7 +108,7 @@ public class ExpandedPaneContractTests
         Assert.Empty(settings.Descendants(Presentation + "TextBox"));
         Assert.Empty(settings.Descendants(Presentation + "CheckBox"));
         var button = Assert.Single(settings.Descendants(Presentation + "Button"));
-        Assert.Equal("Edit in Tools › Options…", (string?)button.Attribute("Content"));
+        Assert.Equal("Settings...", (string?)button.Attribute("Content"));
         Assert.Equal("OnEditOptions", (string?)button.Attribute("Click"));
         var template = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "PatternTemplate");

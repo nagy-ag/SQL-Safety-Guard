@@ -168,12 +168,16 @@ Safety rules:
   If the failure box cannot be shown, execution is cancelled. The Output pane logs the failure, the guard becomes
   degraded, and a once-per-session InfoBar is attempted. After a red/yellow result is computed, status, logging or
   wait-dialog cleanup failures cannot authorize execution. A failed confirmation dialog cancels that execution.
-- The safety pane and the dialog use Visual Studio theme colours. This change checks the failure dialog in one theme; consult the verification status for current UI coverage. The previous UI (a docked results window, since replaced by the pane) was checked in all 13 themes SSMS 22 lets you pick
+- The safety pane, finding rows and settings/dialog buttons use Visual Studio theme resources. Section headings
+  pair themed text with verdict-colour markers; secondary row text uses the themed grey brush. Verdict markers
+  have themed outlines. The pane's **Settings...** button opens the same integrated page as
+  **Tools > SQL Safety Guard > Settings...**. Execution-target warnings use readable dialog text with an amber edge.
+  Consult the verification status for the latest capture review across all 13 themes SSMS 22 lets you pick
   (`environment.visualExperience.colorTheme`): Light, Cool Breeze, Icy Mint, Sunny Day, Juicy Plum, Mango Paradise,
   Bubblegum, Silky Pink, Dark, Cool Slate, Moonlight Glow, Mystical Forest and Spicy Red. The Light/Dark (Extra
   Contrast) and High Contrast themes can't be selected through that setting; they follow the Windows contrast
   setting and weren't tested. The Cancel button has an accent border, so it reads as the default button in dark
-  themes too.
+  themes too. Settings list editors use the same explicit default Cancel border.
 - **All execution analysis runs off the UI thread**, behind the Visual Studio threaded wait dialog (shown after
   300 ms). Cancel propagates to the analyzer and cancels execution. If the VS wait-dialog service is unavailable,
   analysis still uses a background thread, but no cancellable wait UI can be shown.

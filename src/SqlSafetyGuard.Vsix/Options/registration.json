@@ -123,7 +123,7 @@
     },
     "sqlSafetyGuard.environmentRules": {
       "title": "Environment rules",
-      "description": "First matching server/database rule wins. Rule lists ADD to global lists. Unknown connections use global settings. Use Edit rules for a larger editor and the rule format. See docs/user-guide.md for examples.",
+      "description": "First matching server/database rule wins. Rule lists ADD to global lists. Unknown connections use global settings. Use Edit rules for a larger editor and the rule format. For examples, see the User guide on the SQL Safety Guard GitHub project page.",
       "type": "string",
       "default": "",
       "order": 40,

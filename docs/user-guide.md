@@ -98,7 +98,7 @@ Previous installer checks on SSMS 22.11.2 (VS shell 18.11):
     automatically expanding it. Arrow-key navigation works across both lists. Yellow/red statements retain light tinting.
   - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, button-only
     confirmation, safe tables, trusted procedures, and tempdb handling. Each effective pattern identifies its
-    global or rule source. **Edit in Tools › Options…** opens SQL Safety Guard's options page.
+    global or rule source. **Settings...** opens SQL Safety Guard's options page.
   - Drag the pane's left edge to resize it; **»** collapses it to the unchanged thin strip with red/yellow count
     circles or a green check (click the strip to expand). Size and collapsed state apply to all query windows for
     the session.

@@ -28,6 +28,10 @@ public class GuardUiContractTests
         var text = document.ToString();
         Assert.Contains("CHANGES TO PERMANENT OBJECTS", text);
         Assert.Contains("CAN'T SEE INSIDE", text);
+        var warning = Assert.Single(document.Descendants(presentation + "TextBlock"), element =>
+            (string?)element.Attribute("{http://schemas.microsoft.com/winfx/2006/xaml}Name") == "TargetWarningText");
+        Assert.Contains("ThemedDialogColors.WindowPanelTextBrushKey", (string?)warning.Attribute("Foreground"));
+        Assert.Equal("3,0,0,0", (string?)warning.Parent?.Attribute("BorderThickness"));
         Assert.DoesNotContain("Binding Note", text);
         Assert.DoesNotContain("Binding Finding", text);
     }
@@ -81,5 +85,43 @@ public class GuardUiContractTests
         Assert.Empty(run.Descendants(presentation + "AccessText"));
         Assert.Equal("True", (string?)cancel.Attribute("IsDefault"));
         Assert.Equal("True", (string?)cancel.Attribute("IsCancel"));
+    }
+
+    [Fact]
+    public void PaneRowsAndSettingsUseShellThemeResources()
+    {
+        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/SafetyPaneControl.xaml"));
+        XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        XNamespace markup = "http://schemas.microsoft.com/winfx/2006/xaml";
+        foreach (var key in new[] { "PaneItem", "RowExpander", "PageButton" })
+        {
+            var style = Assert.Single(document.Descendants(presentation + "Style"), element =>
+                (string?)element.Attribute(markup + "Key") == key);
+            Assert.Contains(style.Elements(presentation + "Setter"), element =>
+                (string?)element.Attribute("Property") == "Foreground" &&
+                ((string?)element.Attribute("Value"))?.Contains("EnvironmentColors.ToolWindowTextBrushKey") == true);
+        }
+        var settings = Assert.Single(document.Descendants(presentation + "Button"), element =>
+            (string?)element.Attribute("Click") == "OnEditOptions");
+        Assert.Equal("Settings...", (string?)settings.Attribute("Content"));
+        Assert.Contains("ThemedDialogButtonStyleKey", (string?)settings.Attribute("Style"));
+        Assert.DoesNotContain(document.Descendants().Attributes(), attribute =>
+            attribute.Name.LocalName == "Value" && attribute.Value.StartsWith("#"));
+    }
+
+    [Theory]
+    [InlineData("SettingsListDialog.xaml")]
+    [InlineData("SettingsImportDialog.xaml")]
+    public void SettingsDialogsIndicateSafeDefaultWithThemeAccent(string file)
+    {
+        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/", file));
+        XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        var cancel = Assert.Single(document.Descendants(presentation + "Button"), element =>
+            (string?)element.Attribute("IsCancel") == "True");
+        Assert.Equal("True", (string?)cancel.Attribute("IsDefault"));
+        Assert.Equal("2", (string?)cancel.Attribute("BorderThickness"));
+        Assert.Contains("EnvironmentColors.SystemHighlightBrushKey", (string?)cancel.Attribute("BorderBrush"));
     }
 }

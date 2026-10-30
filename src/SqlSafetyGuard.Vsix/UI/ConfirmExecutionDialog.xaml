@@ -38,14 +38,18 @@
             <TextBlock x:Name="EnvironmentText" Margin="0,4,0,0" Opacity="0.75" TextWrapping="Wrap" />
             <TextBlock Text="Run this query anyway?" FontSize="20" FontWeight="SemiBold" Margin="0,14,0,4" />
             <TextBlock Text="Execution is paused. Nothing has run yet." TextWrapping="Wrap" />
-            <TextBlock x:Name="TargetWarningText" Margin="0,10,0,0" FontWeight="SemiBold" TextWrapping="Wrap" Visibility="Collapsed" />
+            <Border x:Name="TargetWarningBorder" Margin="0,10,0,0" BorderThickness="3,0,0,0" Padding="8,0,0,0" Visibility="Collapsed">
+                <TextBlock x:Name="TargetWarningText" FontWeight="SemiBold" TextWrapping="Wrap"
+                    Foreground="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
+            </Border>
         </StackPanel>
         <ScrollViewer Grid.Row="1" MaxHeight="500" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel>
                 <Expander x:Name="RedSection" Style="{StaticResource LedgerSection}">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <Ellipse x:Name="RedMarker" Width="8" Height="8" Margin="0,0,8,0" />
+                            <Ellipse x:Name="RedMarker" Width="8" Height="8" Margin="0,0,8,0" StrokeThickness="1"
+                                Stroke="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
                             <TextBlock Text="CHANGES TO PERMANENT OBJECTS" FontWeight="SemiBold" />
                             <TextBlock x:Name="RedCount" Margin="12,0,0,0" FontWeight="SemiBold" />
                         </StackPanel>
@@ -57,7 +61,8 @@
                 <Expander x:Name="YellowSection" Style="{StaticResource LedgerSection}">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Margin="0,5">
-                            <Ellipse x:Name="YellowMarker" Width="8" Height="8" Margin="0,0,8,0" />
+                            <Ellipse x:Name="YellowMarker" Width="8" Height="8" Margin="0,0,8,0" StrokeThickness="1"
+                                Stroke="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
                             <TextBlock Text="CAN'T SEE INSIDE" FontWeight="SemiBold" />
                             <TextBlock x:Name="YellowCount" Margin="12,0,0,0" FontWeight="SemiBold" />
                         </StackPanel>

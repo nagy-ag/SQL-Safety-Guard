@@ -1,7 +1,7 @@
 # Verification status
 
-Last updated: **2026-10-30**, after 1.0.0 preparation and the Light/Dark capture tooling trial. The latest server campaign used analyzer
-`34630d62` (main `4388bc2`); this preparation does not change analyzer verdicts.
+Last updated: **2026-10-30**, after theme/settings fixes and full 13-theme visual acceptance. The latest server campaign used analyzer
+`34630d62` (main `4388bc2`); these UI changes do not change analyzer verdicts or guard logic.
 This page is rewritten after every run; the dated details live in [../history/](../history/README.md).
 
 ## Bottom line
@@ -9,7 +9,22 @@ This page is rewritten after every run; the dated details live in [../history/](
 **No known false green.** Every write the analyzer calls green has either been fixed or is a documented policy choice waiting for a
 company decision ([policy-questions.md](policy-questions.md)). Typed confirmation stays disabled.
 
-## Latest release preparation - 2026-10-30
+## Latest theme acceptance - 2026-10-30
+
+[Theme fixes report](../history/runs/2026-10-30-theme-fixes.md): all **169 PNGs (13 themes × 13 surfaces)** were personally
+reviewed, with no remaining extension theme defects in the final matrix. Finding rows and secondary text use shell theme
+resources; the pane's themed **Settings...** button shares the menu action. Settings descriptions no longer refer to
+repository paths, and import preview consistently says **Trusted procedures**. Preview Save/Import buttons keep their
+production enabled state while their handlers remain inert. The full run also led to readable confirmation-warning
+text, themed verdict outlines and an explicit list-editor default-button accent.
+
+All **1,574 tests** pass, including DocsIndexTests and AgentSkillsSyncTests. Debug and Release solution builds each have
+**zero warnings and errors**. Release UI scripts pass **13 pane + 15 confirmation + 4 settings checks**. Both full capture
+runs restored Exp settings byte-for-byte and closed owned SSMS processes with WM_CLOSE. The final Debug build remains
+installed in Exp. No real input, foreground-focus manipulation or SQL execution was used; F5/Execute behavior was not
+retested by these visual captures. The disconnected native SSMS execution controls being disabled is expected.
+
+## Previous release preparation - 2026-10-30
 
 [Theme capture trial](../history/runs/2026-10-30-theme-capture.md): **26 non-blank PNGs** across Light and Dark, covering
 the pane, real modeless dialog previews, integrated options and toolbar. Several PNGs were opened to verify their real
@@ -72,7 +87,7 @@ disturbed results) and 3 are the known `TempdbIsTemp` and `RAISERROR … WITH LO
 | Analyzer rules (250) | 152 with server evidence | 50 cannot be exercised by SQL (API/client/AST guards); 48 still lack a working case |
 | Original hard statement kinds (67) | 16 verified live | 51: missing packages, Synapse/Fabric-only, unsupported edition or syntax |
 | All statement kinds (334) | 267 live-passed on 2026-10-27 | see [2026-10-27 report](../history/2026-10-27-all-kinds/README.md) |
-| Unit and integration tests | 1,571 passing | — |
+| Unit and integration tests | 1,574 passing | — |
 
 ## Open items
 

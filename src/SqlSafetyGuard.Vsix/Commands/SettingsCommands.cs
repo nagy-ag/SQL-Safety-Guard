@@ -21,7 +21,7 @@ namespace SqlSafetyGuard.Commands
             ThreadHelper.ThrowIfNotOnUIThread();
             service.AddCommand(new OleMenuCommand((s, e) => Export(package), new CommandID(PackageGuids.CommandSet, PackageIds.ExportSettingsCommand)));
             service.AddCommand(new OleMenuCommand((s, e) => Import(package), new CommandID(PackageGuids.CommandSet, PackageIds.ImportSettingsCommand)));
-            service.AddCommand(new OleMenuCommand((s, e) => package.ShowOptionPage(typeof(GeneralOptionsPage)),
+            service.AddCommand(new OleMenuCommand((s, e) => ShowSettings(package),
                 new CommandID(PackageGuids.CommandSet, PackageIds.SettingsCommand)));
             AddEditor(PackageIds.EditAllowListCommand, "Safe tables allow-list", "One pattern per line, for example dbo.Staging_*. Matching data writes become green; DDL is not authorized.", "allowList");
             AddEditor(PackageIds.EditTrustedProceduresCommand, "Trusted procedures", "One schema-qualified procedure pattern per line. Trust authorizes its effects; the procedure body is not inspected.", "trustedProcedures");
@@ -29,6 +29,12 @@ namespace SqlSafetyGuard.Commands
 
             void AddEditor(int id, string title, string description, string key) => service.AddCommand(
                 new OleMenuCommand((s, e) => EditList(package, title, description, key), new CommandID(PackageGuids.CommandSet, id)));
+        }
+
+        internal static void ShowSettings(SqlSafetyGuardPackage package)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            package?.ShowOptionPage(typeof(GeneralOptionsPage));
         }
 
         internal static SettingsSnapshot Capture(GeneralOptionsPage page) => new SettingsSnapshot((ExecutionMode)page.GuardMode,

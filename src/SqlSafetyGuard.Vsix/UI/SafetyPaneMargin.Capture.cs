@@ -74,8 +74,6 @@ namespace SqlSafetyGuard.UI
                         default: throw new ArgumentException("Expected allowList, trustedProcedures or environmentRules.");
                     }
                     var editor = new SettingsListDialog(title, description, entries);
-                    foreach (var button in CapturePreview.Descendants(editor).OfType<Button>().Where(b => Equals(b.Content, "Save")))
-                        button.IsEnabled = false;
                     ShowCaptureDialog(arg, editor);
                     break;
                 case "showimportpreview":
@@ -87,7 +85,6 @@ namespace SqlSafetyGuard.UI
                         Commands.SettingsCommands.Capture(TryGetPackage().Options));
                     var preview = new SettingsImportDialog(import);
                     // The preview retains the production validation/diff but cannot apply it.
-                    preview.ImportButton.IsEnabled = false;
                     ShowCaptureDialog("importpreview", preview);
                     ExtensionCheckTrace.Write("preview-import", import.Changes.Count.ToString(), import.Warnings.Count.ToString());
                     break;

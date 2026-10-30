@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-10-30 | [runs/2026-10-30-theme-fixes.md](runs/2026-10-30-theme-fixes.md) | Theme/settings fixes; all 169 surfaces personally reviewed across 13 themes, settings restored and no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-theme-capture.md](runs/2026-10-30-theme-capture.md) | Debug-only non-activating capture tooling; 26 Light/Dark PNGs, settings restoration and no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-release-preparation.md](runs/2026-10-30-release-preparation.md) | 1.0.0 preparation: failure confirmation, installer, neutral paths, release-script trial and documentation. |
 | 2026-10-30 | [runs/2026-10-30-native-settings.md](runs/2026-10-30-native-settings.md) | Native settings page, compact toolbar and settings synchronization checks; no SQL execution. |

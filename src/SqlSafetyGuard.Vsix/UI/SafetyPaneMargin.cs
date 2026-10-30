@@ -359,7 +359,7 @@ namespace SqlSafetyGuard.UI
         private void OnEditOptions()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            try { TryGetPackage()?.ShowOptionPage(typeof(Options.GeneralOptionsPage)); }
+            try { Commands.SettingsCommands.ShowSettings(TryGetPackage()); }
             catch (Exception exception) { OutputLog.Error("Safety pane: opening options failed.", exception); }
         }
 
