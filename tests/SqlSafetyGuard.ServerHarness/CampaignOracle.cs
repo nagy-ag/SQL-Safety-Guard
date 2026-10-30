@@ -12,6 +12,17 @@ internal sealed record CampaignObservation(bool Changed, string[] ModifiedObject
 
 internal static class CampaignOracle
 {
+    internal static string[] ServerQueries => [
+        "SELECT name,type,is_disabled,default_database_name FROM sys.server_principals WHERE name NOT LIKE 'SgRun[_]%' ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT name,value,value_in_use FROM sys.configurations ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT name,product,provider,data_source,is_linked,is_data_access_enabled,is_rpc_out_enabled FROM sys.servers ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT role_principal_id,member_principal_id FROM sys.server_role_members ORDER BY role_principal_id,member_principal_id FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT permissions.class,permissions.major_id,permissions.grantee_principal_id,permissions.type,permissions.state FROM sys.server_permissions permissions INNER JOIN sys.server_principals grantee ON grantee.principal_id=permissions.grantee_principal_id WHERE grantee.name NOT LIKE 'SgRun[_]%' ORDER BY permissions.class,permissions.major_id,permissions.grantee_principal_id,permissions.type FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT name,state,is_read_only,is_trustworthy_on,is_db_chaining_on FROM sys.databases WHERE name NOT LIKE 'SgRun[_]%' ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT name,type_desc,state_desc FROM sys.endpoints ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
+        "SELECT name FROM sys.server_event_sessions ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES"
+    ];
+
     internal static bool OnlyExternalDatabaseChange(CampaignSnapshot before, CampaignSnapshot after) =>
         before.Server.Length == 8 && after.Server.Length == 8 &&
         (before.Server[5] != after.Server[5] || before.Server[7] != after.Server[7]) &&
@@ -80,17 +91,7 @@ internal static class CampaignOracle
             }
         }
         using var admin = CampaignSql.Open(connectionString);
-        string[] serverQueries = [
-            "SELECT name,type,is_disabled,default_database_name FROM sys.server_principals WHERE name NOT LIKE 'SgRun[_]%' ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT name,value,value_in_use FROM sys.configurations ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT name,product,provider,data_source,is_linked,is_data_access_enabled,is_rpc_out_enabled FROM sys.servers ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT role_principal_id,member_principal_id FROM sys.server_role_members ORDER BY role_principal_id,member_principal_id FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT class,major_id,grantee_principal_id,type,state FROM sys.server_permissions WHERE grantee_principal_id NOT IN(SELECT principal_id FROM sys.server_principals WHERE name LIKE 'SgRun[_]%') ORDER BY class,major_id,grantee_principal_id,type FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT name,state,is_read_only,is_trustworthy_on,is_db_chaining_on FROM sys.databases WHERE name NOT LIKE 'SgRun[_]%' ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT name,type_desc,state_desc FROM sys.endpoints ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES",
-            "SELECT name FROM sys.server_event_sessions ORDER BY name FOR JSON PATH,INCLUDE_NULL_VALUES"
-        ];
-        var server = serverQueries.Select(query => string.Join("", CampaignSql.Rows(admin, query, timeout).Select(row => row[0]))).ToArray();
+        var server = ServerQueries.Select(query => string.Join("", CampaignSql.Rows(admin, query, timeout).Select(row => row[0]))).ToArray();
         using var tempdb = CampaignSql.Open(connectionString, "tempdb");
         var temp = CampaignSql.Rows(tempdb, "SELECT QUOTENAME(SCHEMA_NAME(schema_id))+'.'+QUOTENAME(name),type,CONVERT(varchar(30),modify_date,126) FROM sys.objects WHERE is_ms_shipped=0 AND name NOT LIKE '#%' AND (parent_object_id=0 OR OBJECT_NAME(parent_object_id) NOT LIKE '#%') ORDER BY object_id", timeout).Select(row => string.Join("|", row)).ToList();
         foreach (var row in CampaignSql.Rows(tempdb, "SELECT QUOTENAME(SCHEMA_NAME(schema_id))+'.'+QUOTENAME(name) FROM sys.tables WHERE is_ms_shipped=0 AND name NOT LIKE '#%'", timeout))

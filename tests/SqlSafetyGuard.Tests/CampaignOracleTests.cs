@@ -5,6 +5,16 @@ namespace SqlSafetyGuard.Tests;
 public class CampaignOracleTests
 {
     [Fact]
+    public void PermissionSnapshotRequiresAnExistingNonCloneGrantee()
+    {
+        var query = Assert.Single(CampaignOracle.ServerQueries, query => query.Contains("FROM sys.server_permissions"));
+        Assert.Contains("INNER JOIN sys.server_principals grantee ON grantee.principal_id=permissions.grantee_principal_id", query);
+        Assert.Contains("WHERE grantee.name NOT LIKE 'SgRun[_]%'", query);
+        Assert.DoesNotContain("NOT IN", query);
+        Assert.DoesNotContain(CampaignOracle.ServerQueries, query => query.Contains("SELECT principal_id FROM sys.server_principals"));
+    }
+
+    [Fact]
     public void ForeignRecoveryStateIsExternalButOwnedOrConfigurationChangesAreNot()
     {
         var before = Snapshot("[{\"name\":\"Foreign\",\"state\":0,\"is_read_only\":false}]");
