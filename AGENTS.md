@@ -77,12 +77,14 @@ python tools/verification/generate_inventory.py            # regenerate docs/ver
 
 ## Skills
 
-Task workflows live in `.claude/skills/<name>/SKILL.md`. Claude loads them automatically; other agents should open the file
-before starting that kind of task.
+Task workflows follow the open Agent Skills format and live in `.agents/skills/<name>/SKILL.md`, the shared location that
+Codex, GitHub Copilot and other compliant agents scan. Claude Code only scans `.claude/skills/`, so that folder holds an
+identical copy. **Edit `.agents/skills/` and copy the change to `.claude/skills/`**; `AgentSkillsSyncTests` fails if they differ.
+Agents that do not scan skill folders should open the file before starting that kind of task.
 
 | Skill | Read it before |
 |---|---|
-| [classifier-change](.claude/skills/classifier-change/SKILL.md) | Changing how any statement, procedure or setting is judged |
-| [server-verification](.claude/skills/server-verification/SKILL.md) | Running or interpreting the server harness or a verification campaign |
-| [ssms-extension-ui](.claude/skills/ssms-extension-ui/SKILL.md) | Changing or testing the VSIX, the pane, the dialog or the F5 guard |
-| [docs-upkeep](.claude/skills/docs-upkeep/SKILL.md) | Adding, moving or updating anything in `docs/` |
+| [classifier-change](.agents/skills/classifier-change/SKILL.md) | Changing how any statement, procedure or setting is judged |
+| [server-verification](.agents/skills/server-verification/SKILL.md) | Running or interpreting the server harness or a verification campaign |
+| [ssms-extension-ui](.agents/skills/ssms-extension-ui/SKILL.md) | Changing or testing the VSIX, the pane, the dialog or the F5 guard |
+| [docs-upkeep](.agents/skills/docs-upkeep/SKILL.md) | Adding, moving or updating anything in `docs/` |
