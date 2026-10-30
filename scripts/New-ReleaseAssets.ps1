@@ -36,7 +36,7 @@ try {
     $ancestor = $OutputDirectory
     while ($ancestor) {
         if (Test-Path -LiteralPath $ancestor) {
-            if ((Get-Item -LiteralPath $ancestor).Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            if ((Get-Item -LiteralPath $ancestor -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
                 throw "Release output cannot traverse a reparse point: $ancestor"
             }
         }
