@@ -1,0 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
+# Independent release acceptance — 2026-10-30
+
+Tested commit `2848b4f82faffaed087df29a9e3a156c209a1f59` on SSMS 22.11.12324.101. Debug and Release builds had zero warnings and errors; 1,574 tests passed; Release interaction scripts passed 13 pane, 15 confirmation and 4 settings checks. Debug installation in Exp matched both build DLL hashes. All 169 theme images were independently inspected, with no visual issues in the captured states. The Exp settings hash matched before and after, and capture-owned SSMS processes exited. No SQL was executed. Physical shortcuts, actual execution, double-click installer UI, Windows high-contrast themes and other SSMS versions were not tested. See [release acceptance](../../release-acceptance.md) for the matrix and limits.

@@ -1,30 +1,38 @@
-# Release acceptance — 2026-10-27
+# Release 1.0.0 acceptance
 
-Status: accepted for the user-approved Light and Dark theme scope. Automated/delegated observations and user-reported checks are distinguished below.
+Date: 2026-10-30. Tested commit: `2848b4f82faffaed087df29a9e3a156c209a1f59`. SSMS: 22.11.12324.101.
 
-## Completed
+**Overall verdict: accepted** for the checks described here. No visual issues were found in the captured states. This is not a test of real query execution.
 
-- Release solution build succeeded and all 416 unit tests passed.
-- Server harness Release build succeeded with zero warnings and zero errors.
-- Pinned the harness dependency System.Security.Cryptography.Pkcs to 9.0.21, the first patched 9.0 version listed for GHSA-2fmv-rv2c-59x7 and GHSA-846f-f764-76mx. This overrides the vulnerable 9.0.13 transitive dependency without suppressing audit warnings.
-- NuGet vulnerability audit including transitive harness dependencies reported no vulnerable packages against the configured sources.
-- Reinstalled the Release VSIX using install.ps1 and the supported VSIXInstaller on SSMS 22.11.12324.101 (instance e8efe2d3). Installer exited successfully.
-- Installed extension and analyzer DLL SHA-256 hashes match their Release build outputs:
-  - SqlSafetyGuard.dll: 12BD66AA82988A91AB0BF779A627B232C054184A5B0D298870BFD3DAD682011D
-  - SqlSafetyGuard.Analyzer.dll: F38F68A077126DE148659C3076A5262144147BABF443F4B40A787BE80E441EA7
+## Builds, tests and installation
 
-## SSMS runtime acceptance
+- Visual Studio MSBuild Debug and Release solution builds each succeeded with 0 warnings and 0 errors.
+- `dotnet test tests\SqlSafetyGuard.Tests` passed 1,574 tests, with 0 failed and 0 skipped, before and after the documentation update.
+- Release interaction scripts passed 13 pane, 15 confirmation and 4 settings checks. These are in-process checks; they do not test physical input or execute SQL.
+- Debug VSIX was uninstalled, installed and refreshed in the isolated Exp profile. Installed DLL hashes matched the Debug build: `SqlSafetyGuard.dll` SHA-256 `48C77AA0F61E01DD452DEC706358D5F07AA05B47EEF95B556D52DECB5FF273C5`; `SqlSafetyGuard.Analyzer.dll` SHA-256 `92F92452AC4C25B4B484FB333CAF6EFF3A552C0B540B06DB81F73E130F531815`.
 
-- Delegated UI checks confirmed the installed extension loads, with its toolbar, status indicator, and results pane visible. Manual Analyze follows SQLQuery1/SQLQuery2, reporting red UPDATE versus green SELECT and marking analysis as not executed.
-- Production exact-name confirmation rejected blank and lowercase input and accepted SqlGuard_Prod. Enter defaulted to Cancel; cancellation preserved the sandbox counter at 0. One Run anyway click affected exactly one row and advanced the counter to 1.
-- Development/Off passed both Execute-toolbar and F5 checks without a guard dialog. Manual Analyze remained available. The focused F5 check independently confirmed the sandbox counter advanced from 1 to 2.
-- Delegated Light and Dark checks confirmed readable results, red/green risk indicators, Production labels/warnings, typed-confirmation instructions, disabled Run anyway, and accented default Cancel. Warning dialogs were canceled.
-- Yellow/unknown-risk warning rendering was observed by a delegate in Cool Breeze. The final Light and Dark yellow-warning checks were completed manually by the user, who reported that they work. These two checks are user-reported, not agent-observed.
+## Visual review
 
-## Scope and restoration
+All 169 images were opened and checked individually for readability, risk colours, clipping, buttons and default Cancel, themed backgrounds and consistent labels. Each cell below is the verdict for the named captured surface. No issues or issue screenshot paths were recorded. The images and per-image CSV are stored outside the repository in the acceptance run output; surface names correspond to PNG filenames in each theme folder. Dialog images show client areas; the main and options images show the SSMS window. The previews use the Debug test channel and do not execute SQL.
 
-- The user explicitly reduced the final theme scope from all 13 themes to one Light and one Dark theme. The other 11 themes and Windows-controlled contrast variants were not reaccepted in this final pass.
-- Delegates restored the original Cool Breeze theme after the earlier successful theme checks. Final theme state after the user's manual checks was not independently verified.
-- The user reported deleting both temporary sandbox environment rules, restoring the original empty rule list. This cleanup is user-reported, not independently verified.
-- Testing used only the dedicated SqlGuard_Prod and SqlGuard_Dev databases. Sandbox tables remain; the last independently observed counters were Production 1 and Development 2.
-- Intermittent Computer Use native-pipe failures prevented the final delegate from checking yellow warnings in Light/Dark. It made no UI or settings changes; the user's manual verification closes that remaining visual gate. An earlier inconclusive F5 capture was superseded by the successful focused F5 check, not classified as a confirmed product defect.
+| Theme | pane-green | pane-yellow | pane-red | confirm-yellow | confirm-red | failure | list-allowList | list-trustedProcedures | list-environmentRules | import-preview | pane-settings | main-toolbar | options |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Light | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Cool Breeze | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Icy Mint | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Sunny Day | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Juicy Plum | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Mango Paradise | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Bubblegum | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Silky Pink | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Dark | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Cool Slate | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Moonlight Glow | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Mystical Forest | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| Spicy Red | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+
+## Restoration and limits
+
+The Exp settings file SHA-256 before and after capture was `27307919E64630C81FEB920F868A37D7307B4C4FBFC3EF66FC30A1DD985E9BE5`. The restoration record says restored and SSMS exited; a separate post-run hash matched. The capture-owned SSMS instances were closed, and Exp retains the tested Debug build.
+
+Not verified: physical keyboard F5, Ctrl+E or Alt+X; real SQL execution against a server; the double-click VSIX installer UI; Windows high-contrast themes; and SSMS versions other than 22.11.12324.101. The screenshots do not establish execution guard behavior.

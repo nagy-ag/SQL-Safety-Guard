@@ -9,7 +9,11 @@ This page is rewritten after every run; the dated details live in [../history/](
 **No known false green.** Every write the analyzer calls green has either been fixed or is a documented policy choice waiting for a
 company decision ([policy-questions.md](policy-questions.md)). Typed confirmation stays disabled.
 
-## Latest theme acceptance - 2026-10-30
+## Independent release acceptance - 2026-10-30
+
+[Independent acceptance report](../history/runs/2026-10-30-release-acceptance-final.md): commit `2848b4f` passed both zero-warning builds, 1,574 tests and 32 Release interaction checks. All 169 theme images were independently reviewed with no visual issues; Exp settings were restored and owned SSMS processes exited. No SQL was executed. The [release acceptance](../release-acceptance.md) records the matrix and unverified items.
+
+## Previous theme acceptance - 2026-10-30
 
 [Theme fixes report](../history/runs/2026-10-30-theme-fixes.md): all **169 PNGs (13 themes × 13 surfaces)** were personally
 reviewed, with no remaining extension theme defects in the final matrix. Finding rows and secondary text use shell theme

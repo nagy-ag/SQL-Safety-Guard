@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-10-30 | [runs/2026-10-30-release-acceptance-final.md](runs/2026-10-30-release-acceptance-final.md) | Independent 1.0.0 acceptance: 169 images, builds and tests, no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-theme-fixes.md](runs/2026-10-30-theme-fixes.md) | Theme/settings fixes; all 169 surfaces personally reviewed across 13 themes, settings restored and no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-theme-capture.md](runs/2026-10-30-theme-capture.md) | Debug-only non-activating capture tooling; 26 Light/Dark PNGs, settings restoration and no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-release-preparation.md](runs/2026-10-30-release-preparation.md) | 1.0.0 preparation: failure confirmation, installer, neutral paths, release-script trial and documentation. |
@@ -13,6 +14,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 | 2026-10-28 | [wave3/](wave3/validation-wave3.md) | Wave 3: `sp_monitor` fix, settings-aware campaign, rule ledger, statement-kind gaps, independent review. |
 | 2026-10-28 | [wave2/](wave2/validation-wave2.md) | Wave 2: disposable database sets, oracle and outcome classes, first campaign. |
 | 2026-10-28 | [wave1/findings-wave1.md](wave1/findings-wave1.md) | Wave 1: offline inconsistencies found before any server run. |
+| 2026-10-27 | [2026-10-27-release-acceptance.md](2026-10-27-release-acceptance.md) | Earlier release acceptance for Light and Dark. |
 | 2026-10-27 | [2026-10-27-all-kinds/README.md](2026-10-27-all-kinds/README.md) | All 334 statement kinds checked on a live server (SHA-256 protected; do not edit). |
 | 2026-10-27 | [2026-10-27-strict-coverage.md](2026-10-27-strict-coverage.md) | Strict runtime coverage baseline and its [report](2026-10-27-strict-coverage-report.md). |
 | 2026-10-27 | [2026-10-27-statement-coverage.md](2026-10-27-statement-coverage.md) | Reviewed ScriptDom statement inventory and the coverage fixes it led to. |
