@@ -55,4 +55,4 @@ else {
 Write-Host 'Refreshing the SSMS extension cache...'
 if (Update-SsmsConfiguration -Ssms $ssms) { Write-Host 'Extension cache refreshed.' -ForegroundColor Green }
 
-Write-Host 'Start SSMS 22. Query windows show the safety pane on the right; also see Tools > Analyze Query Safety (Ctrl+Shift+F5) and Tools > Options > SQL Safety Guard.'
+Write-Host 'Start SSMS 22. Query windows show the safety pane on the right; also see Tools > SQL Safety Guard > Analyze Query (Ctrl+Shift+F5) and Settings.'

@@ -1,0 +1,166 @@
+{
+  "$schema": "https://aka.ms/unified-settings-experience/registration/schema",
+  "categories": {
+    "sqlSafetyGuard": {
+      "title": "SQL Safety Guard",
+      "description": "Analyze SQL before execution and configure when the guard asks for confirmation. Settings apply immediately. Import validates and previews changes before applying them.",
+      "legacyOptionPageId": "3d1b0a52-6f83-4c55-9a3e-2b7f0c9e1d44",
+      "commands": [
+        {
+          "vsct": {
+            "text": "Import Settings...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 258
+          }
+        },
+        {
+          "vsct": {
+            "text": "Export Settings...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 257
+          }
+        }
+      ]
+    }
+  },
+  "properties": {
+    "sqlSafetyGuard.guardMode": {
+      "title": "F5 warnings",
+      "description": "Choose when executing SQL requires confirmation. Unknown execution targets always require confirmation.",
+      "type": "string",
+      "default": "YellowRed",
+      "order": 0,
+      "migration": {
+        "enumIntegerToString": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.GuardMode"
+          },
+          "mode": "full",
+          "map": [
+            { "result": "Off", "match": 0 },
+            { "result": "Red", "match": 1 },
+            { "result": "YellowRed", "match": 2 }
+          ]
+        }
+      },
+      "enum": [
+        "Off",
+        "Red",
+        "YellowRed"
+      ],
+      "enumItemLabels": [
+        "Off",
+        "Warn on red only",
+        "Warn on yellow and red"
+      ]
+    },
+    "sqlSafetyGuard.showConnection": {
+      "title": "Show connection in confirmation",
+      "description": "Show the server and database in the execution confirmation. Unknown connection details always stay visible.",
+      "type": "boolean",
+      "default": true,
+      "order": 10,
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.ShowServerAndDatabase"
+          },
+          "mode": "full"
+        }
+      }
+    },
+    "sqlSafetyGuard.allowList": {
+      "title": "Safe tables allow-list",
+      "description": "Matching data writes become green. This authorizes the target and its side effects; DDL stays red. Use Edit list for one pattern per line; semicolons also work.",
+      "type": "string",
+      "default": "",
+      "order": 20,
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.AllowList"
+          },
+          "mode": "full"
+        }
+      },
+      "commands": [
+        {
+          "vsct": {
+            "text": "Edit list...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 261
+          }
+        }
+      ]
+    },
+    "sqlSafetyGuard.trustedProcedures": {
+      "title": "Trusted procedures",
+      "description": "Explicitly authorized procedures become green without inspecting their bodies. Use schema-qualified names; wildcards are allowed only in the final part. Use Edit list for one entry per line.",
+      "type": "string",
+      "default": "",
+      "order": 30,
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.TrustedProcedures"
+          },
+          "mode": "full"
+        }
+      },
+      "commands": [
+        {
+          "vsct": {
+            "text": "Edit list...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 262
+          }
+        }
+      ]
+    },
+    "sqlSafetyGuard.environmentRules": {
+      "title": "Environment rules",
+      "description": "First matching server/database rule wins. Rule lists ADD to global lists. Unknown connections use global settings. Use Edit rules for a larger editor and the rule format.",
+      "type": "string",
+      "default": "",
+      "order": 40,
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.EnvironmentRules"
+          },
+          "mode": "full"
+        }
+      },
+      "commands": [
+        {
+          "vsct": {
+            "text": "Edit rules...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 263
+          }
+        }
+      ]
+    },
+    "sqlSafetyGuard.tempdbIsTemp": {
+      "title": "Permanent tempdb objects are temporary",
+      "description": "Off by default. Turning this on makes writes to permanent shared tempdb objects green. Local and global temporary tables are already treated as temporary.",
+      "type": "boolean",
+      "default": false,
+      "order": 50,
+      "migration": {
+        "pass": {
+          "input": {
+            "store": "SettingsManager",
+            "path": "SqlSafetyGuard.Options.GeneralOptionsPage.TempdbIsTemp"
+          },
+          "mode": "full"
+        }
+      }
+    }
+  }
+}

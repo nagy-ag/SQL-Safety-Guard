@@ -21,10 +21,41 @@ namespace SqlSafetyGuard.Commands
             ThreadHelper.ThrowIfNotOnUIThread();
             service.AddCommand(new OleMenuCommand((s, e) => Export(package), new CommandID(PackageGuids.CommandSet, PackageIds.ExportSettingsCommand)));
             service.AddCommand(new OleMenuCommand((s, e) => Import(package), new CommandID(PackageGuids.CommandSet, PackageIds.ImportSettingsCommand)));
+            service.AddCommand(new OleMenuCommand((s, e) => package.ShowOptionPage(typeof(GeneralOptionsPage)),
+                new CommandID(PackageGuids.CommandSet, PackageIds.SettingsCommand)));
+            AddEditor(PackageIds.EditAllowListCommand, "Safe tables allow-list", "One pattern per line, for example dbo.Staging_*. Matching data writes become green; DDL is not authorized.", "allowList");
+            AddEditor(PackageIds.EditTrustedProceduresCommand, "Trusted procedures", "One schema-qualified procedure pattern per line. Trust authorizes its effects; the procedure body is not inspected.", "trustedProcedures");
+            AddEditor(PackageIds.EditEnvironmentRulesCommand, "Environment rules", "One rule per line: server | database | label | Off/Red/YellowRed | false | allow-list | trusted procedures. First match wins; lists add to global entries.", "environmentRules");
+
+            void AddEditor(int id, string title, string description, string key) => service.AddCommand(
+                new OleMenuCommand((s, e) => EditList(package, title, description, key), new CommandID(PackageGuids.CommandSet, id)));
         }
 
         internal static SettingsSnapshot Capture(GeneralOptionsPage page) => new SettingsSnapshot((ExecutionMode)page.GuardMode,
             page.ShowServerAndDatabase, page.AllowList, page.TempdbIsTemp, page.TrustedProcedures, page.EnvironmentRules);
+
+        private static void EditList(SqlSafetyGuardPackage package, string title, string description, string key)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            try
+            {
+                var current = Capture(package.Options);
+                string initial = key == "allowList" ? current.AllowList : key == "trustedProcedures" ? current.TrustedProcedures : current.EnvironmentRules;
+                var editor = new SettingsListDialog(title, description, initial);
+                editor.Save = text =>
+                {
+                    var proposed = new SettingsSnapshot(current.GuardMode, current.ShowServerAndDatabase,
+                        key == "allowList" ? text : current.AllowList, current.TempdbIsTemp,
+                        key == "trustedProcedures" ? text : current.TrustedProcedures,
+                        key == "environmentRules" ? text : current.EnvironmentRules);
+                    // Use the same validation and concurrent-change protection as an import.
+                    var change = SettingsTransfer.PrepareImport(SettingsTransfer.Export(proposed, "1.0", DateTimeOffset.UtcNow), current);
+                    Apply(package.Options, change);
+                };
+                editor.ShowModal();
+            }
+            catch (Exception ex) { Message(package, "Settings were not changed. " + ex.Message, true); }
+        }
 
         private static void Export(SqlSafetyGuardPackage package)
         {
@@ -78,7 +109,7 @@ namespace SqlSafetyGuard.Commands
         internal static void Apply(GeneralOptionsPage page, SettingsImport import)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            SettingsTransfer.Apply(import, () => Capture(page), value => Assign(page, value), page.SaveSettingsToStorage);
+            SettingsTransfer.Apply(import, () => Capture(page), value => Assign(page, value), page.PersistChanges);
         }
 
         private static void Assign(GeneralOptionsPage page, SettingsSnapshot value)

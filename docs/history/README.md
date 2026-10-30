@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-10-30 | [runs/2026-10-30-native-settings.md](runs/2026-10-30-native-settings.md) | Native settings page, compact toolbar and settings synchronization checks; no SQL execution. |
 | 2026-10-30 | [runs/2026-10-30-full-run.md](runs/2026-10-30-full-run.md) | Full 37,229-case server run plus single-worker confirmation; no real false green. |
 | 2026-10-28 | [wave3/](wave3/validation-wave3.md) | Wave 3: `sp_monitor` fix, settings-aware campaign, rule ledger, statement-kind gaps, independent review. |
 | 2026-10-28 | [wave2/](wave2/validation-wave2.md) | Wave 2: disposable database sets, oracle and outcome classes, first campaign. |

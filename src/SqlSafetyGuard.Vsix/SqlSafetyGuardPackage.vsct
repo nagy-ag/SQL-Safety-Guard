@@ -9,7 +9,7 @@
     <Groups>
       <!-- Tools menu -->
       <Group guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" priority="0x0100">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" />
       </Group>
       <!-- SSMS "SQL Editor" toolbar, right after the Execute group (IDG_SQLWB_QUERY_EXEC_TOOLBAR = 0x0300) -->
       <Group guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" priority="0x0350">
@@ -17,15 +17,21 @@
       </Group>
     </Groups>
 
+    <Menus>
+      <Menu guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+        <Strings><ButtonText>SQL Safety Guard</ButtonText></Strings>
+      </Menu>
+    </Menus>
+
     <Buttons>
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" priority="0x0100" type="Button">
         <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
         <CommandFlag>IconIsMoniker</CommandFlag>
-        <CommandFlag>TextChanges</CommandFlag>
         <CommandFlag>TextOnly</CommandFlag>
         <Strings>
-          <ButtonText>Analyze Query Safety</ButtonText>
+          <ButtonText>Analyze Query</ButtonText>
           <ToolTipText>Show the safety pane and re-analyze now, without executing (selection, or the whole window)</ToolTipText>
           <CommandName>AnalyzeQuerySafety</CommandName>
           <CanonicalName>.SqlSafetyGuard.AnalyzeQuerySafety</CanonicalName>
@@ -34,7 +40,6 @@
       </Button>
 
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidExportSettings" priority="0x0110" type="Button">
-        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
         <Strings>
           <ButtonText>Export Settings...</ButtonText>
           <ToolTipText>Export your SQL Safety Guard configuration to a JSON file</ToolTipText>
@@ -44,7 +49,6 @@
         </Strings>
       </Button>
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidImportSettings" priority="0x0120" type="Button">
-        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
         <Strings>
           <ButtonText>Import Settings...</ButtonText>
           <ToolTipText>Validate and preview a SQL Safety Guard settings file before applying it</ToolTipText>
@@ -53,14 +57,40 @@
           <LocCanonicalName>.SqlSafetyGuard.ImportSettings</LocCanonicalName>
         </Strings>
       </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidSettings" priority="0x0110" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
+        <Strings>
+          <ButtonText>Settings...</ButtonText>
+          <CommandName>SafetyGuardSettings</CommandName>
+          <CanonicalName>.SqlSafetyGuard.Settings</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.Settings</LocCanonicalName>
+        </Strings>
+      </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidToolbarAnalyze" priority="0x0100" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" />
+        <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>TextOnly</CommandFlag>
+        <CommandFlag>DynamicAutomationName</CommandFlag>
+        <Strings>
+          <ButtonText>SQL Safety Guard</ButtonText>
+          <ToolTipText>Analyze the selection or whole window without executing (Ctrl+Shift+F5). See the status bar and safety pane for environment and guard details.</ToolTipText>
+        </Strings>
+      </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidEditAllowList" priority="0x0100" type="Button">
+        <Strings><ButtonText>Edit safe tables allow-list...</ButtonText></Strings>
+      </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidEditTrustedProcedures" priority="0x0100" type="Button">
+        <Strings><ButtonText>Edit trusted procedures...</ButtonText></Strings>
+      </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidEditEnvironmentRules" priority="0x0100" type="Button">
+        <Strings><ButtonText>Edit environment rules...</ButtonText></Strings>
+      </Button>
     </Buttons>
   </Commands>
 
-  <CommandPlacements>
-    <CommandPlacement guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" priority="0x0100">
-      <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" />
-    </CommandPlacement>
-  </CommandPlacements>
+
 
   <KeyBindings>
     <!-- Ctrl+Shift+A is Project.AddNewItem (Global) in SSMS 22, so Ctrl+Shift+F5 is used. Scoped to the SQL Query Editor. -->
@@ -72,10 +102,16 @@
 
     <GuidSymbol name="guidSqlSafetyGuardCmdSet" value="{84195f28-a147-4898-bcad-b1ad3c744ae2}">
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
+      <IDSymbol name="SqlSafetyGuardMenu" value="0x1022" />
       <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
       <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />
       <IDSymbol name="cmdidExportSettings" value="0x0101" />
       <IDSymbol name="cmdidImportSettings" value="0x0102" />
+      <IDSymbol name="cmdidSettings" value="0x0103" />
+      <IDSymbol name="cmdidToolbarAnalyze" value="0x0104" />
+      <IDSymbol name="cmdidEditAllowList" value="0x0105" />
+      <IDSymbol name="cmdidEditTrustedProcedures" value="0x0106" />
+      <IDSymbol name="cmdidEditEnvironmentRules" value="0x0107" />
     </GuidSymbol>
 
     <!-- SSMS 22 SQLEditors.dll command table (decompiled with vsct.exe): toolbar "SQL Editor" -->

@@ -24,10 +24,21 @@ namespace SqlSafetyGuard.Commands
                 ThreadHelper.ThrowIfNotOnUIThread();
                 var document = package.Dte?.ActiveDocument;
                 analyze.Enabled = document != null && SqlEditorAccess.IsSqlDocument(document);
-                package.RefreshHealth(queryStatus: true);
-                analyze.Text = "Analyze Query Safety — " + package.HealthText;
             };
             commandService.AddCommand(analyze);
+
+            // Separate placement keeps the menu action stable while the toolbar shows compact guard health.
+            var toolbar = new OleMenuCommand((s, e) => Execute(package), new CommandID(PackageGuids.CommandSet, PackageIds.ToolbarAnalyzeCommand));
+            toolbar.BeforeQueryStatus += (s, e) =>
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                package.RefreshHealth(queryStatus: true);
+                toolbar.Text = package.ToolbarText;
+                toolbar.AutomationName = "Analyze query. " + package.HealthText;
+                var document = package.Dte?.ActiveDocument;
+                toolbar.Enabled = document != null && SqlEditorAccess.IsSqlDocument(document);
+            };
+            commandService.AddCommand(toolbar);
         }
 
         private static void Execute(SqlSafetyGuardPackage package)

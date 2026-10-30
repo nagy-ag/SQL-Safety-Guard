@@ -28,20 +28,24 @@ When SSMS cannot be sure which window it is about to run, the guard always asks,
 
 ## Settings
 
-**Tools > Options > SQL Safety Guard**:
+**Tools > SQL Safety Guard > Settings...** (also **Tools > Options > SQL Safety Guard**).
+Settings appear directly in the integrated Options tab and apply immediately.
 
-- **F5 guard**: warn on yellow and red (default), warn on red only, or off.
+- **F5 warnings**: warn on yellow and red (default), warn on red only, or off.
 - **Safe tables allow-list**: tables whose writes you accept as green, one pattern per line (for example `dbo.Staging_*`).
-- **Trusted read-only procedures**: procedures you assert only read (for example `dbo.sp_WhoIsActive`).
-- **Server / environment rules**: different labels, warning modes or extra allow-list entries per server and database, so a
+- **Trusted procedures**: procedures you assert only read (for example `dbo.sp_WhoIsActive`).
+- **Environment rules**: different labels, warning modes or extra allow-list entries per server and database, so a
   production server can always warn while a dev server warns less.
+
+Use **Edit list...** or **Edit rules...** for a larger multiline editor. Save validates your entries; Cancel keeps the
+previous values.
 
 Be careful with the allow-list and trusted procedures: anything on them is shown green without a question.
 
 ## Share settings with colleagues
 
-- **Export:** **Tools > Export Settings...** saves all your settings to one `.ssgsettings.json` file.
-- **Import:** **Tools > Import Settings...** opens such a file and shows exactly what would change before anything is applied.
+- **Export:** **Export Settings...** on the SQL Safety Guard settings page saves all your settings to one `.ssgsettings.json` file.
+- **Import:** **Import Settings...** on that page opens such a file and shows exactly what would change before anything is applied.
   Changes that make **more statements green** (new allow-listed tables, trusted procedures, a lower warning mode) are listed
   first and highlighted. Only import files from people you trust, and read those highlighted lines.
 - A file that is damaged, or was written by a newer version, is rejected and nothing changes.

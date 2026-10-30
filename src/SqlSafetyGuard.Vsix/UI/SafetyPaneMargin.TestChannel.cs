@@ -91,6 +91,18 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"cmd {verb} {(verb == "append" ? arg.Length + " chars" : arg)}");
             switch (verb)
             {
+                case "settingsnative":
+                    SmokeNativeSettings(arg, false);
+                    break;
+                case "settingsnativewrite":
+                    SmokeNativeSettings(arg, true);
+                    break;
+                case "settingsuicheck":
+                    SmokeSettingsUi(arg);
+                    break;
+                case "settingslistcheck":
+                    SmokeSettingsLists();
+                    break;
                 case "settingsexport":
                     Commands.SettingsCommands.ExportFile(TryGetPackage(), arg);
                     break;
@@ -211,6 +223,141 @@ namespace SqlSafetyGuard.UI
                 default:
                     PaneTrace.Write($"cmd unknown verb '{verb}'");
                     break;
+            }
+        }
+
+        // Service GUID from SSMS 22's SVsUnifiedSettingsManager; Debug checks only.
+        [System.Runtime.InteropServices.Guid("e3684f31-344e-42ea-9047-b620fdc7ac25")]
+        private sealed class NativeSettingsService { }
+
+        private void SmokeSettingsLists()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("Settings editor checks require a private test directory.");
+            foreach (int id in new[] { PackageIds.EditAllowListCommand, PackageIds.EditTrustedProceduresCommand,
+                PackageIds.EditEnvironmentRulesCommand, PackageIds.EditAllowListCommand })
+            {
+                var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+                timer.Tick += (s, e) =>
+                {
+                    ThreadHelper.ThrowIfNotOnUIThread();
+                    var dialog = System.Windows.Application.Current.Windows.OfType<SettingsListDialog>().FirstOrDefault();
+                    if (dialog == null) return;
+                    timer.Stop();
+                    try
+                    {
+                        if (dialog.Entries.Text.Contains("\r\r")) throw new InvalidOperationException("Doubled newlines.");
+                        var buttons = ((System.Windows.Controls.StackPanel)((System.Windows.Controls.Grid)dialog.Content).Children[3]).Children;
+                        var cancel = (System.Windows.Controls.Button)buttons[1];
+                        if (!cancel.IsDefault || !cancel.IsCancel) throw new InvalidOperationException("Cancel is not the default.");
+                        if (id == PackageIds.EditTrustedProceduresCommand)
+                        {
+                            dialog.Entries.Text = "unqualified";
+                            ((System.Windows.Controls.Button)buttons[0]).RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                            if (dialog.Error.Visibility != System.Windows.Visibility.Visible) throw new InvalidOperationException("Invalid trust was not rejected.");
+                        }
+                        if (id == PackageIds.EditAllowListCommand)
+                        {
+                            dialog.Entries.Text = "dbo.SgSettings_*\r\ndbo.SgSettings_Extra";
+                            ((System.Windows.Controls.Button)buttons[0]).RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                            if (dialog.Error.Visibility == System.Windows.Visibility.Visible) throw new InvalidOperationException(dialog.Error.Text);
+                        }
+                        else dialog.DialogResult = false;
+                        ExtensionCheckTrace.Write("settings-list", id.ToString(), "PASS");
+                    }
+                    catch (Exception ex)
+                    {
+                        ExtensionCheckTrace.Write("settings-list-error", ex.ToString());
+                        dialog.DialogResult = false;
+                    }
+                };
+                timer.Start();
+                object input = null, output = null;
+                try { TryGetPackage().Dte.Commands.Raise(PackageGuids.CommandSetString, id, ref input, ref output); }
+                finally { timer.Stop(); }
+            }
+        }
+
+        private void SmokeSettingsUi(string path)
+        {
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("UI checks require a private test directory.");
+            var lines = new List<string>();
+            int image = 0;
+            foreach (System.Windows.PresentationSource source in System.Windows.PresentationSource.CurrentSources)
+            {
+                if (!(source.RootVisual is System.Windows.FrameworkElement root)) continue;
+                var texts = new List<string>();
+                Visit(root);
+                lines.AddRange(texts);
+                if (!texts.Any(text => text.Contains("F5 warnings")) || root.ActualWidth < 300 || root.ActualHeight < 200) continue;
+                var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)root.ActualWidth, (int)root.ActualHeight,
+                    96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+                bitmap.Render(root);
+                var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                using (var stream = File.Create(path + "." + image++ + ".png")) encoder.Save(stream);
+
+                void Visit(System.Windows.DependencyObject element)
+                {
+                    if (element is System.Windows.Controls.TextBlock text && text.IsVisible && !string.IsNullOrEmpty(text.Text))
+                        texts.Add("text: " + text.Text);
+                    if (element is System.Windows.Controls.Button button && button.IsVisible)
+                        texts.Add("button: " + button.Content);
+                    for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(element); i++)
+                        Visit(System.Windows.Media.VisualTreeHelper.GetChild(element, i));
+                }
+            }
+            File.WriteAllLines(path, lines);
+        }
+
+        private void SmokeNativeSettings(string path, bool write)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("Native settings checks require a private test directory.");
+            var manager = (Microsoft.VisualStudio.Utilities.UnifiedSettings.ISettingsManager)
+                Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(NativeSettingsService));
+            if (write)
+            {
+                var writer = manager.GetWriter("SQL Safety Guard native settings check");
+                foreach (var property in Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(path)).Properties())
+                {
+                    if (!property.Name.StartsWith("sqlSafetyGuard.", StringComparison.Ordinal))
+                        throw new InvalidOperationException("Only SQL Safety Guard test settings may be changed.");
+                    var result = property.Value.Type == Newtonsoft.Json.Linq.JTokenType.Boolean
+                        ? writer.EnqueueChange(property.Name, (bool)property.Value)
+                        : writer.EnqueueChange(property.Name, (string)property.Value);
+                    ExtensionCheckTrace.Write("native-write", property.Name, result.Outcome.ToString());
+                }
+                ExtensionCheckTrace.Write("native-commit", writer.RequestCommit("Native settings smoke check").Outcome.ToString());
+            }
+            else
+            {
+                var reader = manager.GetReader();
+                var result = new Newtonsoft.Json.Linq.JObject();
+                foreach (var name in new[] { "guardMode", "allowList", "trustedProcedures", "environmentRules" })
+                {
+                    var value = reader.GetValue<string>("sqlSafetyGuard." + name);
+                    result[name] = value.Outcome + ": " + value.Value;
+                }
+                foreach (var name in new[] { "showConnection", "tempdbIsTemp" })
+                {
+                    var value = reader.GetValue<bool>("sqlSafetyGuard." + name);
+                    result[name] = value.Outcome + ": " + value.Value;
+                }
+                var package = TryGetPackage();
+                result["activeMode"] = package.Options.GuardMode.ToString();
+                result["activeAllowList"] = package.Options.AllowList;
+                result["activeTrustedProcedures"] = package.Options.TrustedProcedures;
+                result["activeEnvironmentRules"] = package.Options.EnvironmentRules;
+                result["activeShowConnection"] = package.Options.ShowServerAndDatabase;
+                result["activeTempdbIsTemp"] = package.Options.TempdbIsTemp;
+                package.RefreshHealth();
+                result["toolbar"] = package.ToolbarText;
+                result["health"] = package.HealthText;
+                File.WriteAllText(path, result.ToString());
             }
         }
 

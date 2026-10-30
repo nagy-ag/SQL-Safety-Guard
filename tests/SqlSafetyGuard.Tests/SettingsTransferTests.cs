@@ -291,16 +291,58 @@ public class SettingsTransferTests
     }
 
     [Fact]
-    public void ToolsCommandsShareTheAnalyzeGroupAndAdapterNeverTouchesLegacyConfirmation()
+    public void ToolsMenuOwnsAnalyzeAndSettingsWhileTransferActionsLiveOnNativeSettingsPage()
     {
         var repo = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
         XNamespace ns = "http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable";
         var commands = XDocument.Load(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/SqlSafetyGuardPackage.vsct"));
         var buttons = commands.Descendants(ns + "Button").ToArray();
-        Assert.Equal(new[] { "Analyze Query Safety", "Export Settings...", "Import Settings..." },
-            buttons.Select(button => (string?)button.Element(ns + "Strings")?.Element(ns + "ButtonText")));
-        Assert.All(buttons, button => Assert.Equal("ToolsMenuGroup", (string?)button.Element(ns + "Parent")?.Attribute("id")));
+        var menuButtons = buttons.Where(button => (string?)button.Element(ns + "Parent")?.Attribute("id") == "ToolsMenuGroup");
+        Assert.Equal(new[] { "Analyze Query", "Settings..." },
+            menuButtons.Select(button => (string?)button.Element(ns + "Strings")?.Element(ns + "ButtonText")));
+        var menu = Assert.Single(commands.Descendants(ns + "Menu"));
+        Assert.Equal("SQL Safety Guard", (string?)menu.Element(ns + "Strings")?.Element(ns + "ButtonText"));
+        Assert.All(buttons.Where(button => new[] { "cmdidExportSettings", "cmdidImportSettings" }.Contains((string?)button.Attribute("id"))),
+            button => Assert.Null(button.Element(ns + "Parent")));
+        var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
+        var actions = (Newtonsoft.Json.Linq.JArray)registration["categories"]!["sqlSafetyGuard"]!["commands"]!;
+        Assert.Equal(new[] { "Import Settings...", "Export Settings..." }, actions.Select(action => (string?)action["vsct"]!["text"]));
+        Assert.Equal(new[] { 0x102, 0x101 }, actions.Select(action => (int)action["vsct"]!["id"]!));
         var adapter = File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Commands/SettingsCommands.cs"));
         Assert.DoesNotContain("RequireTypedConfirmation", adapter);
+    }
+
+    [Fact]
+    public void NativeSettingsPreserveLegacyStoreKeysDefaultsAndBidirectionalMigration()
+    {
+        var repo = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
+        var properties = (Newtonsoft.Json.Linq.JObject)registration["properties"]!;
+        var legacy = new Dictionary<string, string>
+        {
+            ["guardMode"] = "GuardMode", ["showConnection"] = "ShowServerAndDatabase", ["allowList"] = "AllowList",
+            ["trustedProcedures"] = "TrustedProcedures", ["environmentRules"] = "EnvironmentRules", ["tempdbIsTemp"] = "TempdbIsTemp"
+        };
+        Assert.Equal(legacy.Count, properties.Count);
+        foreach (var pair in legacy)
+        {
+            var setting = properties["sqlSafetyGuard." + pair.Key]!;
+            var migration = setting["migration"]![pair.Key == "guardMode" ? "enumIntegerToString" : "pass"]!;
+            Assert.Equal("SettingsManager", (string?)migration["input"]!["store"]);
+            Assert.Equal("SqlSafetyGuard.Options.GeneralOptionsPage." + pair.Value, (string?)migration["input"]!["path"]);
+            Assert.Equal("full", (string?)migration["mode"]);
+            Assert.NotEqual(true, (bool?)setting["transientScopesSupported"]);
+        }
+        Assert.Equal("YellowRed", (string?)properties["sqlSafetyGuard.guardMode"]!["default"]);
+        var modeMap = (JArray)properties["sqlSafetyGuard.guardMode"]!["migration"]!["enumIntegerToString"]!["map"]!;
+        Assert.Equal(new[] { "Off", "Red", "YellowRed" }, modeMap.Select(entry => (string?)entry["result"]));
+        Assert.Equal(new[] { 0, 1, 2 }, modeMap.Select(entry => (int)entry["match"]!));
+        Assert.False((bool)properties["sqlSafetyGuard.tempdbIsTemp"]!["default"]!);
+        Assert.True((bool)properties["sqlSafetyGuard.showConnection"]!["default"]!);
+        Assert.All(new[] { "allowList", "trustedProcedures", "environmentRules" }, name =>
+        {
+            Assert.Equal("", (string?)properties["sqlSafetyGuard." + name]!["default"]);
+            Assert.Single((Newtonsoft.Json.Linq.JArray)properties["sqlSafetyGuard." + name]!["commands"]!);
+        });
     }
 }

@@ -72,6 +72,9 @@
     <Compile Include="UI\SettingsImportDialog.xaml.cs">
       <DependentUpon>SettingsImportDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SettingsListDialog.xaml.cs">
+      <DependentUpon>SettingsListDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\PaneModels.cs" />
     <Compile Include="UI\PaneTrace.cs" />
     <Compile Include="UI\SafetyPaneControl.xaml.cs">
@@ -83,6 +86,10 @@
     <Compile Include="UI\VerdictBrushes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\SettingsListDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\SettingsImportDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,6 +114,10 @@
     <Content Include="Resources\Icon.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Options\registration.json">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="SqlSafetyGuardPackage.vsct">
@@ -114,6 +125,12 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <!-- DialogPage's native-settings bridge lives in the shell framework supplied by the VSSDK.
+         Compile against it; SSMS supplies the runtime assembly. Never ship a shell copy in the VSIX. -->
+    <Reference Include="Microsoft.Internal.VisualStudio.Shell.Framework">
+      <HintPath>$(PkgMicrosoft_VSSDK_BuildTools)\tools\vssdk\Microsoft.Internal.VisualStudio.Shell.Framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -130,7 +147,7 @@
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.14.2142">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.14.2142" GeneratePathProperty="true">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

@@ -16,14 +16,15 @@ First official release for SQL Server Management Studio 22.
   interruption only when the window being executed is verified; yellow and red ask for confirmation with buttons (never typing).
 - **Verdicts**: green = read-only, temp-only or allow-listed; yellow = the effect cannot be seen (procedures, dynamic SQL, parse
   errors); red = any change to a permanent object.
-- **Settings** (Tools > Options > SQL Safety Guard): warning mode, safe-table allow-list, trusted read-only procedures,
+- **Settings** (Tools > SQL Safety Guard > Settings): warning mode, safe-table allow-list, trusted read-only procedures,
   per-server/database environment rules.
 - **Settings import/export** to share a configuration with colleagues; the import preview highlights anything that would make
-  more statements green.
+  more statements green. Import and Export live on the integrated settings page, alongside multiline list/rule editors.
+- **Compact commands**: Tools > SQL Safety Guard contains Analyze Query and Settings; the toolbar shows a short guard state.
 
 ### Verification
 
-- 1,559 automated tests.
+- 1,560 automated tests.
 - Verdicts checked against a real SQL Server: 37,229 executed cases plus 890 offline checks with no real false green
   (see `docs/verification/status.md`).
 

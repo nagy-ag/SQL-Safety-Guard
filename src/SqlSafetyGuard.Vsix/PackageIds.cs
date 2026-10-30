@@ -18,6 +18,11 @@ namespace SqlSafetyGuard
         public const int AnalyzeQueryCommand = 0x0100;
         public const int ExportSettingsCommand = 0x0101;
         public const int ImportSettingsCommand = 0x0102;
+        public const int SettingsCommand = 0x0103;
+        public const int ToolbarAnalyzeCommand = 0x0104;
+        public const int EditAllowListCommand = 0x0105;
+        public const int EditTrustedProceduresCommand = 0x0106;
+        public const int EditEnvironmentRulesCommand = 0x0107;
     }
 
     /// <summary>SSMS SQL editor command identifiers (from SQLEditors.dll's command table, SSMS 22).</summary>

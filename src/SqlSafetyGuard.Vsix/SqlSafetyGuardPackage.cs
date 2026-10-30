@@ -23,7 +23,9 @@ namespace SqlSafetyGuard
     [InstalledProductRegistration("SQL Safety Guard", "Analyzes T-SQL before it runs and warns about real data changes.", "1.0")]
     [Guid(PackageGuids.PackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(GeneralOptionsPage), "SQL Safety Guard", "General", 110, 111, true)] // Names in VSPackage.resx.
+    [ProvideOptionPage(typeof(GeneralOptionsPage), "SQL Safety Guard", "General", 110, 111, true,
+        IsInUnifiedSettings = true, UnifiedSettingsCategoryMoniker = "sqlSafetyGuard")]
+    [ProvideSettingsManifest(PackageRelativeManifestFile = "Options\\registration.json")]
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideBindingPath]
@@ -38,6 +40,7 @@ namespace SqlSafetyGuard
         private bool _failureNoticeShown;
         private DateTime _healthRefreshedAt;
         internal string HealthText { get; private set; } = "SQL Safety Guard: starting";
+        internal string ToolbarText { get; private set; } = "SQL Safety Guard: Starting";
 
         internal DTE2 Dte { get; private set; }
 
@@ -79,9 +82,16 @@ namespace SqlSafetyGuard
                     "SQL Safety Guard: " + (settings.Mode == ExecutionMode.Off ? "off" : "on · " + settings.Environment);
                 if (connection.Server == null) HealthText += " · server unknown";
                 if (warnings) HealthText += " · settings warning";
+                ToolbarText = "SQL Safety Guard: " + (!_guardAttached || _degraded ? "Degraded" :
+                    warnings ? "Settings warning" : connection.Server == null ? "Server unknown" :
+                    settings.Mode == ExecutionMode.Off ? "Off" : settings.Mode == ExecutionMode.Red ? "Red only" : "On");
                 (GetService(typeof(SVsStatusbar)) as IVsStatusbar)?.SetText(HealthText);
             }
-            catch { HealthText = "SQL Safety Guard: degraded – status unavailable"; }
+            catch
+            {
+                HealthText = "SQL Safety Guard: degraded – status unavailable";
+                ToolbarText = "SQL Safety Guard: Degraded";
+            }
         }
 
         internal void ReportGuardFailure(Exception exception)
@@ -121,6 +131,12 @@ namespace SqlSafetyGuard
 
                 AnalyzeQueryCommand.Initialize(this, commandService);
                 SettingsCommands.Initialize(this, commandService);
+                Options.Changed += (s, e) =>
+                {
+                    RefreshHealth();
+                    try { SafetyPaneMargin.RefreshAllSettings(); }
+                    catch (Exception ex) { OutputLog.Error("Refreshing safety panes after a settings change failed. Reopen the query windows.", ex); }
+                };
 
                 _guard = new ExecuteGuard(this);
                 _guard.Attach();

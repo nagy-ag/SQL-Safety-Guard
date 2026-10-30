@@ -5,15 +5,15 @@ and tells you whether it changes real data or only reads / touches temp objects.
 
 - **Safety pane**: every SQL query window has a pane on the right of the editor that re-analyzes as you type (the
   selection, or the whole window if nothing is selected) and shows what would change: a plain-language verdict, the
-  objects touched grouped by risk, and what F5 will do. **Never executes anything.** **Analyze Query Safety** (Tools
+  objects touched grouped by risk, and what F5 will do. **Never executes anything.** **Analyze Query** (Tools > SQL Safety Guard
   menu, SQL Editor toolbar button, or **Ctrl+Shift+F5**) expands the pane if it is collapsed and re-analyzes now.
 - **F5 guard**: when you execute (F5, Ctrl+E, Alt+X, the Execute button), the exact text SSMS is about to run is
   analyzed. **Green runs with no interruption only when the execution target is verified**; yellow/red shows a
   confirmation dialog first by default. An unverified target always shows a yellow warning, even in Off/Red mode.
 - **Environment rules**: first-match server/database rules choose an environment label, warning mode, additive
   allow/trusted lists. Confirmation uses buttons only, with no typed database name.
-- **Visible guard health**: the SQL Editor toolbar caption and status bar show on/off, environment, unknown
-  server or degraded state. A failed check also attempts a once-per-session, non-modal warning InfoBar.
+- **Visible guard health**: the SQL Editor toolbar shows a compact guard state; the status bar and safety pane
+  provide environment and connection details. A failed check also attempts a once-per-session, non-modal warning InfoBar.
 
 | Verdict | Colour | Meaning |
 |---|---|---|
@@ -131,7 +131,7 @@ Historical smoke checks on SSMS 22.11.2 (VS shell 18.11), before the current sou
   - Drag the pane's left edge to resize it; **»** collapses it to the unchanged thin strip with red/yellow count
     circles or a green check (click the strip to expand). Size and collapsed state apply to all query windows for
     the session.
-- **Tools > Analyze Query Safety**, the toolbar button ("SQL with a check mark" icon right after the Execute group
+- **Tools > SQL Safety Guard > Analyze Query**, the toolbar button ("SQL with a check mark" icon right after the Execute group
   on the SQL Editor toolbar), or **Ctrl+Shift+F5** in a query window: expands the pane if it is collapsed and
   re-analyzes immediately.
 - **F5 guard**: a yellow/red query pauses for confirmation. **CHANGES TO PERMANENT OBJECTS** and
@@ -200,16 +200,21 @@ characters such as `\`. To change it: **Tools > Options > Environment > Keyboard
 
 ## Settings
 
-**Tools > Options > SQL Safety Guard > General**
+**Tools > SQL Safety Guard > Settings...** or **Tools > Options > SQL Safety Guard**
+
+Settings appear directly in SSMS's integrated Options tab and apply immediately. Existing settings are preserved.
+**Import Settings...** and **Export Settings...** belong to this page. Import still validates the file and shows
+a preview before applying anything; Cancel leaves the settings unchanged. The allow-list, trusted procedures and
+environment rules have **Edit list...** / **Edit rules...** buttons for a larger multiline editor with Save and Cancel.
 
 | Setting | Default | |
 |---|---|---|
-| F5 guard | Warn on yellow and red | Off / Warn on red only / Warn on yellow and red |
-| Show server and database in the dialog | On | Unknown fields always remain visible and use global settings |
+| F5 warnings | Warn on yellow and red | Off / Warn on red only / Warn on yellow and red |
+| Show connection in confirmation | On | Unknown fields always remain visible and use global settings |
 | Safe tables allow-list | empty | One pattern per line; `--` lines are comments |
-| Treat permanent tempdb objects as temporary | Off | Explicit opt-in; `#temp` / `##temp` remain green regardless |
-| Trusted read-only procedures | empty | Schema-qualified patterns; wildcards only in the final part |
-| Server / environment rules | empty | First matching rule overrides mode and environment |
+| Permanent tempdb objects are temporary | Off | Explicit opt-in; `#temp` / `##temp` remain green regardless |
+| Trusted procedures | empty | Schema-qualified patterns; wildcards only in the final part |
+| Environment rules | empty | First matching rule overrides mode and environment |
 
 ### Safe tables allow-list
 
