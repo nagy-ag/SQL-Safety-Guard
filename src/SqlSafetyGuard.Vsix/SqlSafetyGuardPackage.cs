@@ -23,7 +23,7 @@ namespace SqlSafetyGuard
     [InstalledProductRegistration("SQL Safety Guard", "Analyzes T-SQL before it runs and warns about real data changes.", "1.0")]
     [Guid(PackageGuids.PackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(GeneralOptionsPage), "SQL Safety Guard", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(GeneralOptionsPage), "SQL Safety Guard", "General", 110, 111, true)] // Names in VSPackage.resx.
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideBindingPath]
