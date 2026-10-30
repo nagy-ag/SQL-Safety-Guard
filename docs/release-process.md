@@ -20,8 +20,11 @@ and `src/SqlSafetyGuard.Analyzer/SqlSafetyGuard.Analyzer.csproj` (`MAJOR.MINOR.P
    yellow / red, confirmation dialog, settings, import/export, upgrade from the previous version, uninstall.
 4. For a release users will rely on: update [release-acceptance.md](release-acceptance.md); the all-themes pass happens only when
    the owner declares the release final.
-5. Commit, tag `v<version>`, push the tag.
-6. Create the GitHub Release `v<version>` with the changelog entry as notes and these assets (never commit them):
+5. If signing is used, sign the finished Release `.vsix`, then verify its signature and smoke-test that exact signed output
+   in an isolated SSMS profile. Signing can happen on a separate company laptop; see [vsix-signing.md](vsix-signing.md).
+   Do not rebuild or change package contents afterwards: a new artifact needs signing and verification again.
+6. Generate `SHA256SUMS.txt` from the final distribution assets, including the signed VSIX when signing is used.
+7. When the owner requests publication, commit, tag `v<version>`, push the tag.
+8. Create the GitHub Release `v<version>` with the changelog entry as notes and these assets (never commit them):
    `SqlSafetyGuard-<version>.vsix`, `SqlSafetyGuard-<version>-scripts.zip` (`install.ps1`, `uninstall.ps1`,
    `scripts/SsmsCommon.ps1`) and `SHA256SUMS.txt`.
-7. If a code-signing certificate becomes available, sign the `.vsix` before upload.
