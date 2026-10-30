@@ -41,7 +41,7 @@ disturbed results) and 3 are the known `TempdbIsTemp` and `RAISERROR … WITH LO
 | Analyzer rules (250) | 152 with server evidence | 50 cannot be exercised by SQL (API/client/AST guards); 48 still lack a working case |
 | Original hard statement kinds (67) | 16 verified live | 51: missing packages, Synapse/Fabric-only, unsupported edition or syntax |
 | All statement kinds (334) | 267 live-passed on 2026-10-27 | see [2026-10-27 report](../history/2026-10-27-all-kinds/README.md) |
-| Unit and integration tests | 1,496 passing | — |
+| Unit and integration tests | 1,559 passing | — |
 
 ## Open items
 

@@ -23,7 +23,7 @@ First official release for SQL Server Management Studio 22.
 
 ### Verification
 
-- 1,496 automated tests.
+- 1,559 automated tests.
 - Verdicts checked against a real SQL Server: 37,229 executed cases plus 890 offline checks with no real false green
   (see `docs/verification/status.md`).
 
