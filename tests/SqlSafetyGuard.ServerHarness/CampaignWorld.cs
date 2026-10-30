@@ -66,12 +66,24 @@ internal sealed class CampaignWorld
         }
     }
     public CampaignDatabaseSet Clone()
+        => CloneWithRetry(CloneAttempt);
+
+    internal static T CloneWithRetry<T>(Func<bool, T> create)
+    {
+        try { return create(false); }
+        catch (SqlException exception) when (exception.Errors.Cast<SqlError>().Any(error => error.Number == 596))
+        {
+            return create(true);
+        }
+    }
+
+    private CampaignDatabaseSet CloneAttempt(bool freshConnection)
     {
         var set = new CampaignDatabaseSet(_connectionString);
-        set.Reserve();
+        set.Reserve(pooled: freshConnection ? false : null);
         try
         {
-            using var admin = CampaignSql.Open(_connectionString);
+            using var admin = CampaignSql.Open(_connectionString, pooled: freshConnection ? false : null);
             var directory = Convert.ToString(CampaignSql.Scalar(admin, "SELECT SERVERPROPERTY('InstanceDefaultDataPath')"))!;
             var separator = directory.Contains('/') ? "/" : "\\";
             foreach (var role in Roles)
@@ -126,9 +138,9 @@ internal sealed class CampaignDatabaseSet : IDisposable
         _connectionString = connectionString;
         Databases = CampaignWorld.Roles.ToDictionary(role => role, role => "SgRun_" + _identity + "_" + role);
     }
-    public void Reserve()
+    public void Reserve(bool? pooled = null)
     {
-        using var admin = CampaignSql.Open(_connectionString, "SgRun_Results");
+        using var admin = CampaignSql.Open(_connectionString, "SgRun_Results", pooled);
         foreach (var database in Databases.Values)
             if (CampaignSql.Scalar(admin, $"SELECT DB_ID({CampaignSql.Literal(database)})") is not DBNull) throw new InvalidOperationException("Disposable name collision.");
         foreach (var principal in new[] { "runner", "app_user", "low_user" })
@@ -156,7 +168,7 @@ internal sealed class CampaignDatabaseSet : IDisposable
     }
     public void Dispose()
     {
-        using var admin = CampaignSql.Open(_connectionString);
+        using var admin = CampaignSql.Open(_connectionString, pooled: false);
         var errors = new List<string>();
         foreach (var database in Databases.Values)
         {
