@@ -31,7 +31,7 @@ namespace SqlSafetyGuard.Guard
             public GuardSettings Settings;
             public AnalysisResult Result;
             public bool Cancelled;
-            public bool TargetUnverified;
+            public bool TargetVerified;
         }
 
         public ExecuteGuard(SqlSafetyGuardPackage package)
@@ -75,9 +75,15 @@ namespace SqlSafetyGuard.Guard
             }
             catch (Exception ex)
             {
-                cancelDefault = check.Cancelled || check.TargetUnverified || GuardDecision.CancelAfterFailure(check.Settings, check.Result);
+                cancelDefault = true;
+#if DEBUG
+                ExtensionCheckTrace.Write("guard-failure", ex.Message, check.Result == null ? "no verdict" : "verdict exists",
+                    check.Settings?.Mode.ToString(), check.TargetVerified.ToString());
+#endif
                 try { _package.ReportGuardFailure(ex); }
                 catch { }
+                cancelDefault = check.Cancelled || GuardDecision.ShouldCancelAfterFailure(check.Settings, check.Result,
+                    check.TargetVerified, () => new GuardFailureDialog(ex).ShowModal() == true, _package.ReportGuardFailure);
             }
             finally
             {
@@ -92,22 +98,22 @@ namespace SqlSafetyGuard.Guard
 
             var options = _package.Options;
             var target = ExecutionTarget.Capture(_package, _package.Dte);
-            check.TargetUnverified = target.Warning != null;
+            check.TargetVerified = target.Warning == null;
             var connection = target.Connection;
             var settings = _package.ResolveSettings(connection, out var rules);
             check.Settings = settings;
             _package.RefreshHealth(settings);
-            if (settings.Mode == ExecutionMode.Off && !check.TargetUnverified)
+            if (settings.Mode == ExecutionMode.Off && check.TargetVerified)
                 return false;
 
 #if DEBUG
-            // Lets the fail-open path be tested: start SSMS with SQLSAFETYGUARD_FAULT_INJECTION=1 (Debug builds only).
+            // Exercise failure confirmation without changing Release behaviour.
             if (Environment.GetEnvironmentVariable("SQLSAFETYGUARD_FAULT_INJECTION") == "1")
                 throw new InvalidOperationException("Fault injected by SQLSAFETYGUARD_FAULT_INJECTION=1.");
 #endif
 
             var snapshot = target.Snapshot;
-            if (string.IsNullOrWhiteSpace(snapshot.Text) && !check.TargetUnverified)
+            if (string.IsNullOrWhiteSpace(snapshot.Text) && check.TargetVerified)
                 return false;
 
             var analyzerOptions = new AnalyzerOptions(settings.AllowList, options.TempdbIsTemp, sqlCmdMode: target.SqlCmdMode,
@@ -133,7 +139,20 @@ namespace SqlSafetyGuard.Guard
                     bool runAnyway = dialog.ShowModal() == true;
                     OutputLog.Info(runAnyway ? $"Run anyway: {result.Summary}." : $"Execution cancelled: {result.Summary}.");
                     return runAnyway;
-                }, _package.ReportGuardFailure, !check.TargetUnverified);
+                }, _package.ReportGuardFailure, check.TargetVerified);
         }
+
+#if DEBUG
+        // Runs the production handler but replaces SSMS's continuation with a trace receipt; never dispatches SQL.
+        internal void CheckFailureForTest()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (Environment.GetEnvironmentVariable("SQLSAFETYGUARD_FAULT_INJECTION") != "1")
+                throw new InvalidOperationException("The failure check requires fault injection.");
+            bool cancelled = true;
+            OnBeforeExecute(string.Empty, 0, null, null, ref cancelled);
+            ExtensionCheckTrace.Write("guard-failure-decision", cancelled ? "cancelled" : "proceed");
+        }
+#endif
     }
 }

@@ -39,3 +39,8 @@ Never relax a verdict to reduce noise. If the noise is a real usability problem,
       the inventory (`python tools/verification/generate_inventory.py`); review the diff.
 - [ ] Full `dotnet test tests\SqlSafetyGuard.Tests` passes.
 - [ ] If a false green was fixed, add it to the "Defects found and fixed" table in `docs/verification/status.md`.
+
+## Product documentation
+
+See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
+settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.

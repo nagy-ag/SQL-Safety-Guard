@@ -98,7 +98,7 @@ namespace SqlSafetyGuard
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             _degraded = true;
-            try { OutputLog.Error("SQL Safety Guard failed. An unclassified query may run without a check; known warnings remain protected.", exception); }
+            try { OutputLog.Error("SQL Safety Guard failed. Unclassified checks require approval unless verified settings are Off; known warnings remain protected.", exception); }
             catch { }
             RefreshHealth();
             if (_failureNoticeShown) return;
@@ -112,7 +112,7 @@ namespace SqlSafetyGuard
                 var factory = GetService(typeof(SVsInfoBarUIFactory)) as IVsInfoBarUIFactory;
                 if (host != null && factory != null)
                     host.AddInfoBar(factory.CreateInfoBar(new InfoBarModel(
-                        "SQL Safety Guard is degraded: a check failed and unclassified queries may run without protection. See the SQL Safety Guard Output pane.",
+                        "SQL Safety Guard is degraded: a check failed. Failed checks require approval unless verified settings are Off. See the SQL Safety Guard Output pane.",
                         KnownMonikers.StatusWarning, true)));
             }
             catch { }

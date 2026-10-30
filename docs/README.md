@@ -8,6 +8,7 @@ a wave number in their name are snapshots and live in [history/](history/README.
 | Document | What it answers | Kind |
 |---|---|---|
 | [user-guide.md](user-guide.md) | How to install, read the colours, configure and share settings. For users. | Living, hand-written |
+| [development.md](development.md) | Build, debug, architecture, execution targeting and limitations. | Living, hand-written |
 | [it-deployment.md](it-deployment.md) | All-users install and uninstall, security facts, checks. For IT. | Living, hand-written |
 | [release-process.md](release-process.md) | How to version, test, tag and publish a release. | Living, hand-written |
 | [vsix-signing.md](vsix-signing.md) | Sign a finished VSIX on a company laptop: key privacy, pilot certificate, trust and release order. | Living, hand-written |

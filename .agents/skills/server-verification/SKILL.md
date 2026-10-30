@@ -54,3 +54,8 @@ with the analyzer's verdict. Machine-specific details (which server, which datab
 - Put the run report in `docs/history/runs/<date>-<name>.md` with the snapshot header.
 - Rewrite `docs/verification/status.md`: bottom line, run table, defects fixed, coverage, open items.
 - Never commit raw results or zips.
+
+## Product documentation
+
+See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
+settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.

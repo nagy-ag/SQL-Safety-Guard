@@ -330,7 +330,7 @@ A missing target name never matches.
 
 - Outcomes: annotation only; review: reviewed-semantic.
 - Source: `src/SqlSafetyGuard.Analyzer/AllowList.cs:43`.
-- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)
+- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches); tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches); tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)
 
 ## allow.glob
 
@@ -362,7 +362,7 @@ Quote-aware name parsing and anchored case-insensitive glob matching restrict ex
 
 - Outcomes: AllowListed, Unknown; review: reviewed-semantic.
 - Source: `src/SqlSafetyGuard.Analyzer/AllowList.cs:35`.
-- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines); tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)
+- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches); tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches); tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines); tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)
 
 ## allow.quoted-parts
 
@@ -370,7 +370,7 @@ Quoted dots stay within identifiers, doubled delimiters unescape, trailing junk 
 
 - Outcomes: annotation only; review: reviewed-semantic.
 - Source: `src/SqlSafetyGuard.Analyzer/AllowList.cs:65`.
-- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)
+- Existing tests: tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches); tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches); tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches); tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches); tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches); tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches); tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)
 
 ## allow.remote
 
@@ -722,7 +722,7 @@ Text over 5 Mi UTF-16 characters is not analyzed; return a warning rather than g
 
 - Outcomes: Unknown; review: reviewed-semantic.
 - Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:21`.
-- Existing tests: tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:166 (OversizedScriptsFollowExplicitModePolicy)
+- Existing tests: tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204 (OversizedScriptsFollowExplicitModePolicy)
 
 ## entry.limit
 
@@ -745,7 +745,7 @@ Invalid allow list, procedure trust or configuration warnings contribute Unknown
 Confirmation exception cancels execution; negative confirmation also cancels.
 
 - Outcomes: annotation only; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:114`.
+- Source: `src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:125`.
 - Existing tests: tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82 (ConfirmationFailureAlwaysPreventsExecution)
 
 ## environment.invalid-line
@@ -777,7 +777,7 @@ Off mode never requests warning confirmation; this does not change analyzer Over
 Presentation exception is reported but cannot suppress an already-required confirmation.
 
 - Outcomes: annotation only; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:111`.
+- Source: `src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:122`.
 - Existing tests: tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)
 
 ## environment.red
@@ -3626,7 +3626,7 @@ USE or federation/context switch invalidates contextual allow lists and trusted 
 
 - Outcomes: Unknown; review: reviewed-semantic.
 - Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:437`.
-- Existing tests: tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust); tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:184 (FederationSwitchInvalidatesTargetContext)
+- Existing tests: tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust); tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222 (FederationSwitchInvalidatesTargetContext)
 
 ## walk.temp-procedure
 

@@ -148,7 +148,7 @@ namespace SqlSafetyGuard.Options
         [Category("F5 guard")]
         [DisplayName("Environment rules")]
         [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted procedures. " +
-                     "Lists are semicolon-separated and ADD to global lists. Unknown server/database uses globals. See README for examples.")]
+                     "Lists are semicolon-separated and ADD to global lists. Unknown server/database uses globals. See docs/user-guide.md for examples.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [UnifiedSettingsMoniker("SqlSafetyGuard.Options.GeneralOptionsPage.EnvironmentRules")]

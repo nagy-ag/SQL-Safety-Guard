@@ -31,3 +31,11 @@ description: Use before changing or testing the SQL Safety Guard SSMS 22 extensi
 
 - Debug and Release builds succeed (Visual Studio MSBuild for the VSIX) and `dotnet test tests\SqlSafetyGuard.Tests` passes.
 - Guard behaviour changes get a test in `GuardExecutionContractTests` / `GuardUiContractTests` or an extension check.
+
+## Product documentation
+
+See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
+settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.
+
+A guard failure before classification asks Run anyway or Cancel (default/Escape). Only known Off settings with a verified
+target bypass the question. A broken failure dialog cancels. Debug `guardfailurecheck` exercises this handler without SQL.

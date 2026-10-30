@@ -91,6 +91,11 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"cmd {verb} {(verb == "append" ? arg.Length + " chars" : arg)}");
             switch (verb)
             {
+                case "guardfailurecheck":
+                    if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                        throw new InvalidOperationException("Failure checks require a private test directory.");
+                    SmokeGuardFailure(arg);
+                    break;
                 case "settingsnative":
                     SmokeNativeSettings(arg, false);
                     break;
@@ -224,6 +229,42 @@ namespace SqlSafetyGuard.UI
                     PaneTrace.Write($"cmd unknown verb '{verb}'");
                     break;
             }
+        }
+
+        private void SmokeGuardFailure(string action)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (action != "Cancel" && action != "Run anyway") throw new ArgumentException("Expected a button name.");
+            bool seen = false;
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+            timer.Tick += (sender, args) =>
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                var dialog = System.Windows.Application.Current.Windows.OfType<GuardFailureDialog>().FirstOrDefault();
+                if (dialog == null || !dialog.IsVisible) return;
+                timer.Stop();
+                try
+                {
+                    if (!dialog.CancelButton.IsDefault || !dialog.CancelButton.IsCancel || dialog.RunButton.IsDefault)
+                        throw new InvalidOperationException("Unsafe failure-dialog defaults.");
+                    if (string.IsNullOrEmpty(dialog.ReasonText.Text)) throw new InvalidOperationException("Missing failure reason.");
+                    seen = true;
+                    ExtensionCheckTrace.Write("guard-failure-box", "visible", "Cancel default/Escape", dialog.ReasonText.Text, action);
+                    var button = action == "Cancel" ? dialog.CancelButton : dialog.RunButton;
+                    var peer = new System.Windows.Automation.Peers.ButtonAutomationPeer(button);
+                    ((System.Windows.Automation.Provider.IInvokeProvider)peer.GetPattern(
+                        System.Windows.Automation.Peers.PatternInterface.Invoke)).Invoke();
+                }
+                catch (Exception ex)
+                {
+                    ExtensionCheckTrace.Write("guard-failure-box-error", ex.ToString());
+                    dialog.DialogResult = false;
+                }
+            };
+            timer.Start();
+            try { new Guard.ExecuteGuard(TryGetPackage()).CheckFailureForTest(); }
+            finally { timer.Stop(); }
+            if (!seen) throw new InvalidOperationException("The failure dialog was not observed.");
         }
 
         // Service GUID from SSMS 22's SVsUnifiedSettingsManager; Debug checks only.

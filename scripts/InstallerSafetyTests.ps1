@@ -106,6 +106,11 @@ try {
     Assert-True ($message -like '*Recovery:*known-working previous*Do not assume the guard is active*') 'Recovery instructions absent.'
     $exitCodes.Enqueue(2003); $exitCodes.Enqueue(0)
     Install-WithVsixInstaller $valid $ssms
+    $beforeFirstInstall = $processCalls.Count
+    $exitCodes.Enqueue(1002); $exitCodes.Enqueue(0)
+    Install-WithVsixInstaller $valid $ssms
+    Assert-True ($processCalls.Count -eq $beforeFirstInstall + 2) 'Not-installed exit code prevented first install.'
+    Assert-True ($exitCodes.Count -eq 0) 'First install did not consume the install exit code.'
     foreach ($call in $processCalls) {
         Assert-True ($call.WindowStyle -eq 'Hidden') 'Installer window was not hidden.'
         Assert-True (@($call.Arguments | Where-Object { $_ -like '/logFile:"*temp with spaces*"' }).Count -eq 1) 'Log path not quoted.'

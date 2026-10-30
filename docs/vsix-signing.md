@@ -1,8 +1,12 @@
 # Signing the VSIX on a company laptop
 
-Build and test the extension first, then sign the finished VSIX on the company signing laptop. The two computers can be
-different. The signing laptop does not need the source code or Visual Studio build workloads; it needs Sign CLI, its
-prerequisites, and access to the signing private key. SSMS 22 is needed wherever the final installation smoke test runs.
+GitHub releases are always unsigned. The owner downloads an unsigned pre-release, checks its checksum, and may
+sign a copy on their own company computer before trying it. Signing never happens in this repository or on GitHub;
+never upload the signed copy or private key to the GitHub release. After acceptance the owner marks the unsigned
+GitHub package as the full latest release. See [release-process.md](release-process.md).
+
+The company signing computer needs Sign CLI, its prerequisites, and access to the signing private key. It does
+not need source code or Visual Studio build workloads. SSMS 22 is needed for the signed-copy installation check.
 
 This guide describes an internal pilot with a self-signed certificate. If IT supplies a company-issued certificate or managed
 signing service, use that identity and its key-access instructions instead of creating the pilot certificate below.
@@ -19,8 +23,8 @@ signing service, use that identity and its key-access instructions instead of cr
   same company account does not transfer the signing key. If the original key is lost, a new certificate/key is needed.
 - Do not create the pilot key on a personal laptop expecting to move it later. Create it under the intended company Windows
   account on the signing laptop. A software non-exportable key is not the same as a hardware-protected signing service.
-- Signing does not remove build metadata. This project includes PDB symbols in the VSIX; symbols can contain source paths.
-  Review the packaged contents separately if excluding personal paths is a distribution requirement.
+- Signing does not remove build metadata. The release script validates neutral source paths and rejects the build
+  user's profile path in the unsigned package, including PDBs. Keep that validation receipt with the input hash.
 
 ## One-time setup on the company signing laptop
 
@@ -86,18 +90,15 @@ replaced.
 
 ## For each release
 
-### 1. Build and test on the development computer
+### 1. Download the unsigned pre-release on the company computer
 
-Follow [release-process.md](release-process.md) for versioning, tests, the Release build and acceptance checks. The build output
-is `src\SqlSafetyGuard.Vsix\bin\Release\SqlSafetyGuard.vsix`.
+Follow [release-process.md](release-process.md). Download `SqlSafetyGuard-<version>.vsix` and `SHA256SUMS.txt`
+from the GitHub pre-release. Compare the VSIX SHA-256 with the checksum before signing. For an independently
+authenticated comparison, convey the expected hash through an authenticated company channel too.
 
-Freeze that tested build. Copy it to an `unsigned` staging folder as `SqlSafetyGuard-<version>-unsigned.vsix`, using the actual manifest
-version. Record its SHA-256 hash and source revision in the release evidence. Transfer the unsigned package through the
-company-approved channel and compare its SHA-256 hash on the signing laptop with the value recorded on the build computer.
-For an independently authenticated comparison, convey the expected hash through an authenticated channel as well.
-
-Only the finished package needs to move to the signing laptop. No private key needs to move to the development computer.
-Source code and build tools are needed on the company laptop only if it will also perform the build.
+Copy the downloaded file to an `unsigned` staging folder as `SqlSafetyGuard-<version>-unsigned.vsix`. Keep its
+hash and source revision with the internal signing evidence. No private key or signing tool moves to the repository,
+the development computer, or GitHub. The signed result is a separate internal copy of the GitHub package.
 
 ### 2. Sign on the company laptop
 
@@ -151,10 +152,10 @@ the pilot example assumes a key in `CurrentUser\My`.
    [extension UI workflow](../.agents/skills/ssms-extension-ui/SKILL.md). Check installer certificate/signature details and the
    expected pilot trust state, then pane, green/yellow/red execution guards, settings and upgrade/uninstall behaviour.
    Use VSIXInstaller for this check; manual extraction does not exercise its signature checks.
-3. Generate the release `SHA256SUMS.txt` from the final signed VSIX and the other final release assets. This VSIX hash differs
+3. Generate a separate internal `SHA256SUMS.txt` from the final signed VSIX and any other internal distribution assets. Do not replace the GitHub checksums. This VSIX hash differs
    from the unsigned input hash. Keep both hashes, the signer fingerprint and verification results in release evidence
    outside the repository.
-4. Distribute the signed output and final checksums. Recipients do not need Sign CLI or the signing private key. IT can use
+4. Distribute the signed copy and its checksums through the company channel; keep GitHub assets unsigned. Recipients do not need Sign CLI or the signing private key. IT can use
    the public `.cer` and an independently checked fingerprint to configure pilot trust under company policy.
 
 Do not rebuild or edit package contents after signing. A rebuild produces a new artifact that must be signed and verified

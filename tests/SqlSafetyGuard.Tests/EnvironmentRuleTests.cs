@@ -156,8 +156,46 @@ public class EnvironmentRuleTests
         Assert.Equal(cancel, GuardDecision.CancelAfterFailure(new GuardSettings(mode), SqlSafetyAnalyzer.Analyze(sql)));
 
     [Fact]
-    public void FailureBeforeClassificationFailsOpen() =>
-        Assert.False(GuardDecision.CancelAfterFailure(new GuardSettings(), null));
+    public void FailureBeforeClassificationRequiresApproval() =>
+        Assert.True(GuardDecision.CancelAfterFailure(new GuardSettings(), null));
+
+    [Theory]
+    [InlineData(ExecutionMode.Off, true, false)]
+    [InlineData(ExecutionMode.Off, false, true)]
+    [InlineData(ExecutionMode.Red, true, true)]
+    [InlineData(ExecutionMode.YellowRed, true, true)]
+    [InlineData(ExecutionMode.Red, false, true)]
+    [InlineData(ExecutionMode.YellowRed, false, true)]
+    public void MissingVerdictAsksUnlessKnownOffAndVerified(ExecutionMode mode, bool verified, bool asks)
+    {
+        foreach (bool approved in new[] { false, true })
+        {
+            int confirmations = 0;
+            bool cancelled = GuardDecision.ShouldCancelAfterFailure(new GuardSettings(mode), null, verified,
+                () => { confirmations++; return approved; }, _ => Assert.Fail("Unexpected dialog failure"));
+            Assert.Equal(asks ? 1 : 0, confirmations);
+            Assert.Equal(asks && !approved, cancelled);
+        }
+    }
+
+    [Fact]
+    public void UnknownSettingsAndMissingVerdictRequireApproval()
+    {
+        Assert.True(GuardDecision.ShouldCancelAfterFailure(null, null, true, () => false, _ => { }));
+        Assert.False(GuardDecision.ShouldCancelAfterFailure(null, null, true, () => true, _ => { }));
+    }
+
+    [Fact]
+    public void FailureBoxFailureCancelsEvenWhenReportingFails() =>
+        Assert.True(GuardDecision.ShouldCancelAfterFailure(new GuardSettings(), null, true,
+            () => throw new Exception("box"), _ => throw new Exception("log")));
+
+    [Theory]
+    [InlineData("DELETE dbo.Orders")]
+    [InlineData("EXEC dbo.Opaque")]
+    public void ComputedWarningCannotBeOverriddenByFailureBox(string sql) =>
+        Assert.True(GuardDecision.ShouldCancelAfterFailure(new GuardSettings(), SqlSafetyAnalyzer.Analyze(sql), true,
+            () => throw new Exception("must not ask again"), _ => Assert.Fail("Must not show a failure box")));
 
     [Theory]
     [InlineData(ExecutionMode.Off, false)]

@@ -63,14 +63,17 @@ public class GuardUiContractTests
             viewbox => Assert.Equal("DownOnly", (string?)viewbox.Attribute("StretchDirection")));
     }
 
-    [Fact]
-    public void ConfirmationButtonsHaveSafeKeyboardDefaults()
+    [Theory]
+    [InlineData("ConfirmExecutionDialog.xaml")]
+    [InlineData("GuardFailureDialog.xaml")]
+    public void ConfirmationButtonsHaveSafeKeyboardDefaults(string file)
     {
         var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
-        var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/ConfirmExecutionDialog.xaml"));
+        var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/", file));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace markup = "http://schemas.microsoft.com/winfx/2006/xaml";
         var buttons = document.Descendants(presentation + "Button").ToList();
+        Assert.Empty(document.Descendants(presentation + "TextBox"));
         var run = Assert.Single(buttons, button => (string?)button.Attribute(markup + "Name") == "RunButton");
         var cancel = Assert.Single(buttons, button => (string?)button.Attribute(markup + "Name") == "CancelButton");
         Assert.Equal("Run anyway", (string?)run.Attribute("Content"));

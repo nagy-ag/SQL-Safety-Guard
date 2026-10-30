@@ -69,6 +69,9 @@
       <DependentUpon>ConfirmExecutionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FindingRow.cs" />
+    <Compile Include="UI\GuardFailureDialog.xaml.cs">
+      <DependentUpon>GuardFailureDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SettingsImportDialog.xaml.cs">
       <DependentUpon>SettingsImportDialog.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\SettingsListDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\GuardFailureDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -112,6 +119,14 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Resources\Icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\LICENSE">
+      <Link>LICENSE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\THIRD-PARTY-NOTICES.md">
+      <Link>THIRD-PARTY-NOTICES.md</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Options\registration.json">
@@ -141,6 +156,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>

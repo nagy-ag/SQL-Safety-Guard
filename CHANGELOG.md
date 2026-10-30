@@ -22,6 +22,11 @@ First official release for SQL Server Management Studio 22.
   more statements green. Import and Export live on the integrated settings page, alongside multiline list/rule editors.
 - **Compact commands**: Tools > SQL Safety Guard contains Analyze Query and Settings; the toolbar shows a short guard state.
 
+- A guard failure before classification now asks Run anyway or Cancel instead of running; a failed box cancels.
+- First installation accepts VSIXInstaller's not-installed exit code during the upgrade removal step.
+- Deterministic Release builds use neutral source paths; the release script validates unsigned packages and writes checksums.
+- Distributed under the MIT License, Copyright (c) 2026 NagyAG; bundled ScriptDom license notices are included.
+
 ### Verification
 
 - 1,560 automated tests.
@@ -33,4 +38,4 @@ First official release for SQL Server Management Studio 22.
 - The analyzer reads only the query text; it cannot see inside procedures, triggers or cascades, so those are yellow or reported
   as such. It is a safety net, not a security boundary: use read-only logins for real protection.
 - Some behaviours await a company policy decision (`docs/verification/policy-questions.md`); they may change colour in 1.1.0.
-- The package is not code-signed yet.
+- GitHub release packages are always unsigned. The owner may sign a downloaded copy on their company computer.

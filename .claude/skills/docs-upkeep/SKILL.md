@@ -23,3 +23,8 @@ The owner wants to see the current state at all times. `docs/README.md` is the s
    `AGENTS.md` for the commands.
 6. Relative links must resolve (`DocsIndexTests`). Keep machine-specific paths and server names out of committed docs.
 7. Never commit zips or raw results.
+
+## Product documentation
+
+See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
+settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.

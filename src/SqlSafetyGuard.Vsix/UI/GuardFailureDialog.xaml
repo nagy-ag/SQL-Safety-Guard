@@ -1,0 +1,21 @@
+<platformUi:DialogWindow x:Class="SqlSafetyGuard.UI.GuardFailureDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    Title="SQL Safety Guard" Width="480" SizeToContent="Height" ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+    Background="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelBrushKey}}"
+    Foreground="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}">
+    <StackPanel Margin="20">
+        <TextBlock Text="SQL Safety Guard could not check this query." FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock x:Name="ReasonText" Margin="0,10,0,0" TextWrapping="Wrap" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button x:Name="RunButton" Content="Run anyway" MinWidth="110" Margin="0,0,8,0" Click="OnRunAnyway"
+                Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+            <Button x:Name="CancelButton" Content="Cancel" MinWidth="110" IsDefault="True" IsCancel="True"
+                BorderThickness="2" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}"
+                Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}" />
+        </StackPanel>
+    </StackPanel>
+</platformUi:DialogWindow>

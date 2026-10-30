@@ -184,7 +184,7 @@ function Install-WithVsixInstaller([string] $VsixPath, $Ssms) {
     $common = @('/quiet', "/instanceIds:$($Ssms.InstanceId)", "/logFile:`"$log`"")
     $removeArgs = $common + "/uninstall:$ExtensionId"
     $removal = Start-Process -FilePath $installer -ArgumentList $removeArgs -WindowStyle Hidden -Wait -PassThru
-    if ($removal.ExitCode -notin 0, 2003) { throw "Uninstall failed ($($removal.ExitCode)); upgrade aborted. Existing installation was not replaced. Log: $log" }
+    if ($removal.ExitCode -notin 0, 1002, 2003) { throw "Uninstall failed ($($removal.ExitCode)); upgrade aborted. Existing installation was not replaced. Log: $log" }
     try {
         $process = Start-Process -FilePath $installer -ArgumentList ($common + "`"$VsixPath`"") -WindowStyle Hidden -Wait -PassThru
         if ($process.ExitCode -ne 0) { throw "VSIXInstaller exit code $($process.ExitCode)." }

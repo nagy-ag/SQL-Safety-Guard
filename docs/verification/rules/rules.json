@@ -516,7 +516,9 @@
         "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
         "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
         "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -571,6 +573,8 @@
         "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
         "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
         "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)",
         "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
         "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
       ],
@@ -587,7 +591,9 @@
         "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
         "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
         "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1228,7 +1234,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:166 (OversizedScriptsFollowExplicitModePolicy)"
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204 (OversizedScriptsFollowExplicitModePolicy)"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1262,7 +1268,7 @@
       "category": "environment",
       "condition": "Confirmation exception cancels execution; negative confirmation also cancels.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:114",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:125",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82 (ConfirmationFailureAlwaysPreventsExecution)"
       ],
@@ -1310,7 +1316,7 @@
       "category": "environment",
       "condition": "Presentation exception is reported but cannot suppress an already-required confirmation.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:111",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:122",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
       ],
@@ -6560,7 +6566,7 @@
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:437",
       "existingTests": [
         "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:184 (FederationSwitchInvalidatesTargetContext)"
+        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222 (FederationSwitchInvalidatesTargetContext)"
       ],
       "reviewStatus": "reviewed-semantic"
     },

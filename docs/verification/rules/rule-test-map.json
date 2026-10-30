@@ -1240,7 +1240,7 @@
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
   ],
   "entry.length": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:166 (OversizedScriptsFollowExplicitModePolicy)"
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204 (OversizedScriptsFollowExplicitModePolicy)"
   ],
   "entry.settings": [
     "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
@@ -1276,7 +1276,7 @@
   ],
   "walk.target-switch": [
     "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:184 (FederationSwitchInvalidatesTargetContext)"
+    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222 (FederationSwitchInvalidatesTargetContext)"
   ],
   "walk.parse": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232 (ParseErrorInOneBatch_OtherBatchesStillAnalyzed)",
@@ -1372,6 +1372,8 @@
     "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
     "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
     "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
   ],
@@ -1424,7 +1426,9 @@
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
     "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
     "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
   ],
   "allow.ignore-comments": [
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
@@ -1450,7 +1454,9 @@
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
     "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
     "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
+    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
+    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
+    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
   ],
   "walk.select-into": [
     "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",

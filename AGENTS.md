@@ -56,13 +56,15 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 | `tests/SqlSafetyGuard.ServerHarness` | Executes cases on a disposable server and compares the verdict with what really changed |
 | `tests/SqlSafetyGuard.ExtensionChecks` | Checks against a running SSMS (which window executes, which commands are intercepted) |
 | `tools/verification` | Generators for the rule inventory and campaign cases |
+| `docs/development.md` | Build, debug, solution layout and implementation details |
+| `docs/user-guide.md` | Install, use, settings examples and user limitations |
 | `docs/` | Start at [docs/README.md](docs/README.md) |
 
 ## Build and test
 
 ```powershell
 dotnet test tests\SqlSafetyGuard.Tests                     # analyzer + tests (must pass before any merge or push)
-# The VSIX needs Visual Studio's MSBuild (see README.md):  MSBuild.exe SqlSafetyGuard.sln /restore /p:Configuration=Release
+# The VSIX needs Visual Studio's MSBuild (see docs/development.md):  MSBuild.exe SqlSafetyGuard.sln /restore /p:Configuration=Release
 $env:UPDATE_STATEMENT_VERDICTS='1'; dotnet test tests\SqlSafetyGuard.Tests --filter FullyQualifiedName~StatementVerdictsTests; Remove-Item Env:UPDATE_STATEMENT_VERDICTS
 python tools/verification/generate_inventory.py            # regenerate docs/verification/rules/
 ```
