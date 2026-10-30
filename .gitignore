@@ -6,3 +6,6 @@ TestResults/
 harness-out/
 .campaign-local/
 docs/**/*.zip
+
+# Machine-specific agent instructions (never commit)
+AGENTS.local.md

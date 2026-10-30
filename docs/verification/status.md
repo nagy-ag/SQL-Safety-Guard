@@ -10,7 +10,7 @@ company decision ([policy-questions.md](policy-questions.md)). Typed confirmatio
 
 ## Latest run — 2026-10-29/30
 
-[Full report](../history/runs/2026-10-30-full-run.md). SQL Server 2025 Developer on `.\SQLEXPRESS` plus a disposable Docker container.
+[Full report](../history/runs/2026-10-30-full-run.md). A local SQL Server 2025 Developer instance plus a disposable Docker container.
 
 | What ran | Cases | Real false greens |
 |---|---:|---:|

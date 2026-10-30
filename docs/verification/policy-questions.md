@@ -49,7 +49,7 @@ None of these is a bug against the current design; each needs a decision. Eviden
 
 ### Wave-3 observed policy effects (October 28, 2026)
 
-Evidence is retained outside the worktree in `../harness-out/campaign/`, primarily `wave3-host-final`, superseding `wave3-host-replay` receipts, and `wave3-isolated-final`. These are observations, not new authorization policy. Typed confirmation stays disabled.
+Evidence is retained outside the repository (run folders `wave3-host-final`, superseding `wave3-host-replay` receipts, and `wave3-isolated-final`). These are observations, not new authorization policy. Typed confirmation stays disabled.
 
 - An allow-listed `UPDATE sales.Orders` also writes `audit.Changes` in Core and Audit through its trigger. `UPDATE app.OrderEntry` (INSTEAD OF view) and `UPDATE app.OrderAlias` (synonym) reach the same base table and audit destinations. Should authorization expand to every reachable effect, or does authorizing the entry point authorize its implementation? No analyzer behavior was changed.
 - Allow-listed `DELETE app.RemoteCounter` reaches `Archive.dbo.Counter`; allow-listed `DELETE app.Accounts` also writes temporal `audit.AccountHistory`; inserting into `dbo.IndSequenceDefault` advances `app.OrderSequence`. Matching only the visible entry target does not describe the complete authorization boundary. Pre-execution effect edges preserve these destinations.
