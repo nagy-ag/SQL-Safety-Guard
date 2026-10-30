@@ -4,7 +4,7 @@
 Verdicts use default settings: no allow-list and no environment rules; explicitly configured exceptions are noted.
 The verdict columns compare permanent and #temp / @table targets; statements without a table/object target use the first column, with — in the second.
 One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.
-See [live-server evidence](verification/2026-10-27-all-kinds/README.md); AST-only kinds have no standalone SQL verdict and appear last.
+See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kinds have no standalone SQL verdict and appear last.
 
 | Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
 |---|---|---|---|---|---|

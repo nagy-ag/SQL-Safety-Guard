@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Wave-2 validation - October 28, 2026
 
 ## Scope and reproducibility

@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Verification wave 2
 
 ## W1-001: streaming procedure wrapper discrepancy (fixed)

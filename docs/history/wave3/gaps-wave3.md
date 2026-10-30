@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Wave-3 execution limitations
 
 This ledger deliberately distinguishes attempts, server-associated checks, semantic fixture passes, and unsupported/unprovisioned features. Nothing here certifies completeness or safety. Detailed SQL, error numbers, execution context and snapshots are retained in the external receipts.

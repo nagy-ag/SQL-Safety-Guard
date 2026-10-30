@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Wave-3 focused rule execution ledger
 
 All 250 wave-2 unfocused rule IDs are accounted for. A successful tagged positive/boundary is **server-associated evidence**, not instrumentation proving an internal branch ran. Generic negative SELECTs never close a rule. API/presentation/AST guards retain explicit limitations. A SQL error is an attempted case, never a semantic pass.

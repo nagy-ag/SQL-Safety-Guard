@@ -9,7 +9,8 @@ from generate_inventory import apply_file
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases'
-DOCS = ROOT / 'docs/verification'
+DOCS = ROOT / 'docs/history/wave3'
+WAVE2 = ROOT / 'docs/history/wave2'
 
 
 def read_json(path):
@@ -88,14 +89,14 @@ def main():
         if extra_path.exists():
             feature_latest.update({row['Id']: row for row in read_json(extra_path).get('Results', [])})
     feature_results = list(feature_latest.values())
-    kinds = [kind for kind in re.findall(r'^\| (\w+) \|', (DOCS / 'gaps-wave2.md').read_text(), re.MULTILINE) if kind != 'Kind']
+    kinds = [kind for kind in re.findall(r'^\| (\w+) \|', (WAVE2 / 'gaps-wave2.md').read_text(), re.MULTILINE) if kind != 'Kind']
     kind_rows = []
     for kind in kinds:
         matching = [row for row in feature_results if kind in row.get('Fixture', {}).get('StatementTypes', [])]
         passes = [row for row in matching if row['Status'] == 'pass']
         explanation = '; '.join(row['Id'] + ': ' + row['Status'] + '; ' + str(row.get('Error') or '') for row in matching)
         if not matching:
-            source = next((line for line in (DOCS / 'gaps-wave2.md').read_text().split('\n') if line.startswith('| ' + kind + ' |')), '')
+            source = next((line for line in (WAVE2 / 'gaps-wave2.md').read_text().split('\n') if line.startswith('| ' + kind + ' |')), '')
             explanation = 'No successful executable fixture. ' + source.split('|')[-2].strip()
         kind_rows.append(dict(kind=kind, live=bool(passes), evidence=explanation))
     gap_lines = ['# Wave-3 execution limitations', '',

@@ -9,7 +9,7 @@ See [Campaign/README.md](Campaign/README.md), [the oracle limits](Campaign/ORACL
 
 ## Strict curated coverage (recommended)
 
-Current evidence: [334-kind verification](../../docs/verification/2026-10-27-all-kinds/README.md) records 267 live-passed kinds, three failed-only kinds and 64 not live tested, separately from all-kind static coverage.
+Current evidence: [334-kind verification](../../docs/history/2026-10-27-all-kinds/README.md) records 267 live-passed kinds, three failed-only kinds and 64 not live tested, separately from all-kind static coverage.
 
 Use `--coverage tests/SqlSafetyGuard.ServerHarness/Coverage` for the explicit 334-kind inventory and
 curated runtime assertions. See [the strict corpus contract](Coverage/README.md) for the command,

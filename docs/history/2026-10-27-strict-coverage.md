@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../verification/status.md). All current docs: [docs/README.md](../README.md).
+
 # Strict runtime verification — October 27, 2026
 
 ## Outcome

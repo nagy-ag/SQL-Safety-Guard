@@ -257,4 +257,4 @@ Cleanup is in finally and validates PID, process start time and exact suffix. It
 - VS 18 MSBuild SqlSafetyGuard.sln /restore /p:Configuration=Release /v:minimal /nologo /clp:Summary: **build succeeded, 0 warnings, 0 errors**. Local logs: %TEMP%\SgExt-unit-tests-final.log and %TEMP%\SgExt-release-build.log.
 - PowerShell parser validation passed for Client.ps1, Invoke-Checks.ps1, Run-Checks.ps1 and Stop-Checks.ps1.
 - Only production-source additions are #if DEBUG trace instrumentation and extensions to the already DEBUG-only test channel. Release guard behavior is unchanged. No bypass was fixed without a proven target-binding solution.
-- Driver usage, prerequisites, recovery protocol and evidence limitations are documented in [the driver README](../../tests/SqlSafetyGuard.ExtensionChecks/README.md).
+- Driver usage, prerequisites, recovery protocol and evidence limitations are documented in [the driver README](../../../tests/SqlSafetyGuard.ExtensionChecks/README.md).

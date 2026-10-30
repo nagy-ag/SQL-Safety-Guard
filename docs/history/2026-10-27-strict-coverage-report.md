@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../verification/status.md). All current docs: [docs/README.md](../README.md).
+
 # Strict SQL Server coverage evidence
 
 - Run (UTC): 2026-10-27T15:30:25.7246995+00:00

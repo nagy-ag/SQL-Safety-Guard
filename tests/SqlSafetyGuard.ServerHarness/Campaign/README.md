@@ -1,6 +1,6 @@
 # Real-server campaign
 
-See ../../../docs/verification/validation-wave3.md for wave-3 evidence and the frozen full-run command. VALIDATION.md and validation-wave2.md preserve historical results. The one-time task SQL Safety Guard Wave2 2026-10-28 is DISABLED and must remain disabled.
+See ../../../docs/history/wave3/validation-wave3.md for wave-3 evidence and the frozen full-run command. VALIDATION.md and validation-wave2.md preserve historical results. The one-time task SQL Safety Guard Wave2 2026-10-28 is DISABLED and must remain disabled.
 
 This is a separate mode, not legacy schema discovery and not a replacement for strict coverage. It executes trusted test SQL against worker-owned, pristine-verified four-database sets and persists evidence. Start with ORACLE.md and WORLD.md. The supplied 50-case smoke corpus is representative infrastructure validation, **not every analyzer rule/combination proven safe**. Per-case analyzer settings and an offline analyzer-only lane are supported; server execution still requires reviewed SQL and setup.
 
@@ -67,7 +67,7 @@ Docker-only SgLoop uses MSOLEDBSQL at explicit IPv4 127.0.0.1,1433, encrypt=opti
 
 ## Overnight Task Scheduler
 
-Wave 2 registers the user-approved one-time task **SQL Safety Guard Wave2 2026-10-28** for October 28, 2026 at **22:00 Europe/Bucharest (UTC+02:00)**, with an eight-hour campaign budget and nine-hour scheduler cleanup limit. See `../../../docs/verification/validation-wave2.md` for evidence, limitations and receipt locations.
+Wave 2 registers the user-approved one-time task **SQL Safety Guard Wave2 2026-10-28** for October 28, 2026 at **22:00 Europe/Bucharest (UTC+02:00)**, with an eight-hour campaign budget and nine-hour scheduler cleanup limit. See `../../../docs/history/wave2/validation-wave2.md` for evidence, limitations and receipt locations.
 
 Historical registration is not an instruction to enable or replace the task. Wave 3 prepares an unlimited manual full launcher using tools/verification/Freeze-Wave3.ps1 and Run-Wave3Full.ps1; it neither registers nor starts an overnight task. The full run must not overlap another campaign or extension verification operation requiring the campaign servers.
 

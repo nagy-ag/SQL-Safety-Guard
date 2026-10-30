@@ -8,7 +8,7 @@ DEST = ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases/wave3'
 
 
 def main():
-    rules = json.loads((ROOT / 'docs/verification/rules.json').read_text())['rules']
+    rules = json.loads((ROOT / 'docs/verification/rules/rules.json').read_text())['rules']
     wanted = {entry['ruleId'] for entry in json.loads((ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases/generated/manifest.json').read_text())['rules'] if entry['status'] == 'needs-focused-options-or-AST-probe'}
     rows = []
     dispositions = []

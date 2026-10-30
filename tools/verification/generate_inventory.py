@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / "docs/verification"
+DEST = ROOT / "docs/verification/rules"
 ALL = ["ReadOnly", "TempOnly", "AllowListed", "Unknown", "RealWrite"]
 CATEGORIES = {
     "Classifier": "classification", "StatementWalker": "walking",

@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    missing = re.findall(r'\| (\w+) \| open;', (ROOT / 'docs/verification/gaps-wave2.md').read_text())
+    missing = re.findall(r'\| (\w+) \| open;', (ROOT / 'docs/history/wave2/gaps-wave2.md').read_text())
     examples = {row['statementType']: row for row in json.loads((ROOT / 'tests/SqlSafetyGuard.ServerHarness/Coverage/parser-fixtures.json').read_text())['fixtures']}
     fixtures = []
     unavailable = []

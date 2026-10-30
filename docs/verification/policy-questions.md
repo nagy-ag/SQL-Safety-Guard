@@ -1,6 +1,30 @@
 # Policy questions (not decisions)
 
-Current means offline analyzer behavior at baseline edea579, not an observed SQL Server outcome. Keep typed confirmation disabled regardless of these discussions.
+Living list; update it when a decision is made. Keep typed confirmation disabled regardless of these discussions.
+
+## Short list for the company (2026-10-30)
+
+None of these is a bug against the current design; each needs a decision. Evidence: the
+[2026-10-30 full run](../history/runs/2026-10-30-full-run.md) and the detailed entries below.
+
+1. **Allow-listed objects with side effects.** Allow-listing `sales.Orders`, a view or a synonym also authorizes its trigger writes
+   (`audit.Changes`), cross-database writes (`Archive.dbo.Counter`), temporal history and sequence advances. Does authorizing the entry
+   point authorize everything it reaches?
+2. **Trusted procedures.** A trusted procedure is shown green even when it writes. Should trust mean "authorized", a different label,
+   or a claim that it has no effects?
+3. **`tempdb` opt-in (`TempdbIsTemp`).** With the setting on, permanent shared `tempdb.dbo.*` objects are green. Keep the opt-in,
+   restrict it to session-local objects, or remove it?
+4. **`RAISERROR … WITH LOG`.** Writes the server error log but is green. Treat log writes as writes?
+5. **Session-state changes that outlive the script**: `EXECUTE AS`/`SETUSER`, `SET IDENTITY_INSERT`, `SET IMPLICIT_TRANSACTIONS`/
+   `ANSI_DEFAULTS`, `sp_set_session_context`, session-owned `sp_getapplock`, global `##temp` tables. All green today.
+6. **`ROLLBACK` of a caller's transaction.** Green today, but it can discard work the script did not start.
+7. **Metadata maintenance**: `UPDATE STATISTICS` (yellow) and `DBCC CHECKDB` (green). Warn or not?
+8. **Service Broker `SEND`.** Which object should the red finding name: the dialog, service, queue, or all of them?
+9. **Red-only mode.** Unknown procedures produce no prompt in Red mode by design. Acceptable trade-off?
+
+## Detailed entries
+
+"Current" below means offline analyzer behavior at baseline edea579 unless an entry says it was observed on a server.
 
 - `EXECUTE AS USER = 'u';` / `SETUSER 'u';`: ReadOnly; impersonation can survive the script and affect the next command.
 - `SET IDENTITY_INSERT dbo.Items ON;`: ReadOnly; persistent session behavior changes even with no row modification.
@@ -19,11 +43,11 @@ Current means offline analyzer behavior at baseline edea579, not an observed SQL
 - `UPDATE dbo.Orders SET Qty = Qty WHERE 1 = 0;`: RealWrite; zero observed row changes do not remove write capability, locks or possible statement-level trigger effects.
 - Unknown procedure plus yellow suppression in Red mode: Unknown but no prompt; mode selection intentionally trades protection for noise reduction.
 
-## Wave-2 attribution question
+### Wave-2 attribution question
 
 - Service Broker `SEND ON CONVERSATION @dialog`: red finding names the dialog variable, not the asynchronously written queue or conversation catalog. Should a target finding represent the dialog, service, queue, or all reachable objects? Until decided, the harness reports UNRESOLVED TARGET rather than WRONG TARGET or PASS. A runtime dialog variable is not treated as a statically missed base table.
 
-## Wave-3 observed policy effects (October 28, 2026)
+### Wave-3 observed policy effects (October 28, 2026)
 
 Evidence is retained outside the worktree in `../harness-out/campaign/`, primarily `wave3-host-final`, superseding `wave3-host-replay` receipts, and `wave3-isolated-final`. These are observations, not new authorization policy. Typed confirmation stays disabled.
 

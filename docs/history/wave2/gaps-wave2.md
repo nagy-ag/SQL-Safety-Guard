@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Wave-2 disposition of all 67 original live gaps
 
 Original matrix is immutable historical evidence. The isolated Developer feature run `wave2-features-final/isolated-results.json` has 15/15 passing fixtures, closing 12 original gaps; 55 remain open. A missing prerequisite is **not** proof a statement cannot run. No fabricated binary, endpoint, key-count equality or CREATE-only atomic body is accepted as execution proof.

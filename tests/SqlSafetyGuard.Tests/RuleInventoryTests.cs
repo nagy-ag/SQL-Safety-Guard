@@ -11,13 +11,13 @@ public class RuleInventoryTests(ITestOutputHelper output)
     internal static string Root => Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
 
     internal static JsonDocument Inventory() => JsonDocument.Parse(
-        File.ReadAllText(Path.Combine(Root, "docs/verification/rules.json")));
+        File.ReadAllText(Path.Combine(Root, "docs/verification/rules/rules.json")));
 
     [Fact]
     public void ReportUncoveredRuleIds()
     {
         using var inventory = Inventory();
-        using var mapping = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root, "docs/verification/rule-test-map.json")));
+        using var mapping = JsonDocument.Parse(File.ReadAllText(Path.Combine(Root, "docs/verification/rules/rule-test-map.json")));
         var rules = inventory.RootElement.GetProperty("rules").EnumerateArray().ToArray();
         var identifiers = rules.Select(rule => rule.GetProperty("id").GetString()!).ToHashSet();
         Assert.Equal(rules.Length, identifiers.Count);

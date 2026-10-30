@@ -1,4 +1,4 @@
-> Historical baseline. Superseded for wave-2 implementation and scheduling by `docs/verification/validation-wave2.md`; original results below are retained unchanged.
+> Historical baseline. Superseded for wave-2 implementation and scheduling by `docs/history/wave2/validation-wave2.md`; original results below are retained unchanged.
 
 # Server campaign validation — 2026-10-28
 

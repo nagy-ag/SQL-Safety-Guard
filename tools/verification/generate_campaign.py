@@ -119,7 +119,7 @@ def company(seed):
 
 
 def rule_probes(seed):
-    rules = json.loads((ROOT / "docs/verification/rules.json").read_text(encoding="utf-8"))["rules"]
+    rules = json.loads((ROOT / "docs/verification/rules/rules.json").read_text(encoding="utf-8"))["rules"]
     fixtures = []
     for path in sorted((ROOT / "tests/SqlSafetyGuard.ServerHarness/Coverage").glob("*fixtures.json")):
         fixtures.extend(json.loads(path.read_text(encoding="utf-8-sig")).get("fixtures", []))

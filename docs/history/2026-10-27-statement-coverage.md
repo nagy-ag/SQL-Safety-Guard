@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../verification/status.md). All current docs: [docs/README.md](../README.md).
+
 # T-SQL statement coverage
 
 This is an implementation inventory, not a proof that SQL Safety Guard can predict every SQL Server side effect.
@@ -16,12 +18,12 @@ cases, nine alternate-dialect cases, and seven constructed-AST-only helper/snipp
 passing representative live execution**, three have failed attempts only, and 64 have no live execution evidence.
 The six authoritative runtime reports contain 293 fixture executions: 289 passes and four failed attempts
 (including one subsequently corrected Resource Governor setup). The final unit suite passes **793/793** tests.
-See the [combined execution evidence and limitations](verification/2026-10-27-all-kinds/README.md),
-[per-kind matrix](verification/2026-10-27-all-kinds/statement-matrix.md), and
-[reproducible runners](../tests/SqlSafetyGuard.ServerHarness/Coverage/README.md). The earlier
-[118-fixture / 103-kind report](verification/2026-10-27-strict-coverage.md) is historical, not the current total.
+See the [combined execution evidence and limitations](2026-10-27-all-kinds/README.md),
+[per-kind matrix](2026-10-27-all-kinds/statement-matrix.md), and
+[reproducible runners](../../tests/SqlSafetyGuard.ServerHarness/Coverage/README.md). The earlier
+[118-fixture / 103-kind report](2026-10-27-strict-coverage.md) is historical, not the current total.
 These results do not prove every clause combination or every possible side effect. SSMS UI acceptance is
-documented separately in [release acceptance](release-acceptance.md); headless policy tests do not replace it.
+documented separately in [release acceptance](../release-acceptance.md); headless policy tests do not replace it.
 
 ## By category
 

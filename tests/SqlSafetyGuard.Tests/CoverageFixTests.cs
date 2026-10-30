@@ -2,7 +2,7 @@ using SqlSafetyGuard.Analyzer;
 
 namespace SqlSafetyGuard.Tests;
 
-/// <summary>The false alarms and under-warnings found by the statement coverage review (docs/statement-coverage.md).</summary>
+/// <summary>The false alarms and under-warnings found by the statement coverage review (docs/history/2026-10-27-statement-coverage.md).</summary>
 public class FalseAlarmTests
 {
     [Theory]

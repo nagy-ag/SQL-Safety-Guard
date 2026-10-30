@@ -38,7 +38,7 @@ Default DBCC CHECKTABLE failed under the restricted execution context during dev
 
 GuardExecutionContractTests calls the same GuardDecision used by the VSIX and tests Off/Red/YellowRed, approve/cancel, failure handling and exact typed-name policy. The counted execution callback is a test adapter, not SSMS command dispatch. This fast suite does not prove DTE interception, dialog rendering, active-tab selection or exactly-once delivery in SSMS. Existing release acceptance evidence remains separate.
 
-See [combined dated evidence](../../../../docs/verification/2026-10-27-all-kinds/README.md) for current results and remaining gaps. The earlier [strict baseline](../../../../docs/verification/2026-10-27-strict-coverage.md) is preserved as historical evidence.
+See [combined dated evidence](../../../docs/history/2026-10-27-all-kinds/README.md) for current results and remaining gaps. The earlier [strict baseline](../../../docs/history/2026-10-27-strict-coverage.md) is preserved as historical evidence.
 
 ## Static coverage of all 334 kinds
 

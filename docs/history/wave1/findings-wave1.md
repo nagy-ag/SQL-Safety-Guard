@@ -1,3 +1,5 @@
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
 # Offline findings - wave 1
 
 No SQL was executed. These results concern classification only; none proves a SQL Server side effect or absence of one. Policy hypotheses are separately listed in policy-questions.md.

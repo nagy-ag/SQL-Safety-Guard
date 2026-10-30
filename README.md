@@ -457,7 +457,7 @@ fail-open crash. Genuine unrelated guard crashes retain the visible failure poli
 
 These undocumented host members are version-sensitive. SSMS 22.11.2 was checked with isolated-profile Debug
 instrumentation, SQL Server Extended Events and independent counters. See
-[execution verification](docs/verification/extension-checks.md) for before/after evidence and coverage limits.
+[execution verification](docs/verification/extension/extension-checks.md) for before/after evidence and coverage limits.
 
 ## Limitations
 
@@ -487,11 +487,12 @@ instrumentation, SQL Server Extended Events and independent counters. See
   DBCC commands with unknown effects (for example, `DBCC MEMORYMAP`) are yellow. Unrecognized DBCC names
   (for example, `DBCC SSG_UNKNOWN`) parse as DLL unloads and are red; other DBCC commands are judged per command
   (read-only green, changing red).
-  [docs/statement-coverage.md](docs/statement-coverage.md) records the reviewed ScriptDom statement inventory and
+  [docs/history/2026-10-27-statement-coverage.md](docs/history/2026-10-27-statement-coverage.md) records the reviewed ScriptDom statement inventory and
   important semantic/resource limits; an inventory is not a proof of soundness. See also the
   [statement verdicts](docs/statement-verdicts.md) for representative SQL examples and their colours. The
-  [systematic verification report](docs/verification/2026-10-27-all-kinds/README.md) separates all 334 static
-  checks from 267 live-passed kinds, three failed-only kinds, and 64 not live tested.
+  [systematic verification report](docs/history/2026-10-27-all-kinds/README.md) separates all 334 static
+  checks from 267 live-passed kinds, three failed-only kinds, and 64 not live tested. The current verification state is always in
+  [docs/verification/status.md](docs/verification/status.md); [docs/README.md](docs/README.md) lists every current document.
 - **Transactions are tracked by reading the text, not the session.** A `COMMIT` with no `BEGIN TRAN` in the text is
   yellow, because it may commit work an earlier run left open. A transaction still open at the end gets an
   OPEN TRANSACTION row. The guard can't see whether your session actually has an open transaction right now.

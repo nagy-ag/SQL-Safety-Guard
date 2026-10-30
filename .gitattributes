@@ -1,2 +1,3 @@
 # Hashed evidence files: store byte-for-byte so SHA256SUMS stays valid after checkout
 docs/verification/** -text
+docs/history/** -text

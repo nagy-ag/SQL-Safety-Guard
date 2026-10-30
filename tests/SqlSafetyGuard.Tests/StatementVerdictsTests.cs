@@ -110,7 +110,7 @@ public class StatementVerdictsTests
         output.AppendLine("Verdicts use default settings: no allow-list and no environment rules; explicitly configured exceptions are noted.");
         output.AppendLine("The verdict columns compare permanent and #temp / @table targets; statements without a table/object target use the first column, with — in the second.");
         output.AppendLine("One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.");
-        output.AppendLine("See [live-server evidence](verification/2026-10-27-all-kinds/README.md); AST-only kinds have no standalone SQL verdict and appear last.");
+        output.AppendLine("See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kinds have no standalone SQL verdict and appear last.");
         foreach (var section in rows.OrderBy(row => row.Order).ThenBy(row => row.Label, StringComparer.Ordinal)
             .ThenBy(row => row.Kind, StringComparer.Ordinal).GroupBy(row => row.Order == 3))
         {
