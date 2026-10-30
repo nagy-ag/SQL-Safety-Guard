@@ -7,6 +7,9 @@ a wave number in their name are snapshots and live in [history/](history/README.
 
 | Document | What it answers | Kind |
 |---|---|---|
+| [user-guide.md](user-guide.md) | How to install, read the colours, configure and share settings. For users. | Living, hand-written |
+| [it-deployment.md](it-deployment.md) | All-users install and uninstall, security facts, checks. For IT. | Living, hand-written |
+| [release-process.md](release-process.md) | How to version, test, tag and publish a release. | Living, hand-written |
 | [verification/status.md](verification/status.md) | Where verification stands right now: latest run, false greens, open gaps, next steps. **Read this first.** | Living, hand-written |
 | [verification/policy-questions.md](verification/policy-questions.md) | Behaviours that need a company decision, with the short list on top. | Living, hand-written |
 | [statement-verdicts.md](statement-verdicts.md) | Which colour every statement kind gets, for permanent and temp targets. | Generated, test-guarded |
@@ -16,6 +19,8 @@ a wave number in their name are snapshots and live in [history/](history/README.
 | [verification/rules/uncovered.md](verification/rules/uncovered.md) | Code and rule IDs no test reaches. | Generated |
 | [verification/extension/extension-checks.md](verification/extension/extension-checks.md) | SSMS execution checks: which window runs, which commands are intercepted. | Living, hand-written |
 | [release-acceptance.md](release-acceptance.md) | The latest release acceptance (build, install, theme checks). | Replaced at each release |
+
+The changelog is [../CHANGELOG.md](../CHANGELOG.md).
 
 Machine-readable companions sit next to their page: `verification/rules/` (`rules.json`, `rule-test-map.json`,
 `rule-id-migrations.json`, `semantic-rules.tsv`) and `verification/extension/` (TSV/JSON evidence).
