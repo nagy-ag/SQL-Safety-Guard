@@ -45,7 +45,7 @@ disturbed results) and 3 are the known `TempdbIsTemp` and `RAISERROR … WITH LO
 
 ## Open items
 
-1. **Company decisions:** the 9-item short list in [policy-questions.md](policy-questions.md).
+1. **Company decisions:** the 9-item short list in [policy-questions.md](policy-questions.md), each with a recommended answer (four would move verdicts toward yellow/red; none toward green).
 2. **Harness fixes** (not analyzer bugs): ignore temporary clone logins reliably in the server-permission snapshot; label
    server-level changes from other workers consistently; retry a clone once on "session is in the kill state".
 3. **Not executable here:** 57 host and 99 Docker cases (mostly DBCC commands this server version rejects, remote providers without a
