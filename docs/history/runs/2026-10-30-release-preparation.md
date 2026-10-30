@@ -1,6 +1,6 @@
-> **Snapshot ? not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
 
-# 1.0.0 preparation verification ? 2026-10-30
+# 1.0.0 preparation verification — 2026-10-30
 
 The extension remains version 1.0.0 and the changelog remains unreleased. This work changes guard-failure decisions,
 installer handling, release tooling and documentation; it changes no analyzer verdicts. Implementation revisions:

@@ -40,9 +40,9 @@ The default output is `../release-out/<version>` relative to the repository. Ove
 `-OutputDirectory <absolute-path>`; output must be outside the repository in a new or empty directory.
 The three files are:
 
-- `SqlSafetyGuard-<version>.vsix` ? validated unsigned package.
-- `SqlSafetyGuard-<version>-scripts.zip` ? `install.ps1`, `uninstall.ps1`, `scripts/SsmsCommon.ps1`, preserving that layout.
-- `SHA256SUMS.txt` ? SHA-256 hashes of both assets.
+- `SqlSafetyGuard-<version>.vsix` — validated unsigned package.
+- `SqlSafetyGuard-<version>-scripts.zip` — `install.ps1`, `uninstall.ps1`, `scripts/SsmsCommon.ps1`, preserving that layout.
+- `SHA256SUMS.txt` — SHA-256 hashes of both assets.
 
 The script never signs, tags, uploads or creates a release. Never commit these files or raw run output.
 
