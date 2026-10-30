@@ -31,7 +31,8 @@ namespace SqlSafetyGuard.Options
         [DisplayName("F5 guard")]
         [Description("When executing a query: Off = never check; Warn on red only = prompt before real writes; " +
                      "Warn on yellow and red = also prompt when the effect cannot be seen (procedures, dynamic SQL, parse errors). " +
-                     "Read-only, temp-only and allow-listed queries always run without a prompt.")]
+                     "Read-only, temp-only and allow-listed queries always run without a prompt. " +
+                     "Use Tools > Export Settings... to share your configuration; Tools > Import Settings... validates and previews changes before applying them.")]
         [DefaultValue(GuardMode.WarnOnYellowAndRed)]
         [TypeConverter(typeof(GuardModeConverter))]
         public GuardMode GuardMode { get; set; } = GuardMode.WarnOnYellowAndRed;
@@ -48,7 +49,8 @@ namespace SqlSafetyGuard.Options
         [Description("One pattern per line, e.g. dbo.Staging_*. Writes to matching tables count as green. Case-insensitive; " +
                      "* and ? wildcards. No implicit dbo: schema-qualified patterns require a resolved schema. " +
                      "Omitted database matches the known current database only; omitted server never matches linked servers. " +
-                     "Wildcard-only patterns are ignored with a warning. Lines starting with -- are comments.")]
+                     "Wildcard-only patterns are ignored with a warning. Lines starting with -- are comments. " +
+                     "Tools > Import Settings... highlights additions that make writes green before you confirm.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string AllowList { get; set; } = string.Empty;

@@ -33,6 +33,26 @@
         </Strings>
       </Button>
 
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidExportSettings" priority="0x0110" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
+        <Strings>
+          <ButtonText>Export Settings...</ButtonText>
+          <ToolTipText>Export your SQL Safety Guard configuration to a JSON file</ToolTipText>
+          <CommandName>ExportSafetyGuardSettings</CommandName>
+          <CanonicalName>.SqlSafetyGuard.ExportSettings</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.ExportSettings</LocCanonicalName>
+        </Strings>
+      </Button>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidImportSettings" priority="0x0120" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
+        <Strings>
+          <ButtonText>Import Settings...</ButtonText>
+          <ToolTipText>Validate and preview a SQL Safety Guard settings file before applying it</ToolTipText>
+          <CommandName>ImportSafetyGuardSettings</CommandName>
+          <CanonicalName>.SqlSafetyGuard.ImportSettings</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.ImportSettings</LocCanonicalName>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
 
@@ -54,6 +74,8 @@
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
       <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />
+      <IDSymbol name="cmdidExportSettings" value="0x0101" />
+      <IDSymbol name="cmdidImportSettings" value="0x0102" />
     </GuidSymbol>
 
     <!-- SSMS 22 SQLEditors.dll command table (decompiled with vsct.exe): toolbar "SQL Editor" -->

@@ -52,9 +52,11 @@
     <Compile Include="PackageIds.cs" />
     <Compile Include="SqlSafetyGuardPackage.cs" />
     <Compile Include="Commands\AnalyzeQueryCommand.cs" />
+    <Compile Include="Commands\SettingsCommands.cs" />
     <Compile Include="Guard\EnsureGuardLoadedListener.cs" />
     <Compile Include="Guard\ExecuteGuard.cs" />
     <Compile Include="Options\GeneralOptionsPage.cs" />
+    <Compile Include="Options\SettingsTransfer.cs" />
     <Compile Include="Services\AnalysisRunner.cs" />
     <Compile Include="Services\ConnectionInfoReader.cs" />
     <Compile Include="Services\ExecutionTarget.cs" />
@@ -67,6 +69,9 @@
       <DependentUpon>ConfirmExecutionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FindingRow.cs" />
+    <Compile Include="UI\SettingsImportDialog.xaml.cs">
+      <DependentUpon>SettingsImportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\PaneModels.cs" />
     <Compile Include="UI\PaneTrace.cs" />
     <Compile Include="UI\SafetyPaneControl.xaml.cs">
@@ -78,6 +83,10 @@
     <Compile Include="UI\VerdictBrushes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\SettingsImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\ConfirmExecutionDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -122,6 +131,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="180.140.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SqlSafetyGuard.Analyzer\SqlSafetyGuard.Analyzer.csproj">

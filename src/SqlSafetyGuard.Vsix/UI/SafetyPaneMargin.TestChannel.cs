@@ -91,6 +91,13 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"cmd {verb} {(verb == "append" ? arg.Length + " chars" : arg)}");
             switch (verb)
             {
+                case "settingsexport":
+                    Commands.SettingsCommands.ExportFile(TryGetPackage(), arg);
+                    break;
+                case "settingsimportconfirm":
+                case "settingsimportcancel":
+                    SmokeSettingsImport(arg, verb == "settingsimportconfirm");
+                    break;
                 case "replacefile":
                     _view.TextBuffer.Replace(new Span(0, snapshot.Length), File.ReadAllText(arg));
                     _view.Selection.Clear();
@@ -205,6 +212,44 @@ namespace SqlSafetyGuard.UI
                     PaneTrace.Write($"cmd unknown verb '{verb}'");
                     break;
             }
+        }
+
+        private void SmokeSettingsImport(string path, bool confirm)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var directory = Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY");
+            if (string.IsNullOrEmpty(directory)) throw new InvalidOperationException("Settings smoke checks require a private test directory.");
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            timer.Tick += (s, e) =>
+            {
+                var dialog = System.Windows.Application.Current.Windows.OfType<SettingsImportDialog>().FirstOrDefault();
+                if (dialog == null) return;
+                timer.Stop();
+                try
+                {
+                    var import = (Options.SettingsImport)dialog.DataContext;
+                    ExtensionCheckTrace.Write("settings-preview", "changes=" + import.Changes.Count, "warnings=" + import.Warnings.Count,
+                        "ignored=" + import.IgnoredKeys.Count, "cancelDefault=" + dialog.CancelButton.IsDefault,
+                        "warningVisible=" + dialog.WarningSection.Visibility);
+                    var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)dialog.ActualWidth, (int)dialog.ActualHeight,
+                        96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+                    bitmap.Render(dialog);
+                    var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                    encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+                    using (var stream = File.Create(path + ".preview.png")) encoder.Save(stream);
+                    if (confirm && dialog.ImportButton.IsEnabled)
+                        dialog.ImportButton.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                    else dialog.DialogResult = false;
+                }
+                catch (Exception ex)
+                {
+                    ExtensionCheckTrace.Write("settings-preview-error", ex.ToString());
+                    dialog.DialogResult = false;
+                }
+            };
+            timer.Start();
+            try { ExtensionCheckTrace.Write("settings-import", Commands.SettingsCommands.ImportFile(TryGetPackage(), path).ToString()); }
+            finally { timer.Stop(); }
         }
     }
 

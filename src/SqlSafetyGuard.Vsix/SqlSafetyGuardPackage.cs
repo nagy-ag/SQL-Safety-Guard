@@ -120,6 +120,7 @@ namespace SqlSafetyGuard
                 var commandService = (OleMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
 
                 AnalyzeQueryCommand.Initialize(this, commandService);
+                SettingsCommands.Initialize(this, commandService);
 
                 _guard = new ExecuteGuard(this);
                 _guard.Attach();

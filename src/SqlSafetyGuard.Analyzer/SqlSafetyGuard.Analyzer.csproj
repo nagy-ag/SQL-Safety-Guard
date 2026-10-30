@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="SqlSafetyGuard.Tests" />
+    <InternalsVisibleTo Include="SqlSafetyGuard" />
   </ItemGroup>
 
 </Project>

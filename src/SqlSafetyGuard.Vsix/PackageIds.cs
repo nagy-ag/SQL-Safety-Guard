@@ -16,6 +16,8 @@ namespace SqlSafetyGuard
     internal static class PackageIds
     {
         public const int AnalyzeQueryCommand = 0x0100;
+        public const int ExportSettingsCommand = 0x0101;
+        public const int ImportSettingsCommand = 0x0102;
     }
 
     /// <summary>SSMS SQL editor command identifiers (from SQLEditors.dll's command table, SSMS 22).</summary>
