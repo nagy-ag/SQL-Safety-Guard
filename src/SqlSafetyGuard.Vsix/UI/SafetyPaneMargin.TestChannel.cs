@@ -23,6 +23,8 @@ namespace SqlSafetyGuard.UI
 
         partial void StartTestChannel()
         {
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                CaptureNative.PreventActivation();
             var poll = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
             poll.Tick += (s, e) =>
             {
@@ -91,6 +93,16 @@ namespace SqlSafetyGuard.UI
             PaneTrace.Write($"cmd {verb} {(verb == "append" ? arg.Length + " chars" : arg)}");
             switch (verb)
             {
+                case "showconfirm":
+                case "showfailure":
+                case "showlisteditor":
+                case "showimportpreview":
+                case "showoptions":
+                case "capture":
+                case "closedialogs":
+                case "preparecaptureclose":
+                    RunCaptureCommand(verb, arg);
+                    break;
                 case "guardfailurecheck":
                     if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
                         throw new InvalidOperationException("Failure checks require a private test directory.");

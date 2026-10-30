@@ -1,6 +1,6 @@
 # Verification status
 
-Last updated: **2026-10-30**, after 1.0.0 preparation and guard-failure verification. The latest server campaign used analyzer
+Last updated: **2026-10-30**, after 1.0.0 preparation and the Light/Dark capture tooling trial. The latest server campaign used analyzer
 `34630d62` (main `4388bc2`); this preparation does not change analyzer verdicts.
 This page is rewritten after every run; the dated details live in [../history/](../history/README.md).
 
@@ -10,6 +10,12 @@ This page is rewritten after every run; the dated details live in [../history/](
 company decision ([policy-questions.md](policy-questions.md)). Typed confirmation stays disabled.
 
 ## Latest release preparation - 2026-10-30
+
+[Theme capture trial](../history/runs/2026-10-30-theme-capture.md): **26 non-blank PNGs** across Light and Dark, covering
+the pane, real modeless dialog previews, integrated options and toolbar. Several PNGs were opened to verify their real
+content and theme colours. The Exp settings file was restored byte-for-byte with matching SHA-256; SSMS closed cleanly.
+The remaining 11 themes were not run. This trial does not sign off visual acceptance: the Dark safe-findings text has low
+contrast, and the normal F5/Execute path was deliberately not invoked. All capture hooks are Debug-only.
 
 [Preparation report](../history/runs/2026-10-30-release-preparation.md). All **1,571 tests** pass (zero failed/skipped).
 Debug and Release solution builds each have **zero warnings and errors**. Release UI scripts pass **13 pane + 15

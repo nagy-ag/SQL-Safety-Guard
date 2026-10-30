@@ -18,6 +18,9 @@ namespace SqlSafetyGuard.UI
 
         private void OnSave(object sender, RoutedEventArgs e)
         {
+#if DEBUG
+            if (CapturePreview.IsPreview(this)) return;
+#endif
             try
             {
                 Save(Entries.Text);

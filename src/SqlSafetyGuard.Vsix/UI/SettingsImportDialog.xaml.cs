@@ -23,6 +23,12 @@ namespace SqlSafetyGuard.UI
             ImportButton.IsEnabled = import.Changes.Count > 0;
         }
 
-        private void OnImport(object sender, RoutedEventArgs e) { DialogResult = true; }
+        private void OnImport(object sender, RoutedEventArgs e)
+        {
+#if DEBUG
+            if (CapturePreview.IsPreview(this)) return;
+#endif
+            DialogResult = true;
+        }
     }
 }

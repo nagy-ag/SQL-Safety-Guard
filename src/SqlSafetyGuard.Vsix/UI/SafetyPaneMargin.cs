@@ -257,6 +257,10 @@ namespace SqlSafetyGuard.UI
                         OutputLog.Info($"Safety pane: analyzed {text.Length:N0} characters in {elapsed:N0} ms.");
                     var applyTime = Stopwatch.StartNew();
                     Apply(snapshot, span, isSelection, result, settings, connection, paneSettings);
+#if DEBUG
+                    ExtensionCheckTrace.Write("analysis", System.IO.Path.GetFileName(_documentPath),
+                        ExtensionCheckTrace.Hash(text), result.Overall.ToString());
+#endif
                     var sinceEdit = editTimestamp == 0 ? "-" :
                         ((Stopwatch.GetTimestamp() - editTimestamp) * 1000 / Stopwatch.Frequency).ToString();
                     if (editTimestamp == _lastEditTimestamp)

@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="UI\SafetyPaneMargin.cs" />
     <Compile Include="UI\SafetyPaneMargin.TestChannel.cs" />
+    <Compile Include="UI\SafetyPaneMargin.Capture.cs" />
     <Compile Include="UI\SafetyPaneMarginProvider.cs" />
     <Compile Include="UI\VerdictBrushes.cs" />
   </ItemGroup>

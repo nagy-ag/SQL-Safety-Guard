@@ -52,6 +52,9 @@ The script never signs, tags, uploads or creates a release. Never commit these f
    [development.md](development.md) and the [extension UI skill](../.agents/skills/ssms-extension-ui/SKILL.md).
    Check install, green/yellow/red F5, failure confirmation, settings/import/export, upgrade and uninstall.
    The all-themes pass happens only when the owner asks for it.
+   Use [ThemeAcceptanceCapture.ps1](../scripts/ThemeAcceptanceCapture.ps1) with the Debug VSIX installed in Exp
+   to capture the pane, real dialog previews, integrated settings and toolbar without input or SQL execution.
+   See the extension UI skill for the command, stored theme values and restoration checks.
 2. When publication is requested, tag the committed source `v<version>`, push it, and create the GitHub release
    as a **pre-release**, attaching the script's three unsigned assets and the changelog notes.
 3. The owner downloads the package and checks its hash. On their company computer they may sign a copy using

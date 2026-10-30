@@ -10,7 +10,7 @@ a wave number in their name are snapshots and live in [history/](history/README.
 | [user-guide.md](user-guide.md) | How to install, read the colours, configure and share settings. For users. | Living, hand-written |
 | [development.md](development.md) | Build, debug, architecture, execution targeting and limitations. | Living, hand-written |
 | [it-deployment.md](it-deployment.md) | All-users install and uninstall, security facts, checks. For IT. | Living, hand-written |
-| [release-process.md](release-process.md) | How to version, test, tag and publish a release. | Living, hand-written |
+| [release-process.md](release-process.md) | How to version, capture themes, test, tag and publish a release. | Living, hand-written |
 | [vsix-signing.md](vsix-signing.md) | Sign a finished VSIX on a company laptop: key privacy, pilot certificate, trust and release order. | Living, hand-written |
 | [verification/status.md](verification/status.md) | Where verification stands right now: latest run, false greens, open gaps, next steps. **Read this first.** | Living, hand-written |
 | [verification/policy-questions.md](verification/policy-questions.md) | Behaviours that need a company decision, with the short list on top. | Living, hand-written |

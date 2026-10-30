@@ -49,11 +49,19 @@ namespace SqlSafetyGuard.UI
                 SettingsText.Visibility = Visibility.Visible;
             }
             TargetSwitchText.Visibility = result.Findings.Any(finding => finding.Action == "TARGET SWITCH") ? Visibility.Visible : Visibility.Collapsed;
-            Loaded += (sender, args) => CancelButton.Focus();
+#if DEBUG
+            if (!string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                ShowActivated = false;
+            else
+#endif
+                Loaded += (sender, args) => CancelButton.Focus();
         }
 
         private void OnRunAnyway(object sender, RoutedEventArgs args)
         {
+#if DEBUG
+            if (CapturePreview.IsPreview(this)) return;
+#endif
             DialogResult = true;
         }
     }

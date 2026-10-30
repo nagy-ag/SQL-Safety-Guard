@@ -19,6 +19,12 @@ namespace SqlSafetyGuard.UI
             ReasonText.Text = "The check failed (" + exception.GetType().Name + "). See SQL Safety Guard in Output for details.";
         }
 
-        private void OnRunAnyway(object sender, RoutedEventArgs e) => DialogResult = true;
+        private void OnRunAnyway(object sender, RoutedEventArgs e)
+        {
+#if DEBUG
+            if (CapturePreview.IsPreview(this)) return;
+#endif
+            DialogResult = true;
+        }
     }
 }
