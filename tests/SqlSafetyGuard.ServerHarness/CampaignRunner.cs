@@ -218,7 +218,8 @@ internal static class CampaignRunner
             var effects = verdict.Overall is "RealWrite" or "AllowListed" ? CampaignAttribution.Capture(connectionString, set.Databases, options.Timeout) : [];
             effects.AddRange(CampaignAttribution.Transfers(sql, context.CurrentDatabase!, context.DefaultSchema!));
             result.EffectEdges = effects;
-            var before = CampaignOracle.Capture(connectionString, set.Databases, options.Timeout, container);
+            var logins = new[] { "runner", "app_user", "low_user" }.Select(set.PrincipalLogin).ToArray();
+            var before = CampaignOracle.Capture(connectionString, set.Databases, options.Timeout, container, logins);
             if (container != null) effects.AddRange(CampaignAttribution.VerifiedLoopback(set.Databases, before.Objects.Keys));
             result.ReusedDatabaseSet = reused;
             if (reused && lease?.Pristine != null && !CampaignOracle.Equivalent(lease.Pristine, before) && !CampaignOracle.OnlyExternalDatabaseChange(lease.Pristine, before))
@@ -243,7 +244,7 @@ internal static class CampaignRunner
                 catch (Exception exception) { result.Errors.Add("Session observation: " + exception.Message); }
             }
             result.Stage = "observe";
-            var after = CampaignOracle.Capture(connectionString, set.Databases, options.Timeout, container);
+            var after = CampaignOracle.Capture(connectionString, set.Databases, options.Timeout, container, logins);
             var externalOnly = container == null && CampaignOracle.OnlyExternalDatabaseChange(before, after);
             if (externalOnly)
             {
