@@ -161,6 +161,16 @@ namespace SqlSafetyGuard.UI
             return true;
         }
 
+        internal static void RefreshAllSettings()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            foreach (var margin in Live.ToArray())
+            {
+                margin._options = null;
+                margin.Schedule("settings import");
+            }
+        }
+
         // ---- analysis -------------------------------------------------------------------------------------
 
         private void OnBufferChanged(object sender, TextContentChangedEventArgs e)
