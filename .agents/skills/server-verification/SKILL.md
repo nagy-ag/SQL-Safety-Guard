@@ -1,9 +1,13 @@
 ---
 name: server-verification
-description: Use before running or interpreting tests/SqlSafetyGuard.ServerHarness or any verification campaign that executes SQL on a real server to check SQL Safety Guard verdicts against what actually changed. Covers server safety, outcome classes, false-green triage and reporting.
+description: Development testing only, on a throwaway server - never production. Use before running or interpreting tests/SqlSafetyGuard.ServerHarness or any verification campaign that executes SQL to check SQL Safety Guard verdicts against what actually changed. Covers server safety, outcome classes, false-green triage and reporting.
 ---
 
 # Verifying verdicts on a real server
+
+**This is how the analyzer is tested during development.** It deliberately runs writes, so it only ever runs on a throwaway
+server. Users of the extension never do this, and the extension itself never executes SQL: on any real or production server it
+only reads the query text and shows a verdict before F5.
 
 The harness runs each case on a real SQL Server, snapshots the databases before and after, and compares what really changed
 with the analyzer's verdict. Machine-specific details (which server, which databases) are in `AGENTS.local.md` if present.
