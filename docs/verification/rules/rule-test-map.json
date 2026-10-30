@@ -1369,6 +1369,8 @@
   "allow.match": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
+    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
     "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
@@ -1378,7 +1380,7 @@
     "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65 (PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments)"
   ],
   "limits.work": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:423 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
+    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:426 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
   ],
   "limits.syntax": [
     "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
@@ -1415,11 +1417,13 @@
     "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
   ],
   "environment.confirm-failure": [
-    "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:57 (ConfirmationFailureAlwaysPreventsExecution)"
+    "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82 (ConfirmationFailureAlwaysPreventsExecution)"
   ],
   "allow.empty-name": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
+    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
     "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
   ],
   "allow.ignore-comments": [
@@ -1444,6 +1448,8 @@
   "allow.quoted-parts": [
     "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
     "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
+    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
+    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
     "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)"
   ],
   "walk.select-into": [

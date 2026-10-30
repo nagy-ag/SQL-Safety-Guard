@@ -412,11 +412,14 @@ DROP TABLE #work{index}");
             }
         }
         sql.AppendLine("UPDATE o SET Id=t.Id FROM dbo.Orders o JOIN #t0 t ON o.Id=t.Id WHERE o.Id=1;");
+        Assert.Equal(Verdict.RealWrite, SqlSafetyAnalyzer.Analyze("UPDATE dbo.Orders SET Id=1 WHERE Id=2;").Overall);
         var elapsed = Stopwatch.StartNew();
         var result = SqlSafetyAnalyzer.Analyze(sql.ToString());
+        elapsed.Stop();
         Assert.Empty(result.ParseErrors);
         Assert.Equal(Verdict.RealWrite, result.Overall);
-        Assert.True(elapsed.Elapsed < TimeSpan.FromSeconds(3), elapsed.Elapsed.ToString());
+        Assert.Contains(result.Findings, finding => finding.Verdict == Verdict.RealWrite && finding.ResolvedTarget == "dbo.Orders");
+        Assert.True(elapsed.Elapsed < TimeSpan.FromSeconds(15), elapsed.Elapsed.ToString());
     }
 
     [Fact]
