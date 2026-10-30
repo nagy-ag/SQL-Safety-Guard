@@ -3,4 +3,11 @@
     <Deterministic>true</Deterministic>
     <PathMap>$(MSBuildThisFileDirectory)=/_/SqlSafetyGuard/</PathMap>
   </PropertyGroup>
+  <!-- SourceLink embeds its own document map; compiler PathMap alone does not rewrite that JSON. -->
+  <Target Name="MapReleaseSourceLinkRoot" AfterTargets="InitializeSourceRootMappedPaths"
+          Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <SourceRoot Update="$(MSBuildThisFileDirectory)" MappedPath="/_/SqlSafetyGuard/" />
+    </ItemGroup>
+  </Target>
 </Project>

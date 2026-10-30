@@ -12,7 +12,9 @@ namespace SqlSafetyGuard.UI
 #if DEBUG
             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
                 ShowActivated = false;
+            else
 #endif
+                Loaded += (sender, args) => CancelButton.Focus();
             // Host exception messages can contain SQL or be very long. Keep the reason short and predictable.
             ReasonText.Text = "The check failed (" + exception.GetType().Name + "). See SQL Safety Guard in Output for details.";
         }

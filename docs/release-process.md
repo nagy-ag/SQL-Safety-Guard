@@ -29,7 +29,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/New-ReleaseAsset
 The script reads the manifest version, runs all unit tests, and rebuilds the Release solution with Visual Studio
 MSBuild found through vswhere. Use `-MSBuildPath <path>` to choose it explicitly. It then runs the pane, confirmation
 and settings interaction scripts in Release. `-SkipUiChecks` skips only those three checks; use that switch only
-when recording the omission. Builds use deterministic compilation and neutral repository paths in Release only.
+when recording the omission. Builds use deterministic compilation and neutral repository paths in Release only, including SourceLink metadata.
 
 Before writing assets, it reads every VSIX entry, validates ZIP CRCs, checks the manifest Id/version and SSMS target,
 and requires the assemblies, symbols, package registration, `Options/registration.json`, license and third-party

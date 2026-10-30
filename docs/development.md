@@ -20,7 +20,8 @@ workloads; .NET SDK 10 (for the tests). NuGet restore is automatic.
 
 In Visual Studio: open `SqlSafetyGuard.sln`, choose **Release**, **Build > Build Solution**.
 Output: `src\SqlSafetyGuard.Vsix\bin\Release\SqlSafetyGuard.vsix`.
-Release builds use deterministic compilation and map repository source paths to `/_/SqlSafetyGuard/`.
+Release builds use deterministic compilation and map repository source paths, including the SourceLink document map,
+to `/_/SqlSafetyGuard/`.
 Debug builds keep normal local paths. [release-process.md](release-process.md) covers asset validation and publication.
 
 From a terminal:
