@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-03 | [runs/2026-11-03-replacement-publication.md](runs/2026-11-03-replacement-publication.md) | Stable 1.0.0 replaced with uninstall-capable source; old release/tag backed up, new downloads hash-verified and source/tag CI passed. |
 | 2026-11-03 | [runs/2026-11-03-replacement-preflight.md](runs/2026-11-03-replacement-preflight.md) | Owner-authorized replacement 1.0.0; no changelog; offline validation and live isolated uninstall with independent preservation checks. |
 | 2026-11-03 | [runs/2026-11-03-in-extension-uninstall.md](runs/2026-11-03-in-extension-uninstall.md) | Unreleased 1.1.0 uninstall command; offline targeting/cancellation checks, both rebuilds and runtime-only packages; live removal pending. |
 | 2026-11-03 | [runs/2026-11-03-stable-publication.md](runs/2026-11-03-stable-publication.md) | Stable v1.0.0 published, prior prerelease removed, downloads hash-verified and remote CI passed. |

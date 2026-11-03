@@ -1,7 +1,8 @@
 # Verification status
 
 Updated **2026-11-03** for the owner-authorized replacement **1.0.0**, including the in-extension uninstall command.
-Preflight work is based on `5a35399`; committed-source package/publication evidence follows the release build.
+Published source is `0cd57d004988cb7eb8080c89b1ee2b3136a5c0c2`, identified by the replacement `v1.0.0` tag.
+Current documentation records publication without changing that release's code or assets.
 The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
 queries no server metadata. The new maintenance command only hands off to the local SSMS installer after confirmation.
 
@@ -10,7 +11,7 @@ queries no server metadata. The new maintenance command only hands off to the lo
 Retained server campaigns report no unresolved reproducible analyzer defect after their triage. Known green policy effects
 remain, including the tempdb opt-in and RAISERROR WITH LOG. Observation gaps, unavailable features and unverified targets
 are not passes. See [policy-questions.md](policy-questions.md) and [contract.md](contract.md); owner decisions remain pending.
-This uninstall-command verification executes no SQL and supplies no fresh evidence of live SSMS routing or server effects.
+This uninstall-command verification executes no SQL and supplies no fresh evidence of query execution routing or server effects.
 Live Debug uninstall acceptance verified cancellation, the correct installer target, clean SSMS close and completed removal
 in an owned isolated profile. Other profiles' protected settings/assembly hashes matched their pre-run baseline.
 
@@ -18,7 +19,8 @@ in an owned isolated profile. Other profiles' protected settings/assembly hashes
 
 | Component | Evidence and identity | Establishes | Limits |
 |---|---|---|---|
-| Replacement 1.0.0 preflight | [Preparation and live check](../history/runs/2026-11-03-replacement-preflight.md), working tree based on `5a35399`: 1,621 .NET tests, 10 Python tests, 527 generated rules and Debug rebuild passed | Actual registered Debug command, cancellation, exact instance/profile launch, interactive removal after clean close; 10 original profile hashes preserved | No physical-key/SQL routing test or screenshot-rendering acceptance; Release package/publication checks follow committed build |
+| Published replacement 1.0.0 | [Publication record](../history/runs/2026-11-03-replacement-publication.md), source `0cd57d0`: full offline gate, Release rebuild, 32 interaction checks, package validation and source/tag CI passed | Exact unsigned assets validated; GitHub digests and fresh downloads matched all three hashes; previous release removed and tag replaced with a lease | No new SQL/server/F5 routing campaign or full-theme rendering review; same-version installations need uninstall/reinstall |
+| Replacement 1.0.0 preflight | [Preparation and live check](../history/runs/2026-11-03-replacement-preflight.md), working tree based on `5a35399`: 1,621 .NET tests, 10 Python tests, 527 generated rules and Debug rebuild passed | Actual registered Debug command, cancellation, exact instance/profile launch, interactive removal after clean close; 10 original profile hashes preserved | No physical-key/SQL routing test or screenshot-rendering acceptance; exact Release package evidence is in the publication row above |
 | Initial uninstall implementation | [Provisional-version record](../history/runs/2026-11-03-in-extension-uninstall.md): offline targeting/cancellation and prior local builds | Initial no-server-access and package checks | Snapshot predates the owner's decision to retain 1.0.0 and the live acceptance above |
 | Original published 1.0.0 | [Original publication record](../history/runs/2026-11-03-stable-publication.md), source `98aebf6`: full offline gate, Release rebuild, 32 UI checks, package validation and both GitHub CI runs passed | Original unsigned assets and downloads validated | Historical identity; the owner authorized replacement, so do not identify those old assets by tag name alone |
 | 1.0.0 publication preflight | [November 3 preparation](../history/runs/2026-11-03-publication-preparation.md): 1,592 .NET tests, 10 Python tests and 527 generated rules current | Offline source validation before committing and building release assets | Final package validation is recorded with GitHub release assets; no new live SSMS/server campaign |
@@ -53,10 +55,11 @@ history, campaign exclusions and observation gaps. Reports describe their record
    until the owner decides. This work does not relabel or relax them. Typed confirmation stays disabled.
 4. New freeze/launcher execution needs a clean reviewed checkout and an explicitly authorized disposable environment.
    No existing scheduled task or external frozen bundle was changed.
-5. GitHub offline CI passed for both the source push and `v1.0.0` tag at `98aebf6`. Release build/interaction and package
+5. GitHub offline CI passed for both the source push and replacement `v1.0.0` tag at `0cd57d0`. Release build/interaction and package
    validation passed locally; these do not establish live SSMS execution behavior.
 6. Same-version replacement requires uninstall/reinstall on machines with the earlier package. Source SHA and artifact
-   checksum identify the build; the unchanged 1.0.0 version alone is insufficient. Release validation/publication is pending.
+   checksum identify the build; the unchanged 1.0.0 version alone is insufficient. The published VSIX SHA-256 is
+   `c4068832e698f6faa9998fa7042267d115c1ca3810feed7f69c1cafae64a4ec9`.
 
 For offline commands and evidence levels see [how-to.md](how-to.md). For execution entry points and prerequisites see
 [the tooling map](../../tools/verification/README.md). For all current documents see [docs/README.md](../README.md).
