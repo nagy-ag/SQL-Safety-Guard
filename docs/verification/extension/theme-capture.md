@@ -56,4 +56,3 @@ Checked against SSMS 22's `CommonExtensions/Platform/Shell/Shell.registration.js
 `Microsoft.VisualStudio.Shell.UI.Internal.dll`: `EnvironmentOptions.GeneralOptionsPage.KnownThemeInvariantNameMap`,
 `ColorThemeProvider.ComputeMoniker` and `ColorThemeDefinitionResolver.GetThemeInfo`. The tinted values are invariant
 hyphenated names, not their theme GUIDs. Windows contrast themes are outside this 13-theme pass.
-

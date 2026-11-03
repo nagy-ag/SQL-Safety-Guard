@@ -234,4 +234,3 @@ instrumentation, SQL Server Extended Events and independent counters. See
 - Microsoft does not officially support third-party SSMS extensions. A future SSMS update could change command
   IDs or host internals. If the guard cannot attach to the execution command at all, execution is unguarded and
   can run without a question. An attached guard that fails during a check uses the failure confirmation above.
-

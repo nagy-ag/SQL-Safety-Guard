@@ -103,4 +103,3 @@ internal static class Report
         return one.Length > max ? one[..max] + "…" : one;
     }
 }
-
