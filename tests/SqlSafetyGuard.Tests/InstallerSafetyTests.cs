@@ -8,7 +8,7 @@ public class InstallerSafetyTests
     public async Task WindowsInstallerRejectsUnsafeArchivesAndPreservesPreviousInstall()
     {
         if (!OperatingSystem.IsWindows()) return;
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var fixtures = Path.Combine(AppContext.BaseDirectory, "installer-fixtures-" + Guid.NewGuid().ToString("N"));
         var start = new ProcessStartInfo("powershell.exe")
         {

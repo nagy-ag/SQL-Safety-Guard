@@ -55,6 +55,7 @@ internal static class CampaignCaseLoader
         File.WriteAllLines(Path.Combine(options.Out, "rejected.jsonl"), rejected.Select(item => JsonSerializer.Serialize(item, CampaignRunner.Json)));
         File.WriteAllText(Path.Combine(options.Out, "validation.json"), JsonSerializer.Serialize(new { Accepted = cases.Count, Rejected = rejected.Count }, CampaignRunner.Json));
         Console.WriteLine($"Validated {cases.Count} cases; rejected {rejected.Count} (see rejected.jsonl).");
+        if (rejected.Count != 0) throw new InvalidDataException("Campaign input rejected; no cases executed. Inspect rejected.jsonl and validation.json.");
         if (cases.Count == 0) throw new InvalidDataException("No valid campaign cases.");
         return cases.ToArray();
     }

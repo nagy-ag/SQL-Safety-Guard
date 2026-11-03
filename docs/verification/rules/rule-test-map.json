@@ -363,121 +363,121 @@
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
   "green-statement.setcommandstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.setvariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.settransactionisolationlevelstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.setrowcountstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.settextsizestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.seterrorlevelstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.setidentityinsertstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.setuserstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.declarevariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.declaretablevariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.declarecursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.opencursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.fetchcursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.closecursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.deallocatecursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.begintransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.committransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.rollbacktransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.savetransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.printstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.raiseerrorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.throwstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.usestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.returnstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.breakstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.continuestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.gotostatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.labelstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.executeasstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.revertstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.waitforstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.readtextstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.opensymmetrickeystatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.closesymmetrickeystatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.openmasterkeystatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.closemasterkeystatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.linenostatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.getconversationgroupstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "green-statement.usefederationstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "safe-dbcc.showstatistics": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
@@ -663,299 +663,299 @@
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
   "unknown-statement.updatestatisticsstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "unknown-statement.checkpointstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.setvariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.declarevariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.declaretablevariablestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.declarecursorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.begintransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.committransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.rollbacktransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.savetransactionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.raiseerrorstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.gotostatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.dbccstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.backupdatabasestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.backuptransactionlogstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.executeasstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.updatestatisticsstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertableaddtableelementstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablealtercolumnstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertabledroptableelementstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertableconstraintmodificationstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablesetstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertableswitchstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablerebuildstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertabletriggermodificationstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablechangetrackingmodificationstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablefiletablenamespacestatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablealterindexstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.altertablealterpartitionstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.bulkinsertstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "action-name.insertbulkstatement": [
-    "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+    "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
   ],
   "recovery-keyword.insert": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.update": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.delete": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.merge": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.truncate": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.drop": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.alter": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.create": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.execute": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.grant": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.revoke": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.deny": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.bulk": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.restore": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.dbcc": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.kill": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.shutdown": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "recovery-keyword.reconfigure": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+    "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
   ],
   "msdb-procedure.sp_send_dbmail": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_delete_backuphistory": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_purge_jobhistory": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_help_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_help_jobstep": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_help_jobhistory": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_help_schedule": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_add_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_update_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_delete_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_add_jobstep": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_update_jobstep": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_delete_jobstep": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_add_jobschedule": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_add_schedule": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_attach_schedule": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_add_jobserver": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_start_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "msdb-procedure.sp_stop_job": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
   ],
   "sqlcmd-command.setvar": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.r": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.on": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.connect": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.out": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.error": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.exit": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.quit": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.reset": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.ed": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.list": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.listvar": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.help": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.perftrace": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.serverlist": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.xml": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.os": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "sqlcmd-command.variable": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "set-option.quotedidentifier": [
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
@@ -1237,382 +1237,364 @@
     "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
   ],
   "aggregate.max": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
   ],
   "entry.length": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204 (OversizedScriptsFollowExplicitModePolicy)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.OversizedScriptsFollowExplicitModePolicy @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204"
   ],
   "entry.settings": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
   ],
   "entry.empty": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18 (EmptyText_IsReadOnlyWithNoFindings)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.EmptyText_IsReadOnlyWithNoFindings @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18"
   ],
   "temp.name": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
   ],
   "temp.tempdb-opt-in": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.PermanentTempdbObjectsRequireExplicitOptIn @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194"
   ],
   "write.allow-list": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251 (AllowList_DoesNotApplyToDdl)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257 (AllowList_AppliesToTruncateAndSelectInto)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.AllowList_DoesNotApplyToDdl @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.AllowList_AppliesToTruncateAndSelectInto @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257"
   ],
   "dbcc.dll": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnknownDbccNameIsClassifiedAsDllUnload @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55"
   ],
   "dbcc.repair": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+    "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
   ],
   "dbcc.checkident": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+    "SqlSafetyGuard.Tests.DbccTests.ReadOnlyDbcc_IsGreen @ tests/SqlSafetyGuard.Tests/DbccTests.cs:17",
+    "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
   ],
   "dbcc.clear": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+    "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
   ],
   "dbcc.fallback": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)"
+    "SqlSafetyGuard.Tests.DbccTests.OtherDbcc_StaysYellow @ tests/SqlSafetyGuard.Tests/DbccTests.cs:40"
   ],
   "walk.target-switch": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222 (FederationSwitchInvalidatesTargetContext)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.TargetSwitchesDisableContextualTrust @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99",
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.FederationSwitchInvalidatesTargetContext @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222"
   ],
   "walk.parse": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232 (ParseErrorInOneBatch_OtherBatchesStillAnalyzed)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126 (UnparseableDynamicSql_IsUnknown)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ParseErrorInOneBatch_OtherBatchesStillAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UnparseableDynamicSql_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126"
   ],
   "walk.hidden": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
   ],
   "walk.insert-exec": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147 (InsertExecOfReadOnlyProc_IsTempOnly)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:212 (InsertExecOfKnownWriter_IsRed)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.InsertExecOfReadOnlyProc_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147",
+    "SqlSafetyGuard.Tests.SystemProcedureTests.InsertExecOfKnownWriter_IsRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:37"
   ],
   "walk.output": [
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65 (Case07_OutputIntoPermanentTable_IsRealWrite)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case07_OutputIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
   ],
   "walk.dml-targets": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220 (RemoteTargets_AreRealWrite)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35 (UpdateViaAliasOfTemp_IsTempOnly)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RemoteTargets_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaAliasOfTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35"
   ],
   "walk.named-target": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
   ],
   "walk.module": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197 (DefinitionAndSecurityChanges_AreRealWrite)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DefinitionAndSecurityChanges_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197"
   ],
   "walk.rowfilter": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+    "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
   ],
   "exec.dispatch": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134 (ProcedureNameInVariable_IsUnknown)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ProcedureNameInVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134",
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
   ],
   "exec.spaceused": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75 (RealWritesAreNeverGreen)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107 (OrdinaryReadsRemainReadOnly)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.RealWritesAreNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.OrdinaryReadsRemainReadOnly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107"
   ],
   "exec.namespace": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141 (SchemaQualifiedReadOnlyProc_IsReadOnly)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SchemaQualifiedReadOnlyProc_IsReadOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141"
   ],
   "exec.dynamic": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101 (DynamicSqlConcatenatedLiterals_AreAnalyzed)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108 (DynamicSqlWithVariablePart_IsUnknown)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115 (NestedDynamicSql_IsLimitedByDepth)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlConcatenatedLiterals_AreAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlWithVariablePart_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.NestedDynamicSql_IsLimitedByDepth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115"
   ],
   "txn.finish": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:68 (BeginWithoutCommit_ReportsOpenTransaction)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:148 (ImplicitTransactions_LeftOpen_IsReported)"
+    "SqlSafetyGuard.Tests.TransactionTests.BeginWithoutCommit_ReportsOpenTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:39",
+    "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_LeftOpen_IsReported @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:119"
   ],
   "txn.merge": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:96 (IfCommitElseRollback_IsBalanced)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:134 (UnguardedIf_StaysConservative)"
+    "SqlSafetyGuard.Tests.TransactionTests.IfCommitElseRollback_IsBalanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:67",
+    "SqlSafetyGuard.Tests.TransactionTests.UnguardedIf_StaysConservative @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:105"
   ],
   "txn.if": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:120 (GuardedCommit_IsNotLone)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:127 (XactStateGuard_ClosesTheTransaction)"
+    "SqlSafetyGuard.Tests.TransactionTests.GuardedCommit_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:91",
+    "SqlSafetyGuard.Tests.TransactionTests.XactStateGuard_ClosesTheTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:98"
   ],
   "txn.begin": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:54 (BalancedTransaction_IsGreen)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:62 (NestedTransactions_Balanced)"
+    "SqlSafetyGuard.Tests.TransactionTests.BalancedTransaction_IsGreen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:25",
+    "SqlSafetyGuard.Tests.TransactionTests.NestedTransactions_Balanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:33"
   ],
   "txn.commit": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:39 (LoneCommit_IsUnknown)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:47 (ExtraCommit_IsUnknown)"
+    "SqlSafetyGuard.Tests.TransactionTests.LoneCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:10",
+    "SqlSafetyGuard.Tests.TransactionTests.ExtraCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:18"
   ],
   "txn.rollback": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:81 (RollbackCloses)",
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:89 (RollbackToSavepoint_KeepsTransactionOpen)"
+    "SqlSafetyGuard.Tests.TransactionTests.RollbackCloses @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:52",
+    "SqlSafetyGuard.Tests.TransactionTests.RollbackToSavepoint_KeepsTransactionOpen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:60"
   ],
   "txn.implicit-start": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:157 (ImplicitTransactions_Committed_IsFine)"
+    "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_Committed_IsFine @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:128"
   ],
   "resolve.alias": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)",
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26 (DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateAliasPointingToCte_ResolvesThroughBoth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76",
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26"
   ],
   "sqlcmd.process": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:285 (SqlCmdScript_ParsesWithoutErrors)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.SqlCmdScript_ParsesWithoutErrors @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:20"
   ],
   "sqlcmd.walk": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42"
   ],
   "scope.dynamic": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283 (DynamicSqlInsideBatch_ReportedAtExecLine)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlInsideBatch_ReportedAtExecLine @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283"
   ],
   "scope.display": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Positions_AreRelativeToAnalyzedText @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272"
   ],
   "allow.match": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)",
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
+    "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26",
+    "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33",
+    "SqlSafetyGuard.Tests.AllowListTests.EmptyAllowList_MatchesNothing @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:40"
   ],
   "environment.selection": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65 (PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16",
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65"
   ],
   "limits.work": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:426 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.LongSingleLineSelectAndLargeBrokenBatchAreBounded @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:211"
   ],
   "limits.syntax": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.ExcessiveNestingReturnsUnknownWithoutParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:144"
   ],
   "recovery.regions": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158 (GiveUp_WholeBatchIsNotAnalyzed_AndScanned)"
+    "SqlSafetyGuard.Tests.RecoveryTests.GiveUp_WholeBatchIsNotAnalyzed_AndScanned @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158"
   ],
   "parser.newest": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11 (UsesNewestParser)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UsesNewestParser @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11"
   ],
   "environment.off": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
   ],
   "environment.red": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
   ],
   "environment.yellow-red": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
   ],
   "environment.typed-disabled": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123 (LegacyTypedSettingNeverRequiresTyping)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129 (LegacyRuleFieldIsAcceptedAndIgnored)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.LegacyTypedSettingNeverRequiresTyping @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123",
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.LegacyRuleFieldIsAcceptedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129"
   ],
   "environment.invalid-line": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
   ],
   "environment.invalid-list": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
   ],
   "environment.unknown-context": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16"
   ],
   "environment.presentation-failure": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.PresentationOrLoggingFailuresCannotAuthorizeWarning @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139"
   ],
   "environment.confirm-failure": [
-    "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82 (ConfirmationFailureAlwaysPreventsExecution)"
+    "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82"
   ],
   "allow.empty-name": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
+    "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
   ],
   "allow.ignore-comments": [
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
+    "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33"
   ],
   "allow.invalid": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214 (WildcardOnlyAllowListIsIgnoredVisibly)",
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214",
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
   ],
   "allow.remote": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
   ],
   "allow.cross-database": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
   ],
   "allow.default-context": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
   ],
   "allow.glob": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
   ],
   "allow.quoted-parts": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-    "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-    "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-    "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-    "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-    "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
+    "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
   ],
   "walk.select-into": [
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20 (Case02_SelectIntoTempThenDeleteTemp_IsTempOnly)"
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case06_SelectIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57",
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case02_SelectIntoTempThenDeleteTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20"
   ],
   "walk.switch-both": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15 (SwitchClassifiesBothTables)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SwitchClassifiesBothTables @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15"
   ],
   "walk.waitfor": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31 (WaitForPreservesInnerStatementVerdict)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.WaitForPreservesInnerStatementVerdict @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31"
   ],
   "walk.drop-statistics": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:28 (DropStatistics_FollowsTempRules)"
+    "SqlSafetyGuard.Tests.FalseAlarmTests.DropStatistics_FollowsTempRules @ tests/SqlSafetyGuard.Tests/FalseAlarmTests.cs:28"
   ],
   "walk.temp-procedure": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186 (TemporaryProcedureDefinitionsDoNotExecuteBodies)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.TemporaryProcedureDefinitionsDoNotExecuteBodies @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186"
   ],
   "walk.drop-procedures": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
   ],
   "walk.fallback": [
-    "tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20 (ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution)"
+    "SqlSafetyGuard.Tests.AstOnlyKindTests.ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution @ tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20"
   ],
   "walk.composable": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
   ],
   "walk.return": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:340 (EarlyReturnPreservesContinuingTransactionPaths)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.EarlyReturnPreservesContinuingTransactionPaths @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:125"
   ],
   "walk.throw": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
   ],
   "walk.transfer": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
   ],
   "walk.try-peak": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:113 (CommitInCatch_AfterTryOpened_IsNotLone)"
+    "SqlSafetyGuard.Tests.TransactionTests.CommitInCatch_AfterTryOpened_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:84"
   ],
   "walk.catch-exit": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160 (PossiblyOpenTransactionsAreReported)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.PossiblyOpenTransactionsAreReported @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160"
   ],
   "walk.while-zero": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153 (WhileAndTryCatch_AreWalked)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.WhileAndTryCatch_AreWalked @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153"
   ],
   "walk.blocked-transaction": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:165 (TransactionsInBrokenBatch_DontCount)"
+    "SqlSafetyGuard.Tests.TransactionTests.TransactionsInBrokenBatch_DontCount @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:136"
   ],
   "exec.linked": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226"
   ],
   "exec.sp-executesql": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86 (SpExecuteSqlWithLiteral_IsAnalyzed)",
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93 (Case10_SpExecuteSqlWithVariable_IsUnknown)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86",
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93"
   ],
   "exec.trusted": [
-    "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+    "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
   ],
   "exec.ordinary": [
-    "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:206 (UnknownProcedure_StaysYellow)",
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120 (Case13_InsertExec_IsUnknown)"
+    "SqlSafetyGuard.Tests.SystemProcedureTests.UnknownProcedure_StaysYellow @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:31",
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case13_InsertExec_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120"
   ],
   "exec.streaming-wrapper": [
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224 (StreamingProcedureIsRedInEveryWrapper)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265 (StreamingParserHotswapIsOnlyAtBatchLevel)",
-    "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250 (ProcedureTableVerdictsAreIndependentOfNesting)"
+    "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingProcedureIsRedInEveryWrapper @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224",
+    "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingParserHotswapIsOnlyAtBatchLevel @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265",
+    "SqlSafetyGuard.Tests.MetamorphicVerificationTests.ProcedureTableVerdictsAreIndependentOfNesting @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250"
   ],
   "hidden.openquery": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11 (OpenQuerySource_IsUnknown)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenQuerySource_IsUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11"
   ],
   "hidden.openrowset": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
   ],
   "hidden.internal-openrowset": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
   ],
   "hidden.adhoc": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
   ],
   "hidden.sequence": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96 (NextValueFor_AnywhereThatRuns_IsRealWrite)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.NextValueFor_AnywhereThatRuns_IsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96"
   ],
   "hidden.bulk-file": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57 (OpenRowsetBulk_ReadsAFile_IsReadOnly)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenRowsetBulk_ReadsAFile_IsReadOnly @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57"
   ],
   "hidden.deduplicate": [
-    "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49 (RemoteWriteTarget_IsReportedOnceAsRealWrite)"
+    "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteWriteTarget_IsReportedOnceAsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49"
   ],
   "resolve.variable": [
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37 (Case04_InsertTableVariable_IsTempOnly)"
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case04_InsertTableVariable_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37"
   ],
   "resolve.cte-cycle": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59 (RecursiveCte_DoesNotLoopForever)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RecursiveCte_DoesNotLoopForever @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59"
   ],
   "resolve.cte-cache": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.DoublingCteGraphIsMemoizedAndDeduplicated @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:156"
   ],
   "resolve.cte-budget": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.DoublingCteGraphIsMemoizedAndDeduplicated @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:156"
   ],
   "resolve.derived": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67 (UpdateViaDerivedTable_ResolvesToBaseTable)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaDerivedTable_ResolvesToBaseTable @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67"
   ],
   "resolve.join": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateAliasPointingToCte_ResolvesThroughBoth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76"
   ],
   "resolve.union": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42 (CteReferencingCte_ResolvesRecursively)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.CteReferencingCte_ResolvesRecursively @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42"
   ],
   "resolve.alias-priority": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
   ],
   "scope.batch-offset": [
-    "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137 (Case15_SecondGoBatch_ReportsCorrectLine)"
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case15_SecondGoBatch_ReportsCorrectLine @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137"
   ],
   "scope.blocked": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38 (OnlyTheBrokenBatchIsBlocked)"
+    "SqlSafetyGuard.Tests.RecoveryTests.OnlyTheBrokenBatchIsBlocked @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38"
   ],
   "scope.target-truncate": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94 (DbccUsesParsedArgumentsBeyondDisplayTruncation)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.DbccUsesParsedArgumentsBeyondDisplayTruncation @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94"
   ],
   "scope.newlines": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128 (RecoveredFindings_KeepExactPositions)"
+    "SqlSafetyGuard.Tests.RecoveryTests.RecoveredFindings_KeepExactPositions @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128"
   ],
   "sqlcmd.mode-off": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:337 (ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint)",
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:362 (ModeOff_DollarParenInAString_IsJustAString)"
+    "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:72",
+    "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_DollarParenInAString_IsJustAString @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:97"
   ],
   "sqlcmd.ordered-definitions": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143 (SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143"
   ],
   "sqlcmd.remove-definition": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
   ],
   "limits.control-count": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:293 (ControlFlowKeywordBudgetHasExactBatchBoundary)",
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:305 (ControlFlowKeywordBudgetResetsOnlyAtGo)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.ControlFlowKeywordBudgetHasExactBatchBoundary @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:78",
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.ControlFlowKeywordBudgetResetsOnlyAtGo @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:90"
   ],
   "limits.nesting-count": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.ExcessiveNestingReturnsUnknownWithoutParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:144"
   ],
   "limits.action-reset": [
-    "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:273 (NestingThatDefeatsStatementCountersIsRejectedBeforeParsing)"
+    "SqlSafetyGuard.Tests.AnalysisResourceTests.NestingThatDefeatsStatementCountersIsRejectedBeforeParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:58"
   ],
   "parser.lexical-errors": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147 (UnrecognizedCharacter_DoesNotHideWhatFollows)"
+    "SqlSafetyGuard.Tests.RecoveryTests.UnrecognizedCharacter_DoesNotHideWhatFollows @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147"
   ],
   "verdict.severity": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
   ],
   "finding.metadata": [
-    "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+    "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
   ],
   "position.offset": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Positions_AreRelativeToAnalyzedText @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272"
   ],
   "aggregate.presentation": [
-    "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+    "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
   ]
 }

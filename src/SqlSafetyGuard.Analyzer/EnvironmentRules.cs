@@ -5,43 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace SqlSafetyGuard.Analyzer
 {
-    public enum ExecutionMode
-    {
-        Off = 0,
-        Red = 1,
-        YellowRed = 2,
-    }
-
-    public sealed class GuardSettings
-    {
-        public GuardSettings(ExecutionMode mode = ExecutionMode.YellowRed, string environment = "Global",
-            bool requireTypedConfirmation = false, IEnumerable<string> allowList = null, IEnumerable<string> trustedProcedures = null,
-            string matchedRule = null)
-        {
-            Mode = mode;
-            Environment = environment;
-            RequireTypedConfirmation = false;
-            AllowList = (allowList ?? Enumerable.Empty<string>()).ToArray();
-            TrustedProcedures = (trustedProcedures ?? Enumerable.Empty<string>()).ToArray();
-            MatchedRule = matchedRule;
-        }
-
-        public ExecutionMode Mode { get; }
-        public string Environment { get; }
-        public bool RequireTypedConfirmation { get; }
-        public IReadOnlyList<string> AllowList { get; }
-        public IReadOnlyList<string> TrustedProcedures { get; }
-        public string MatchedRule { get; }
-
-        public bool ShouldWarn(AnalysisResult result) => Mode != ExecutionMode.Off &&
-            (Mode == ExecutionMode.Red ? result.Overall == Verdict.RealWrite : !result.IsGreen);
-
-        public bool NeedsTypedConfirmation(AnalysisResult result) => false;
-
-        public GuardSettings Add(GuardSettings global) => new GuardSettings(Mode, Environment, RequireTypedConfirmation,
-            global.AllowList.Concat(AllowList), global.TrustedProcedures.Concat(TrustedProcedures), MatchedRule);
-    }
-
     public sealed class EnvironmentRules
     {
         private sealed class Rule
@@ -96,40 +59,6 @@ namespace SqlSafetyGuard.Analyzer
                 if (rule.Server.IsMatch(server) && (rule.Database == null || rule.Database.IsMatch(database)))
                     return rule.Settings.Add(global);
             return global;
-        }
-    }
-
-    public static class GuardDecision
-    {
-        public static bool CancelAfterFailure(GuardSettings settings, AnalysisResult result, bool executionTargetVerified = true) =>
-            !executionTargetVerified || (result == null ? settings?.Mode != ExecutionMode.Off :
-                (settings?.ShouldWarn(result) ?? !result.IsGreen));
-
-        public static bool ShouldCancelAfterFailure(GuardSettings settings, AnalysisResult result, bool executionTargetVerified,
-            Func<bool> confirmFailure, Action<Exception> reportFailure)
-        {
-            // A computed warning cannot become permission to run because later host work failed.
-            if (result != null) return CancelAfterFailure(settings, result, executionTargetVerified);
-            if (!CancelAfterFailure(settings, null, executionTargetVerified)) return false;
-            try { return !confirmFailure(); }
-            catch (Exception exception) { Report(reportFailure, exception); return true; }
-        }
-
-        public static bool ShouldCancel(GuardSettings settings, AnalysisResult result, Action present, Func<bool> confirm,
-            Action<Exception> reportFailure, bool executionTargetVerified = true)
-        {
-            bool warn = !executionTargetVerified || settings.ShouldWarn(result);
-            try { present(); }
-            catch (Exception exception) { Report(reportFailure, exception); }
-            if (!warn) return false;
-            try { return !confirm(); }
-            catch (Exception exception) { Report(reportFailure, exception); return true; }
-        }
-
-        private static void Report(Action<Exception> reportFailure, Exception exception)
-        {
-            try { reportFailure?.Invoke(exception); }
-            catch { }
         }
     }
 }

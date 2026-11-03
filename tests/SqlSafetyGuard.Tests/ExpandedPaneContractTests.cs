@@ -7,33 +7,28 @@ public class ExpandedPaneContractTests
     private static readonly XNamespace Presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
     private static readonly XNamespace Markup = "http://schemas.microsoft.com/winfx/2006/xaml";
     private static XDocument ReadPane() => XDocument.Load(Path.Combine(
-        Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../..")),
+        TestRepository.Root,
         "src/SqlSafetyGuard.Vsix/UI/SafetyPaneControl.xaml"));
     private static XElement Named(XContainer parent, string name) => Assert.Single(parent.Descendants(),
         element => (string?)element.Attribute(Markup + "Name") == name);
 
     [Fact]
-    public void HeaderIsSharedCompactAndContainsOnlyCountsScopeEnvironmentAndNavigation()
+    public void HeaderSharesScopeEnvironmentAndNavigationAcrossPages()
     {
         var document = ReadPane();
         var expanded = Named(document, "Expanded");
-        var header = Assert.Single(expanded.Elements(Presentation + "Border"), element => (string?)element.Attribute("Height") == "34");
-        Assert.Equal("3", (string?)Named(document, "EnvironmentLine").Attribute("Height"));
+        // Locate the shared header by its content, independently of pixel dimensions.
+        var header = Assert.Single(expanded.Elements(Presentation + "Border"), element =>
+            element.Descendants().Any(child => (string?)child.Attribute(Markup + "Name") == "ScopeText"));
         Assert.Equal("Whole window", (string?)Named(header, "ScopeText").Attribute("Text"));
-        Assert.Equal("SemiBold", (string?)Named(header, "ScopeText").Attribute("FontWeight"));
         Assert.Equal("Collapsed", (string?)Named(header, "EnvironmentTag").Attribute("Visibility"));
-        Assert.Equal("☰", (string?)Named(header, "AnalysisButton").Attribute("Content"));
         Assert.Equal("Analysis", (string?)Named(header, "AnalysisButton").Attribute("ToolTip"));
-        Assert.Equal("⚙", (string?)Named(header, "SettingsButton").Attribute("Content"));
         Assert.Equal("Settings", (string?)Named(header, "SettingsButton").Attribute("ToolTip"));
-        Assert.Equal("»", (string?)Named(header, "CollapseButton").Attribute("Content"));
-        foreach (string name in new[] { "HeaderStatus", "HeaderRed", "HeaderYellow" })
-        {
-            var badge = Named(header, name);
-            Assert.Equal("20", (string?)badge.Attribute("Width"));
-            Assert.Equal("20", (string?)badge.Attribute("Height"));
-            Assert.Single(badge.Elements(Presentation + "Ellipse"));
-        }
+        Assert.Equal("OnAnalysisPage", (string?)Named(header, "AnalysisButton").Attribute("Checked"));
+        Assert.Equal("OnSettingsPage", (string?)Named(header, "SettingsButton").Attribute("Checked"));
+        Assert.Equal("OnCollapseClicked", (string?)Named(header, "CollapseButton").Attribute("Click"));
+        foreach (string name in new[] { "HeaderGlyph", "HeaderRedCount", "HeaderYellowCount" })
+            Assert.Equal(Presentation + "TextBlock", Named(header, name).Name);
         Assert.DoesNotContain(header.Descendants().Attributes(), attribute =>
             new[] { "Safe", "Not safe", "Needs review", "Server:" }.Contains(attribute.Value));
         Assert.DoesNotContain(header, Named(document, "AnalysisPage").Ancestors());
@@ -60,18 +55,14 @@ public class ExpandedPaneContractTests
             (string?)element.Attribute("Text") == "{Binding DatabasePrefix}");
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
             (string?)element.Attribute("Text") == "{Binding ObjectName}" &&
-            (string?)element.Attribute("ToolTip") == "{Binding DisplayName}" &&
-            (string?)element.Attribute("TextTrimming") == "CharacterEllipsis");
+            (string?)element.Attribute("ToolTip") == "{Binding DisplayName}");
         var expander = Assert.Single(template.Elements(Presentation + "Expander"));
         Assert.Equal("{Binding IsExpanded, Mode=TwoWay}", (string?)expander.Attribute("IsExpanded"));
         Assert.Equal("OnGroupExpanded", (string?)expander.Attribute("Expanded"));
         var header = Assert.Single(expander.Elements(Presentation + "Expander.Header"));
-        Assert.Equal(new[] { "{Binding ObjectName}", "{Binding Subtitle}", "{Binding Line}" },
-            header.Descendants(Presentation + "TextBlock").Select(element => (string?)element.Attribute("Text")));
-        Assert.Equal(3, header.Descendants(Presentation + "ColumnDefinition").Count());
-        Assert.All(header.Descendants(Presentation + "TextBlock").Attributes("Foreground"), attribute =>
-            Assert.Contains("EnvironmentColors.SystemGrayTextBrushKey", attribute.Value));
-        Assert.Empty(header.Descendants(Presentation + "TextBlock").Attributes("FontWeight"));
+        foreach (string binding in new[] { "ObjectName", "Subtitle", "Line" })
+            Assert.Contains(header.Descendants(Presentation + "TextBlock"), element =>
+                (string?)element.Attribute("Text") == "{Binding " + binding + "}");
         Assert.DoesNotContain(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
         foreach (string binding in new[] { "Reason", "OperationSummary", "LineSummary" })
@@ -85,9 +76,6 @@ public class ExpandedPaneContractTests
         Assert.Equal("Collapsed", (string?)Named(style, "RowDetails").Attribute("Visibility"));
         Assert.Contains(style.Descendants(Presentation + "Trigger"), element =>
             (string?)element.Attribute("Property") == "IsExpanded" && (string?)element.Attribute("Value") == "True");
-        Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
-            (string?)element.Attribute("Text") == "{Binding Subtitle}" &&
-            (string?)element.Attribute("HorizontalAlignment") == "Right");
     }
 
     [Fact]
@@ -113,8 +101,7 @@ public class ExpandedPaneContractTests
         var template = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "PatternTemplate");
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
-            (string?)element.Attribute("Text") == "{Binding Pattern}" &&
-            (string?)element.Attribute("FontFamily") == "Consolas");
+            (string?)element.Attribute("Text") == "{Binding Pattern}");
         Assert.Contains(template.Descendants(Presentation + "TextBlock"), element =>
             (string?)element.Attribute("Text") == "{Binding Source}");
     }

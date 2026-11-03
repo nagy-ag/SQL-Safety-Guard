@@ -5,7 +5,7 @@ namespace SqlSafetyGuard.Tests;
 /// <summary>One release number everywhere: the VSIX manifest, both assemblies and the newest changelog entry.</summary>
 public class VersionConsistencyTests
 {
-    private static string Read(string path) => File.ReadAllText(Path.Combine(RuleInventoryTests.Root, path));
+    private static string Read(string path) => File.ReadAllText(Path.Combine(TestRepository.Root, path));
 
     private static string Match(string text, string pattern) =>
         Regex.Match(text, pattern) is { Success: true } match ? match.Groups[1].Value : throw new InvalidDataException(pattern);

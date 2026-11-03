@@ -17,7 +17,7 @@ The stored values are invariant lowercase hyphenated names, NOT the registration
 #>
 [CmdletBinding()]
 param(
-    [string] $SettingsPath = "$env:LOCALAPPDATA\Microsoft\SSMS\22.0_e8efe2d3Exp\settings.json",
+    [string] $SettingsPath,
     [Parameter(Mandatory = $true)][string] $OutputDirectory,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
@@ -25,6 +25,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\')
+. (Join-Path $PSScriptRoot 'SsmsCommon.ps1')
+$ssmsInfo = Get-Ssms22
+if (-not $SettingsPath) { $SettingsPath = Join-Path $env:LOCALAPPDATA ('Microsoft\SSMS\22.0_' + $ssmsInfo.InstanceId + 'Exp\settings.json') }
 $OutputDirectory = [IO.Path]::GetFullPath($OutputDirectory).TrimEnd('\')
 $SettingsPath = [IO.Path]::GetFullPath($SettingsPath)
 if ($OutputDirectory -eq $repository -or $OutputDirectory.StartsWith($repository + '\', [StringComparison]::OrdinalIgnoreCase)) {
@@ -44,8 +47,6 @@ $themeValues = [ordered]@{
 if (-not $Themes.Count) { throw 'Select at least one theme.' }
 foreach ($theme in $Themes) { if (-not $themeValues.Contains($theme)) { throw "Unknown theme: $theme" } }
 if (@($Themes | Select-Object -Unique).Count -ne $Themes.Count) { throw 'Duplicate themes are not supported.' }
-. (Join-Path $PSScriptRoot 'SsmsCommon.ps1')
-$ssmsInfo = Get-Ssms22
 $ssmsExe = Join-Path $ssmsInfo.InstallPath 'Common7\IDE\SSMS.exe'
 if ((Split-Path (Split-Path $SettingsPath -Parent) -Leaf) -ne ('22.0_' + $ssmsInfo.InstanceId + 'Exp')) {
     throw 'SettingsPath must belong to the installed SSMS 22 instance that will be launched.'

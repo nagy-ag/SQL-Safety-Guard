@@ -100,6 +100,7 @@ namespace SqlSafetyGuard.Services
                 if (!target.SqlCmdMode.HasValue) problems.Add("The target editor's SQLCMD mode is unavailable.");
                 var connections = Property(editor, "ConnectionInfoList") as ICollection;
                 if (connections == null || connections.Count != 1) problems.Add("A single target connection could not be verified.");
+                // Read labels from SSMS's existing object; never open it or create/execute a command.
                 var connection = Field(editor, "m_connection") as IDbConnection;
                 target.Connection = new ConnectionContext { Server = Property(connection, "DataSource") as string, Database = connection?.Database };
                 if (string.IsNullOrWhiteSpace(target.Connection.Server) || string.IsNullOrWhiteSpace(target.Connection.Database))

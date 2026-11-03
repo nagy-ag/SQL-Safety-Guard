@@ -64,3 +64,5 @@ GitHub packages are unsigned. The [user guide](docs/user-guide.md) covers script
 
 [MIT License](LICENSE), Copyright (c) 2026 NagyAG.
 Bundled dependency information is in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+Development entry points: [build/debug](docs/development.md), [architecture and text-only boundary](docs/architecture.md), and [verification modes](tools/verification/README.md).

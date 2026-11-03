@@ -1,109 +1,53 @@
 # Verification status
 
-Last updated: **2026-10-30**, after theme/settings fixes and full 13-theme visual acceptance. The latest server campaign used analyzer
-`34630d62` (main `4388bc2`); these UI changes do not change analyzer verdicts or guard logic.
-This page is rewritten after every run; the dated details live in [../history/](../history/README.md).
+Updated **2026-11-03** for 1.0.0 publication preparation after repository maintenance and verification cleanup.
+The maintenance reports identify the working tree based on `0dbe4b4`; published source is identified by the `v1.0.0` tag.
+The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
+queries no server metadata; it only reads text/options and existing SSMS labels.
 
-## Bottom line
+## Qualified conclusion
 
-**No known false green.** Every write the analyzer calls green has either been fixed or is a documented policy choice waiting for a
-company decision ([policy-questions.md](policy-questions.md)). Typed confirmation stays disabled.
+Retained server campaigns report no unresolved reproducible analyzer defect after their triage. Known green policy effects
+remain, including the tempdb opt-in and RAISERROR WITH LOG. Observation gaps, unavailable features and unverified targets
+are not passes. See [policy-questions.md](policy-questions.md) and [contract.md](contract.md); owner decisions remain pending.
+This maintenance run executes no SQL and supplies no fresh evidence of live SSMS routing or server effects.
 
-## Independent release acceptance - 2026-10-30
+## Evidence ledger
 
-[Independent acceptance report](../history/runs/2026-10-30-release-acceptance-final.md): commit `2848b4f` passed both zero-warning builds, 1,574 tests and 32 Release interaction checks. All 169 theme images were independently reviewed with no visual issues; Exp settings were restored and owned SSMS processes exited. No SQL was executed. The [release acceptance](../release-acceptance.md) records the matrix and unverified items.
+| Component | Evidence and identity | Establishes | Limits |
+|---|---|---|---|
+| 1.0.0 publication preflight | [November 3 preparation](../history/runs/2026-11-03-publication-preparation.md): 1,592 .NET tests, 10 Python tests and 527 generated rules current | Offline source validation before committing and building release assets | Final package validation is recorded with GitHub release assets; no new live SSMS/server campaign |
+| Current verification cleanup | [November 3 cleanup](../history/runs/2026-11-03-verification-cleanup.md): 1,592 .NET tests, 10 Python tests and 527 generated rules current | Maintained launcher callers and retained safety/interaction contracts after removing cosmetic constraints | Uncommitted working tree; no fresh VSIX build, server or live SSMS execution |
+| Repository maintenance | [November 3 maintenance](../history/runs/2026-11-03-repository-maintenance.md): 1,592 .NET tests, 10 Python tests, both builds and 32 UI interaction checks | Source organization, tool contracts, generated references and production access-boundary checks | Earlier working tree; production source unchanged by subsequent verification cleanup |
+| Release UI/build acceptance | [October 30 acceptance](../history/runs/2026-10-30-release-acceptance-final.md), commit `2848b4f` | Reported 1,574 tests, both builds, 32 Release interaction checks and 169 reviewed theme images | Historical build; no SQL executed |
+| Analyzer runtime campaign | [October 30 full run](../history/runs/2026-10-30-full-run.md), recorded analyzer `34630d62` / main `4388bc2` | Recorded execution/observation results with single-worker triage and explicit policy effects | Oracle limits, permissions/platform gaps and external interference remain |
+| Guard command routing | [October 28 original evidence](../history/2026-10-28-extension/README.md) | Reported 35 PASS, zero FAIL, one BLOCKED in 36 scenarios for that Debug build | Physical keys were not synthesized; toolbar and other paths remain limited |
 
-## Previous theme acceptance - 2026-10-30
+The [previous status narrative](../history/runs/2026-10-30-status-before-maintenance.md) preserves prior counts, fixed-defect
+history, campaign exclusions and observation gaps. Reports describe their recorded binaries, not the current working tree.
 
-[Theme fixes report](../history/runs/2026-10-30-theme-fixes.md): all **169 PNGs (13 themes × 13 surfaces)** were personally
-reviewed, with no remaining extension theme defects in the final matrix. Finding rows and secondary text use shell theme
-resources; the pane's themed **Settings...** button shares the menu action. Settings descriptions no longer refer to
-repository paths, and import preview consistently says **Trusted procedures**. Preview Save/Import buttons keep their
-production enabled state while their handlers remain inert. The full run also led to readable confirmation-warning
-text, themed verdict outlines and an explicit list-editor default-button accent.
+## Maintenance scope
 
-All **1,574 tests** pass, including DocsIndexTests and AgentSkillsSyncTests. Debug and Release solution builds each have
-**zero warnings and errors**. Release UI scripts pass **13 pane + 15 confirmation + 4 settings checks**. Both full capture
-runs restored Exp settings byte-for-byte and closed owned SSMS processes with WM_CLOSE. The final Debug build remains
-installed in Exp. No real input, foreground-focus manipulation or SQL execution was used; F5/Execute behavior was not
-retested by these visual captures. The disconnected native SSMS execution controls being disabled is expected.
+- Explicit harness modes; legacy discovery requires an explicit disposable server.
+- Rejected campaign/isolated inputs stop before execution; extension results distinguish failure from incomplete evidence.
+- Debugger launch uses an isolated profile. Visual-capture settings resolve the installed instance rather than a machine ID.
+- Test associations use Roslyn declarations and qualified identities. Stable rule IDs and verdicts remain unchanged.
+- Campaign freezing rebuilds from clean source with SDK/build provenance; generated cases keep their own principals.
+- Measured reports require new external outputs and explicit measurement metadata. Historical evidence is hash-protected.
+- Pure guard types and existing test classes have discoverable files. Current architecture and task guidance are separate.
+- SDK feature-band policy, package locks and an offline-only workflow make ordinary checks reproducible.
+- Removed obsolete Wave3 launcher aliases and the retired Wave2 registration stub. Tests call maintained launchers directly;
+  UI contracts retain safety and interaction assertions without fixing decorative glyphs, fonts or exact pixel sizes.
 
-## Previous release preparation - 2026-10-30
+## Open limits and decisions
 
-[Theme capture trial](../history/runs/2026-10-30-theme-capture.md): **26 non-blank PNGs** across Light and Dark, covering
-the pane, real modeless dialog previews, integrated options and toolbar. Several PNGs were opened to verify their real
-content and theme colours. The Exp settings file was restored byte-for-byte with matching SHA-256; SSMS closed cleanly.
-The remaining 11 themes were not run. This trial does not sign off visual acceptance: the Dark safe-findings text has low
-contrast, and the normal F5/Execute path was deliberately not invoked. All capture hooks are Debug-only.
+1. No new live guard/server campaign has been run for this maintenance. Offline checks cannot prove host behavior.
+2. The latest server report retains unavailable-feature, observation-gap and unresolved-target cases. Do not promote them.
+3. Trusted procedures, allow-list effects, permanent tempdb opt-in, logging and session state retain their current behavior
+   until the owner decides. This work does not relabel or relax them. Typed confirmation stays disabled.
+4. New freeze/launcher execution needs a clean reviewed checkout and an explicitly authorized disposable environment.
+   No existing scheduled task or external frozen bundle was changed.
+5. CI configuration is added but has not run remotely. VSIX build/interaction checks remain a separate local gate.
 
-[Preparation report](../history/runs/2026-10-30-release-preparation.md). All **1,571 tests** pass (zero failed/skipped).
-Debug and Release solution builds each have **zero warnings and errors**. Release UI scripts pass **13 pane + 15
-confirmation + 4 settings checks**; installer safety passes **60 checks**. The generated 527-rule inventory is current.
-
-In the isolated SSMS `Exp` profile, the Debug fault-injection channel showed the themed failure box with Cancel as
-default and Escape-cancel configured. Cancel returned `CancelDefault=true`; Run anyway returned `CancelDefault=false`.
-This exercised the production handler with a recorded continuation; it did not dispatch a query to a database.
-Physical keys, actual server execution and the all-themes pass were not part of this check. The owned SSMS process
-was closed with WM_CLOSE, no temporary profiles were created, and `Exp` retains the prepared Debug build.
-
-The release-asset script passed with `-SkipUiChecks` into a temporary directory outside the repository. Its three
-files, ZIP layout and checksums were verified, then the directory was deleted. The privacy check caught escaped
-SourceLink paths during preparation; Release now maps those to `/_/SqlSafetyGuard/` too. No signing or publication occurred.
-Version 1.0.0 and the unreleased changelog heading remain unchanged.
-
-## Previous native-settings check - 2026-10-30
-
-[Native settings report](../history/runs/2026-10-30-native-settings.md). Debug and Release solution builds pass;
-all **1,560 tests** and **32 in-process UI checks** pass. An isolated SSMS 22 profile confirmed the integrated
-page, native settings batches, import/export synchronization, cancellation, editor validation, and restart persistence.
-No SQL was executed. The previous server coverage and policy questions below remain applicable.
-
-## Latest server run - 2026-10-29/30
-
-[Full report](../history/runs/2026-10-30-full-run.md). A local SQL Server 2025 Developer instance plus a disposable Docker container.
-
-| What ran | Cases | Real false greens |
-|---|---:|---:|
-| Offline checks (no SQL) | 890 | 0 |
-| Host: rules, independent corpus, settings | 858 | 0 |
-| Docker: server-level cases | 283 | 0 |
-| Statement-kind fixtures | 71 | 0 |
-| Generated combinations, each case's own principal | 31,004 | 0 |
-| Full-access replay of permission failures and green cases with `CATCH` | 4,232 | 0 |
-
-The run reported 11 false greens: 8 were clone-login races between parallel workers (all PASS on a single-worker replay of 1,109
-disturbed results) and 3 are the known `TempdbIsTemp` and `RAISERROR … WITH LOG` policy items.
-
-## Defects found and fixed so far
-
-| Found | Defect | Fixed in |
-|---|---|---|
-| Wave 3 | `EXEC master.dbo.sp_monitor` was green but writes `master.dbo.spt_monitor` | wave 3 |
-| Wave 3 | `DROP STATISTICS`, `DROP INDEX`, `ALTER SCHEMA … TRANSFER` named the wrong object | wave 3 |
-| Wave 3 | The guard could analyze one query window while SSMS executed another | wave 3 |
-| Review | `ALTER TABLE #x SWITCH TO` a permanent table was green | `7c2996f` |
-| Wave 1 | `sp_create_streaming_job` inside `BEGIN … END` dropped from red to yellow | wave 2 |
-
-## Coverage
-
-| Area | Covered | Not covered |
-|---|---|---|
-| Analyzer rules (250) | 152 with server evidence | 50 cannot be exercised by SQL (API/client/AST guards); 48 still lack a working case |
-| Original hard statement kinds (67) | 16 verified live | 51: missing packages, Synapse/Fabric-only, unsupported edition or syntax |
-| All statement kinds (334) | 267 live-passed on 2026-10-27 | see [2026-10-27 report](../history/2026-10-27-all-kinds/README.md) |
-| Unit and integration tests | 1,574 passing | — |
-
-## Open items
-
-1. **Company decisions:** the 9-item short list in [policy-questions.md](policy-questions.md), each with a recommended answer (four would move verdicts toward yellow/red; none toward green).
-2. **Harness fixes implemented** (not analyzer bugs): joined principal snapshots exclude other workers' clone lifecycle,
-   retain owned/non-clone changes, and disable clone exclusions in Docker. Clone creation retries SQL error 596 once on fresh
-   connections, never after case execution starts. Checked live: 800 generated cases with 4 workers gave 0 false greens and
-   0 crashes; the remaining 23 EXTERNAL CHANGE results were another database's own state flicker, correctly kept out of FALSE GREEN.
-3. **Not executable here:** 57 host and 99 Docker cases (mostly DBCC commands this server version rejects, remote providers without a
-   linked server); 34 statement-kind fixtures need other platforms or editions.
-4. **Needs a human look:** 13 observation gaps and 6 unresolved targets (Service Broker dialogs, remote OPENQUERY/OPENROWSET).
-5. **Inventory refreshed:** all 527 rules and 120 reviewed semantic entries preserved; only source/test references changed.
-   `generate_inventory.py --check` and all 276 `RuleInventoryTests` pass.
-6. **Timing test stabilized:** warm-up plus a 15-second budget replaces the loaded-machine-sensitive three-second bound;
-   `RealWrite` and the resolved permanent-table finding remain required. All 26 `AnalysisResourceTests` pass.
+For offline commands and evidence levels see [how-to.md](how-to.md). For execution entry points and prerequisites see
+[the tooling map](../../tools/verification/README.md). For all current documents see [docs/README.md](../README.md).

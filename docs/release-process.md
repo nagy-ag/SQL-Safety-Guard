@@ -19,14 +19,15 @@ Keep 1.0.0 marked unreleased during preparation. Finish the changelog date when 
 
 ## Build the assets
 
-Use Windows PowerShell 5.1, .NET SDK 10, and Visual Studio with extension-development and .NET desktop workloads.
+Use Windows PowerShell 5.1, Python 3.10+, the SDK selected by global.json, and Visual Studio with extension-development and .NET desktop workloads.
 Start with a clean committed working tree, then run from the repository root:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/New-ReleaseAssets.ps1
 ```
 
-The script reads the manifest version, runs all unit tests, and rebuilds the Release solution with Visual Studio
+The script reads the manifest version, runs Verify-Offline.ps1 (locked restore, all offline tests, generator freshness and
+Python tooling tests), and rebuilds the Release solution with locked restore and Visual Studio
 MSBuild found through vswhere. Use `-MSBuildPath <path>` to choose it explicitly. It then runs the pane, confirmation
 and settings interaction scripts in Release. `-SkipUiChecks` skips only those three checks; use that switch only
 when recording the omission. Builds use deterministic compilation and neutral repository paths in Release only, including SourceLink metadata.
@@ -55,11 +56,13 @@ The script never signs, tags, uploads or creates a release. Never commit these f
    Use [ThemeAcceptanceCapture.ps1](../scripts/ThemeAcceptanceCapture.ps1) with the Debug VSIX installed in Exp
    to capture the pane, real dialog previews, integrated settings and toolbar without input or SQL execution.
    See the extension UI skill for the command, stored theme values and restoration checks.
-2. When publication is requested, tag the committed source `v<version>`, push it, and create the GitHub release
-   as a **pre-release**, attaching the script's three unsigned assets and the changelog notes.
+2. When publication is requested, tag the committed source `v<version>`, push it, and attach the script's three unsigned
+   assets and the changelog notes. Normally create a **pre-release** for acceptance. If the owner explicitly requests
+   stable publication, create a full release and mark it latest, stating the validation performed and any acceptance
+   checks not repeated. Stable publication does not imply a fresh live SSMS/server campaign.
 3. The owner downloads the package and checks its hash. On their company computer they may sign a copy using
    [vsix-signing.md](vsix-signing.md), then try the exact downloaded or signed copy.
-4. After the owner's acceptance, the owner changes the GitHub pre-release into a full release and marks it latest.
+4. After the owner's acceptance, the owner changes a GitHub pre-release into a full release and marks it latest.
    The GitHub files remain unsigned; an internally signed copy has its own checksum and distribution record.
 
 A pre-release is a published package marked as still being tried and is not the normal latest release.

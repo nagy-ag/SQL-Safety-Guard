@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from generate_inventory import apply_file
+from artifact_io import write_generated
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases'
@@ -83,7 +83,7 @@ def main():
                 repaired.append(identity)
                 changed = True
         if changed:
-            apply_file(file, ''.join(json.dumps(row, ensure_ascii=False, separators=(',', ':')) + '\n' for row in rows))
+            write_generated(file, ''.join(json.dumps(row, ensure_ascii=False, separators=(',', ':')) + '\n' for row in rows))
     print(json.dumps({'repaired': repaired}, indent=2))
 
 

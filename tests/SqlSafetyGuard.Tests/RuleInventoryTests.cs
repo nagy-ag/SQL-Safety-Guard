@@ -2,13 +2,14 @@ using System.Reflection;
 using System.Text.Json;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using SqlSafetyGuard.Analyzer;
+using TestSourceIndex = SqlSafetyGuard.ServerHarness.TestSourceIndex;
 using Xunit.Abstractions;
 
 namespace SqlSafetyGuard.Tests;
 
 public class RuleInventoryTests(ITestOutputHelper output)
 {
-    internal static string Root => Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+    internal static string Root => TestRepository.Root;
 
     internal static JsonDocument Inventory() => JsonDocument.Parse(
         File.ReadAllText(Path.Combine(Root, "docs/verification/rules/rules.json")));
@@ -25,20 +26,21 @@ public class RuleInventoryTests(ITestOutputHelper output)
             .Where(method => method.GetCustomAttributes().Any(attribute => attribute is FactAttribute || attribute is TheoryAttribute))
             .ToArray();
         var covered = new HashSet<string>();
+        var declarations = Directory.EnumerateFiles(Path.Combine(Root, "tests/SqlSafetyGuard.Tests"), "*.cs", SearchOption.AllDirectories)
+            .Where(path => !Path.GetRelativePath(Root, path).Split(Path.DirectorySeparatorChar).Any(part => part is "bin" or "obj"))
+            .SelectMany(path => TestSourceIndex.Read(File.ReadAllText(path), Path.GetRelativePath(Root, path).Replace('\\', '/')))
+            .Select(entry => $"{entry.Name} @ {entry.File}:{entry.Line}").ToHashSet();
         foreach (var mappingEntry in mapping.RootElement.EnumerateObject())
         {
             Assert.Contains(mappingEntry.Name, identifiers);
             foreach (var reference in mappingEntry.Value.EnumerateArray())
             {
                 string text = reference.GetString()!;
-                if (text.Contains('('))
+                var parts = text.Split(" @ ");
+                Assert.Contains(methods, method => method.DeclaringType!.FullName + "." + method.Name == parts[0]);
+                if (parts.Length > 1)
                 {
-                    string methodName = text[(text.LastIndexOf('(') + 1)..].TrimEnd(')');
-                    Assert.Contains(methods, method => method.Name == methodName);
-                }
-                else
-                {
-                    Assert.Contains(methods, method => method.DeclaringType!.FullName + "." + method.Name == text);
+                    Assert.Contains(text, declarations);
                 }
             }
             Assert.NotEmpty(mappingEntry.Value.EnumerateArray());

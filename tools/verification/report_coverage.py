@@ -1,11 +1,16 @@
 """Report analyzer executable-line/branch gaps from a coverlet Cobertura file."""
 import argparse
 import collections
+import datetime
+import hashlib
 import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from generate_inventory import ROOT, DEST, apply_file
+from artifact_io import write_generated, new_report_directory
+
+ROOT = Path(__file__).resolve().parents[2]
+DEST = ROOT / "docs/verification/rules"
 
 
 def summarize(path):
@@ -48,25 +53,40 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("baseline", type=Path)
     parser.add_argument("augmented", type=Path)
+    parser.add_argument("--output", required=True, type=Path, help="New directory outside the repository")
+    parser.add_argument("--measured-at", required=True, type=datetime.date.fromisoformat)
+    parser.add_argument("--source-revision", required=True, help="Revision of the instrumented build, supplied by the caller")
+    parser.add_argument("--baseline-label", default="Baseline")
+    parser.add_argument("--augmented-label", default="Augmented")
     args = parser.parse_args()
     baseline, augmented = summarize(args.baseline), summarize(args.augmented)
     inventory = json.loads((DEST / "rules.json").read_text(encoding="utf-8"))
     mapping = json.loads((DEST / "rule-test-map.json").read_text(encoding="utf-8"))
     uncovered = [rule["id"] for rule in inventory["rules"] if rule["id"] not in mapping]
-    output = ["# Offline coverage gaps - wave 1", "", "Measured October 28, 2026 using coverlet.collector 6.0.4 / XPlat Code Coverage; analyzer only, Debug build, default rewrite count. No production instrumentation or SQL execution.", "", "| Suite | Lines hit / executable | Line coverage | Branch arms hit / total | Branch coverage |", "| --- | ---: | ---: | ---: | ---: |"]
-    for name, files in [("Existing 824 tests", baseline), ("Augmented suite", augmented)]:
+    output_directory = new_report_directory(args.output, ROOT)
+    metadata = {"measuredAt": args.measured_at.isoformat(), "sourceRevision": args.source_revision,
+                "revisionAttribution": "Caller-supplied; not independently established by this report",
+                "inputs": [{"name": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                           for path in (args.baseline, args.augmented)]}
+    output = ["# Offline analyzer coverage gaps", "",
+              f"Measured {args.measured_at.isoformat()}; build revision supplied by caller: `{args.source_revision}`.", "",
+              "Analyzer-only Cobertura inputs. See coverage-metadata.json for input hashes. No SQL was executed by this report.", "",
+              "| Suite | Lines hit / executable | Line coverage | Branch arms hit / total | Branch coverage |",
+              "| --- | ---: | ---: | ---: | ---: |"]
+    for name, files in [(args.baseline_label, baseline), (args.augmented_label, augmented)]:
         hit, total, branches, branch_total = totals(files)
-        output.append(f"| {name} | {hit}/{total} | {hit/total:.2%} | {branches}/{branch_total} | {branches/branch_total:.2%} |")
-    output += ["", "Executable lines come from Cobertura, not every source line. Duplicate class entries for the same file/line are merged by maximum hits/branch counts. Branch counts are instrumentation arms, not semantic rules. Missing/partial branches below report covered/total; Cobertura does not reliably identify which source true/false arm was missed. Generated/compiler branches may be included. Coverage is evidence of execution, not assertions or SQL Server correctness.", "", f"Rule-reference gate: {len(mapping)}/{len(inventory['rules'])} IDs mapped; {len(uncovered)} uncovered (report-only). Most unreviewed decision.* checkpoints remain unmapped deliberately. A named-test association is not a branch hit or an executable-server pass.", "", "## Lines and branch locations", "", "Each column lists **every** unexecuted executable line or incomplete branch location for that suite; ranges are inclusive. Baseline and augmented snapshots remain distinct."]
+        output.append(f"| {name} | {hit}/{total} | {(hit/total if total else 0):.2%} | {branches}/{branch_total} | {(branches/branch_total if branch_total else 0):.2%} |")
+    output += ["", "Executable lines come from Cobertura, not every source line. Duplicate class entries for the same file/line are merged by maximum hits/branch counts. Branch counts are instrumentation arms, not semantic rules. Missing/partial branches below report covered/total; Cobertura does not reliably identify which source true/false arm was missed. Generated/compiler branches may be included. Coverage is evidence of execution, not assertions or SQL Server correctness.", "", f"Rule-reference gate: {len(mapping)}/{len(inventory['rules'])} IDs mapped; {len(uncovered)} uncovered (report-only). A named-test association is not a branch hit or an executable-server pass.", "", "## Lines and branch locations", "", "Each column lists **every** unexecuted executable line or incomplete branch location for that suite; ranges are inclusive. Baseline and augmented snapshots remain distinct."]
     for filename in sorted(baseline.keys() | augmented.keys()):
         output += ["", f"### {filename}", "", "| Suite | Never-hit lines | Incomplete branches (line: hit/total) |", "| --- | --- | --- |"]
-        for name, files in [("824 baseline", baseline), ("Augmented", augmented)]:
+        for name, files in [(args.baseline_label, baseline), (args.augmented_label, augmented)]:
             entries = files.get(filename, {})
             zeros = compact(number for number, value in entries.items() if value[0] == 0)
             branches = ", ".join(f"{number}: {value[1]}/{value[2]}" for number, value in sorted(entries.items()) if value[2] > value[1]) or "None"
             output.append(f"| {name} | {zeros} | {branches} |")
-    output += ["", "## Unmapped rule IDs", "", "Re-run the gate with detailed output for the live list. This snapshot intentionally does not fail the build.", "", "```text", *sorted(uncovered), "```", "", "## Reproduce", "", "See README.md in this directory for collection commands; pass the two resulting coverage.cobertura.xml paths to `python tools/verification/report_coverage.py <baseline> <augmented>`. Report generation uses apply_patch. Raw coverage files live outside the repository and are not committed."]
-    apply_file(DEST / "uncovered.md", "\n".join(output) + "\n")
+    output += ["", "## Unmapped rule IDs", "", "Re-run the gate with detailed output for the live list. This snapshot intentionally does not fail the build.", "", "```text", *sorted(uncovered), "```", "", "## Reproduce", "", "See tools/verification/README.md in the source checkout for collection and report commands. Raw coverage files and measured reports stay outside the repository."]
+    write_generated(output_directory / "coverage.md", "\n".join(output) + "\n")
+    write_generated(output_directory / "coverage-metadata.json", json.dumps(metadata, indent=2) + "\n")
     print(json.dumps({"baseline": totals(baseline), "augmented": totals(augmented), "rules": len(inventory["rules"]), "mapped": len(mapping), "unmapped": len(uncovered)}))
 
 

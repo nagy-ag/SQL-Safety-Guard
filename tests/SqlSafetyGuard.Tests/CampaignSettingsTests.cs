@@ -50,7 +50,7 @@ public class CampaignSettingsTests
     }
 
     [Fact]
-    public void LoaderAcceptsNoOpsAndReportsBadRowsWithoutAborting()
+    public void LoaderPreservesDiagnosticsAndRejectsPartialCorpusBeforeExecution()
     {
         var directory = Path.Combine(Path.GetTempPath(), "SgRun_loader_" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
@@ -58,9 +58,11 @@ public class CampaignSettingsTests
         {
             var file = Path.Combine(directory, "cases.jsonl");
             File.WriteAllLines(file, ["{\"id\":\"empty\",\"sql\":\"\"}", "not json", "{\"id\":\"space\",\"sql\":\"   \"}", "{\"id\":\"empty\",\"sql\":\"SELECT 1\"}"]);
-            var cases = CampaignCaseLoader.Load([file], Args.Parse(["--analyzer", typeof(SqlSafetyAnalyzer).Assembly.Location, "--campaign", file, "--campaign-validate", "--out", directory]));
-            Assert.Equal(2, cases.Length);
+            var options = Args.Parse(["--analyzer", typeof(SqlSafetyAnalyzer).Assembly.Location, "--campaign", file, "--campaign-validate", "--out", directory]);
+            Assert.Throws<InvalidDataException>(() => CampaignCaseLoader.Load([file], options));
             Assert.Equal(2, File.ReadAllLines(Path.Combine(directory, "rejected.jsonl")).Length);
+            File.WriteAllLines(file, ["{\"id\":\"empty\",\"sql\":\"\"}", "{\"id\":\"space\",\"sql\":\"   \"}"]);
+            Assert.Equal(2, CampaignCaseLoader.Load([file], options).Length);
         }
         finally { Directory.Delete(directory, true); }
     }

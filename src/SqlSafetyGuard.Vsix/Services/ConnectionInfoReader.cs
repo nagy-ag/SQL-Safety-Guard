@@ -19,6 +19,7 @@ namespace SqlSafetyGuard.Services
     /// <summary>
     /// Best-effort lookup of the active query window's server and database. Relies on undocumented SSMS
     /// internals, so unavailable fields remain explicitly unknown and use global settings.
+    /// Reads SSMS-owned labels only: never opens a connection or queries database metadata.
     /// </summary>
     internal static class ConnectionInfoReader
     {

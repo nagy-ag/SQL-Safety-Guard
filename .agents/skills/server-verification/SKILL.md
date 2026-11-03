@@ -18,8 +18,10 @@ with the analyzer's verdict. Machine-specific details (which server, which datab
   Never a production or shared business server, never a database you did not create for this purpose.
 - The harness clones disposable database sets from templates and drops them afterwards; never point it at existing user
   databases. Privileged (server-level) cases belong in a disposable container, not the host instance.
-- Freeze the analyzer and harness binaries for a long run (hash-checked copy) so results stay attributable; a changed binary
+- Use tools/verification/Freeze-Campaign.ps1 to rebuild and freeze a clean checkout with SDK/build provenance for a long run; a changed binary
   or input needs a new output folder.
+
+Inputs must validate completely before execution. Rejections and duplicate IDs retain diagnostics and fail the input. See tools/verification/README.md for maintained versus historical entry points.
 
 ## Outcome classes
 

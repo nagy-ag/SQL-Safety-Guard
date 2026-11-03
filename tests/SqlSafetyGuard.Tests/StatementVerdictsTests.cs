@@ -15,7 +15,7 @@ public class StatementVerdictsTests
     [Fact]
     public void CommittedStatementVerdictsMatchCurrentAnalyzer()
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var path = Path.Combine(repository, "docs/statement-verdicts.md");
         var generated = Generate(Path.Combine(repository, "tests/SqlSafetyGuard.ServerHarness/Coverage"));
         if (Environment.GetEnvironmentVariable("UPDATE_STATEMENT_VERDICTS") == "1")

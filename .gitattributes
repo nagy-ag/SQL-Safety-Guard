@@ -1,3 +1,4 @@
-# Hashed evidence files: store byte-for-byte so SHA256SUMS stays valid after checkout
-docs/verification/** -text
-docs/history/** -text
+# Checksummed original evidence must retain its exact bytes on every checkout.
+docs/history/2026-10-27-all-kinds/** -text
+docs/history/2026-10-28-extension/** -text
+docs/history/2026-10-28-offline-coverage/** -text

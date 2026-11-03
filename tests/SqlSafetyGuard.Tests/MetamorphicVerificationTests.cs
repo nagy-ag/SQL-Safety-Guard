@@ -29,7 +29,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
             "CREATE TABLE ##a (Qty int);", "RETURN;", "THROW 50000, 'x', 1;", "GOTO finish; finish: SELECT 1;"];
         foreach (string sql in seeds)
             yield return ("seed", sql);
-        foreach (string path in Directory.GetFiles(Path.Combine(RuleInventoryTests.Root, "tests/SqlSafetyGuard.Tests"), "*.cs").Order())
+        foreach (string path in Directory.GetFiles(Path.Combine(TestRepository.Root, "tests/SqlSafetyGuard.Tests"), "*.cs").Order())
         {
             if (Path.GetFileName(path) is nameof(MetamorphicVerificationTests) + ".cs")
                 continue;
@@ -51,7 +51,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
                     yield return (Path.GetFileName(path), sql);
             }
         }
-        string docs = File.ReadAllText(Path.Combine(RuleInventoryTests.Root, "docs/statement-verdicts.md"));
+        string docs = File.ReadAllText(Path.Combine(TestRepository.Root, "docs/statement-verdicts.md"));
         foreach (Match match in Regex.Matches(docs, "`([^`\\r\\n]+)`"))
             if (SqlKeyword.IsMatch(match.Groups[1].Value))
                 yield return ("statement-verdicts.md", match.Groups[1].Value);

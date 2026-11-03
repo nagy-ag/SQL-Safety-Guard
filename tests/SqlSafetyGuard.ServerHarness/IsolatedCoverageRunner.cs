@@ -53,6 +53,7 @@ internal static class IsolatedCoverageRunner
         File.WriteAllText(Path.Combine(options.Out, "isolated-rejected.json"), JsonSerializer.Serialize(rejected, CoverageCorpus.Json));
         var corpus = new IsolatedFixtures(1, accepted.ToArray());
         if (corpus.Fixtures.Length == 0) throw new InvalidDataException("No usable isolated fixtures; inspect isolated-rejected.json.");
+        if (rejected.Count != 0) throw new InvalidDataException("Isolated input rejected; no fixtures executed. Inspect isolated-rejected.json.");
         if (options.ValidateCoverage) return 0;
         var container = Environment.GetEnvironmentVariable("SQLGUARD_COVERAGE_CONTAINER") ?? "";
         if (!Regex.IsMatch(container, "^sqlguard-cov-[a-f0-9]{16}$"))

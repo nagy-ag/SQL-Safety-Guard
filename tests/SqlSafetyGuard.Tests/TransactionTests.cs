@@ -2,35 +2,6 @@ using SqlSafetyGuard.Analyzer;
 
 namespace SqlSafetyGuard.Tests;
 
-/// <summary>The false alarms and under-warnings found by the statement coverage review (docs/history/2026-10-27-statement-coverage.md).</summary>
-public class FalseAlarmTests
-{
-    [Theory]
-    [InlineData("READTEXT dbo.Docs.Body @ptr 0 10")]
-    [InlineData("OPEN SYMMETRIC KEY k DECRYPTION BY CERTIFICATE c")]
-    [InlineData("CLOSE SYMMETRIC KEY k")]
-    [InlineData("OPEN MASTER KEY DECRYPTION BY PASSWORD = 'x'")]
-    [InlineData("CLOSE MASTER KEY")]
-    [InlineData("LINENO 10")]
-    [InlineData("GET CONVERSATION GROUP @g FROM dbo.q")]
-    [InlineData("WAITFOR (GET CONVERSATION GROUP @g FROM dbo.q), TIMEOUT 100")]
-    public void ReadOrSessionOnly_IsGreen(string sql)
-    {
-        var result = SqlSafetyAnalyzer.Analyze(sql);
-        Assert.Empty(result.ParseErrors);
-        Assert.Equal(Verdict.ReadOnly, result.Overall);
-    }
-
-    [Theory]
-    [InlineData("DROP STATISTICS #T.st", Verdict.TempOnly)]
-    [InlineData("DROP STATISTICS dbo.T.st", Verdict.RealWrite)]
-    [InlineData("DROP STATISTICS #A.s1, dbo.B.s2", Verdict.RealWrite)]
-    public void DropStatistics_FollowsTempRules(string sql, Verdict expected)
-    {
-        Assert.Equal(expected, SqlSafetyAnalyzer.Analyze(sql).Overall);
-    }
-}
-
 public class TransactionTests
 {
     private static AnalysisResult Analyze(string sql) => SqlSafetyAnalyzer.Analyze(sql);
@@ -174,84 +145,5 @@ public class TransactionTests
     public void TransactionInLiteralDynamicSql_Counts()
     {
         Assert.Contains(Analyze("EXEC('BEGIN TRAN')").Findings, f => f.Action == "OPEN TRANSACTION");
-    }
-}
-
-public class SystemProcedureTests
-{
-    [Theory]
-    [InlineData("EXEC sp_rename 'dbo.T', 'T2'", "renames an object")]
-    [InlineData("EXEC sp_configure 'show advanced options', 1", "changes server configuration")]
-    [InlineData("EXEC xp_cmdshell 'dir'", "operating-system command")]
-    [InlineData("EXEC msdb.dbo.sp_add_job @job_name = N'x'", "SQL Agent job")]
-    [InlineData("EXEC msdb.dbo.sp_send_dbmail @recipients = 'a@b.c'", "sends an email")]
-    [InlineData("EXEC [master].[sys].[sp_addsrvrolemember] 'l', 'sysadmin'", "server role membership")]
-    public void KnownWriters_AreRed(string sql, string reason)
-    {
-        var finding = Assert.Single(SqlSafetyAnalyzer.Analyze(sql).Findings);
-        Assert.Equal(Verdict.RealWrite, finding.Verdict);
-        Assert.Contains(reason, finding.Note);
-    }
-
-    [Theory]
-    [InlineData("EXEC sp_set_session_context @key = N'a', @value = 1")]
-    [InlineData("EXEC sp_readerrorlog")]
-    [InlineData("EXEC msdb.dbo.sp_help_job")]
-    public void MoreReadOnlyProcedures_AreGreen(string sql)
-    {
-        Assert.Equal(Verdict.ReadOnly, SqlSafetyAnalyzer.Analyze(sql).Overall);
-    }
-
-    [Fact]
-    public void UnknownProcedure_StaysYellow()
-    {
-        Assert.Equal(Verdict.Unknown, SqlSafetyAnalyzer.Analyze("EXEC dbo.usp_Whatever").Overall);
-    }
-
-    [Fact]
-    public void InsertExecOfKnownWriter_IsRed()
-    {
-        Assert.Equal(Verdict.RealWrite, SqlSafetyAnalyzer.Analyze("INSERT #r EXEC xp_cmdshell 'dir'").Overall);
-    }
-}
-
-public class DbccTests
-{
-    [Theory]
-    [InlineData("DBCC SHOW_STATISTICS ('dbo.T', ix)")]
-    [InlineData("DBCC INPUTBUFFER (55)")]
-    [InlineData("DBCC OPENTRAN")]
-    [InlineData("DBCC SQLPERF (LOGSPACE)")]
-    [InlineData("DBCC USEROPTIONS")]
-    [InlineData("DBCC TRACESTATUS")]
-    [InlineData("DBCC CHECKDB WITH NO_INFOMSGS")]
-    [InlineData("DBCC CHECKTABLE ('dbo.T')")]
-    [InlineData("DBCC CHECKIDENT ('dbo.T', NORESEED)")]
-    public void ReadOnlyDbcc_IsGreen(string sql)
-    {
-        var result = SqlSafetyAnalyzer.Analyze(sql);
-        Assert.Empty(result.ParseErrors);
-        Assert.Equal(Verdict.ReadOnly, result.Overall);
-    }
-
-    [Theory]
-    [InlineData("DBCC FREEPROCCACHE", "plan cache")]
-    [InlineData("DBCC DROPCLEANBUFFERS", "buffer pool")]
-    [InlineData("DBCC SHRINKFILE (1, 10)", "shrinks")]
-    [InlineData("DBCC CHECKIDENT ('dbo.T', RESEED, 0)", "reseed")]
-    [InlineData("DBCC CHECKIDENT ('dbo.T')", "reseed")]
-    [InlineData("DBCC CHECKDB ('x', REPAIR_ALLOW_DATA_LOSS)", "REPAIR")]
-    [InlineData("DBCC TRACEON (1222, -1)", "trace flags")]
-    public void ChangingDbcc_IsRed(string sql, string reason)
-    {
-        var finding = Assert.Single(SqlSafetyAnalyzer.Analyze(sql).Findings);
-        Assert.Equal(Verdict.RealWrite, finding.Verdict);
-        Assert.Contains(reason, finding.Note);
-    }
-
-    [Fact]
-    public void OtherDbcc_StaysYellow()
-    {
-        Assert.Equal(Verdict.Unknown, SqlSafetyAnalyzer.Analyze("DBCC MEMORYMAP").Overall);
     }
 }

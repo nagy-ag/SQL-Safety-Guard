@@ -1,7 +1,7 @@
 """Generate focused semantic triples, without calling generic reads branch coverage."""
 import json
 from pathlib import Path
-from generate_inventory import apply_file
+from artifact_io import write_generated
 
 ROOT = Path(__file__).resolve().parents[2]
 DEST = ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases/wave3'
@@ -221,8 +221,8 @@ def main():
     for identity in sorted(wanted - generated):
         dispositions.append(dict(ruleId=identity, status='open-not-claimed', note=exclusion(identity)))
     for lane in ['host','isolated']:
-        apply_file(DEST / lane / 'focused.jsonl', ''.join(json.dumps(row) + '\n' for row_lane,row in rows if row_lane == lane))
-    apply_file(DEST / 'focused-manifest.json', json.dumps(dispositions, indent=2) + '\n')
+        write_generated(DEST / lane / 'focused.jsonl', ''.join(json.dumps(row) + '\n' for row_lane,row in rows if row_lane == lane))
+    write_generated(DEST / 'focused-manifest.json', json.dumps(dispositions, indent=2) + '\n')
     print(f'{len(rows)} focused cases for {len(generated)}/{len(wanted)} requested rules; open {len(wanted-generated)}')
 
 

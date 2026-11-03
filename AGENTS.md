@@ -7,7 +7,9 @@ takes precedence over generic defaults here. It is never committed.
 
 An extension for SQL Server Management Studio 22 that analyzes T-SQL **before** it runs and tells the user whether it changes
 real data. A pane beside the editor shows the verdict as you type; the F5 guard analyzes the exact text SSMS is about to execute
-and asks for confirmation before anything that is not proven safe. It never executes SQL itself.
+and asks for confirmation before anything that is not proven safe. It never executes SQL itself, opens a SQL connection,
+or queries server metadata. The VSIX may read existing SSMS editor/connection labels; SQL execution belongs only to
+explicit development harness modes under tests/. Preserve this boundary when refactoring or adding dependencies.
 
 It is for people working on databases where a mistaken `UPDATE` without `WHERE`, a write in the wrong window, or a write hidden
 inside a procedure or dynamic SQL is expensive.
@@ -50,13 +52,14 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 
 | Path | What it is |
 |---|---|
-| `src/SqlSafetyGuard.Analyzer` | netstandard2.0 analyzer on Microsoft ScriptDom. `SqlSafetyAnalyzer` entry, `StatementWalker` (per-statement verdicts, row filters), `Classifier` (procedure/DBCC/SET tables), `TargetResolver`, `Scope` (temp/CTE/alias tracking), `SideEffectScanner`, `AllowList`, `EnvironmentRules`, `AnalysisWork` (resource limits) |
+| `src/SqlSafetyGuard.Analyzer` | netstandard2.0 analyzer on Microsoft ScriptDom. `SqlSafetyAnalyzer` entry, `StatementWalker` (dispatch, transactions, row filters), `Classifier` (procedure/DBCC/SET tables), `TargetResolver` (aliases/CTEs), `Scope` (text/position mapping), `SideEffectScanner`, `AllowList`, `EnvironmentRules`, pure guard policy types, `AnalysisWork` (limits) |
 | `src/SqlSafetyGuard.Vsix` | The SSMS extension (net472): `Guard` (F5 interception, execution-target binding), `UI` (pane, dialog), `Services`, `Options` |
 | `tests/SqlSafetyGuard.Tests` | Unit, regression, generated-doc and docs-index tests |
 | `tests/SqlSafetyGuard.ServerHarness` | Executes cases on a disposable server and compares the verdict with what really changed |
 | `tests/SqlSafetyGuard.ExtensionChecks` | Checks against a running SSMS (which window executes, which commands are intercepted) |
 | `tools/verification` | Generators for the rule inventory and campaign cases |
 | `docs/development.md` | Build, debug, solution layout and implementation details |
+| `docs/architecture.md` | Responsibilities, dependencies, traced flows and text-only boundaries |
 | `docs/user-guide.md` | Install, use, settings examples and user limitations |
 | `docs/` | Start at [docs/README.md](docs/README.md) |
 
@@ -64,6 +67,7 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 
 ```powershell
 dotnet test tests\SqlSafetyGuard.Tests                     # analyzer + tests (must pass before any merge or push)
+powershell.exe -NoProfile -File scripts\Verify-Offline.ps1 # locked offline suite and generated/tool checks; no SQL
 # The VSIX needs Visual Studio's MSBuild (see docs/development.md):  MSBuild.exe SqlSafetyGuard.sln /restore /p:Configuration=Release
 $env:UPDATE_STATEMENT_VERDICTS='1'; dotnet test tests\SqlSafetyGuard.Tests --filter FullyQualifiedName~StatementVerdictsTests; Remove-Item Env:UPDATE_STATEMENT_VERDICTS
 python tools/verification/generate_inventory.py            # regenerate docs/verification/rules/
@@ -80,8 +84,8 @@ python tools/verification/generate_inventory.py            # regenerate docs/ver
 ## Skills
 
 Task workflows follow the open Agent Skills format and live in `.agents/skills/<name>/SKILL.md`, the shared location that
-Codex, GitHub Copilot and other compliant agents scan. Claude Code only scans `.claude/skills/`, so that folder holds an
-identical copy. **Edit `.agents/skills/` and copy the change to `.claude/skills/`**; `AgentSkillsSyncTests` fails if they differ.
+Codex, GitHub Copilot and other compliant agents scan. `.claude/skills/` supports Claude Code's project-skill discovery and
+holds an identical copy. **Edit `.agents/skills/` and copy the change to `.claude/skills/`**; `AgentSkillsSyncTests` fails if they differ.
 Agents that do not scan skill folders should open the file before starting that kind of task.
 
 | Skill | Read it before |

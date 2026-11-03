@@ -47,15 +47,15 @@ limits.work	AnalysisWork	public static void Check	Unknown	Cancellation propagate
 limits.syntax	AnalysisWork	public static IList<TSqlParserToken> Tokenize	Unknown	Bound parentheses/blocks, conditions and control tokens before ScriptDom recursion; GO resets nesting.	ExcessiveNestingReturnsUnknownWithoutParsing
 recovery.regions	BatchRecovery	internal static	Unknown,RealWrite	Bound retries/time/text size, preserve newline/offsets, and avoid treating malformed module bodies as executable scripts.	GiveUp_WholeBatchIsNotAnalyzed_AndScanned
 parser.newest	ParserFactory	internal static	ReadOnly,TempOnly,AllowListed,Unknown,RealWrite	Select newest numeric ScriptDom parser with quoted identifiers on; fallback parser if discovery cannot construct it.	UsesNewestParser
-environment.off	EnvironmentRules	Mode != ExecutionMode.Off		Off mode never requests warning confirmation; this does not change analyzer Overall.	ModesControlWarnings
-environment.red	EnvironmentRules	Mode == ExecutionMode.Red		Red mode asks only for RealWrite; Unknown can execute without confirmation in this explicit policy.	ModesControlWarnings
-environment.yellow-red	EnvironmentRules	: !result.IsGreen		YellowRed mode asks for every nongreen result.	ModesControlWarnings
-environment.typed-disabled	EnvironmentRules	NeedsTypedConfirmation(		Typed database-name confirmation is always false, including legacy true configuration.	LegacyTypedSettingNeverRequiresTyping,LegacyRuleFieldIsAcceptedAndIgnored
+environment.off	GuardSettings	Mode != ExecutionMode.Off		Off mode never requests warning confirmation; this does not change analyzer Overall.	ModesControlWarnings
+environment.red	GuardSettings	Mode == ExecutionMode.Red		Red mode asks only for RealWrite; Unknown can execute without confirmation in this explicit policy.	ModesControlWarnings
+environment.yellow-red	GuardSettings	: !result.IsGreen		YellowRed mode asks for every nongreen result.	ModesControlWarnings
+environment.typed-disabled	GuardSettings	NeedsTypedConfirmation(		Typed database-name confirmation is always false, including legacy true configuration.	LegacyTypedSettingNeverRequiresTyping,LegacyRuleFieldIsAcceptedAndIgnored
 environment.invalid-line	EnvironmentRules	fields.Length < 5	Unknown	Ignore malformed environment lines with visible settings warnings; do not partially apply them.	BadRulesAreReportedAndIgnored
 environment.invalid-list	EnvironmentRules	allowList.Warnings.Count > 0	Unknown	An invalid allow/trusted list rejects the whole environment rule.	BadRulesAreReportedAndIgnored
 environment.unknown-context	EnvironmentRules	string.IsNullOrWhiteSpace(server)		Missing server or database bypasses environment matching and returns global policy.	FirstMatchingRuleWinsAndUnknownContextUsesGlobal
-environment.presentation-failure	EnvironmentRules	try { present(); }		Presentation exception is reported but cannot suppress an already-required confirmation.	PresentationOrLoggingFailuresCannotAuthorizeWarning
-environment.confirm-failure	EnvironmentRules	try { return !confirm(); }		Confirmation exception cancels execution; negative confirmation also cancels.	ConfirmationFailureAlwaysPreventsExecution
+environment.presentation-failure	GuardDecision	try { present(); }		Presentation exception is reported but cannot suppress an already-required confirmation.	PresentationOrLoggingFailuresCannotAuthorizeWarning
+environment.confirm-failure	GuardDecision	try { return !confirm(); }		Confirmation exception cancels execution; negative confirmation also cancels.	ConfirmationFailureAlwaysPreventsExecution
 allow.empty-name	AllowList	string.IsNullOrEmpty(name)		A missing target name never matches.	Matches
 allow.ignore-comments	AllowList	pattern.Length == 0		Ignore empty, --comment and #comment pattern lines.	IgnoresBlankAndCommentLines
 allow.invalid	AllowList	parts == null	Unknown	Reject unterminated quoting, empty parts, more than four parts, wildcard-only names and unsafe trusted-procedure qualifiers; report warnings.	WildcardOnlyAllowListIsIgnoredVisibly,ProcedureTrustRequiresResolvedQualification

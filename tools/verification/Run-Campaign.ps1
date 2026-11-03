@@ -11,12 +11,28 @@ param(
 $ErrorActionPreference = 'Stop'
 $Frozen = [IO.Path]::GetFullPath($Frozen)
 $manifest = Get-Content -LiteralPath (Join-Path $Frozen 'manifest.json') -Raw | ConvertFrom-Json
+if ($manifest.SchemaVersion -ne 1 -or !$manifest.Build.Sdk -or !$manifest.Build.Commands) {
+    throw 'A source-built campaign bundle is required. Freeze a clean checkout with Freeze-Campaign.ps1.'
+}
 foreach ($entry in $manifest.Files) {
+    if ([IO.Path]::IsPathRooted($entry.Path) -or $entry.Path -match '(^|[\\/])\.\.([\\/]|$)') { throw 'Unsafe manifest path.' }
     $actual = (Get-FileHash -LiteralPath (Join-Path $Frozen $entry.Path) -Algorithm SHA256).Hash
     if ($actual -ne $entry.Sha256) { throw "Frozen file changed: $($entry.Path)" }
 }
 if (-not $Output) { $Output = Join-Path (Split-Path (Split-Path $Frozen)) ('full-' + (Get-Date -Format 'yyyy-MM-dd')) }
 $Output = [IO.Path]::GetFullPath($Output)
+if ($Output -eq $Frozen -or $Output.StartsWith($Frozen.TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'Campaign output cannot modify the frozen bundle.'
+}
+$ancestor = $Output
+while ($ancestor) {
+    if ((Test-Path -LiteralPath (Join-Path $ancestor 'SqlSafetyGuard.sln')) -or
+        (Test-Path -LiteralPath (Join-Path $ancestor '.git'))) { throw 'Campaign output must be outside a source checkout.' }
+    if ((Test-Path -LiteralPath $ancestor) -and ((Get-Item -LiteralPath $ancestor -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+        throw 'Campaign output cannot traverse a reparse point.'
+    }
+    $ancestor = [IO.Path]::GetDirectoryName($ancestor)
+}
 [IO.Directory]::CreateDirectory($Output) | Out-Null
 $lease = [Threading.Mutex]::new($false, 'Local\SqlSafetyGuard.Wave3Full')
 if (-not $lease.WaitOne(0)) { $lease.Dispose(); throw 'Another full launcher is active.' }
@@ -28,13 +44,13 @@ try {
         $cases = Join-Path $Frozen ('cases\' + $lane)
         if (-not (Test-Path -LiteralPath $cases)) { continue }
         & dotnet $harness --analyzer $analyzer --campaign $cases --campaign-validate --out (Join-Path $Output ('validation-' + $lane))
-        if ($LASTEXITCODE -ne 0) { throw "No usable cases in $lane; inspect upfront validation." }
+        if ($LASTEXITCODE -ne 0) { throw "Invalid or rejected cases in $lane; inspect upfront validation." }
     }
     $features = Join-Path $Frozen 'cases\features.json'
     & dotnet $harness --analyzer $analyzer --isolated-coverage $features --validate-coverage --out (Join-Path $Output 'validation-features')
     if ($LASTEXITCODE -ne 0) { throw 'No usable feature fixtures; inspect upfront validation.' }
     if ($ValidateOnly) { return }
-    foreach ($lane in @('offline','generated-host','host','isolated','features')) {
+    foreach ($lane in @('isolated','features','host','offline','generated-host')) {
         $cases = Join-Path $Frozen ('cases\' + $lane)
         if ($lane -eq 'features') { $cases = $features }
         if (-not (Test-Path -LiteralPath $cases)) { continue }
@@ -45,7 +61,7 @@ try {
         if ($lane -eq 'offline') {
             & dotnet @arguments --campaign-offline
         } elseif ($lane -eq 'generated-host') {
-            & dotnet @arguments --server $Server --workers $Workers --campaign-principal admin
+            & dotnet @arguments --server $Server --workers $Workers
         } elseif ($lane -eq 'host') {
             & dotnet @arguments --server $Server --workers $Workers
         } else {

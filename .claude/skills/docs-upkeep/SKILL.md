@@ -14,7 +14,7 @@ The owner wants to see the current state at all times. `docs/README.md` is the s
 2. **Dated results** (a run report, a wave summary) go to `docs/history/` and start with:
    `> **Snapshot — not maintained.** Current state: [verification/status.md](<relative>/verification/status.md). All current docs: [docs/README.md](<relative>/README.md).`
    Add a row to `docs/history/README.md`, newest first. Never edit a snapshot afterwards; files covered by a `SHA256SUMS.txt`
-   must not change at all.
+   must not change at all. Byte-preserved archives may retain their original header when their archive README explains the snapshot and a checksum manifest protects the original file; DocsIndexTests validates those hashes.
 3. **After a verification run:** rewrite `docs/verification/status.md` (date, bottom line, run table, defects fixed, coverage,
    open items) and add the report under `docs/history/runs/`.
 4. **After a fixed false green or a new policy question:** update the status table or `docs/verification/policy-questions.md`

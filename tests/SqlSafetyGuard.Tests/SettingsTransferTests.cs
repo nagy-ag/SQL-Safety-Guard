@@ -276,7 +276,7 @@ public class SettingsTransferTests
     [Fact]
     public void PreviewUsesThemedButtonsWithCancelAsDefaultAndWarningsBeforeChanges()
     {
-        var repo = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repo = TestRepository.Root;
         var dialog = XDocument.Load(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/UI/SettingsImportDialog.xaml"));
         XNamespace p = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
@@ -294,7 +294,7 @@ public class SettingsTransferTests
     [Fact]
     public void ToolsMenuOwnsAnalyzeAndSettingsWhileTransferActionsLiveOnNativeSettingsPage()
     {
-        var repo = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repo = TestRepository.Root;
         XNamespace ns = "http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable";
         var commands = XDocument.Load(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/SqlSafetyGuardPackage.vsct"));
         var buttons = commands.Descendants(ns + "Button").ToArray();
@@ -317,7 +317,7 @@ public class SettingsTransferTests
     [Fact]
     public void NativeSettingsPreserveLegacyStoreKeysDefaultsAndBidirectionalMigration()
     {
-        var repo = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repo = TestRepository.Root;
         var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
         var properties = (Newtonsoft.Json.Linq.JObject)registration["properties"]!;
         var legacy = new Dictionary<string, string>

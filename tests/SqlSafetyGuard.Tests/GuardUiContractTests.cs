@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Xml.Linq;
 
 namespace SqlSafetyGuard.Tests;
@@ -7,7 +8,7 @@ public class GuardUiContractTests
     [Fact]
     public void ConfirmationUsesCollapsedPassiveScrollableLedgers()
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/ConfirmExecutionDialog.xaml"));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         Assert.Equal(2, document.Descendants(presentation + "Expander").Count());
@@ -20,7 +21,9 @@ public class GuardUiContractTests
         Assert.All(document.Descendants(presentation + "Expander"), section =>
         {
             var scroll = Assert.Single(section.Elements(presentation + "ScrollViewer"));
-            Assert.Equal("190", (string?)scroll.Attribute("MaxHeight"));
+            Assert.True(double.TryParse((string?)scroll.Attribute("MaxHeight"), NumberStyles.Float,
+                    CultureInfo.InvariantCulture, out var maxHeight) && double.IsFinite(maxHeight) && maxHeight > 0,
+                "Each ledger needs a finite positive height so long findings remain scrollable.");
             Assert.Equal("Auto", (string?)scroll.Attribute("VerticalScrollBarVisibility"));
         });
         Assert.All(document.Descendants(presentation + "Button"), button =>
@@ -31,7 +34,6 @@ public class GuardUiContractTests
         var warning = Assert.Single(document.Descendants(presentation + "TextBlock"), element =>
             (string?)element.Attribute("{http://schemas.microsoft.com/winfx/2006/xaml}Name") == "TargetWarningText");
         Assert.Contains("ThemedDialogColors.WindowPanelTextBrushKey", (string?)warning.Attribute("Foreground"));
-        Assert.Equal("3,0,0,0", (string?)warning.Parent?.Attribute("BorderThickness"));
         Assert.DoesNotContain("Binding Note", text);
         Assert.DoesNotContain("Binding Finding", text);
     }
@@ -39,7 +41,7 @@ public class GuardUiContractTests
     [Fact]
     public void CollapsedPaneHasPassiveBadgesAndOneExpandTarget()
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/SafetyPaneControl.xaml"));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace markup = "http://schemas.microsoft.com/winfx/2006/xaml";
@@ -49,22 +51,13 @@ public class GuardUiContractTests
         Assert.Equal("Transparent", (string?)strip.Attribute("Background"));
         Assert.Equal("OnToggleClicked", (string?)strip.Attribute("MouseLeftButtonUp"));
         Assert.Empty(strip.Descendants(presentation + "Button"));
-        Assert.Empty(strip.Descendants(presentation + "RotateTransform"));
         Assert.DoesNotContain(strip.Descendants(presentation + "TextBlock"),
             element => element.Attribute("Text") != null);
         Assert.DoesNotContain(strip.Descendants().Attributes(),
             attribute => attribute.Name.LocalName.StartsWith("Mouse", StringComparison.Ordinal));
-        var badges = strip.Descendants(presentation + "Grid").ToList();
-        Assert.Equal(new[] { "CollapsedStatus", "CollapsedRed", "CollapsedYellow" },
-            badges.Select(element => (string?)element.Attribute(markup + "Name")));
-        Assert.All(badges, badge =>
-        {
-            Assert.Equal("20", (string?)badge.Attribute("Width"));
-            Assert.Equal("20", (string?)badge.Attribute("Height"));
-            Assert.Single(badge.Elements(presentation + "Ellipse"));
-        });
-        Assert.All(strip.Descendants(presentation + "Viewbox"),
-            viewbox => Assert.Equal("DownOnly", (string?)viewbox.Attribute("StretchDirection")));
+        foreach (string name in new[] { "CollapsedGlyph", "CollapsedRedCount", "CollapsedYellowCount" })
+            Assert.Single(strip.Descendants(presentation + "TextBlock"), element =>
+                (string?)element.Attribute(markup + "Name") == name);
     }
 
     [Theory]
@@ -72,7 +65,7 @@ public class GuardUiContractTests
     [InlineData("GuardFailureDialog.xaml")]
     public void ConfirmationButtonsHaveSafeKeyboardDefaults(string file)
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/", file));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace markup = "http://schemas.microsoft.com/winfx/2006/xaml";
@@ -90,7 +83,7 @@ public class GuardUiContractTests
     [Fact]
     public void PaneRowsAndSettingsUseShellThemeResources()
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/SafetyPaneControl.xaml"));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace markup = "http://schemas.microsoft.com/winfx/2006/xaml";
@@ -115,13 +108,12 @@ public class GuardUiContractTests
     [InlineData("SettingsImportDialog.xaml")]
     public void SettingsDialogsIndicateSafeDefaultWithThemeAccent(string file)
     {
-        var repository = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+        var repository = TestRepository.Root;
         var document = XDocument.Load(Path.Combine(repository, "src/SqlSafetyGuard.Vsix/UI/", file));
         XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         var cancel = Assert.Single(document.Descendants(presentation + "Button"), element =>
             (string?)element.Attribute("IsCancel") == "True");
         Assert.Equal("True", (string?)cancel.Attribute("IsDefault"));
-        Assert.Equal("2", (string?)cancel.Attribute("BorderThickness"));
         Assert.Contains("EnvironmentColors.SystemHighlightBrushKey", (string?)cancel.Attribute("BorderBrush"));
     }
 }

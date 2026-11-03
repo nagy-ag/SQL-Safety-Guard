@@ -4,7 +4,7 @@ Every release lists what changed for users. **Colour changes** (a statement that
 in their own section, because they change what users see before F5. Versions follow `MAJOR.MINOR.PATCH`: patch = fixes with no
 colour change, minor = colour changes or new features, major = changes users must relearn.
 
-## [1.0.0] - unreleased
+## [1.0.0] - 2026-11-03
 
 First official release for SQL Server Management Studio 22.
 
@@ -30,9 +30,12 @@ First official release for SQL Server Management Studio 22.
 
 ### Verification
 
-- 1,571 automated tests.
-- Verdicts checked against a real SQL Server: 37,229 executed cases plus 890 offline checks with no real false green
-  (see `docs/verification/status.md`).
+- Latest offline validation: 1,592 .NET tests, 10 Python tooling tests, and 527 generated rules checked for freshness.
+- Retained server-campaign reports record 37,229 executed cases plus 890 offline checks, with no unresolved reproducible
+  analyzer defect after triage. These describe their recorded builds; policy effects, observation gaps and unavailable
+  features remain explicit in `docs/verification/status.md`. No fresh SQL or live SSMS campaign was run for publication.
+- Development checks and server tooling are separate from the installed extension, which opens no SQL connections and
+  queries no server metadata. Dependency locks, offline CI and documented verification entry points support maintenance.
 
 ### Known limits
 

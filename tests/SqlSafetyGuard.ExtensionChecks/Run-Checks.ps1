@@ -1,4 +1,5 @@
-param([Parameter(Mandatory=$true)][string]$ChannelDirectory,[Parameter(Mandatory=$true)][int]$SsmsProcessId,[Parameter(Mandatory=$true)][string]$Database,[string]$Server='.\SQLEXPRESS',[switch]$FunctionsOnly)
+param([Parameter(Mandatory=$true)][string]$ChannelDirectory,[Parameter(Mandatory=$true)][int]$SsmsProcessId,[Parameter(Mandatory=$true)][string]$Database,[string]$Server='.\SQLEXPRESS',[switch]$FunctionsOnly,[string[]]$ExpectedBlockedScenarios=@())
+. "$PSScriptRoot\CheckOutcome.ps1"
 . "$PSScriptRoot\Client.ps1" -ChannelDirectory $ChannelDirectory -SsmsProcessId $SsmsProcessId -Database $Database -Server $Server
 $script:Results = @()
 $script:RunId = [DateTime]::UtcNow.ToString('HHmmss')
@@ -196,3 +197,6 @@ Test-Execution file-red-cancel $red RealWrite Cancel 0
 Test-Execution file-run-savecancel $red RealWrite Run 0 -SaveCancel
 Send-Channel execute Query.ResultstoGrid
 $script:Results | Group-Object Status | Select-Object Name,Count | Format-Table
+$outcome = Get-CheckOutcome -Results $script:Results -ExpectedBlockedScenarios $ExpectedBlockedScenarios
+$outcome | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $ChannelDirectory "summary-$script:RunId.json") -Encoding UTF8
+if ($outcome.ExitCode -ne 0) { throw "Extension checks $($outcome.Outcome); inspect summary-$script:RunId.json and results-$script:RunId.json." }

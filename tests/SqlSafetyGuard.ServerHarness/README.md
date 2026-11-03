@@ -27,6 +27,13 @@ none is silently promoted into all-kind live verification.
 
 ## Legacy discovery mode
 
+No mode is selected by default. This historical runner requires both `--legacy-discovery` and an explicit
+`--server <disposable instance>`. It recreates fixed database names and must never run on the locally protected databases
+or a shared server. Prefer the owned-database campaign and strict coverage modes above.
+
+Campaign and isolated-fixture validation preserve rejection diagnostics but fail the entire input before execution
+if any row is invalid or duplicated. A zero validation exit means every supplied row was accepted, not that SQL ran.
+
 The following describes the older string-discovery runner, **not strict mode**. Discovery may encounter
 invalid/inapplicable SQL and record execution errors without failing every case. Its zero exit code
 is not proof that every discovered statement executed successfully. It also recreates named sandbox

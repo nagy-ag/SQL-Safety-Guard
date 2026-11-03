@@ -4,9 +4,12 @@ import collections
 import hashlib
 import json
 import re
-import shutil
+import tempfile
+import os
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
+from artifact_io import write_generated
 
 ROOT = Path(__file__).resolve().parents[2]
 DEST = ROOT / "docs/verification/rules"
@@ -14,7 +17,8 @@ ALL = ["ReadOnly", "TempOnly", "AllowListed", "Unknown", "RealWrite"]
 CATEGORIES = {
     "Classifier": "classification", "StatementWalker": "walking",
     "TargetResolver": "resolution", "Scope": "scope", "SqlCmdPreprocessor": "sqlcmd",
-    "AllowList": "allow-list", "EnvironmentRules": "environment", "AnalysisWork": "limits",
+    "AllowList": "allow-list", "EnvironmentRules": "environment", "GuardSettings": "environment",
+    "GuardDecision": "environment", "AnalysisWork": "limits",
     "SideEffectScanner": "hidden-effects", "BatchRecovery": "recovery",
     "SqlSafetyAnalyzer": "entry", "AnalysisResult": "aggregation",
     "AnalyzerOptions": "options", "ParserFactory": "parser", "Verdict": "aggregation",
@@ -22,46 +26,14 @@ CATEGORIES = {
 }
 
 
-def apply_file(path, content):
-    relative = path.relative_to(ROOT).as_posix()
-    launcher = shutil.which("apply_patch")
-    if launcher is None:
-        raise RuntimeError("apply_patch must be on PATH to regenerate files")
-    command = [launcher]
-    if Path(launcher).suffix.lower() == ".bat":
-        wrapper = Path(launcher).read_text(encoding="utf-8")
-        match = re.search(r'"%~dp0([^"\r\n]+)"\s+--codex-run-as-apply-patch', wrapper)
-        if match is None:
-            raise RuntimeError("Unrecognized apply_patch Windows wrapper")
-        command = [str((Path(launcher).parent / match.group(1)).resolve()),
-                   "--codex-run-as-apply-patch"]
-    def apply(patch):
-        subprocess.run(command + [patch], check=True,
-                       stdout=subprocess.DEVNULL)
-    if path.exists():
-        if path.read_text(encoding="utf-8") == content:
-            return
-        apply(f"*** Begin Patch\n*** Delete File: {relative}\n*** End Patch\n")
-    lines = content.splitlines()
-    previous = None
-    while lines:
-        chunk = []
-        size = 0
-        while lines and size + len(lines[0]) < 9000:
-            value = lines.pop(0)
-            chunk.append(value)
-            size += len(value) + 2
-        if not chunk:
-            raise ValueError("Single generated line exceeds patch limit")
-        if previous is None:
-            header = f"*** Add File: {relative}\n"
-            suffix = ""
-        else:
-            header = f"*** Update File: {relative}\n@@\n" + "\n".join(" " + value for value in previous) + "\n"
-            suffix = "*** End of File\n"
-        apply("*** Begin Patch\n" + header + "\n".join("+" + line for line in chunk) +
-              "\n" + suffix + "*** End Patch\n")
-        previous = chunk[-40:]
+def test_declarations():
+    # Reuse the harness's existing Roslyn dependency in an explicitly offline mode.
+    with tempfile.TemporaryDirectory(prefix="SgRun_test_index_") as output:
+        subprocess.run(["dotnet", "run", "--no-restore", "--project", str(ROOT / "tests/SqlSafetyGuard.ServerHarness"),
+                        "--verbosity", "quiet", "--", "--test-index",
+                        str(ROOT / "tests/SqlSafetyGuard.Tests"), "--out", output],
+                       check=True, stdout=subprocess.DEVNULL)
+        return json.loads((Path(output) / "test-index.json").read_text(encoding="utf-8"))
 
 
 def main():
@@ -69,11 +41,15 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     rules = []
-    texts = {path.stem: path.read_text(encoding="utf-8-sig")
-             for path in sorted((ROOT / "src/SqlSafetyGuard.Analyzer").glob("*.cs"))}
+    source_paths = sorted(path for path in (ROOT / "src/SqlSafetyGuard.Analyzer").rglob("*.cs")
+                          if not {"bin", "obj"}.intersection(path.relative_to(ROOT).parts))
+    if len({path.stem for path in source_paths}) != len(source_paths):
+        raise ValueError("Duplicate analyzer file stems require explicit semantic source identities.")
+    texts = {path.stem: path.read_text(encoding="utf-8-sig") for path in source_paths}
+    sources = {path.stem: path.relative_to(ROOT).as_posix() for path in source_paths}
     def add(identifier, category, condition, verdicts, stem, offset, **extra):
         rules.append(dict(id=identifier, category=category, condition=condition,
-                          verdicts=verdicts, source=f"src/SqlSafetyGuard.Analyzer/{stem}.cs:" +
+                          verdicts=verdicts, source=sources[stem] + ":" +
                           str(texts[stem].count("\n", 0, offset) + 1), existingTests=[], **extra))
     classifier = texts["Classifier"]
     tables = [("ReadOnlyProcedures", "safe-procedure", "ReadOnly"),
@@ -126,7 +102,11 @@ def main():
             f"SQLCMD mode recognizes {command}; connect invalidates context, external execution/substitution warns, exit arguments warn, remaining directives are green. Mode-off syntax warns separately.",
             outcomes, "SqlCmdPreprocessor", start if name not in ("!!", "$()") else sqlcmd.index('Variable =') if name == "$()" else sqlcmd.index('!!'),
             member=command, reviewStatus="reviewed-table", testMethodNames=["Directives_AreReported", "UnexpandedSqlCmdExecutionIsNeverGreen"])
-    package = Path.home() / ".nuget/packages/microsoft.sqlserver.transactsql.scriptdom/180.140.0/lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.xml"
+    project = ET.parse(ROOT / "src/SqlSafetyGuard.Analyzer/SqlSafetyGuard.Analyzer.csproj")
+    version = next(item.get("Version") for item in project.iter("PackageReference")
+                   if item.get("Include") == "Microsoft.SqlServer.TransactSql.ScriptDom")
+    packages = Path(os.environ.get("NUGET_PACKAGES", Path.home() / ".nuget/packages"))
+    package = packages / f"microsoft.sqlserver.transactsql.scriptdom/{version}/lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.xml"
     xml = package.read_text(encoding="utf-8-sig")
     for match in re.finditer(r'<member name="F:Microsoft.SqlServer.TransactSql.ScriptDom.SetOptions\.(\w+)">\s*<summary>(.*?)</summary>', xml, re.S):
         name, sql = match.groups()
@@ -174,18 +154,18 @@ def main():
             testMethodNames=tests.split(",") if tests not in ("", "-") else [])
     mapping = {}
     table_test = "SqlSafetyGuard.Tests.RuleInventoryTests.TableDecisionMatchesInventory"
-    test_texts = [(path, path.read_text(encoding="utf-8-sig")) for path in
-                  sorted((ROOT / "tests/SqlSafetyGuard.Tests").glob("*.cs"))]
+    declarations = test_declarations()
     fixture_types = {fixture["statementType"] for fixture in json.loads(
         (ROOT / "tests/SqlSafetyGuard.ServerHarness/Coverage/parser-fixtures.json").read_text(encoding="utf-8"))["fixtures"]}
     for rule in rules:
         if rule["category"] in ("green-statement", "action-name", "unknown-statement") and rule.get("member") in fixture_types:
             rule.setdefault("testMethodNames", []).append("CommittedStatementVerdictsMatchCurrentAnalyzer")
         for name in rule.pop("testMethodNames", []):
-            for path, text in test_texts:
-                match = re.search(r'\b' + re.escape(name) + r'\s*\(', text)
-                if match:
-                    rule["existingTests"].append(f"{path.relative_to(ROOT).as_posix()}:{text.count(chr(10), 0, match.start())+1} ({name})")
+            matches = [entry for entry in declarations if entry["Name"].rsplit(".", 1)[-1] == name or entry["Name"] == name]
+            if not matches:
+                raise ValueError("No attributed test declaration for " + name)
+            rule["existingTests"].extend(entry["Name"] + " @ tests/SqlSafetyGuard.Tests/" +
+                                         entry["File"] + ":" + str(entry["Line"]) for entry in matches)
         if rule["existingTests"]:
             mapping[rule["id"]] = rule["existingTests"]
         if rule["category"] in ("safe-procedure", "writing-procedure", "safe-dbcc", "changing-dbcc", "unknown-dbcc", "set-option", "set-family"):
@@ -211,13 +191,19 @@ def main():
             markdown += ["- Decision: `" + rule["sourceExpression"].replace("`", "'") + "`."]
     outputs = {DEST / "rules.json": json.dumps(payload, indent=2) + "\n",
                DEST / "rules.md": "\n".join(markdown) + "\n",
-               DEST / "rule-test-map.json": json.dumps(mapping, indent=2) + "\n"}
+               DEST / "rule-test-map.json": json.dumps(mapping, indent=2) + "\n",
+               DEST / "uncovered.md": "\n".join([
+                   "# Unmapped rule associations", "", "Generated by `tools/verification/generate_inventory.py`.", "",
+                   f"{len(mapping)}/{len(rules)} rules have named test associations. These are declarations, not measured coverage.", "",
+                   "Missing associations are report-only. Mapped rules may still have untested branches or runtime effects.", "",
+                   "The original measured report is preserved in [history](../../history/2026-10-28-offline-coverage/README.md).", "",
+                   "## Rules without associations", "", *["- `" + rule["id"] + "`" for rule in rules if rule["id"] not in mapping], ""]) }
     for path, content in outputs.items():
         if args.check:
             if not path.exists() or path.read_text(encoding="utf-8") != content:
                 raise SystemExit(f"Stale generated file: {path}")
         else:
-            apply_file(path, content)
+            write_generated(path, content)
     print(json.dumps(counts), "total", len(rules))
 
 

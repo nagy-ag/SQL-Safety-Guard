@@ -16,7 +16,7 @@ public class IsolatedFixtureValidationTests
     }
 
     [Fact]
-    public void InvalidAndDuplicateFixturesDoNotAbortValidFixtures()
+    public void InvalidAndDuplicateFixturesFailValidationBeforeExecution()
     {
         var directory = Path.Combine(Path.GetTempPath(), "SgRun_fixtures_" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
@@ -26,7 +26,7 @@ public class IsolatedFixtureValidationTests
             var file = Path.Combine(directory, "fixtures.json");
             File.WriteAllText(file, JsonSerializer.Serialize(new { schemaVersion = 1, fixtures = new object[] { fixture, new { id = "invalid" }, fixture } }));
             var options = Args.Parse(["--analyzer", typeof(SqlSafetyAnalyzer).Assembly.Location, "--isolated-coverage", file, "--validate-coverage", "--out", directory]);
-            Assert.Equal(0, IsolatedCoverageRunner.Run(options, new AnalyzerHost(options.Analyzer)));
+            Assert.Throws<InvalidDataException>(() => IsolatedCoverageRunner.Run(options, new AnalyzerHost(options.Analyzer)));
             using var rejects = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "isolated-rejected.json")));
             Assert.Equal(2, rejects.RootElement.GetArrayLength());
         }

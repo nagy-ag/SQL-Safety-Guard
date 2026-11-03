@@ -57,7 +57,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:244",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableAddTableElementStatement",
       "reviewStatus": "reviewed-table",
@@ -70,7 +70,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:245",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableAlterColumnStatement",
       "reviewStatus": "reviewed-table",
@@ -83,7 +83,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:254",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableAlterIndexStatement",
       "reviewStatus": "reviewed-table",
@@ -96,7 +96,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:255",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableAlterPartitionStatement",
       "reviewStatus": "reviewed-table",
@@ -109,7 +109,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:252",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableChangeTrackingModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -122,7 +122,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:247",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableConstraintModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -135,7 +135,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:246",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableDropTableElementStatement",
       "reviewStatus": "reviewed-table",
@@ -148,7 +148,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:253",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableFileTableNamespaceStatement",
       "reviewStatus": "reviewed-table",
@@ -161,7 +161,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:250",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableRebuildStatement",
       "reviewStatus": "reviewed-table",
@@ -174,7 +174,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:248",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableSetStatement",
       "reviewStatus": "reviewed-table",
@@ -187,7 +187,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:249",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableSwitchStatement",
       "reviewStatus": "reviewed-table",
@@ -200,7 +200,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:251",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "AlterTableTriggerModificationStatement",
       "reviewStatus": "reviewed-table",
@@ -213,7 +213,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:240",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BackupDatabaseStatement",
       "reviewStatus": "reviewed-table",
@@ -226,7 +226,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:241",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BackupTransactionLogStatement",
       "reviewStatus": "reviewed-table",
@@ -239,7 +239,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:232",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BeginTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -252,7 +252,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:257",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BulkInsertStatement",
       "reviewStatus": "reviewed-table",
@@ -265,7 +265,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:233",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CommitTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -278,7 +278,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:239",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DbccStatement",
       "reviewStatus": "reviewed-table",
@@ -291,7 +291,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:231",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -304,7 +304,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:230",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareTableVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -317,7 +317,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:229",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -330,7 +330,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:242",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ExecuteAsStatement",
       "reviewStatus": "reviewed-table",
@@ -343,7 +343,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:238",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "GoToStatement",
       "reviewStatus": "reviewed-table",
@@ -356,7 +356,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:258",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "InsertBulkStatement",
       "reviewStatus": "reviewed-table",
@@ -380,7 +380,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:236",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "RaiseErrorStatement",
       "reviewStatus": "reviewed-table",
@@ -393,7 +393,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:234",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "RollbackTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -406,7 +406,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:235",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SaveTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -419,7 +419,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:228",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -432,7 +432,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:243",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "UpdateStatisticsStatement",
       "reviewStatus": "reviewed-table",
@@ -451,7 +451,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:25",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -462,7 +462,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:50",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -479,7 +479,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Verdict.cs:6",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263 (Warnings_AndSummary)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -490,7 +490,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:48",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -501,7 +501,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:44",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -512,13 +512,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:43",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-        "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-        "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
+        "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -529,7 +523,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:58",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -540,7 +534,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:18",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)"
+        "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -553,8 +547,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214 (WildcardOnlyAllowListIsIgnoredVisibly)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214",
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -568,15 +562,9 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:35",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-        "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-        "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)",
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:33 (IgnoresBlankAndCommentLines)",
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:40 (EmptyAllowList_MatchesNothing)"
+        "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26",
+        "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33",
+        "SqlSafetyGuard.Tests.AllowListTests.EmptyAllowList_MatchesNothing @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:40"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -587,13 +575,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:65",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:13 (Matches)",
-        "tests/SqlSafetyGuard.Tests/AllowListTests.cs:26 (Matches)",
-        "tests/SqlSafetyGuard.Tests/CampaignAttributionTests.cs:36 (Matches)",
-        "tests/SqlSafetyGuard.Tests/DocsIndexTests.cs:30 (Matches)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:37 (Matches)",
-        "tests/SqlSafetyGuard.Tests/SettingsTransferTests.cs:262 (Matches)",
-        "tests/SqlSafetyGuard.Tests/VersionConsistencyTests.cs:21 (Matches)"
+        "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -604,7 +586,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:47",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1113,8 +1095,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:192",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:230 (ReadOnlyDbcc_IsGreen)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+        "SqlSafetyGuard.Tests.DbccTests.ReadOnlyDbcc_IsGreen @ tests/SqlSafetyGuard.Tests/DbccTests.cs:17",
+        "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1127,7 +1109,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:200",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+        "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1140,7 +1122,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:180",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55 (UnknownDbccNameIsClassifiedAsDllUnload)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnknownDbccNameIsClassifiedAsDllUnload @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:55"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1153,7 +1135,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:214",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:253 (OtherDbcc_StaysYellow)"
+        "SqlSafetyGuard.Tests.DbccTests.OtherDbcc_StaysYellow @ tests/SqlSafetyGuard.Tests/DbccTests.cs:40"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1166,7 +1148,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:186",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:245 (ChangingDbcc_IsRed)"
+        "SqlSafetyGuard.Tests.DbccTests.ChangingDbcc_IsRed @ tests/SqlSafetyGuard.Tests/DbccTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1179,7 +1161,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:261",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1192,7 +1174,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:263",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194 (PermanentTempdbObjectsRequireExplicitOptIn)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.PermanentTempdbObjectsRequireExplicitOptIn @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:194"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1207,8 +1189,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:274",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251 (AllowList_DoesNotApplyToDdl)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257 (AllowList_AppliesToTruncateAndSelectInto)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.AllowList_DoesNotApplyToDdl @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:251",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.AllowList_AppliesToTruncateAndSelectInto @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:257"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1221,7 +1203,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:52",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18 (EmptyText_IsReadOnlyWithNoFindings)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.EmptyText_IsReadOnlyWithNoFindings @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1234,7 +1216,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204 (OversizedScriptsFollowExplicitModePolicy)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.OversizedScriptsFollowExplicitModePolicy @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:204"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1259,7 +1241,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:47",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1268,9 +1250,9 @@
       "category": "environment",
       "condition": "Confirmation exception cancels execution; negative confirmation also cancels.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:125",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardDecision.cs:28",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82 (ConfirmationFailureAlwaysPreventsExecution)"
+        "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1281,9 +1263,9 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:66",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:29",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1294,9 +1276,9 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:75",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:38",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32 (BadRulesAreReportedAndIgnored)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1305,9 +1287,9 @@
       "category": "environment",
       "condition": "Off mode never requests warning confirmation; this does not change analyzer Overall.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:36",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardSettings.cs:28",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1316,9 +1298,9 @@
       "category": "environment",
       "condition": "Presentation exception is reported but cannot suppress an already-required confirmation.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:122",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardDecision.cs:25",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139 (PresentationOrLoggingFailuresCannotAuthorizeWarning)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.PresentationOrLoggingFailuresCannotAuthorizeWarning @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1327,9 +1309,9 @@
       "category": "environment",
       "condition": "Red mode asks only for RealWrite; Unknown can execute without confirmation in this explicit policy.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:37",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardSettings.cs:29",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1344,10 +1326,10 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:91",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:54",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65 (PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16",
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1356,10 +1338,10 @@
       "category": "environment",
       "condition": "Typed database-name confirmation is always false, including legacy true configuration.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:39",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardSettings.cs:31",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123 (LegacyTypedSettingNeverRequiresTyping)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129 (LegacyRuleFieldIsAcceptedAndIgnored)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.LegacyTypedSettingNeverRequiresTyping @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:123",
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.LegacyRuleFieldIsAcceptedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:129"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1368,9 +1350,9 @@
       "category": "environment",
       "condition": "Missing server or database bypasses environment matching and returns global policy.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:94",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:57",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16 (FirstMatchingRuleWinsAndUnknownContextUsesGlobal)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1379,9 +1361,9 @@
       "category": "environment",
       "condition": "YellowRed mode asks for every nongreen result.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:37",
+      "source": "src/SqlSafetyGuard.Analyzer/GuardSettings.cs:29",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113 (ModesControlWarnings)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ModesControlWarnings @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:113"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1394,7 +1376,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BeginTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1409,7 +1391,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "BreakStatement",
       "reviewStatus": "reviewed-table",
@@ -1424,7 +1406,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CloseCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1439,7 +1421,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CloseMasterKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1454,7 +1436,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CloseSymmetricKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1469,7 +1451,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CommitTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1484,7 +1466,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ContinueStatement",
       "reviewStatus": "reviewed-table",
@@ -1512,7 +1494,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:114",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeallocateCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1527,7 +1509,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1542,7 +1524,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareTableVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1557,7 +1539,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "DeclareVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1572,7 +1554,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ExecuteAsStatement",
       "reviewStatus": "reviewed-table",
@@ -1587,7 +1569,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "FetchCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1602,7 +1584,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "GetConversationGroupStatement",
       "reviewStatus": "reviewed-table",
@@ -1617,7 +1599,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "GoToStatement",
       "reviewStatus": "reviewed-table",
@@ -1632,7 +1614,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "LabelStatement",
       "reviewStatus": "reviewed-table",
@@ -1647,7 +1629,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "LineNoStatement",
       "reviewStatus": "reviewed-table",
@@ -1662,7 +1644,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:113",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "OpenCursorStatement",
       "reviewStatus": "reviewed-table",
@@ -1677,7 +1659,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "OpenMasterKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1692,7 +1674,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "OpenSymmetricKeyStatement",
       "reviewStatus": "reviewed-table",
@@ -1707,7 +1689,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "PrintStatement",
       "reviewStatus": "reviewed-table",
@@ -1735,7 +1717,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "RaiseErrorStatement",
       "reviewStatus": "reviewed-table",
@@ -1750,7 +1732,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ReadTextStatement",
       "reviewStatus": "reviewed-table",
@@ -1765,7 +1747,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ReturnStatement",
       "reviewStatus": "reviewed-table",
@@ -1780,7 +1762,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "RevertStatement",
       "reviewStatus": "reviewed-table",
@@ -1795,7 +1777,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "RollbackTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1810,7 +1792,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:115",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SaveTransactionStatement",
       "reviewStatus": "reviewed-table",
@@ -1825,7 +1807,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetCommandStatement",
       "reviewStatus": "reviewed-table",
@@ -1840,7 +1822,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetErrorLevelStatement",
       "reviewStatus": "reviewed-table",
@@ -1855,7 +1837,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetIdentityInsertStatement",
       "reviewStatus": "reviewed-table",
@@ -1883,7 +1865,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetRowCountStatement",
       "reviewStatus": "reviewed-table",
@@ -1898,7 +1880,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:111",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetTextSizeStatement",
       "reviewStatus": "reviewed-table",
@@ -1913,7 +1895,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetTransactionIsolationLevelStatement",
       "reviewStatus": "reviewed-table",
@@ -1928,7 +1910,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:112",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetUserStatement",
       "reviewStatus": "reviewed-table",
@@ -1943,7 +1925,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:110",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "SetVariableStatement",
       "reviewStatus": "reviewed-table",
@@ -1958,7 +1940,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "ThrowStatement",
       "reviewStatus": "reviewed-table",
@@ -1986,7 +1968,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:122",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "UseFederationStatement",
       "reviewStatus": "reviewed-table",
@@ -2001,7 +1983,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:116",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "UseStatement",
       "reviewStatus": "reviewed-table",
@@ -2016,7 +1998,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:118",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "WaitForStatement",
       "reviewStatus": "reviewed-table",
@@ -2031,7 +2013,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:102",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2044,7 +2026,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:105",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57 (OpenRowsetBulk_ReadsAFile_IsReadOnly)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenRowsetBulk_ReadsAFile_IsReadOnly @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2057,7 +2039,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:41",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49 (RemoteWriteTarget_IsReportedOnceAsRealWrite)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteWriteTarget_IsReportedOnceAsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2070,7 +2052,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:99",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2083,7 +2065,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:92",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11 (OpenQuerySource_IsUnknown)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenQuerySource_IsUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2096,7 +2078,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:96",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2109,7 +2091,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:107",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96 (NextValueFor_AnywhereThatRuns_IsRealWrite)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.NextValueFor_AnywhereThatRuns_IsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2120,7 +2102,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:54",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:273 (NestingThatDefeatsStatementCountersIsRejectedBeforeParsing)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.NestingThatDefeatsStatementCountersIsRejectedBeforeParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:58"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2142,8 +2124,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:71",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:293 (ControlFlowKeywordBudgetHasExactBatchBoundary)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:305 (ControlFlowKeywordBudgetResetsOnlyAtGo)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.ControlFlowKeywordBudgetHasExactBatchBoundary @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:78",
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.ControlFlowKeywordBudgetResetsOnlyAtGo @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:90"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2156,7 +2138,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:73",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.ExcessiveNestingReturnsUnknownWithoutParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:144"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2169,7 +2151,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:39",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:359 (ExcessiveNestingReturnsUnknownWithoutParsing)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.ExcessiveNestingReturnsUnknownWithoutParsing @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:144"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2182,7 +2164,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:29",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:426 (LongSingleLineSelectAndLargeBrokenBatchAreBounded)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.LongSingleLineSelectAndLargeBrokenBatchAreBounded @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:211"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2195,7 +2177,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/AnalysisWork.cs:109",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147 (UnrecognizedCharacter_DoesNotHideWhatFollows)"
+        "SqlSafetyGuard.Tests.RecoveryTests.UnrecognizedCharacter_DoesNotHideWhatFollows @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:147"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2209,8 +2191,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_add_job",
       "reviewStatus": "reviewed-table"
@@ -2225,8 +2207,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_add_jobschedule",
       "reviewStatus": "reviewed-table"
@@ -2241,8 +2223,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_add_jobserver",
       "reviewStatus": "reviewed-table"
@@ -2257,8 +2239,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_add_jobstep",
       "reviewStatus": "reviewed-table"
@@ -2273,8 +2255,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_add_schedule",
       "reviewStatus": "reviewed-table"
@@ -2289,8 +2271,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_attach_schedule",
       "reviewStatus": "reviewed-table"
@@ -2305,8 +2287,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_delete_backuphistory",
       "reviewStatus": "reviewed-table"
@@ -2321,8 +2303,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_delete_job",
       "reviewStatus": "reviewed-table"
@@ -2337,8 +2319,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_delete_jobstep",
       "reviewStatus": "reviewed-table"
@@ -2353,8 +2335,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_help_job",
       "reviewStatus": "reviewed-table"
@@ -2369,8 +2351,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_help_jobhistory",
       "reviewStatus": "reviewed-table"
@@ -2385,8 +2367,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_help_jobstep",
       "reviewStatus": "reviewed-table"
@@ -2401,8 +2383,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_help_schedule",
       "reviewStatus": "reviewed-table"
@@ -2417,8 +2399,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_purge_jobhistory",
       "reviewStatus": "reviewed-table"
@@ -2433,8 +2415,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_send_dbmail",
       "reviewStatus": "reviewed-table"
@@ -2449,8 +2431,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_start_job",
       "reviewStatus": "reviewed-table"
@@ -2465,8 +2447,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_stop_job",
       "reviewStatus": "reviewed-table"
@@ -2481,8 +2463,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_update_job",
       "reviewStatus": "reviewed-table"
@@ -2497,8 +2479,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121 (SystemNamesOutsideSystemNamespaceAreUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:189 (KnownWriters_AreRed)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
       ],
       "member": "sp_update_jobstep",
       "reviewStatus": "reviewed-table"
@@ -2525,7 +2507,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/ParserFactory.cs:13",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11 (UsesNewestParser)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UsesNewestParser @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:11"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2536,7 +2518,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/TextPosition.cs:8",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Positions_AreRelativeToAnalyzedText @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2547,7 +2529,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Finding.cs:14",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+        "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2561,7 +2543,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/BatchRecovery.cs:185",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158 (GiveUp_WholeBatchIsNotAnalyzed_AndScanned)"
+        "SqlSafetyGuard.Tests.RecoveryTests.GiveUp_WholeBatchIsNotAnalyzed_AndScanned @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:158"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2574,7 +2556,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:22",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Alter",
       "reviewStatus": "reviewed-table"
@@ -2588,7 +2570,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:23",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Bulk",
       "reviewStatus": "reviewed-table"
@@ -2602,7 +2584,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:22",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Create",
       "reviewStatus": "reviewed-table"
@@ -2616,7 +2598,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:23",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Dbcc",
       "reviewStatus": "reviewed-table"
@@ -2630,7 +2612,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Delete",
       "reviewStatus": "reviewed-table"
@@ -2644,7 +2626,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:23",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Deny",
       "reviewStatus": "reviewed-table"
@@ -2658,7 +2640,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:22",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Drop",
       "reviewStatus": "reviewed-table"
@@ -2672,7 +2654,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:22",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Execute",
       "reviewStatus": "reviewed-table"
@@ -2686,7 +2668,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:22",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Grant",
       "reviewStatus": "reviewed-table"
@@ -2700,7 +2682,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Insert",
       "reviewStatus": "reviewed-table"
@@ -2714,7 +2696,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:24",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Kill",
       "reviewStatus": "reviewed-table"
@@ -2728,7 +2710,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Merge",
       "reviewStatus": "reviewed-table"
@@ -2742,7 +2724,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:24",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Reconfigure",
       "reviewStatus": "reviewed-table"
@@ -2756,7 +2738,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:23",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Restore",
       "reviewStatus": "reviewed-table"
@@ -2770,7 +2752,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:23",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Revoke",
       "reviewStatus": "reviewed-table"
@@ -2784,7 +2766,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:24",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Shutdown",
       "reviewStatus": "reviewed-table"
@@ -2798,7 +2780,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Truncate",
       "reviewStatus": "reviewed-table"
@@ -2812,7 +2794,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:21",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114 (KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings)"
+        "SqlSafetyGuard.Tests.RecoveryTests.KeywordSafetyNet_FindsWritesInUnparsedText_ButNotInCommentsOrStrings @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:114"
       ],
       "member": "Update",
       "reviewStatus": "reviewed-table"
@@ -2828,8 +2810,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:257",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26 (DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateAliasPointingToCte_ResolvesThroughBoth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DeleteViaAliasWithoutFromKeyword_ResolvesToBaseTable @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:26"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2844,7 +2826,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:218",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200 (AllowListHonorsQualificationAndExactIdentifierEnd)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2857,7 +2839,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:135",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.DoublingCteGraphIsMemoizedAndDeduplicated @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:156"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2868,7 +2850,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:123",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:371 (DoublingCteGraphIsMemoizedAndDeduplicated)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.DoublingCteGraphIsMemoizedAndDeduplicated @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:156"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2883,7 +2865,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:129",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59 (RecursiveCte_DoesNotLoopForever)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RecursiveCte_DoesNotLoopForever @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:59"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2898,7 +2880,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:153",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67 (UpdateViaDerivedTable_ResolvesToBaseTable)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaDerivedTable_ResolvesToBaseTable @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:67"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2913,7 +2895,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:163",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76 (UpdateAliasPointingToCte_ResolvesThroughBoth)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateAliasPointingToCte_ResolvesThroughBoth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:76"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2939,7 +2921,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:199",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42 (CteReferencingCte_ResolvesRecursively)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.CteReferencingCte_ResolvesRecursively @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:42"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2952,7 +2934,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/TargetResolver.cs:92",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37 (Case04_InsertTableVariable_IsTempOnly)"
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case04_InsertTableVariable_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:37"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4118,7 +4100,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:88",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137 (Case15_SecondGoBatch_ReportsCorrectLine)"
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case15_SecondGoBatch_ReportsCorrectLine @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4129,7 +4111,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:95",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38 (OnlyTheBrokenBatchIsBlocked)"
+        "SqlSafetyGuard.Tests.RecoveryTests.OnlyTheBrokenBatchIsBlocked @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4140,7 +4122,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:144",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272 (Positions_AreRelativeToAnalyzedText)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Positions_AreRelativeToAnalyzedText @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4157,7 +4139,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:98",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283 (DynamicSqlInsideBatch_ReportedAtExecLine)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlInsideBatch_ReportedAtExecLine @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4168,7 +4150,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:121",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128 (RecoveredFindings_KeepExactPositions)"
+        "SqlSafetyGuard.Tests.RecoveryTests.RecoveredFindings_KeepExactPositions @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4179,7 +4161,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:152",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94 (DbccUsesParsedArgumentsBeyondDisplayTruncation)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.DbccUsesParsedArgumentsBeyondDisplayTruncation @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4912,7 +4894,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:89",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143 (SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SqlCmdDefinitionsDoNotApplyRetroactivelyAndOffsetsStayOriginal @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:143"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4925,7 +4907,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:62",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:285 (SqlCmdScript_ParsesWithoutErrors)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.SqlCmdScript_ParsesWithoutErrors @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:20"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4938,7 +4920,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:96",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4951,8 +4933,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":connect",
       "reviewStatus": "reviewed-table"
@@ -4966,8 +4948,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":ed",
       "reviewStatus": "reviewed-table"
@@ -4981,8 +4963,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":error",
       "reviewStatus": "reviewed-table"
@@ -4997,8 +4979,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":exit",
       "reviewStatus": "reviewed-table"
@@ -5012,8 +4994,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":help",
       "reviewStatus": "reviewed-table"
@@ -5027,8 +5009,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":list",
       "reviewStatus": "reviewed-table"
@@ -5042,8 +5024,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":listvar",
       "reviewStatus": "reviewed-table"
@@ -5057,8 +5039,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":on",
       "reviewStatus": "reviewed-table"
@@ -5072,8 +5054,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:10",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": "!!",
       "reviewStatus": "reviewed-table"
@@ -5087,8 +5069,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":out",
       "reviewStatus": "reviewed-table"
@@ -5102,8 +5084,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":perftrace",
       "reviewStatus": "reviewed-table"
@@ -5117,8 +5099,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":quit",
       "reviewStatus": "reviewed-table"
@@ -5132,8 +5114,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":r",
       "reviewStatus": "reviewed-table"
@@ -5147,8 +5129,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":reset",
       "reviewStatus": "reviewed-table"
@@ -5162,8 +5144,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":serverlist",
       "reviewStatus": "reviewed-table"
@@ -5177,8 +5159,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":setvar",
       "reviewStatus": "reviewed-table"
@@ -5192,8 +5174,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:19",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": "$()",
       "reviewStatus": "reviewed-table"
@@ -5207,8 +5189,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/SqlCmdPreprocessor.cs:16",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137 (UnexpandedSqlCmdExecutionIsNeverGreen)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.UnexpandedSqlCmdExecutionIsNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:137"
       ],
       "member": ":xml",
       "reviewStatus": "reviewed-table"
@@ -5955,7 +5937,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:223",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "CheckpointStatement",
       "reviewStatus": "reviewed-table",
@@ -5970,7 +5952,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/Classifier.cs:222",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16 (CommittedStatementVerdictsMatchCurrentAnalyzer)"
+        "SqlSafetyGuard.Tests.StatementVerdictsTests.CommittedStatementVerdictsMatchCurrentAnalyzer @ tests/SqlSafetyGuard.Tests/StatementVerdictsTests.cs:16"
       ],
       "member": "UpdateStatisticsStatement",
       "reviewStatus": "reviewed-table",
@@ -5987,9 +5969,9 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134 (ProcedureNameInVariable_IsUnknown)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ProcedureNameInVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134",
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6006,9 +5988,9 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1016",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101 (DynamicSqlConcatenatedLiterals_AreAnalyzed)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108 (DynamicSqlWithVariablePart_IsUnknown)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115 (NestedDynamicSql_IsLimitedByDepth)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlConcatenatedLiterals_AreAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlWithVariablePart_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.NestedDynamicSql_IsLimitedByDepth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6032,7 +6014,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:820",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226 (LinkedServerExec_IsUnknown)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6058,7 +6040,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:988",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141 (SchemaQualifiedReadOnlyProc_IsReadOnly)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SchemaQualifiedReadOnlyProc_IsReadOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6071,8 +6053,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:877",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:206 (UnknownProcedure_StaysYellow)",
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120 (Case13_InsertExec_IsUnknown)"
+        "SqlSafetyGuard.Tests.SystemProcedureTests.UnknownProcedure_StaysYellow @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:31",
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case13_InsertExec_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6089,8 +6071,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:842",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86 (SpExecuteSqlWithLiteral_IsAnalyzed)",
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93 (Case10_SpExecuteSqlWithVariable_IsUnknown)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86",
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6104,8 +6086,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1005",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75 (RealWritesAreNeverGreen)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107 (OrdinaryReadsRemainReadOnly)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.RealWritesAreNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.OrdinaryReadsRemainReadOnly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6118,9 +6100,9 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224 (StreamingProcedureIsRedInEveryWrapper)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265 (StreamingParserHotswapIsOnlyAtBatchLevel)",
-        "tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250 (ProcedureTableVerdictsAreIndependentOfNesting)"
+        "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingProcedureIsRedInEveryWrapper @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224",
+        "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingParserHotswapIsOnlyAtBatchLevel @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265",
+        "SqlSafetyGuard.Tests.MetamorphicVerificationTests.ProcedureTableVerdictsAreIndependentOfNesting @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6133,7 +6115,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:870",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84 (ProcedureTrustRequiresResolvedQualification)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6146,8 +6128,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:346",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:337 (ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint)",
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:362 (ModeOff_DollarParenInAString_IsJustAString)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:72",
+        "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_DollarParenInAString_IsJustAString @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:97"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6161,7 +6143,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:351",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:307 (Directives_AreReported)"
+        "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6175,8 +6157,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:70",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:54 (BalancedTransaction_IsGreen)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:62 (NestedTransactions_Balanced)"
+        "SqlSafetyGuard.Tests.TransactionTests.BalancedTransaction_IsGreen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:25",
+        "SqlSafetyGuard.Tests.TransactionTests.NestedTransactions_Balanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:33"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6190,8 +6172,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:86",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:39 (LoneCommit_IsUnknown)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:47 (ExtraCommit_IsUnknown)"
+        "SqlSafetyGuard.Tests.TransactionTests.LoneCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:10",
+        "SqlSafetyGuard.Tests.TransactionTests.ExtraCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:18"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6204,8 +6186,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:157",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:68 (BeginWithoutCommit_ReportsOpenTransaction)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:148 (ImplicitTransactions_LeftOpen_IsReported)"
+        "SqlSafetyGuard.Tests.TransactionTests.BeginWithoutCommit_ReportsOpenTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:39",
+        "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_LeftOpen_IsReported @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:119"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6219,8 +6201,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:910",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:120 (GuardedCommit_IsNotLone)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:127 (XactStateGuard_ClosesTheTransaction)"
+        "SqlSafetyGuard.Tests.TransactionTests.GuardedCommit_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:91",
+        "SqlSafetyGuard.Tests.TransactionTests.XactStateGuard_ClosesTheTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:98"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6233,7 +6215,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:139",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:157 (ImplicitTransactions_Committed_IsFine)"
+        "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_Committed_IsFine @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:128"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6246,8 +6228,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:96 (IfCommitElseRollback_IsBalanced)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:134 (UnguardedIf_StaysConservative)"
+        "SqlSafetyGuard.Tests.TransactionTests.IfCommitElseRollback_IsBalanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:67",
+        "SqlSafetyGuard.Tests.TransactionTests.UnguardedIf_StaysConservative @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:105"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6261,8 +6243,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:95",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:81 (RollbackCloses)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:89 (RollbackToSavepoint_KeepsTransactionOpen)"
+        "SqlSafetyGuard.Tests.TransactionTests.RollbackCloses @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:52",
+        "SqlSafetyGuard.Tests.TransactionTests.RollbackToSavepoint_KeepsTransactionOpen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:60"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6275,7 +6257,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:495",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:165 (TransactionsInBrokenBatch_DontCount)"
+        "SqlSafetyGuard.Tests.TransactionTests.TransactionsInBrokenBatch_DontCount @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:136"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6288,7 +6270,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:550",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160 (PossiblyOpenTransactionsAreReported)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.PossiblyOpenTransactionsAreReported @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6304,7 +6286,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:744",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6331,8 +6313,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1117",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220 (RemoteTargets_AreRealWrite)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35 (UpdateViaAliasOfTemp_IsTempOnly)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RemoteTargets_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaAliasOfTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6358,7 +6340,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:724",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6372,7 +6354,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:677",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:28 (DropStatistics_FollowsTempRules)"
+        "SqlSafetyGuard.Tests.FalseAlarmTests.DropStatistics_FollowsTempRules @ tests/SqlSafetyGuard.Tests/FalseAlarmTests.cs:28"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6385,7 +6367,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:730",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20 (ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution)"
+        "SqlSafetyGuard.Tests.AstOnlyKindTests.ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution @ tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6410,7 +6392,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30 (RemoteSources_AreUnknown)"
+        "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6425,8 +6407,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:769",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147 (InsertExecOfReadOnlyProc_IsTempOnly)",
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:212 (InsertExecOfKnownWriter_IsRed)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.InsertExecOfReadOnlyProc_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147",
+        "SqlSafetyGuard.Tests.SystemProcedureTests.InsertExecOfKnownWriter_IsRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:37"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6440,7 +6422,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1237",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197 (DefinitionAndSecurityChanges_AreRealWrite)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DefinitionAndSecurityChanges_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6455,7 +6437,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1192",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180 (TableDdlAndTruncate)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6470,8 +6452,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1184",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65 (Case07_OutputIntoPermanentTable_IsRealWrite)",
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83 (NestedModificationOutputIsAlsoClassified)"
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case07_OutputIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6485,8 +6467,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:179",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232 (ParseErrorInOneBatch_OtherBatchesStillAnalyzed)",
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126 (UnparseableDynamicSql_IsUnknown)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ParseErrorInOneBatch_OtherBatchesStillAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232",
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UnparseableDynamicSql_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6511,7 +6493,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:517",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:340 (EarlyReturnPreservesContinuingTransactionPaths)"
+        "SqlSafetyGuard.Tests.AnalysisResourceTests.EarlyReturnPreservesContinuingTransactionPaths @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:125"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6522,7 +6504,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1035",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RecoveryTests.cs:232 (AllRowsSummary_DescribesTheActualChange)"
+        "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6537,8 +6519,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:598",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57 (Case06_SelectIntoPermanentTable_IsRealWrite)",
-        "tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20 (Case02_SelectIntoTempThenDeleteTemp_IsTempOnly)"
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case06_SelectIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57",
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case02_SelectIntoTempThenDeleteTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6552,7 +6534,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:648",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15 (SwitchClassifiesBothTables)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.SwitchClassifiesBothTables @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6565,8 +6547,8 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:437",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99 (TargetSwitchesDisableContextualTrust)",
-        "tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222 (FederationSwitchInvalidatesTargetContext)"
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.TargetSwitchesDisableContextualTrust @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99",
+        "SqlSafetyGuard.Tests.EnvironmentRuleTests.FederationSwitchInvalidatesTargetContext @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6579,7 +6561,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:719",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186 (TemporaryProcedureDefinitionsDoNotExecuteBodies)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.TemporaryProcedureDefinitionsDoNotExecuteBodies @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6593,7 +6575,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:521",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6607,7 +6589,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:525",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177 (TransactionUncertaintyIsNotGreen)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6620,7 +6602,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:541",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/CoverageFixTests.cs:113 (CommitInCatch_AfterTryOpened_IsNotLone)"
+        "SqlSafetyGuard.Tests.TransactionTests.CommitInCatch_AfterTryOpened_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6636,7 +6618,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:592",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31 (WaitForPreservesInnerStatementVerdict)"
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.WaitForPreservesInnerStatementVerdict @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6649,7 +6631,7 @@
       ],
       "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:509",
       "existingTests": [
-        "tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153 (WhileAndTryCatch_AreWalked)"
+        "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.WhileAndTryCatch_AreWalked @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153"
       ],
       "reviewStatus": "reviewed-semantic"
     },

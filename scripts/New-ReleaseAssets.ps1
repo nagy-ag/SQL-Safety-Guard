@@ -54,9 +54,9 @@ try {
     }
     if (-not $MSBuildPath -or -not (Test-Path -LiteralPath $MSBuildPath -PathType Leaf)) { throw 'Visual Studio MSBuild was not found.' }
 
-    & dotnet test tests\SqlSafetyGuard.Tests
-    Assert-NativeSuccess 'Unit tests'
-    & $MSBuildPath SqlSafetyGuard.sln /restore /t:Rebuild /p:Configuration=Release /nologo /verbosity:minimal
+    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot 'Verify-Offline.ps1')
+    Assert-NativeSuccess 'Offline repository verification'
+    & $MSBuildPath SqlSafetyGuard.sln /restore /t:Rebuild /p:RestoreLockedMode=true /p:Configuration=Release /nologo /verbosity:minimal
     Assert-NativeSuccess 'Release build'
     if (-not $SkipUiChecks) {
         foreach ($scriptName in @('PaneInteractionTests.ps1', 'ConfirmationInteractionTests.ps1', 'SettingsInteractionTests.ps1')) {

@@ -1,7 +1,12 @@
-param([string]$Server='.\SQLEXPRESS',[string]$MSBuild='C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe')
+param([string]$Server='.\SQLEXPRESS',[string]$MSBuild,[string[]]$ExpectedBlockedScenarios=@())
 $ErrorActionPreference='Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 . "$repo\scripts\SsmsCommon.ps1"
+if (-not $MSBuild) {
+    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+    $MSBuild = & $vswhere -latest -prerelease -products '*' -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+    if ($LASTEXITCODE -ne 0 -or -not $MSBuild) { throw 'Visual Studio MSBuild discovery failed; supply -MSBuild.' }
+}
 $ssms = Get-Ssms22
 $suffix = 'SgExt' + [guid]::NewGuid().ToString('N').Substring(0,12)
 $database = 'SgExt_' + $suffix.Substring(5)
@@ -65,7 +70,7 @@ try {
     Send-Channel dismisswelcome
     Send-Channel document SgExtA.sql
     Send-Channel execute Query.Execute
-    & "$PSScriptRoot\Run-Checks.ps1" -ChannelDirectory $directory -SsmsProcessId $process.Id -Database $database -Server $Server
+    & "$PSScriptRoot\Run-Checks.ps1" -ChannelDirectory $directory -SsmsProcessId $process.Id -Database $database -Server $Server -ExpectedBlockedScenarios $ExpectedBlockedScenarios
     Write-Host "Evidence: $directory"
 } catch {
     if (Get-Command Get-OwnWindows -ErrorAction SilentlyContinue) {

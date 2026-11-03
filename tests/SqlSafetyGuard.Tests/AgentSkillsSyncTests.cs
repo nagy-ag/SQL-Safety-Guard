@@ -1,12 +1,12 @@
 namespace SqlSafetyGuard.Tests;
 
 /// <summary>
-/// .agents/skills is the cross-agent original; Claude Code only reads .claude/skills, which must stay an identical copy.
+/// .agents/skills is the original; the Claude-compatible .claude/skills mirror must stay identical.
 /// </summary>
 public class AgentSkillsSyncTests
 {
-    private static readonly string Original = Path.Combine(RuleInventoryTests.Root, ".agents", "skills");
-    private static readonly string ClaudeCopy = Path.Combine(RuleInventoryTests.Root, ".claude", "skills");
+    private static readonly string Original = Path.Combine(TestRepository.Root, ".agents", "skills");
+    private static readonly string ClaudeCopy = Path.Combine(TestRepository.Root, ".claude", "skills");
 
     [Fact]
     public void ClaudeSkillsAreAnIdenticalCopyOfAgentSkills()

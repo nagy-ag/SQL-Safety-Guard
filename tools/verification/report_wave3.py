@@ -5,11 +5,10 @@ import json
 import re
 from pathlib import Path
 
-from generate_inventory import apply_file
+from artifact_io import write_generated, new_report_directory
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = ROOT / 'tests/SqlSafetyGuard.ServerHarness/Campaign/cases'
-DOCS = ROOT / 'docs/history/wave3'
 WAVE2 = ROOT / 'docs/history/wave2'
 
 
@@ -39,7 +38,9 @@ def excerpt(value):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--artifacts', type=Path, default=ROOT.parent / 'harness-out/campaign')
+    parser.add_argument("--output", type=Path, required=True, help="New external directory; never overwrite snapshots")
     args = parser.parse_args()
+    destination = new_report_directory(args.output, ROOT)
     artifact_root = args.artifacts.resolve()
     runs = ['wave3-host-final', 'wave3-host-replay', 'wave3-isolated-final',
             'wave3-supplement', 'wave3-resolution-replay', 'wave3-final-replay']
@@ -80,7 +81,7 @@ def main():
         note = entry['note'] if not candidates else '; '.join(failures) or 'Tagged executable contrast; review SQL and verdict in durable receipt.'
         rules.append(dict(ruleId=identity, executed=good, limitation=excerpt(note)))
         rule_lines.append('| `' + identity + '` | ' + (', '.join('`' + item['caseId'] + '` (' + item['outcome'] + ')' for item in good) or '**none**') + ' | ' + cell(note) + ' |')
-    apply_file(DOCS / 'rule-coverage-wave3.md', '\n'.join(rule_lines) + '\n')
+    write_generated(destination / 'rule-coverage-wave3.md', '\n'.join(rule_lines) + '\n')
     feature_path = artifact_root / 'wave3-features-final/isolated-results.json'
     feature_results = read_json(feature_path).get('Results', []) if feature_path.exists() else []
     feature_latest = {row['Id']: row for row in feature_results}
@@ -119,7 +120,7 @@ def main():
         selected[identity] = (run, result)
         if result['Outcome'] in ['NOT EXECUTABLE', 'TIMEOUT', 'CRASH', 'WRONG TARGET', 'FALSE GREEN', 'OBSERVATION GAP', 'UNRESOLVED TARGET']:
             gap_lines.append('| `' + identity + '` | ' + result['Outcome'] + ' | ' + cell('; '.join(result.get('Errors', [])) or result.get('Stage')) + ' | `' + cell(case['sql']).replace('`', '') + '` |')
-    apply_file(DOCS / 'gaps-wave3.md', '\n'.join(gap_lines) + '\n')
+    write_generated(destination / 'gaps-wave3.md', '\n'.join(gap_lines) + '\n')
     counts = {}
     for label, corpus in [('focused', focused), ('independent', independent)]:
         counts[label] = dict(collections.Counter(result['Outcome'] for identity, (_, result) in selected.items() if identity in corpus))
@@ -132,7 +133,7 @@ def main():
                    originalStatementGaps=len(kind_rows), statementKindsLive=sum(row['live'] for row in kind_rows),
                    counts=counts, independentOffline=offline_summary, rules=rules, statementKinds=kind_rows,
                    cases=[dict(caseId=identity, run=run, outcome=row['Outcome'], errors=[excerpt(error) for error in row.get('Errors', [])], isolationVerified=row.get('IsolationVerified')) for identity, (run, row) in sorted(selected.items())])
-    apply_file(DOCS / 'validation-wave3.json', json.dumps(metrics, indent=2) + '\n')
+    write_generated(destination / 'validation-wave3.json', json.dumps(metrics, indent=2) + '\n')
     print(json.dumps({key: value for key, value in metrics.items() if key not in ['rules', 'statementKinds', 'cases']}, indent=2))
 
 
