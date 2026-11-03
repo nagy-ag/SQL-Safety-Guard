@@ -33,6 +33,14 @@ description: Use before changing or testing the SQL Safety Guard SSMS 22 extensi
 - Debug and Release builds succeed (Visual Studio MSBuild for the VSIX) and `dotnet test tests\SqlSafetyGuard.Tests` passes.
 - Guard behaviour changes get a test in `GuardExecutionContractTests` / `GuardUiContractTests` or an extension check.
 
+## Uninstall command
+
+The Tools menu command hands off to the local SSMS VSIXInstaller after a No-default confirmation. Bind the running host's
+installation ID, root suffix and loaded per-user extension path; refuse mismatches and all-users manual copies. Do not
+disable the guard, delete loaded files, elevate or force-close SSMS. Opening the installer is not proof of completed removal.
+Validate cancellation and target/profile refusal offline, then check the real command/installer only in an owned isolated
+profile. SQL is unnecessary for uninstall acceptance; preserve other profiles and restore any replaced test installation.
+
 ## Theme capture without executing SQL
 
 Use [the capture runbook](../../../docs/verification/extension/theme-capture.md) for commands, channel receipts,

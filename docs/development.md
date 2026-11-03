@@ -35,6 +35,10 @@ dotnet test tests\SqlSafetyGuard.Tests
 
 (`dotnet build` can build the analyzer and tests but not the VSIX project, which needs Visual Studio's MSBuild.)
 
+After changing the extension version, use **Rebuild Solution** or add `/t:Rebuild` to MSBuild. An incremental VSSDK build
+can retain an old generated `extension.vsixmanifest` even when the assembly version changes. Check the manifest inside
+the VSIX; the release script already rebuilds and rejects a mismatched version.
+
 To intentionally change dependencies, review project changes, run restore without locked mode to refresh the affected
 packages.lock.json files, review that diff and run the required checks. Do not delete lock files to bypass a failed gate.
 

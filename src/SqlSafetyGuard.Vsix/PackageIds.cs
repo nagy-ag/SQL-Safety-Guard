@@ -23,6 +23,7 @@ namespace SqlSafetyGuard
         public const int EditAllowListCommand = 0x0105;
         public const int EditTrustedProceduresCommand = 0x0106;
         public const int EditEnvironmentRulesCommand = 0x0107;
+        public const int UninstallCommand = 0x0108;
     }
 
     /// <summary>SSMS SQL editor command identifiers (from SQLEditors.dll's command table, SSMS 22).</summary>

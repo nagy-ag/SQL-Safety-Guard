@@ -53,7 +53,7 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 | Path | What it is |
 |---|---|
 | `src/SqlSafetyGuard.Analyzer` | netstandard2.0 analyzer on Microsoft ScriptDom. `SqlSafetyAnalyzer` entry, `StatementWalker` (dispatch, transactions, row filters), `Classifier` (procedure/DBCC/SET tables), `TargetResolver` (aliases/CTEs), `Scope` (text/position mapping), `SideEffectScanner`, `AllowList`, `EnvironmentRules`, pure guard policy types, `AnalysisWork` (limits) |
-| `src/SqlSafetyGuard.Vsix` | The SSMS extension (net472): `Guard` (F5 interception, execution-target binding), `UI` (pane, dialog), `Services`, `Options` |
+| `src/SqlSafetyGuard.Vsix` | The SSMS extension (net472): `Guard` (F5 interception, execution-target binding), `UI` (pane, dialog), `Commands` (query/settings/local uninstall), `Services`, `Options` |
 | `tests/SqlSafetyGuard.Tests` | Unit, regression, generated-doc and docs-index tests |
 | `tests/SqlSafetyGuard.ServerHarness` | Executes cases on a disposable server and compares the verdict with what really changed |
 | `tests/SqlSafetyGuard.ExtensionChecks` | Checks against a running SSMS (which window executes, which commands are intercepted) |

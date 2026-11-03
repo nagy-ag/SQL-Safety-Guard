@@ -8,14 +8,18 @@ in this repository or in GitHub release assets.
 
 Keep the VSIX manifest (`src/SqlSafetyGuard.Vsix/source.extension.vsixmanifest`, `MAJOR.MINOR.PATCH`),
 `src/SqlSafetyGuard.Vsix/Properties/AssemblyInfo.cs` and `src/SqlSafetyGuard.Analyzer/SqlSafetyGuard.Analyzer.csproj`
-(`MAJOR.MINOR.PATCH.0`), and the newest `CHANGELOG.md` heading equal. `VersionConsistencyTests` enforces this.
+(`MAJOR.MINOR.PATCH.0`) equal. `VersionConsistencyTests` enforces this. Release notes live on GitHub; there is no separate
+changelog file.
 
 - **Patch** (1.0.1): fixes that change no colour.
-- **Minor** (1.1.0): a colour change or new feature. Colour changes have their own changelog section.
+- **Minor**: a colour change or new feature. Explain colour changes explicitly in release notes.
 - **Major** (2.0.0): changes users must relearn.
 
-Versions must increase for upgrades. A pre-release uses the real numeric version; it has no manifest suffix.
-Keep 1.0.0 marked unreleased during preparation. Finish the changelog date when publication is authorized.
+Versions normally increase for upgrades. A pre-release uses the real numeric version; it has no manifest suffix.
+The owner explicitly requested replacing the initial 1.0.0 package with the uninstall-capable build while retaining 1.0.0.
+Back up the old tag/release/assets outside the repository, validate the new committed build before deletion, and replace
+only the authorized tag/release. Record both source identities and checksums in the publication evidence. Existing users
+must uninstall/reinstall a same-version replacement; the manifest version alone cannot distinguish the packages.
 
 ## Build the assets
 
@@ -57,7 +61,7 @@ The script never signs, tags, uploads or creates a release. Never commit these f
    to capture the pane, real dialog previews, integrated settings and toolbar without input or SQL execution.
    See the extension UI skill for the command, stored theme values and restoration checks.
 2. When publication is requested, tag the committed source `v<version>`, push it, and attach the script's three unsigned
-   assets and the changelog notes. Normally create a **pre-release** for acceptance. If the owner explicitly requests
+   assets and concise product/validation notes. Normally create a **pre-release** for acceptance. If the owner explicitly requests
    stable publication, create a full release and mark it latest, stating the validation performed and any acceptance
    checks not repeated. Stable publication does not imply a fresh live SSMS/server campaign.
 3. The owner downloads the package and checks its hash. On their company computer they may sign a copy using

@@ -25,6 +25,9 @@ the VSIX; dotnet builds the offline projects. See [development.md](development.m
 - `EnvironmentRules` matches caller-supplied labels. `GuardSettings`, `ExecutionMode` and `GuardDecision` are pure policy types
   in the analyzer assembly so policy can be tested without SSMS. Legacy typed-confirmation inputs remain accepted and ignored.
 - VSIX `UI` owns the pane/dialogs, `Guard` intercepts execution, `Services` adapts host capabilities, and `Options` persists settings.
+- `Commands/UninstallCommand` confirms and hands off to the local SSMS installer. `Services/ExtensionUninstallPlan` binds
+  the running host's isolation ID, command-line suffix and loaded per-user extension path before constructing fixed uninstall
+  arguments. It has no query/guard/settings dependency; mismatched or administrator-managed installs are refused.
 - Debug-only pane partials contain capture/test hooks. They are excluded from Release behavior.
 
 ## Representative flows

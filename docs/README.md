@@ -24,7 +24,7 @@ a wave number in their name are snapshots and live in [history/](history/README.
 | [verification/extension/theme-capture.md](verification/extension/theme-capture.md) | Isolated visual capture, receipts, restoration checks and theme values; no SQL. | Living, hand-written |
 | [release-acceptance.md](release-acceptance.md) | The latest release acceptance (build, install, theme checks). | Replaced at each release |
 
-The changelog is [../CHANGELOG.md](../CHANGELOG.md).
+Release downloads and their notes are on [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
 
 Machine-readable companions sit next to their page: `verification/rules/` (`rules.json`, `rule-test-map.json`,
 `rule-id-migrations.json`, `semantic-rules.tsv`). Dated extension TSV/JSON evidence is preserved under history/.

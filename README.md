@@ -51,13 +51,15 @@ that command is unguarded. See the [limitations](docs/user-guide.md#limitations)
 
 GitHub packages are unsigned. The [user guide](docs/user-guide.md) covers scripts, upgrades and uninstalling.
 
+To uninstall a per-user installation, choose **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**, confirm,
+then save your work and close SSMS when its installer asks. All-users installations are removed by IT.
+
 ## Documentation
 
 - [User guide](docs/user-guide.md): use the pane, try examples, shortcuts and settings.
 - [IT deployment](docs/it-deployment.md): installation for a team.
 - [Development](docs/development.md): build, debug, implementation and limitations.
 - [Verification status](docs/verification/status.md): evidence, coverage and open questions.
-- [Changelog](CHANGELOG.md): changes in each release.
 - [All documentation](docs/README.md): current documents and historical reports.
 
 ## License

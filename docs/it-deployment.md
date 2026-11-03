@@ -9,8 +9,8 @@ administrator rights (see [user-guide.md](user-guide.md)); pick one of the two p
 - **It never executes SQL**, opens no connections of its own, makes **no network calls** and has **no telemetry**. Query text
   never leaves the machine. Settings are stored in the user's SSMS settings.
 - It is a safety net against mistakes, **not a security boundary**; database permissions remain the real protection.
-- The package is **not code-signed** yet. If application control requires signed packages, it must be allowed explicitly
-  until a signed release is available.
+- GitHub packages are **unsigned**. If application control requires a signature, IT can sign and validate an internal copy
+  on the company computer; see [vsix-signing.md](vsix-signing.md). Keep its checksum separate from the GitHub package.
 
 ## Requirements
 
@@ -48,11 +48,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\uninstall.ps1
 
 This removes the all-users copy and, for the account running it, any per-user install.
 
+Per-user VSIX installations also offer **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**.
+The command confirms first, then opens the adjacent SSMS VSIXInstaller for the running instance/profile. Users save work
+and close SSMS when prompted; it does not elevate, delete loaded files or disable the query guard. It refuses all-users
+manual copies and unrecognized paths with administrator guidance. Keep using the elevated script for all-users removal.
+
 ## Rules
 
 - **Do not combine** an all-users install with a per-user install on the same laptop. If a user already installed it for
-  themselves, have them uninstall it first (SSMS > Extensions > Manage Extensions).
+  themselves, have them uninstall it first (the in-extension command, or the uninstall script with SSMS closed).
 - Keep the previous `.vsix` until the new version is confirmed working, so you can reinstall it.
+- The owner replaced the original 1.0.0 package while retaining its version. For a laptop with that older package,
+  uninstall/reinstall rather than relying on same-version upgrade detection; identify the replacement by its checksum.
 
 ## Checks after install
 

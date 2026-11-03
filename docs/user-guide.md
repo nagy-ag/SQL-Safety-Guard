@@ -229,14 +229,29 @@ built-in lists. An unrelated `OtherDb.custom.sp_executesql` is an ordinary unkno
 
 ## Uninstall
 
-Close SSMS, then:
+For a per-user VSIX installation, choose **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**.
+Choose **Yes** to open SSMS's interactive uninstaller; **No** is the default and leaves everything unchanged.
+Save your work and close SSMS when the installer asks, then finish removal there. Opening the installer alone does not
+mean removal succeeded. The command does not disable the query guard. It targets the running SSMS installation
+and profile, including an isolated `/rootSuffix` profile.
+
+All-users installations made with `install.ps1 -Copy` show instructions to contact IT instead. An ambiguous installation
+or profile is refused. No loaded extension files are deleted by the command.
+
+If SSMS cannot load the extension, close SSMS and run the script from the optional scripts download:
 
 ```powershell
 .\uninstall.ps1
 ```
 
 This runs `VSIXInstaller /uninstall:SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558` for the SSMS instance and
-removes any `-Copy` install folder. Alternatively, use **Extensions > Manage Extensions** in SSMS.
+removes any `-Copy` install folder. Run it elevated for an all-users copy. The script discovers an SSMS instance and targets
+its default profile; unlike the in-extension command, it does not target an experimental profile. IT should remove an
+isolated install with `VSIXInstaller /instanceIds:<id> /rootSuffix:<suffix> /uninstall:<extension-id>` for that exact profile.
+The [GitHub Releases page](https://github.com/nagy-ag/SQL-Safety-Guard/releases) supplies the optional scripts download.
+
+If you installed the earlier 1.0.0 package without this menu command, uninstall that copy using the script, then install the
+replacement 1.0.0 VSIX. Packages with the same version are not a normal in-place upgrade; compare their published checksums.
 
 ## Share settings with colleagues
 

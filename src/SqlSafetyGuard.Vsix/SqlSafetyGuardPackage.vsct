@@ -11,6 +11,9 @@
       <Group guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" priority="0x0100">
         <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" />
       </Group>
+      <Group guid="guidSqlSafetyGuardCmdSet" id="MaintenanceMenuGroup" priority="0x0200">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" />
+      </Group>
       <!-- SSMS "SQL Editor" toolbar, right after the Execute group (IDG_SQLWB_QUERY_EXEC_TOOLBAR = 0x0300) -->
       <Group guid="guidSqlSafetyGuardCmdSet" id="SqlEditorToolbarGroup" priority="0x0350">
         <Parent guid="guidSsmsQueryEditorGroup" id="IDM_SQLWB_TOOL_QUERY" />
@@ -25,6 +28,16 @@
     </Menus>
 
     <Buttons>
+      <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidUninstall" priority="0x0100" type="Button">
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="MaintenanceMenuGroup" />
+        <Strings>
+          <ButtonText>Uninstall SQL Safety Guard...</ButtonText>
+          <ToolTipText>Open the SSMS uninstaller for this installation and profile</ToolTipText>
+          <CommandName>UninstallSafetyGuard</CommandName>
+          <CanonicalName>.SqlSafetyGuard.Uninstall</CanonicalName>
+          <LocCanonicalName>.SqlSafetyGuard.Uninstall</LocCanonicalName>
+        </Strings>
+      </Button>
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidAnalyzeQuery" priority="0x0100" type="Button">
         <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="SQLQueryChecked" />
@@ -102,6 +115,7 @@
 
     <GuidSymbol name="guidSqlSafetyGuardCmdSet" value="{84195f28-a147-4898-bcad-b1ad3c744ae2}">
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
+      <IDSymbol name="MaintenanceMenuGroup" value="0x1023" />
       <IDSymbol name="SqlSafetyGuardMenu" value="0x1022" />
       <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
       <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />
@@ -112,6 +126,7 @@
       <IDSymbol name="cmdidEditAllowList" value="0x0105" />
       <IDSymbol name="cmdidEditTrustedProcedures" value="0x0106" />
       <IDSymbol name="cmdidEditEnvironmentRules" value="0x0107" />
+      <IDSymbol name="cmdidUninstall" value="0x0108" />
     </GuidSymbol>
 
     <!-- SSMS 22 SQLEditors.dll command table (decompiled with vsct.exe): toolbar "SQL Editor" -->

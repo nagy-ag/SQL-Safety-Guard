@@ -131,6 +131,7 @@ namespace SqlSafetyGuard
 
                 AnalyzeQueryCommand.Initialize(this, commandService);
                 SettingsCommands.Initialize(this, commandService);
+                UninstallCommand.Initialize(this, commandService);
                 Options.Changed += (s, e) =>
                 {
                     RefreshHealth();

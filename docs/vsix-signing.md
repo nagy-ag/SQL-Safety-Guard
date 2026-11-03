@@ -1,9 +1,9 @@
 # Signing the VSIX on a company laptop
 
-GitHub releases are always unsigned. The owner downloads an unsigned pre-release, checks its checksum, and may
+GitHub releases are always unsigned. The owner downloads the unsigned release, checks its checksum, and may
 sign a copy on their own company computer before trying it. Signing never happens in this repository or on GitHub;
-never upload the signed copy or private key to the GitHub release. After acceptance the owner marks the unsigned
-GitHub package as the full latest release. See [release-process.md](release-process.md).
+never upload the signed copy or private key to the GitHub release. An internal signed copy has its own checksum and
+distribution record, independent of whether GitHub marks the release stable or prerelease. See [release-process.md](release-process.md).
 
 The company signing computer needs Sign CLI, its prerequisites, and access to the signing private key. It does
 not need source code or Visual Studio build workloads. SSMS 22 is needed for the signed-copy installation check.
@@ -90,10 +90,10 @@ replaced.
 
 ## For each release
 
-### 1. Download the unsigned pre-release on the company computer
+### 1. Download the unsigned release on the company computer
 
 Follow [release-process.md](release-process.md). Download `SqlSafetyGuard-<version>.vsix` and `SHA256SUMS.txt`
-from the GitHub pre-release. Compare the VSIX SHA-256 with the checksum before signing. For an independently
+from GitHub Releases. Compare the VSIX SHA-256 with the checksum before signing. For an independently
 authenticated comparison, convey the expected hash through an authenticated company channel too.
 
 Copy the downloaded file to an `unsigned` staging folder as `SqlSafetyGuard-<version>-unsigned.vsix`. Keep its

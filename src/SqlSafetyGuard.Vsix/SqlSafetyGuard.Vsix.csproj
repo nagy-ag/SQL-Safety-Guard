@@ -53,6 +53,7 @@
     <Compile Include="SqlSafetyGuardPackage.cs" />
     <Compile Include="Commands\AnalyzeQueryCommand.cs" />
     <Compile Include="Commands\SettingsCommands.cs" />
+    <Compile Include="Commands\UninstallCommand.cs" />
     <Compile Include="Guard\EnsureGuardLoadedListener.cs" />
     <Compile Include="Guard\ExecuteGuard.cs" />
     <Compile Include="Options\GeneralOptionsPage.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Services\AnalysisRunner.cs" />
     <Compile Include="Services\ConnectionInfoReader.cs" />
     <Compile Include="Services\ExecutionTarget.cs" />
+    <Compile Include="Services\ExtensionUninstallPlan.cs" />
     <Compile Include="Services\OutputLog.cs" />
     <Compile Include="Services\QuerySnapshot.cs" />
     <Compile Include="Services\SqlCmdModeReader.cs" />
