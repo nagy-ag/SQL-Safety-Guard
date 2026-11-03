@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-03 | [runs/2026-11-03-stable-publication.md](runs/2026-11-03-stable-publication.md) | Stable v1.0.0 published, prior prerelease removed, downloads hash-verified and remote CI passed. |
 | 2026-11-03 | [runs/2026-11-03-publication-preparation.md](runs/2026-11-03-publication-preparation.md) | Stable 1.0.0 publication authorized; offline preflight passed; unsigned artifacts built subsequently from committed source. |
 | 2026-11-03 | [runs/2026-11-03-verification-cleanup.md](runs/2026-11-03-verification-cleanup.md) | Removed obsolete command aliases/stub, simplified cosmetic UI assertions, retained safety tests; offline validation only. |
 | 2026-11-03 | [runs/2026-11-03-repository-maintenance.md](runs/2026-11-03-repository-maintenance.md) | Repository/tooling maintenance, offline validation and production access boundary; no SQL or live SSMS execution. |

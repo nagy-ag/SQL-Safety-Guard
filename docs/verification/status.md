@@ -1,6 +1,6 @@
 # Verification status
 
-Updated **2026-11-03** for 1.0.0 publication preparation after repository maintenance and verification cleanup.
+Updated **2026-11-03** after stable 1.0.0 publication, repository maintenance and verification cleanup.
 The maintenance reports identify the working tree based on `0dbe4b4`; published source is identified by the `v1.0.0` tag.
 The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
 queries no server metadata; it only reads text/options and existing SSMS labels.
@@ -16,6 +16,7 @@ This maintenance run executes no SQL and supplies no fresh evidence of live SSMS
 
 | Component | Evidence and identity | Establishes | Limits |
 |---|---|---|---|
+| Published stable 1.0.0 | [Publication record](../history/runs/2026-11-03-stable-publication.md), source `98aebf6`, tag `v1.0.0`: full offline gate, Release rebuild, 32 UI checks, package validation and both GitHub CI runs passed | Exact unsigned release assets validated and fresh GitHub downloads matched all three hashes; prior prerelease removed | No new live SSMS/server campaign or full-theme review; documentation-only publication record follows the release source |
 | 1.0.0 publication preflight | [November 3 preparation](../history/runs/2026-11-03-publication-preparation.md): 1,592 .NET tests, 10 Python tests and 527 generated rules current | Offline source validation before committing and building release assets | Final package validation is recorded with GitHub release assets; no new live SSMS/server campaign |
 | Current verification cleanup | [November 3 cleanup](../history/runs/2026-11-03-verification-cleanup.md): 1,592 .NET tests, 10 Python tests and 527 generated rules current | Maintained launcher callers and retained safety/interaction contracts after removing cosmetic constraints | Uncommitted working tree; no fresh VSIX build, server or live SSMS execution |
 | Repository maintenance | [November 3 maintenance](../history/runs/2026-11-03-repository-maintenance.md): 1,592 .NET tests, 10 Python tests, both builds and 32 UI interaction checks | Source organization, tool contracts, generated references and production access-boundary checks | Earlier working tree; production source unchanged by subsequent verification cleanup |
@@ -47,7 +48,8 @@ history, campaign exclusions and observation gaps. Reports describe their record
    until the owner decides. This work does not relabel or relax them. Typed confirmation stays disabled.
 4. New freeze/launcher execution needs a clean reviewed checkout and an explicitly authorized disposable environment.
    No existing scheduled task or external frozen bundle was changed.
-5. CI configuration is added but has not run remotely. VSIX build/interaction checks remain a separate local gate.
+5. GitHub offline CI passed for both the source push and `v1.0.0` tag at `98aebf6`. Release build/interaction and package
+   validation passed locally; these do not establish live SSMS execution behavior.
 
 For offline commands and evidence levels see [how-to.md](how-to.md). For execution entry points and prerequisites see
 [the tooling map](../../tools/verification/README.md). For all current documents see [docs/README.md](../README.md).
