@@ -96,7 +96,7 @@ namespace SqlSafetyGuard.Services
 #endif
                     CheckView(manager, view, editor, problems);
                 }
-                target.SqlCmdMode = Property(editor, "IsSqlCmdModeEnabled") as bool?;
+                target.SqlCmdMode = TargetSqlCmdModeReader.TryRead(editor);
                 if (!target.SqlCmdMode.HasValue) problems.Add("The target editor's SQLCMD mode is unavailable.");
                 var connections = Property(editor, "ConnectionInfoList") as ICollection;
                 if (connections == null || connections.Count != 1) problems.Add("A single target connection could not be verified.");

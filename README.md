@@ -1,6 +1,6 @@
 # SQL Safety Guard for SSMS 22
 
-SQL Safety Guard checks T-SQL **before it runs** in SQL Server Management Studio 22.11.
+SQL Safety Guard checks T-SQL **before it runs** in SQL Server Management Studio **22.0 and later 22.x releases**.
 It shows whether a query reads data, touches temporary objects, or changes permanent data.
 The extension never executes SQL itself or sends your queries elsewhere.
 
@@ -44,6 +44,9 @@ If an SSMS change prevents the guard attaching to the execution command at all,
 that command is unguarded. See the [limitations](docs/user-guide.md#limitations).
 
 ## Install
+
+Requires 64-bit SSMS 22.x. Focused compatibility checks covered representative builds from 22.0 through 22.11;
+individual patches and future major versions are not all tested. See the [verification status](docs/verification/status.md).
 
 1. Download the VSIX from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
 2. Close SSMS, unblock the download in Properties if needed, and double-click the VSIX.

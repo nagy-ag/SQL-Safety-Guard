@@ -148,13 +148,13 @@
                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
                 <Grid x:Name="CollapsedRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,0,6">
-                    <Ellipse x:Name="CollapsedRedDot" />
+                    <Ellipse x:Name="CollapsedRedDot" StrokeThickness="0" />
                     <Viewbox Margin="2" StretchDirection="DownOnly">
                         <TextBlock x:Name="CollapsedRedCount" FontWeight="Bold" />
                     </Viewbox>
                 </Grid>
                 <Grid x:Name="CollapsedYellow" Width="20" Height="20" Visibility="Collapsed">
-                    <Ellipse x:Name="CollapsedYellowDot" />
+                    <Ellipse x:Name="CollapsedYellowDot" StrokeThickness="0" />
                     <Viewbox Margin="2" StretchDirection="DownOnly">
                         <TextBlock x:Name="CollapsedYellowCount" FontWeight="Bold" />
                     </Viewbox>
@@ -176,8 +176,8 @@
                     </Border>
                     <StackPanel x:Name="HeaderCounts" DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,7,0">
                         <Grid x:Name="HeaderStatus" Width="20" Height="20"><Ellipse x:Name="HeaderDot" Fill="Gray" /><TextBlock x:Name="HeaderGlyph" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Grid>
-                        <Grid x:Name="HeaderRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,4,0"><Ellipse x:Name="HeaderRedDot" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderRedCount" Foreground="White" FontWeight="Bold" /></Viewbox></Grid>
-                        <Grid x:Name="HeaderYellow" Width="20" Height="20" Visibility="Collapsed"><Ellipse x:Name="HeaderYellowDot" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderYellowCount" Foreground="Black" FontWeight="Bold" /></Viewbox></Grid>
+                        <Grid x:Name="HeaderRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,4,0"><Ellipse x:Name="HeaderRedDot" StrokeThickness="0" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderRedCount" Foreground="White" FontWeight="Bold" /></Viewbox></Grid>
+                        <Grid x:Name="HeaderYellow" Width="20" Height="20" Visibility="Collapsed"><Ellipse x:Name="HeaderYellowDot" StrokeThickness="0" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderYellowCount" Foreground="Black" FontWeight="Bold" /></Viewbox></Grid>
                     </StackPanel>
                     <Grid VerticalAlignment="Center">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>

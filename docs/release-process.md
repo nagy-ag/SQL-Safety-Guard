@@ -16,6 +16,9 @@ changelog file.
 - **Major** (2.0.0): changes users must relearn.
 
 Versions normally increase for upgrades. A pre-release uses the real numeric version; it has no manifest suffix.
+The November 4 SQLCMD compatibility update also retains 1.0.0 at the owner's request. Its locally prepared assets are
+separate from the older published 1.0.0; see [release-acceptance.md](release-acceptance.md). Compatibility wording is
+"SSMS 22.0 and later 22.x releases"; the manifest and release validation use `[22.0,23.0)`, not an unbounded future-major claim.
 The owner explicitly requested replacing the initial 1.0.0 package with the uninstall-capable build while retaining 1.0.0.
 Back up the old tag/release/assets outside the repository, validate the new committed build before deletion, and replace
 only the authorized tag/release. Record both source identities and checksums in the publication evidence. Existing users

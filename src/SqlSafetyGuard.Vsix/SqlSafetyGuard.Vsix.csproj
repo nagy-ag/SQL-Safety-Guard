@@ -65,6 +65,7 @@
     <Compile Include="Services\OutputLog.cs" />
     <Compile Include="Services\QuerySnapshot.cs" />
     <Compile Include="Services\SqlCmdModeReader.cs" />
+    <Compile Include="Services\TargetSqlCmdModeReader.cs" />
     <Compile Include="Services\SqlEditorAccess.cs" />
     <Compile Include="UI\ActiveDocumentWatcher.cs" />
     <Compile Include="UI\ConfirmExecutionDialog.xaml.cs">

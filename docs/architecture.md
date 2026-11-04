@@ -49,9 +49,9 @@ pane state for the captured execution snapshot.
   18.11), 64-bit, running on .NET Framework 4.7.2+. The extension targets **net472**, compiles against
   `Microsoft.VisualStudio.SDK` 17.14 (the shell's binding redirects cover it), and is packaged with
   `Microsoft.VSSDK.BuildTools` 17.14.
-- Manifest target: `<InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,)">` with
-  `ProductArchitecture amd64`. This is the same Id/range Microsoft's own SSMS 22 extensions (SchemaCompare,
-  SqlFormatter, PresenterMode…) use in `<SSMS>\Common7\IDE\Extensions\Microsoft\*\extension.vsixmanifest`.
+- Manifest target: `<InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,23.0)">` with
+  `ProductArchitecture amd64`. It supports SSMS 22.0 and later 22.x releases, with an upper bound before the next
+  major version. Representative-build evidence and coverage limits are in [verification/status.md](verification/status.md).
 - SQL Editor command IDs come from SSMS's own command table (`SQLEditors.dll` → `Menus.ctmenu`, decompiled with
   `vsct.exe`). `Query.Execute` is `{52692960-56BC-4989-B5D3-94C47A513E8D}:1`, the SQL Editor toolbar is
   `{33f13ac3-80bb-4ecb-85bc-225435603a5e}:0x0001`, the "SQL Query Editor" key-binding scope is
@@ -176,8 +176,10 @@ SqlScriptEditorControl, and reads that owner's IVsCodeWindow last-active SQL vie
 the host's GetSelectedTextSpan, both monitor-selection window/document frames, DTE identity and the focused
 IVsTextManager view. A Results text view must resolve to the same SQL owner, not be mistaken for SQL source.
 
-The same owner supplies IsSqlCmdModeEnabled, its single ConnectionInfoList, and the live m_connection's
+The same owner supplies SQLCMD state through `IsSqlCmdModeEnabled` or inherited `IsSqlCmdMode`, its single ConnectionInfoList, and the live m_connection's
 DataSource/Database. These execution fields never fall back to another window's global connection/combo.
+`TargetSqlCmdModeReader` checks both boolean aliases across the captured editor's type hierarchy. Missing, malformed,
+throwing or conflicting properties stay unknown; there is no global active-window fallback or cached cross-window state.
 Manual pane analysis still uses the active-document connection service and may describe a different candidate.
 
 Missing services, unsupported host members, multiple connections or disagreeing sources produce a yellow

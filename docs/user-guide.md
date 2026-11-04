@@ -5,10 +5,18 @@ data. It never runs anything itself and never sends your queries anywhere.
 
 ## Install
 
+Supports **SQL Server Management Studio 22.0 and later 22.x releases**, 64-bit. The package targets SSMS 22.x;
+future major versions require separate verification. Focused checks covered representative 22.0–22.11 builds,
+with the evidence and remaining gaps listed in [verification/status.md](verification/status.md).
+
 Download `SqlSafetyGuard-<version>.vsix` from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
 If Windows blocks the download, right-click it > Properties > Unblock > OK. Close SSMS, then double-click the VSIX.
 The install is per user and needs no administrator. If IT already installed an all-users copy, do not add a second copy.
 To update, install a newer VSIX the same way.
+
+The compatibility update retains version **1.0.0** at the owner's request. An earlier 1.0.0 installation needs
+uninstall/reinstall; compare the release's SHA-256 checksum to identify the package. Preparation of a local package
+does not replace the files on GitHub; use the checksum for the package actually downloaded.
 
 For script installation, download and extract the scripts ZIP from the same release, then provide the package path:
 

@@ -148,7 +148,7 @@ public static class ReleaseAssetBytes {
             $manifest.PackageManifest.Metadata.Identity.Version -ne $version) { throw 'VSIX identity/version mismatch.' }
         $targets = @($manifest.PackageManifest.Installation.InstallationTarget)
         if ($targets.Count -ne 1 -or $targets[0].Id -ne 'Microsoft.VisualStudio.Ssms' -or
-            $targets[0].Version -ne '[22.0,)' -or $targets[0].ProductArchitecture -ne 'amd64') { throw 'Unexpected SSMS installation target.' }
+            $targets[0].Version -ne '[22.0,23.0)' -or $targets[0].ProductArchitecture -ne 'amd64') { throw 'Unexpected SSMS installation target.' }
         if ($manifest.SelectSingleNode('//*[local-name()="License"]')) { throw 'The installer must not require license acceptance.' }
     }
     finally { $archive.Dispose() }

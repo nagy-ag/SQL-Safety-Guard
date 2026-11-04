@@ -19,6 +19,7 @@
     <Compile Include="..\..\src\SqlSafetyGuard.Vsix\Options\SettingsTransfer.cs" Link="SettingsTransfer.cs" />
     <Compile Include="..\..\src\SqlSafetyGuard.Vsix\Services\ExtensionUninstallPlan.cs" Link="ExtensionUninstallPlan.cs" />
     <Using Include="Xunit" />
+    <Compile Include="..\..\src\SqlSafetyGuard.Vsix\Services\TargetSqlCmdModeReader.cs" Link="TargetSqlCmdModeReader.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,13 +3,13 @@
   <Metadata>
     <Identity Id="SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558" Version="1.0.0" Language="en-US" Publisher="SQL Safety Guard" />
     <DisplayName>SQL Safety Guard</DisplayName>
-    <Description xml:space="preserve">Analyzes T-SQL before it runs in SQL Server Management Studio and tells you whether it changes real data or only reads / touches temp objects. Adds an "Analyze Query Safety" command and an F5 guard that prompts before real writes.</Description>
+    <Description xml:space="preserve">Supports SQL Server Management Studio 22.0 and later 22.x releases. Analyzes T-SQL before it runs and tells you whether it changes real data or only reads / touches temp objects. Adds an "Analyze Query Safety" command and an F5 guard that prompts before real writes.</Description>
     <Icon>Resources\Icon.png</Icon>
     <Tags>SSMS, T-SQL, safety, SQL Server</Tags>
   </Metadata>
   <Installation>
     <!-- SSMS 21+ registers as product Microsoft.VisualStudio.Ssms (same id as Microsoft's own SSMS 22 extensions). -->
-    <InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,)">
+    <InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,23.0)">
       <ProductArchitecture>amd64</ProductArchitecture>
     </InstallationTarget>
   </Installation>
