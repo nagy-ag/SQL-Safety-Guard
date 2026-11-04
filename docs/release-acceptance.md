@@ -1,9 +1,10 @@
 # Release 1.0.0 acceptance
 
-Updated **2026-11-04** for the locally prepared **1.0.0 SQLCMD compatibility update**. It supports **SSMS 22.0 and later
-22.x releases**, 64-bit; the manifest is bounded to `[22.0,23.0)`. This package has not been committed, signed, tagged,
-pushed or published. The existing GitHub 1.0.0 remains the older package recorded in the
-[November 3 publication record](history/runs/2026-11-03-replacement-publication.md).
+Updated **2026-11-04** for the published **1.0.0 SQLCMD compatibility update**, source
+`7c036b8b26850d2b44fe7a034c1334327f5b0088`, replacement tag `v1.0.0`. It supports **SSMS 22.0 and later 22.x releases**,
+64-bit, bounded to `[22.0,23.0)`. The owner authorized updating `main` and replacing the previous release. The new
+unsigned stable release is Latest. See the [publication record](history/runs/2026-11-04-ssms-22-publication.md).
+The [November 3 publication](history/runs/2026-11-03-replacement-publication.md) is preserved as historical evidence.
 
 ## Current checks
 
@@ -17,9 +18,11 @@ pushed or published. The existing GitHub 1.0.0 remains the older package recorde
 - Local preflight reused the exact release-script ZIP/CRC, required-file, identity/version/target, unsigned and path-privacy
   validations. Independent binary inspection found the adapter and no SQL client references or checked Debug probe/channel
   methods. All **58 C#/XAML Release source files**, excluding DEBUG branches, match the manually tested visual candidate.
-- Local VSIX SHA-256: `b3ae436bce2e1a21abe348a63256bad9189c638e44864f56512f979cf6a7f8eb`.
+- Published VSIX SHA-256: `944732eba0ff020ed61b5836b939d3e86954b887c550f2926dbbd6b71c0d3c87`.
   Assembly SHA-256: `d0239723debc6cdb419c57c26c12a9cfaf1e27db536f1cc2a873fa5781752451`.
-  The [preparation snapshot](history/runs/2026-11-04-ssms-22-release-preparation.md) identifies source, scripts and packages.
+  The [preparation snapshot](history/runs/2026-11-04-ssms-22-release-preparation.md) identifies the earlier local preflight;
+  its different package hash is not the publication artifact. The official script then passed all checks from clean
+  committed source. GitHub digests and fresh downloads of all three new assets matched the validated local hashes.
 
 ## Scope and retained evidence
 
@@ -36,8 +39,9 @@ No server campaign, full-theme pass or live execution run was repeated during pa
 connection, executes no SQL and queries no server metadata. All twenty protected profile hashes were unchanged after
 removing the owned manual database/package. Earlier cloud cleanup evidence remains unchanged; no cloud resource was created.
 
-`New-ReleaseAssets.ps1` still requires a clean committed checkout. Its guard was preserved; the uncommitted local preflight
-is not clean-source release-script acceptance. Publication, source/tag CI and fresh-download hash checks remain pending.
+`New-ReleaseAssets.ps1` still requires a clean committed checkout. Its guards were preserved and the official script
+passed from committed source before publication. New source/tag CI was queued at publication; it is not yet a PASS.
+The source/tag/release/assets and all earlier snapshots were preserved externally before the authorized replacement.
 
 The owner explicitly requested retaining **1.0.0**. Earlier 1.0.0 installations need uninstall/reinstall; use the exact
 package checksum to distinguish them. GitHub packages remain unsigned; company signing is a separate internal copy.

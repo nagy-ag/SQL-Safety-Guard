@@ -1,12 +1,12 @@
 # Verification status
 
-Updated **2026-11-04** after user-reported local manual acceptance and preparation of the **1.0.0 SSMS 22.x compatibility update**.
-Published source is `0cd57d004988cb7eb8080c89b1ee2b3136a5c0c2`, identified by the replacement `v1.0.0` tag.
-The assessment used source `5e8c7f2`, whose product/testing trees match that release, and its exact published VSIX.
-The published release remains unchanged. The tested, narrow SQLCMD compatibility adapter and outline-free badges are now
-in the main working source, based on `5e8c7f2`, with version **1.0.0** retained at the owner's request. The locally prepared
-package supports **SSMS 22.0 and later 22.x releases**, bounded to `[22.0,23.0)`; it is uncommitted and unpublished.
-Candidate, manual and local-package results below remain separate from the older published VSIX.
+Updated **2026-11-04** after publication of the **1.0.0 SSMS 22.x compatibility update**.
+Published source: `7c036b8b26850d2b44fe7a034c1334327f5b0088`, identified by replacement tag `v1.0.0` and
+[the publication record](../history/runs/2026-11-04-ssms-22-publication.md). The stable release is marked Latest and targets
+`main`. Its tested SQLCMD adapter and outline-free badges support **SSMS 22.0 and later 22.x releases**, 64-bit,
+with manifest range `[22.0,23.0)`. The owner explicitly requested keeping version **1.0.0** and replacing the old release.
+The older published source `0cd57d0`, campaign base `5e8c7f2`, frozen candidate and manual visual package retain their own
+identities below. Their runtime observations are not fresh execution tests of the newly rebuilt publication artifact.
 The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
 queries no server metadata. The new maintenance command only hands off to the local SSMS installer after confirmation.
 
@@ -14,10 +14,15 @@ queries no server metadata. The new maintenance command only hands off to the lo
 
 The [release preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md) passed the locked offline gate
 (**1,627 .NET / 10 Python / 527 rules**), both rebuilds, **32 Release interaction checks** and local package validation.
-Local VSIX SHA-256: `b3ae436bce2e1a21abe348a63256bad9189c638e44864f56512f979cf6a7f8eb`.
+That local preflight VSIX SHA-256 was `b3ae436bce2e1a21abe348a63256bad9189c638e44864f56512f979cf6a7f8eb`.
 All 58 C#/XAML Release source files, excluding DEBUG branches, match the visual candidate the owner tried. Metadata now
-states the supported SSMS 22.x range. This rebuilt artifact was not freshly installed/live-traced. The official release
-script's clean-commit requirement is intact; publication and new source/tag CI remain pending.
+states the supported SSMS 22.x range. The final committed-source package was built with the unchanged official release
+script, again passing **1,627 .NET / 10 Python / 527 rules**, the Release rebuild, **32 interaction checks** and package
+validation. Fresh GitHub downloads of all three assets match the validated local hashes. Published VSIX SHA-256:
+`944732eba0ff020ed61b5836b939d3e86954b887c550f2926dbbd6b71c0d3c87`.
+The old release/tag/assets were backed up before replacement. New source/tag GitHub CI was queued at publication,
+not yet PASS; current run links are in the publication record. No fresh installation/live trace of this exact artifact
+or new server campaign was added. Current `main` includes the product update; subsequent publication-record edits are documentation only.
 
 The owner explicitly reports **all eleven manual checklist rows and the outline check PASS** on local
 **22.11.2 / 22.11.12324.101**, using visual candidate SHA-256
@@ -30,6 +35,8 @@ Owned manual database/package cleanup passed and all twenty protected profile ha
 Retained server campaigns report no unresolved reproducible analyzer defect after their triage. Known green policy effects
 remain, including the tempdb opt-in and RAISERROR WITH LOG. Observation gaps, unavailable features and unverified targets
 are not passes. See [policy-questions.md](policy-questions.md) and [contract.md](contract.md); owner decisions remain pending.
+The following campaign narrative preserves its historical published-package identity; the new release does not erase
+its failures or convert candidate/manual observations into a fresh published-package campaign.
 **Focused candidate evidence now spans representative builds from 22.0 through 22.11; exhaustive and published-package
 qualification remains incomplete.** The [original cloud continuation](../history/runs/2026-11-03-ssms-cloud-compatibility.md)
 sampled six minor lines. Published newest **22.11.3 / 22.11.12328.437** passed eleven focused Release execution cases using
@@ -116,6 +123,7 @@ Earlier live Debug uninstall acceptance remains evidence for its recorded build/
 
 | Component | Evidence and identity | Establishes | Limits |
 |---|---|---|---|
+| Published SSMS 22.x compatibility update 1.0.0 | [Publication](../history/runs/2026-11-04-ssms-22-publication.md), source `7c036b8`, replacement `v1.0.0`; VSIX hash above | Clean committed-source official build, full locked offline gate, 32 interaction checks, package inspection, GitHub asset digests and three fresh-download hashes; old release replaced, new stable release Latest | Source/tag CI queued at publication; exact new artifact not freshly installed/live-traced; candidate/manual scenario limits unchanged; same-version uninstall/reinstall required |
 | Local 1.0.0 compatibility preparation and owner manual acceptance | [Preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md); base `5e8c7f2` plus promoted adapter/badges and bounded manifest; new package hash above | 1,627 .NET / 10 Python / 527 rules; both rebuilds; 32 Release interaction checks; package/Release-source checks; user reports eleven manual rows and outline PASS; owned cleanup and 20 protected hashes | Uncommitted/unpublished preflight; final artifact not freshly installed; manual final counters 1,1 do not corroborate cumulative 4,3; no new execution trace; existing automated/unknown/uninstall/22.3 settings gaps retained |
 | Local retry and badge change | [Retry](../history/runs/2026-11-04-ssms-2211-local-candidate-retry.md); original frozen candidate plus separately hashed visual build | Both visual-candidate builds and 1,627 unit tests PASS; original normal-profile bytes/settings restored; owned SQL/profile cleanup verified | Zero new execution cases; Computer Use runtime blocked; revised startup helper not live-proven; visual candidate not installed or visually accepted |
 | Local 22.11.2 frozen candidate | [Local run](../history/runs/2026-11-04-ssms-2211-local-candidate.md); exact same frozen candidate packages, no rebuild | Release three panes/settings and two strict whole-window actual-toolbar cases; focused Debug A-off/A-on/B-off; limited pane/Cancel observations | F5/selected execution, Release two-window and Debug return-A INCOMPLETE; initial Debug shutdown linger; all owned SQL/profile packages cleaned, 18 protected files unchanged |
@@ -167,11 +175,12 @@ history, campaign exclusions and observation gaps. Reports describe their record
    until the owner decides. This work does not relabel or relax them. Typed confirmation stays disabled.
 4. New freeze/launcher execution needs a clean reviewed checkout and an explicitly authorized disposable environment.
    Original published binaries were reused; the separate candidate was built and frozen once, with external helpers kept outside packages.
-5. GitHub offline CI passed for both the source push and replacement `v1.0.0` tag at `0cd57d0`. Release build/interaction and package
-   validation passed locally; these do not establish live SSMS execution behavior.
+5. Earlier GitHub offline CI passed for source/tag `0cd57d0`. New source/tag CI at `7c036b8` was queued at publication;
+   see the linked runs in the new publication record. The committed-source release build, full local offline gate,
+   interaction/package checks and fresh downloads passed; these do not establish live SSMS execution behavior.
 6. Same-version replacement requires uninstall/reinstall on machines with the earlier package. Source SHA and artifact
    checksum identify the build; the unchanged 1.0.0 version alone is insufficient. The published VSIX SHA-256 is
-   `c4068832e698f6faa9998fa7042267d115c1ca3810feed7f69c1cafae64a4ec9`.
+   `944732eba0ff020ed61b5836b939d3e86954b887c550f2926dbbd6b71c0d3c87`.
 
 For offline commands and evidence levels see [how-to.md](how-to.md). For execution entry points and prerequisites see
 [the tooling map](../../tools/verification/README.md). For all current documents see [docs/README.md](../README.md).

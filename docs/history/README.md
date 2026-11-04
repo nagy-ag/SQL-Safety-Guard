@@ -5,6 +5,7 @@ Dated snapshots, newest first. They are kept as evidence and are **not maintaine
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-04 | [runs/2026-11-04-ssms-22-publication.md](runs/2026-11-04-ssms-22-publication.md) | Compatibility update 1.0.0 published from clean committed source, main updated, old release backed up/replaced, new stable release Latest; full local gate/32 interaction/package checks and fresh-download hashes PASS; new GitHub CI queued at publication. |
 | 2026-11-04 | [runs/2026-11-04-ssms-22-release-preparation.md](runs/2026-11-04-ssms-22-release-preparation.md) | Tested SQLCMD adapter promoted for local 1.0.0, four badge outlines removed, SSMS 22.0–22.x support stated; offline/build/32 interaction/package checks PASS; owner reports manual acceptance; no commit/publication; owned cleanup verified. |
 | 2026-11-04 | [runs/2026-11-04-ssms-2211-local-candidate-retry.md](runs/2026-11-04-ssms-2211-local-candidate-retry.md) | Local retry added no execution passes; Computer Use initialization blocked. Four badge outlines removed, both candidate builds and 1,627 tests PASS; visual package uninstalled; original normal installation/settings and all owned resources restored. |
 | 2026-11-04 | [runs/2026-11-04-ssms-2211-local-candidate.md](runs/2026-11-04-ssms-2211-local-candidate.md) | Same frozen candidate on local 22.11.2: Release panes/settings and two strict actual-toolbar cases PASS; SQLCMD Debug observations; keyboard/two-window/channel/shutdown limits retained; owned cleanup verified. |

@@ -15,8 +15,8 @@ The install is per user and needs no administrator. If IT already installed an a
 To update, install a newer VSIX the same way.
 
 The compatibility update retains version **1.0.0** at the owner's request. An earlier 1.0.0 installation needs
-uninstall/reinstall; compare the release's SHA-256 checksum to identify the package. Preparation of a local package
-does not replace the files on GitHub; use the checksum for the package actually downloaded.
+uninstall/reinstall; compare the release's SHA-256 checksum to identify the package. The November 4 published compatibility
+VSIX has SHA-256 `944732eba0ff020ed61b5836b939d3e86954b887c550f2926dbbd6b71c0d3c87`.
 
 For script installation, download and extract the scripts ZIP from the same release, then provide the package path:
 
