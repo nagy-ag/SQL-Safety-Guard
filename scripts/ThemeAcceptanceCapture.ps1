@@ -20,6 +20,7 @@ param(
     [string] $SettingsPath,
     [Parameter(Mandatory = $true)][string] $OutputDirectory,
     [switch] $CheckPaneHighlights,
+    [switch] $CheckCompactSettings,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
 )
@@ -348,6 +349,10 @@ try {
         Capture-Surface 'main' 'main-toolbar'
         Send-Command 'showoptions'
         Wait-Receipt '\tshown\toptions\tF5 warnings\r?$'
+        if ($CheckCompactSettings) {
+            Send-Command 'compactsettingscheck'
+            Wait-Receipt '\tcompact-settings\t12\tPASS\r?$'
+        }
         Capture-Surface 'main' 'options'
         Close-OwnedSsms
         $process.Dispose(); $process = $null

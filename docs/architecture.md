@@ -25,6 +25,12 @@ the VSIX; dotnet builds the offline projects. See [development.md](development.m
 - `EnvironmentRules` matches caller-supplied labels. `GuardSettings`, `ExecutionMode` and `GuardDecision` are pure policy types
   in the analyzer assembly so policy can be tested without SSMS. Legacy typed-confirmation inputs remain accepted and ignored.
 - VSIX `UI` owns the pane/dialogs, `Guard` intercepts execution, `Services` adapts host capabilities, and `Options` persists settings.
+  `CompactSettingsControl` presents the six existing options in aligned rows through the native GEL content factory.
+  The registered settings keys, types, defaults and full legacy/native migration remain unchanged; generated property
+  controls are hidden to avoid duplicates. The custom form persists through `GeneralOptionsPage.PersistChanges`,
+  observes external option changes without writing them back, and invokes the existing menu command handlers.
+  SSMS labels the GEL content area Preview; edits in this form are real and apply immediately. Its scoped focus handler
+  permits keyboard navigation inside the editable form. Classic-mode property-grid fallback is retained.
 - `Commands/UninstallCommand` confirms and hands off to the local SSMS installer. `Services/ExtensionUninstallPlan` binds
   the running host's isolation ID, command-line suffix and loaded per-user extension path before constructing fixed uninstall
   arguments. It has no query/guard/settings dependency; mismatched or administrator-managed installs are refused.

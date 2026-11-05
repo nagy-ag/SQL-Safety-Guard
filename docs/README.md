@@ -7,7 +7,7 @@ a wave number in their name are snapshots and live in [history/](history/README.
 
 | Document | What it answers | Kind |
 |---|---|---|
-| [user-guide.md](user-guide.md) | How to install, read the colours, configure and share settings. For users. | Living, hand-written |
+| [user-guide.md](user-guide.md) | How to install, read the colours, configure/share settings, and enter list patterns and environment-rule fields with examples. For users. | Living, hand-written |
 | [development.md](development.md) | Safe first build, isolated debugging and validation commands. | Living, hand-written |
 | [architecture.md](architecture.md) | Project boundaries, dependencies, traced flows and implementation limits. | Living, hand-written |
 | [it-deployment.md](it-deployment.md) | All-users install and uninstall, security facts, checks. For IT. | Living, hand-written |

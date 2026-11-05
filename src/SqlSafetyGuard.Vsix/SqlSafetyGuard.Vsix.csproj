@@ -72,6 +72,10 @@
       <DependentUpon>ConfirmExecutionDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\FindingRow.cs" />
+    <Compile Include="UI\CompactSettingsFactory.cs" />
+    <Compile Include="UI\CompactSettingsControl.xaml.cs">
+      <DependentUpon>CompactSettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\GuardFailureDialog.xaml.cs">
       <DependentUpon>GuardFailureDialog.xaml</DependentUpon>
     </Compile>
@@ -93,6 +97,10 @@
     <Compile Include="UI\VerdictBrushes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\CompactSettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\SettingsListDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

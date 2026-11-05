@@ -99,6 +99,7 @@ namespace SqlSafetyGuard.UI
                 case "showlisteditor":
                 case "showimportpreview":
                 case "showoptions":
+                case "compactsettingscheck":
                 case "capture":
                 case "closedialogs":
                 case "preparecaptureclose":

@@ -307,10 +307,14 @@ public class SettingsTransferTests
             button => Assert.Null(button.Element(ns + "Parent")));
         var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
         Assert.DoesNotContain("docs/", registration.ToString());
-        var actions = (Newtonsoft.Json.Linq.JArray)registration["categories"]!["sqlSafetyGuard"]!["commands"]!;
+        var compact = XDocument.Load(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/UI/CompactSettingsControl.xaml"));
+        XNamespace presentation = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        var actions = compact.Descendants(presentation + "Button").Where(button =>
+            new[] { "258", "257", "264" }.Contains((string?)button.Attribute("Tag"))).ToArray();
         Assert.Equal(new[] { "Import Settings...", "Export Settings...", "Uninstall SQL Safety Guard..." },
-            actions.Select(action => (string?)action["vsct"]!["text"]));
-        Assert.Equal(new[] { 0x102, 0x101, 0x108 }, actions.Select(action => (int)action["vsct"]!["id"]!));
+            actions.Select(action => (string?)action.Attribute("Content")));
+        Assert.Equal(new[] { 0x102, 0x101, 0x108 }, actions.Select(action => (int)action.Attribute("Tag")!));
+        Assert.NotNull(registration["categories"]!["sqlSafetyGuard"]!["previewUIFactory"]);
         var adapter = File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Commands/SettingsCommands.cs"));
         Assert.DoesNotContain("RequireTypedConfirmation", adapter);
     }

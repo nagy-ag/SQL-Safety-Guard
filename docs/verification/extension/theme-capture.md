@@ -7,6 +7,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
 # Add -CheckPaneHighlights for the click-to-highlight checks and both safe-section arrow states.
+# Add -CheckCompactSettings for focus routing and native persistence of all six compact controls.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
 ```
 
@@ -40,6 +41,12 @@ choosing and switching groups, editor mouse/key/caret interaction, pane activati
 selections, deselection, collapse/expand and a real buffer edit. These checks never dispatch Execute or open a SQL
 connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
 content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
+
+`-CheckCompactSettings` routes focus events through the six real controls, verifies that the native content host
+does not block keyboard entry, and reads all six edited values back from the native settings manager. It restores
+the original option values in a finally block. The outer capture run closes its owned process and restores the
+original settings file byte-for-byte. SSMS supplies the Preview caption around the custom GEL content area; the
+compact settings themselves are live, with immediate persistence. No SQL or Execute command is used.
 
 The stored `environment.visualExperience.colorTheme` mapping is:
 

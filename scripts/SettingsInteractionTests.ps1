@@ -1,4 +1,4 @@
-param([string] $Configuration = 'Debug')
+﻿param([string] $Configuration = 'Debug')
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName PresentationFramework
@@ -45,7 +45,77 @@ try {
         [object[]]@($null, [Windows.RoutedEventArgs]::new()))
     if ($layout.FindName('Error').Visibility -ne 'Visible' -or $layout.FindName('Error').Text -notlike '*Invalid test entries*') { throw 'A validation error must stay visible without dismissing the editor.' }
     if ($entries.Text -notlike '*dbo.Third*') { throw 'Invalid input must remain available for correction.' }
-    Write-Output 'Passed 4 settings editor checks (shell rendering excluded); no desktop input or SQL execution.'
+
+    # Exercise the actual compact control with the real option model and injected
+    # storage/command callbacks. No shell storage or installer is invoked here.
+    if (-not [Windows.Application]::Current) { $application = [Windows.Application]::new() }
+    $shell = [Reflection.Assembly]::Load('Microsoft.VisualStudio.Shell.15.0')
+    $keys = $shell.GetType('Microsoft.VisualStudio.Shell.VsResourceKeys', $true)
+    $buttonKey = $keys.GetProperty('ThemedDialogButtonStyleKey').GetValue($null)
+    [Windows.Application]::Current.Resources[$buttonKey] = [Windows.Style]::new([Windows.Controls.Button])
+    $pageType = $assembly.GetType('SqlSafetyGuard.Options.GeneralOptionsPage', $true)
+    # DialogPage's constructor requires a running VS shell. Its six ordinary
+    # backing properties can be exercised without constructing that shell.
+    $page = [Runtime.Serialization.FormatterServices]::GetUninitializedObject($pageType)
+    function Set-Option($name, $value) { $pageType.GetProperty($name).SetValue($page, $value) }
+    function Get-Option($name) { $pageType.GetProperty($name).GetValue($page) }
+    Set-Option 'GuardMode' ([Enum]::ToObject($assembly.GetType('SqlSafetyGuard.Options.GuardMode'), 2))
+    Set-Option 'ShowServerAndDatabase' $true
+    Set-Option 'AllowList' ''
+    Set-Option 'TrustedProcedures' ''
+    Set-Option 'EnvironmentRules' ''
+    $controlType = $assembly.GetType('SqlSafetyGuard.UI.CompactSettingsControl', $true)
+    $script:commits = 0
+    $script:commands = [Collections.Generic.List[int]]::new()
+    $script:failCommit = $false
+    $control = [Activator]::CreateInstance($controlType, [Reflection.BindingFlags]'Instance,NonPublic', $null,
+        [object[]]@($page, [Action] { if ($script:failCommit) { throw 'Storage unavailable' }; $script:commits++ },
+            [Action[int]] { param($id) $script:commands.Add($id) }), $null)
+    $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::LoadedEvent))
+    $hostPanel = [Windows.Controls.StackPanel]::new()
+    [void]$hostPanel.Children.Add($control)
+    $hostPanel.AddHandler([Windows.Input.Keyboard]::PreviewGotKeyboardFocusEvent,
+        [Windows.Input.KeyboardFocusChangedEventHandler] { param($sender, $eventArgs) $eventArgs.Handled = $true })
+    $focus = [Windows.Input.KeyboardFocusChangedEventArgs]::new([Windows.Input.Keyboard]::PrimaryDevice, 0, $null, $control.FindName('AllowList'))
+    $focus.RoutedEvent = [Windows.Input.Keyboard]::PreviewGotKeyboardFocusEvent
+    $control.FindName('AllowList').RaiseEvent($focus)
+    if ($focus.Handled) { throw 'The editable form must allow keyboard focus inside the native content host.' }
+    if ($script:commits -ne 0) { throw 'Opening/refreshing settings must not persist anything.' }
+    if ($control.FindName('WarningMode').SelectedIndex -ne 2 -or -not $control.FindName('ShowConnection').IsChecked -or $control.FindName('TempdbIsTemp').IsChecked) { throw 'Existing defaults changed.' }
+    $control.FindName('WarningMode').SelectedIndex = 1
+    $control.FindName('ShowConnection').IsChecked = $false
+    $control.FindName('AllowList').Text = 'dbo.Stage_*'
+    $control.FindName('TrustedProcedures').Text = 'dbo.Reader'
+    $control.FindName('EnvironmentRules').Text = 'TEST-* | Sandbox | Test | YellowRed | false'
+    $control.FindName('TempdbIsTemp').IsChecked = $true
+    if ($script:commits -ne 6 -or [int](Get-Option 'GuardMode') -ne 1 -or (Get-Option 'ShowServerAndDatabase') -or -not (Get-Option 'TempdbIsTemp') -or
+        (Get-Option 'AllowList') -ne 'dbo.Stage_*' -or (Get-Option 'TrustedProcedures') -ne 'dbo.Reader' -or (Get-Option 'EnvironmentRules') -notlike 'TEST-*') { throw 'Every control must immediately update and persist its corresponding existing setting.' }
+    Set-Option 'AllowList' "dbo.First`r`ndbo.Second"
+    if ($control.FindName('AllowList').Text -ne (Get-Option 'AllowList') -or $script:commits -ne 6) { throw 'An editor/import/native update must refresh the display without saving it again.' }
+    $script:failCommit = $true
+    $control.FindName('WarningMode').SelectedIndex = 0
+    if ([int](Get-Option 'GuardMode') -ne 1 -or $control.FindName('WarningMode').SelectedIndex -ne 1 -or
+        $control.FindName('SaveError').Visibility -ne 'Visible') { throw 'A failed save must restore the previous value and expose the error.' }
+    $script:failCommit = $false
+    $control.FindName('ShowConnection').IsChecked = $true
+    if ($control.FindName('SaveError').Visibility -ne 'Collapsed') { throw 'A successful edit must clear a previous save error.' }
+    $markup = [xml](Get-Content -Raw -Encoding UTF8 (Join-Path $repository 'src/SqlSafetyGuard.Vsix/UI/CompactSettingsControl.xaml'))
+    $ns = [Xml.XmlNamespaceManager]::new($markup.NameTable)
+    $ns.AddNamespace('p', 'http://schemas.microsoft.com/winfx/2006/xaml/presentation')
+    foreach ($button in $markup.SelectNodes('//p:Button[@Tag]', $ns)) {
+        $source = [Windows.Controls.Button]::new()
+        $source.Tag = [string]$button.Tag
+        $controlType.GetMethod('OnCommand', [Reflection.BindingFlags]'Instance,NonPublic').Invoke($control,
+            [object[]]@($source, [Windows.RoutedEventArgs]::new()))
+    }
+    if (($script:commands -join ',') -ne '261,262,263,258,257,264') { throw 'The compact page must invoke the six existing editor/transfer/uninstall commands.' }
+    $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::UnloadedEvent))
+    Set-Option 'AllowList' 'dbo.WhileClosed'
+    if ($control.FindName('AllowList').Text -eq (Get-Option 'AllowList')) { throw 'An unloaded page must release its settings subscription.' }
+    $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::LoadedEvent))
+    if ($control.FindName('AllowList').Text -ne (Get-Option 'AllowList')) { throw 'Reopening must load the current settings.' }
+    $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::UnloadedEvent))
+    Write-Output 'Passed 14 settings checks (4 list editor, 10 compact page; shell rendering excluded); no desktop input or SQL execution.'
 }
 finally {
     [AppDomain]::CurrentDomain.remove_AssemblyResolve($resolver)

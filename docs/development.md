@@ -84,3 +84,17 @@ for optional isolated visual capture. The complete theme pass requires the owner
 Unit guard tests establish policy decisions; XAML tests establish structure/defaults; in-process interaction checks establish
 control behavior. Actual host target binding and server submission require separate integration evidence. A successful
 build or any one of these layers does not prove the others. See [verification/how-to.md](verification/how-to.md) for the evidence map.
+
+## Compact Options presentation
+
+The Options page uses `UI/CompactSettingsControl.xaml` through `CompactSettingsFactory`, registered as the
+`sqlSafetyGuard` category GEL content factory. SSMS owns the surrounding Options UI (including its Preview caption).
+The six `Options/registration.json` properties remain the storage/migration contract; `visibleWhen: false` suppresses
+the duplicate generated controls. Category keywords retain discovery by setting name. Do not rename or retype these
+properties to change layout. The control uses the existing persistence method and command IDs, not a second settings store.
+
+`SettingsInteractionTests.ps1` checks actual control events with injected storage and command callbacks.
+For the real host, add `-CheckCompactSettings` to a one-theme `ThemeAcceptanceCapture.ps1` run. Its Debug-only channel
+routes keyboard-focus events through the host, changes each of the six controls, reads back native settings, and
+restores the original option values. It never dispatches Execute or opens SQL. The enclosing script closes its owned
+SSMS session and restores isolated settings bytes. Raw captures/receipts stay outside the repository.

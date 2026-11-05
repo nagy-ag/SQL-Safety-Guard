@@ -1,5 +1,28 @@
 # Verification status
 
+Updated **2026-11-05** for the owner-requested **1.0.3 compact Options update**. The compact page and expanded
+[user-guide format reference](../user-guide.md#settings) are implemented. Final committed-source packaging and GitHub
+publication are pending. The current published release remains 1.0.2 until the publication record is added.
+
+The settings page aligns explanations and controls, keeps all six settings, and invokes the existing Edit list,
+Edit rules, Import, Export and Uninstall handlers. Native keys, types, defaults, migration and immediate persistence
+are retained. Analyzer classification, F5 policy and the production text-only boundary are unchanged. SSMS supplies
+a Preview caption around the custom GEL content; these settings are live and apply immediately.
+
+The local offline gate passed **1,635 .NET tests / 10 Python tests / 527 current rules**. Debug rebuilt and Release
+built successfully; **55 Release WPF checks** passed (26 pane, 15 confirmation, 14 settings). The registration validates
+against the shipped SSMS schema. The final isolated Debug candidate passed **12 native assertions**: keyboard-focus
+routing and native readback for every control. **13 Light-theme captures** completed, including the compact page;
+SSMS exited cleanly and its settings were restored byte-for-byte. See the [focused UI record](../history/runs/2026-11-05-compact-settings-1.0.3.md)
+for candidate identity, the rejected incremental package and the discarded startup attempt. No SQL was executed.
+
+The original isolated extension restoration and final download hashes will be recorded with publication. No new
+SQL/server campaign, exact Release-artifact execution acceptance, full-theme pass, company signing or cloud resource
+was added. Previous observations retain their own source identities and are not new execution tests of 1.0.3.
+See [release acceptance](../release-acceptance.md) and the [changelog](../../CHANGELOG.md).
+
+## Retained 1.0.2 publication evidence
+
 Updated **2026-11-05** after publication of the owner-requested **1.0.2 pane interaction release**.
 [SQL Safety Guard 1.0.2](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.2) is stable and Latest, source
 `5ceeeb0ed1a619cccd50d332d074efb205bf43ac`, annotated tag `v1.0.2`. Earlier releases are retained. See the

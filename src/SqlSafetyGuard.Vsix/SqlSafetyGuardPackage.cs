@@ -9,6 +9,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Imaging;
+using Microsoft.Internal.VisualStudio.PlatformUI;
 using SqlSafetyGuard.Analyzer;
 using SqlSafetyGuard.Commands;
 using SqlSafetyGuard.Guard;
@@ -20,17 +21,27 @@ using Task = System.Threading.Tasks.Task;
 namespace SqlSafetyGuard
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [InstalledProductRegistration("SQL Safety Guard", "Analyzes T-SQL before it runs and warns about real data changes.", "1.0.2")]
+    [InstalledProductRegistration("SQL Safety Guard", "Analyzes T-SQL before it runs and warns about real data changes.", "1.0.3")]
     [Guid(PackageGuids.PackageString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(GeneralOptionsPage), "SQL Safety Guard", "General", 110, 111, true,
         IsInUnifiedSettings = true, UnifiedSettingsCategoryMoniker = "sqlSafetyGuard")]
     [ProvideSettingsManifest(PackageRelativeManifestFile = "Options\\registration.json")]
+    [ProvideUIProvider(CompactSettingsFactory.GuidString, "SQL Safety Guard compact settings", PackageGuids.PackageString)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.ShellInitialized_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideBindingPath]
     public sealed class SqlSafetyGuardPackage : AsyncPackage
     {
+        internal static SqlSafetyGuardPackage Instance { get; private set; }
+        private OleMenuCommandService _commandService;
+
+        internal void InvokeSettingsCommand(int id)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (_commandService == null || !_commandService.GlobalInvoke(new CommandID(PackageGuids.CommandSet, id)))
+                throw new InvalidOperationException("SSMS could not open the settings command.");
+        }
         private ExecuteGuard _guard;
         private ActiveDocumentWatcher _documentWatcher; // Kept alive for the selection-events subscription.
         private uint _selectionEventsCookie;
@@ -122,12 +133,15 @@ namespace SqlSafetyGuard
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+            Instance = this;
+
             OutputLog.Initialize(this);
 
             try
             {
                 Dte = (DTE2)await GetServiceAsync(typeof(DTE));
                 var commandService = (OleMenuCommandService)await GetServiceAsync(typeof(IMenuCommandService));
+                _commandService = commandService;
 
                 AnalyzeQueryCommand.Initialize(this, commandService);
                 SettingsCommands.Initialize(this, commandService);
@@ -143,6 +157,10 @@ namespace SqlSafetyGuard
                 _guard.Attach();
                 _guardAttached = true;
                 RefreshHealth();
+
+                // A settings presentation failure must not detach the execution guard.
+                try { CompactSettingsFactory.Register(this); }
+                catch (Exception ex) { OutputLog.Error("Could not register the compact settings page.", ex); }
 
                 // Keep the status-bar health text in step with the active query window.
                 if (await GetServiceAsync(typeof(SVsShellMonitorSelection)) is IVsMonitorSelection monitorSelection)

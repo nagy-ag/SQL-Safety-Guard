@@ -92,6 +92,9 @@ namespace SqlSafetyGuard.UI
                     TryGetPackage().ShowOptionPage(typeof(GeneralOptionsPage));
                     WaitForCaptureOptions();
                     break;
+                case "compactsettingscheck":
+                    CheckCompactSettings();
+                    break;
                 case "capture":
                     int separator = arg.IndexOf(' ');
                     if (separator < 1) throw new ArgumentException("Expected surface and absolute PNG path.");
@@ -137,6 +140,63 @@ namespace SqlSafetyGuard.UI
                 }
             };
             timer.Start();
+        }
+
+        private void CheckCompactSettings()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var control = PresentationSource.CurrentSources.OfType<HwndSource>()
+                .Where(source => source.RootVisual != null)
+                .SelectMany(source => CapturePreview.VisualDescendants(source.RootVisual))
+                .OfType<CompactSettingsControl>().First(value => value.IsVisible);
+            var page = TryGetPackage().Options;
+            var original = Commands.SettingsCommands.Capture(page);
+            int checks = 0;
+            try
+            {
+                // Route focus events through the real host without desktop input.
+                foreach (string name in new[] { "WarningMode", "ShowConnection", "AllowList", "TrustedProcedures", "EnvironmentRules", "TempdbIsTemp" })
+                {
+                    var input = (UIElement)control.FindName(name);
+                    var focus = new System.Windows.Input.KeyboardFocusChangedEventArgs(System.Windows.Input.Keyboard.PrimaryDevice,
+                        Environment.TickCount, null, input) { RoutedEvent = System.Windows.Input.Keyboard.PreviewGotKeyboardFocusEvent };
+                    input.RaiseEvent(focus);
+                    if (focus.Handled) throw new InvalidOperationException("The settings host blocked keyboard focus for " + name);
+                    checks++;
+                }
+                ((ComboBox)control.FindName("WarningMode")).SelectedIndex = original.GuardMode == ExecutionMode.Red ? 2 : 1;
+                ((CheckBox)control.FindName("ShowConnection")).IsChecked = !original.ShowServerAndDatabase;
+                ((TextBox)control.FindName("AllowList")).Text = "dbo.CompactSettingsProbe";
+                ((TextBox)control.FindName("TrustedProcedures")).Text = "dbo.CompactSettingsReader";
+                ((TextBox)control.FindName("EnvironmentRules")).Text = "PROBE-* | Sandbox | Probe | YellowRed | false";
+                ((CheckBox)control.FindName("TempdbIsTemp")).IsChecked = !original.TempdbIsTemp;
+                var manager = (Microsoft.VisualStudio.Utilities.UnifiedSettings.ISettingsManager)
+                    Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(NativeSettingsService));
+                var reader = manager.GetReader();
+                Check(reader.GetValue<string>("sqlSafetyGuard.guardMode").Value == (original.GuardMode == ExecutionMode.Red ? "YellowRed" : "Red"), "mode persistence");
+                Check(reader.GetValue<bool>("sqlSafetyGuard.showConnection").Value == !original.ShowServerAndDatabase, "connection persistence");
+                Check(reader.GetValue<string>("sqlSafetyGuard.allowList").Value == "dbo.CompactSettingsProbe", "allow-list persistence");
+                Check(reader.GetValue<string>("sqlSafetyGuard.trustedProcedures").Value == "dbo.CompactSettingsReader", "trusted persistence");
+                Check(reader.GetValue<string>("sqlSafetyGuard.environmentRules").Value == "PROBE-* | Sandbox | Probe | YellowRed | false", "rules persistence");
+                Check(reader.GetValue<bool>("sqlSafetyGuard.tempdbIsTemp").Value == !original.TempdbIsTemp, "tempdb persistence");
+                ExtensionCheckTrace.Write("compact-settings", checks.ToString(), "PASS");
+            }
+            finally
+            {
+                page.GuardMode = (GuardMode)original.GuardMode;
+                page.ShowServerAndDatabase = original.ShowServerAndDatabase;
+                page.AllowList = original.AllowList;
+                page.TrustedProcedures = original.TrustedProcedures;
+                page.EnvironmentRules = original.EnvironmentRules;
+                page.TempdbIsTemp = original.TempdbIsTemp;
+                page.PersistChanges();
+            }
+
+            void Check(bool condition, string label)
+            {
+                if (!condition) throw new InvalidOperationException("Compact settings failed: " + label);
+                checks++;
+            }
         }
 
         private static void ShowCaptureDialog(string surface, Window dialog)

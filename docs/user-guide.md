@@ -166,6 +166,9 @@ Settings appear directly in SSMS's integrated Options tab and apply immediately.
 **Import Settings...** and **Export Settings...** belong to this page. Import still validates the file and shows
 a preview before applying anything; Cancel leaves the settings unchanged. The allow-list, trusted procedures and
 environment rules have **Edit list...** / **Edit rules...** buttons for a larger multiline editor with Save and Cancel.
+The compact page aligns controls beside their explanations; Import, Export and Uninstall sit below the six settings.
+Settings still apply immediately, without a page-level Save or Apply button. SSMS labels the custom content area
+**Preview**; the settings controls in that area are live, not a simulation.
 
 | Setting | Default | |
 |---|---|---|
@@ -177,6 +180,21 @@ environment rules have **Edit list...** / **Edit rules...** buttons for a larger
 | Environment rules | empty | First matching rule overrides mode and environment |
 
 ### Safe tables allow-list
+
+**Edit list...** accepts plain text, not SQL or JSON. Paste one pattern per line, for example:
+
+```text
+-- One exact table
+dbo.ImportBuffer
+-- Tables starting with Staging_
+dbo.Staging_*
+-- Tables in a specific database
+Sandbox.dbo.Test_*
+```
+
+The same entries can be written `dbo.ImportBuffer;dbo.Staging_*;Sandbox.dbo.Test_*`.
+These are example names, not targets the extension has verified as harmless. Matching writes and their side effects
+are explicitly authorized by the user. For `dbo.Staging_*`, qualify the query too: `UPDATE dbo.Staging_Orders SET ...`.
 
 Patterns are case-insensitive, support `*` and `?`, and match **entire identifier parts**, not substrings.
 Brackets/double quotes delimit parts; escaped delimiters and quoted whitespace are preserved. One entry per
@@ -205,15 +223,37 @@ One rule per line, with five required fields and two optional lists:
 server pattern | database pattern | environment label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted procedures
 ```
 
+The first five fields must be present, even when the database field is blank. The two final fields are optional.
+
+| Field | Required structure | Example |
+|---|---|---|
+| Server | Nonempty exact name or wildcard pattern | `PROD-SQL*` |
+| Database | Exact name, wildcard pattern, or blank for any known database | `AppDb`, `Sandbox*`, or blank |
+| Label | Nonempty display label | `Production` |
+| Mode | `Off`, `Red`, or `YellowRed` | `YellowRed` |
+| Legacy flag | `true` or `false`; accepted but ignored | Use `false` |
+| Table allow-list | Optional patterns separated by `;` | `dbo.Test_*;dbo.Import_*` |
+| Trusted procedures | Optional qualified patterns separated by `;` | `dbo.usp_Read_*` |
+
+**Edit rules...** accepts plain text. Paste one complete rule per line; semicolons separate list entries inside
+a rule, not rules. To supply only trusted procedures, keep the empty allow-list field:
+
+```text
+TEST-SQL* | Sandbox | Test | YellowRed | false | | dbo.usp_GetSalesReport
+```
+
 `*` and `?` in server/database patterns are case-insensitive; blank database means any **known** database.
 The **first matching rule wins**. Blank lines and `--` comments are ignored; bad lines are ignored with a settings
 warning in analysis and the health indicator, rather than crashing. No match, or unknown server **or database**,
 uses global settings. Unknown is never inferred to mean Off or Development.
 
 ```text
-PROD-SQL* | | Production | YellowRed | true | dbo.Staging_* | dbo.sp_WhoIsActive;master.dbo.sp_Blitz*
-TEST-* | Sandbox* | Test | Red | false | dbo.Test_* |
-DEV-* | | Development | Off | false
+-- Production: warn on yellow and red
+PROD-SQL* | AppDb | Production | YellowRed | false
+-- Test: red-only warnings and additional trusted targets
+TEST-SQL* | Sandbox | Test | Red | false | dbo.Test_*;dbo.Import_* | dbo.usp_Read_*
+-- Development: any known database, normal yellow/red warnings
+DEV-SQL* | | Development | YellowRed | false
 ```
 
 `Off` skips verified-target execution checks, `Red` prompts only on real writes, `YellowRed` prompts on yellow and red.
@@ -230,6 +270,19 @@ rules are not re-selected mid-script. A Development/Off rule can therefore leave
 production unchecked. Do not mix environments in one script; this is not server-aware enforcement.
 
 ### Trusted procedures
+
+**Edit list...** accepts one schema-qualified procedure pattern per line (or semicolon-separated entries):
+
+```text
+dbo.usp_GetSalesReport
+reporting.usp_Read_*
+Sandbox.dbo.usp_GetTestResults
+```
+
+Use only procedures you explicitly trust: their bodies are not checked. The example `reporting.usp_Read_*`
+asserts trust; a name beginning with Read is not proof of read-only behavior. `usp_GetSalesReport` is invalid
+because it lacks a schema, and `*.usp_GetSalesReport` is invalid because its schema contains a wildcard.
+Use a qualified SQL call too, such as `EXEC dbo.usp_GetSalesReport;`.
 
 Entries such as `dbo.sp_WhoIsActive` or `master.dbo.sp_Blitz*` assert that a procedure is read-only; the guard
 does not inspect its body. Successful matches get green **trusted procedure** findings. Entries require 2–4

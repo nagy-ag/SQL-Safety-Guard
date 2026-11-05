@@ -3,30 +3,25 @@
   "categories": {
     "sqlSafetyGuard": {
       "title": "SQL Safety Guard",
-      "description": "Analyze SQL before execution and configure when the guard asks for confirmation. Settings apply immediately. Import validates and previews changes before applying them.",
+      "description": "Analyze SQL before execution. Settings apply immediately.",
       "legacyOptionPageId": "3d1b0a52-6f83-4c55-9a3e-2b7f0c9e1d44",
-      "commands": [
-        {
-          "vsct": {
-            "text": "Import Settings...",
-            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
-            "id": 258
-          }
-        },
-        {
-          "vsct": {
-            "text": "Export Settings...",
-            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
-            "id": 257
-          }
-        },
-        {
-          "vsct": {
-            "text": "Uninstall SQL Safety Guard...",
-            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
-            "id": 264
-          }
+      "previewUIFactory": {
+        "gel": {
+          "factoryGuid": "58c1ef91-2879-445f-b373-7cb8972d9d1f",
+          "elementId": 1
         }
+      },
+      "canBeVisibleWhenEmpty": true,
+      "additionalKeywords": [
+        "F5 warnings",
+        "Show connection in confirmation",
+        "Safe tables allow-list",
+        "Trusted procedures",
+        "Environment rules",
+        "Permanent tempdb objects are temporary",
+        "Import Settings",
+        "Export Settings",
+        "Uninstall SQL Safety Guard"
       ]
     }
   },
@@ -60,7 +55,8 @@
         "Off",
         "Warn on red only",
         "Warn on yellow and red"
-      ]
+      ],
+      "visibleWhen": "false"
     },
     "sqlSafetyGuard.showConnection": {
       "title": "Show connection in confirmation",
@@ -76,7 +72,8 @@
           },
           "mode": "full"
         }
-      }
+      },
+      "visibleWhen": "false"
     },
     "sqlSafetyGuard.allowList": {
       "title": "Safe tables allow-list",
@@ -101,7 +98,8 @@
             "id": 261
           }
         }
-      ]
+      ],
+      "visibleWhen": "false"
     },
     "sqlSafetyGuard.trustedProcedures": {
       "title": "Trusted procedures",
@@ -126,7 +124,8 @@
             "id": 262
           }
         }
-      ]
+      ],
+      "visibleWhen": "false"
     },
     "sqlSafetyGuard.environmentRules": {
       "title": "Environment rules",
@@ -151,7 +150,8 @@
             "id": 263
           }
         }
-      ]
+      ],
+      "visibleWhen": "false"
     },
     "sqlSafetyGuard.tempdbIsTemp": {
       "title": "Permanent tempdb objects are temporary",
@@ -167,7 +167,8 @@
           },
           "mode": "full"
         }
-      }
+      },
+      "visibleWhen": "false"
     }
   }
 }
