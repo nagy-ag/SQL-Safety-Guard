@@ -4,6 +4,12 @@ using System.Security.Cryptography;
 
 namespace SqlSafetyGuard.Tests;
 
+// Starting multiple Windows PowerShell processes competes with the analyzer's
+// wall-clock resource checks. Run these external-process fixtures separately.
+[CollectionDefinition("Signing kit process fixtures", DisableParallelization = true)]
+public class SigningKitProcessCollection { }
+
+[Collection("Signing kit process fixtures")]
 public class SigningKitTests
 {
     [Theory]
