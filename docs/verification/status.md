@@ -1,13 +1,13 @@
 # Verification status
 
-Updated **2026-11-05** for preparation of the owner-authorized **1.0.1 uninstall UI release** after publication of
-the **1.0.0 SSMS 22.x compatibility update**. The final 1.0.1 packaging gates and publication are pending.
-Published source: `7c036b8b26850d2b44fe7a034c1334327f5b0088`, identified by replacement tag `v1.0.0` and
-[the publication record](../history/runs/2026-11-04-ssms-22-publication.md). The stable release is marked Latest and targets
-`main`. Its tested SQLCMD adapter and outline-free badges support **SSMS 22.0 and later 22.x releases**, 64-bit,
-with manifest range `[22.0,23.0)`. The owner explicitly requested keeping version **1.0.0** and replacing the old release.
-The older published source `0cd57d0`, campaign base `5e8c7f2`, frozen candidate and manual visual package retain their own
-identities below. Their runtime observations are not fresh execution tests of the newly rebuilt publication artifact.
+Updated **2026-11-05** after publication of the owner-authorized **1.0.1 uninstall UI release**, including the company
+signing kit. [SQL Safety Guard 1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1) is stable and Latest;
+the earlier 1.0.0 release is retained. GitHub downloads remain unsigned.
+Published source: `939ab15ee419daa86a61cab2a7cbd39ace64632a`, identified by annotated tag `v1.0.1` and
+[the publication record](../history/runs/2026-11-05-release-1.0.1-publication.md). The release supports **SSMS 22.0 and later
+22.x releases**, 64-bit, with manifest range `[22.0,23.0)`. All five uploaded assets and fresh downloads match local hashes.
+The older published sources, campaign base `5e8c7f2`, frozen candidates and manual visual packages retain their own
+identities below. Their runtime observations are not fresh execution tests of the rebuilt publication artifact.
 The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
 queries no server metadata. The new maintenance command only hands off to the local SSMS installer after confirmation.
 
@@ -24,8 +24,8 @@ is not a pass. Declining the settings confirmation preserved the installation an
 launched the adjacent installer with the correct isolated suffix. The test extension files disappeared and an independent
 installer lookup reported it not installed. The installer's completion page/clean exit was not captured: a hidden test
 installer remained and was stopped only after file removal was confirmed. All protected profile/settings/DLL hashes
-matched; the normal SSMS process was left running. This correction is prepared as **1.0.1** and is **not yet in the
-published GitHub release**. The fallback uninstall script now also accepts the observed not-installed code 1002, with
+matched; the normal SSMS process was left running. This correction is published as **1.0.1**. The fallback uninstall
+script now also accepts the observed not-installed code 1002, with
 offline fixture coverage. Release packaging adds a ZIP containing the identical VSIX, scripts and instructions.
 The owner requested a company signing kit while keeping GitHub downloads unsigned. The kit adds a checksum/identity
 check and a helper for signing a separate copy with an existing company key; it includes no keys or certificates.
@@ -33,7 +33,19 @@ Sign CLI 0.9.1-beta.26552.4 was installed outside the repository and its version
 signing and cryptographic signature/chain/timestamp verification remain pending on the company computer.
 See the [uninstall UI record](../history/runs/2026-11-05-uninstall-ui.md) for the evidence and limitations.
 
-The [release preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md) passed the locked offline gate
+The final clean committed-source 1.0.1 gate passed **1,635 .NET tests / 10 Python tests / 527 current rules**, the Release
+rebuild, **32 Release interaction checks** and VSIX integrity/privacy/unsigned checks. Debug had also rebuilt successfully.
+The first two attempts at the final source's offline gate failed the unchanged three-second resource timing assertion
+at 3.306 and 3.238 seconds; the focused test passed. New PowerShell signing fixtures were then placed in a nonparallel
+collection, and the full gate passed without changing the analyzer, time limit or assertions. Seven signing-input checks
+pass, including both VSIX signature layouts. The full ZIP's VSIX is byte-identical to the standalone package; both ZIPs
+contain the same signing kit, with self-contained guide links. Company signing and signature/trust verification remain
+company-side acceptance, not passes here. Published VSIX SHA-256:
+`6f2e2362f27d1408c0ec604a19fb7b8b5c982419d14783b2091b3e67e9f972a9`.
+No new SQL campaign, exact-artifact live SSMS execution test, all-theme pass or cloud resource was added during publication.
+GitHub offline CI for the exact published source passed on both `main` and `v1.0.1`; links are in the publication record.
+
+The prior 1.0.0 [release preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md) passed the locked offline gate
 (**1,627 .NET / 10 Python / 527 rules**), both rebuilds, **32 Release interaction checks** and local package validation.
 That local preflight VSIX SHA-256 was `b3ae436bce2e1a21abe348a63256bad9189c638e44864f56512f979cf6a7f8eb`.
 All 58 C#/XAML Release source files, excluding DEBUG branches, match the visual candidate the owner tried. Metadata now

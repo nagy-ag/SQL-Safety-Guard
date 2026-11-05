@@ -19,7 +19,13 @@ remains unsigned and supports **SSMS 22.0 and later 22.x releases**, 64-bit, bou
   company-key signing, signature/chain/timestamp verification and signed-copy SSMS acceptance remain company-side work.
 - Synchronizes manifest, assembly and product versions. Analyzer classification and execution-guard policy are unchanged.
 
-## Evidence and remaining gates
+## Published result and evidence
+
+[SQL Safety Guard 1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1) was published stable and Latest
+on **2026-11-05 at 09:47:09 UTC**, release ID **435014557**, from clean source
+`939ab15ee419daa86a61cab2a7cbd39ace64632a` (annotated tag `v1.0.1`). `main` was fast-forwarded and pushed without force;
+the 1.0.0 release/tag were preserved. All five asset digests and fresh downloads match the validated local files.
+See the [publication record](history/runs/2026-11-05-release-1.0.1-publication.md) for exact hashes and CI results.
 
 The [November 5 UI record](history/runs/2026-11-05-uninstall-ui.md) identifies the earlier local candidate and measured
 evidence. Its Release settings button was visible/enabled in isolated SSMS 22.11.2. No preserved the installation and
@@ -28,9 +34,13 @@ absent. The final installer page/normal interactive exit and Tools popup were no
 was stopped only after files were removed; the normal SSMS process and protected settings/assemblies were preserved.
 
 That candidate passed both builds, 1,628 .NET tests, 32 Release interaction checks and local package validation.
-Those are not a fresh execution campaign or a live test of the final 1.0.1 artifact. The final version's offline gate,
-Debug rebuild and clean committed-source release script must pass before uploading. Package hashes and fresh-download
-validation are recorded in the publication record and GitHub release after publication.
+Those are not a fresh execution campaign or a live test of the final 1.0.1 artifact. The final clean-source release gate
+passed **1,635 .NET tests, 10 Python tests, 527 current generated rules**, the Release rebuild, 32 interaction checks and
+package validation; Debug also rebuilt successfully. Independent archive checks confirm matching nested VSIX/scripts/kits,
+correct version/target, unsigned packages, no certificate/key files and working online guide links after extraction.
+Two earlier full-gate attempts failed an unchanged three-second timing assertion; it passed alone. The new external
+PowerShell fixtures were isolated from parallel analyzer timing tests, after which the full gate passed. Assertions and
+analyzer behavior were retained. Actual company-key signing and signed-copy verification were not performed here.
 
 ## Retained compatibility limits
 

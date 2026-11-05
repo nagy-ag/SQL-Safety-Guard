@@ -16,6 +16,9 @@ changelog file.
 - **Major** (2.0.0): changes users must relearn.
 
 Versions normally increase for upgrades. A pre-release uses the real numeric version; it has no manifest suffix.
+GitHub's **Latest** label identifies the latest published release. Main can contain later commits, including a
+documentation-only publication record, without a newer release. The “commits to main since this release” link compares
+main with the fixed release tag; it does not describe the installed extension version.
 The November 4 SQLCMD compatibility update also retains 1.0.0 at the owner's request and replaces the older published
 1.0.0 after backup and committed-source validation; see [release-acceptance.md](release-acceptance.md). Compatibility wording is
 "SSMS 22.0 and later 22.x releases"; the manifest and release validation use `[22.0,23.0)`, not an unbounded future-major claim.
