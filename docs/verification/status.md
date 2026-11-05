@@ -1,8 +1,10 @@
 # Verification status
 
-Updated **2026-11-05** for the owner-requested **1.0.3 compact Options update**. The compact page and expanded
-[user-guide format reference](../user-guide.md#settings) are implemented. Final committed-source packaging and GitHub
-publication are pending. The current published release remains 1.0.2 until the publication record is added.
+Updated **2026-11-05** after publication of the owner-requested **1.0.3 compact Options update**.
+[SQL Safety Guard 1.0.3](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.3) is stable and Latest,
+source `30aec84e40758b28da85378e57b5dff3f6b0d7c9`, annotated tag `v1.0.3`, published at **17:03:19 UTC**.
+The [user-guide format reference](../user-guide.md#settings) and changelog are updated. Earlier releases are retained.
+See the [publication record](../history/runs/2026-11-05-release-1.0.3-publication.md) for hashes and CI links.
 
 The settings page aligns explanations and controls, keeps all six settings, and invokes the existing Edit list,
 Edit rules, Import, Export and Uninstall handlers. Native keys, types, defaults, migration and immediate persistence
@@ -16,15 +18,18 @@ routing and native readback for every control. **13 Light-theme captures** compl
 SSMS exited cleanly and its settings were restored byte-for-byte. See the [focused UI record](../history/runs/2026-11-05-compact-settings-1.0.3.md)
 for candidate identity, the rejected incremental package and the discarded startup attempt. No SQL was executed.
 
-The original isolated extension restoration and final download hashes will be recorded with publication. No new
+The final clean-source packaging gate passed all offline, Release rebuild, 55 WPF and unsigned integrity/privacy checks.
+All five downloaded GitHub assets match local files and API digests; the full ZIP contains the identical VSIX. GitHub CI
+passed for main and v1.0.3 at the release source. All 27 original isolated extension files were restored and hash-verified;
+normal settings were unchanged. No new
 SQL/server campaign, exact Release-artifact execution acceptance, full-theme pass, company signing or cloud resource
 was added. Previous observations retain their own source identities and are not new execution tests of 1.0.3.
 See [release acceptance](../release-acceptance.md) and the [changelog](../../CHANGELOG.md).
 
 ## Retained 1.0.2 publication evidence
 
-Updated **2026-11-05** after publication of the owner-requested **1.0.2 pane interaction release**.
-[SQL Safety Guard 1.0.2](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.2) is stable and Latest, source
+The **2026-11-05** owner-requested **1.0.2 pane interaction release** retained the following evidence.
+[SQL Safety Guard 1.0.2](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.2) was stable and Latest at publication, source
 `5ceeeb0ed1a619cccd50d332d074efb205bf43ac`, annotated tag `v1.0.2`. Earlier releases are retained. See the
 [publication record](../history/runs/2026-11-05-release-1.0.2-publication.md) for hashes, CI links and validation limits.
 GitHub downloads remain unsigned; support is **SSMS 22.0 and later 22.x releases**, 64-bit, manifest range `[22.0,23.0)`.

@@ -25,9 +25,10 @@ support **SSMS 22.0 and later 22.x releases**, 64-bit, bounded to `[22.0,23.0)`.
 | Isolated native settings assertions | PASS: 12; focus routing and native readback of all six controls |
 | Light-theme capture | PASS: 13 surfaces, compact page inspected |
 | Capture shutdown/settings restoration | PASS: clean exit and byte-for-byte restoration |
-| Clean committed-source packaging gate | Pending |
-| Published asset/download hashes | Pending |
-| Original isolated extension restoration | Pending |
+| Clean committed-source packaging gate | PASS: full offline gate, locked Release rebuild, 55 WPF and unsigned integrity/privacy checks |
+| Published asset/download hashes | PASS: all five local/downloaded/API digests match; nested VSIX identical |
+| Original isolated extension restoration | PASS: all 27 original files match; normal settings unchanged |
+| GitHub CI at release source | PASS: main and v1.0.3 |
 
 See the [focused UI record](history/runs/2026-11-05-compact-settings-1.0.3.md) for the exact Debug candidate identity,
 initial discarded attempts and evidence limits. The final package is built from the committed release source.
@@ -37,4 +38,13 @@ initial discarded attempts and evidence limits. The final package is built from 
 No SQL execution, server campaign, exact Release-artifact live execution acceptance, complete theme matrix, all-version
 assessment, fresh installer/uninstall acceptance, company signing or signed-copy verification was repeated. Prior
 observations and open gaps remain in [verification/status.md](verification/status.md). A settings/UI pass is not
-proof of new execution or server behavior. Final publication and restoration evidence is added after asset validation.
+proof of new execution or server behavior.
+
+## Published result
+
+[SQL Safety Guard 1.0.3](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.3) is stable and Latest,
+published **2026-11-05 at 17:03:19 UTC**, from source `30aec84e40758b28da85378e57b5dff3f6b0d7c9`,
+annotated tag `v1.0.3`. Main and tag were pushed without force; earlier releases are retained. All five uploaded
+asset hashes and fresh downloads match local validated assets. See the [publication record](history/runs/2026-11-05-release-1.0.3-publication.md)
+for exact checksums, source/tag CI success, the corrected snapshot header and final restoration evidence.
+This record update is documentation only; the tag continues to identify the fixed product source.
