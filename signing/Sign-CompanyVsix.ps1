@@ -36,7 +36,9 @@ if ($inputHash -ine $expected[0]) { throw 'VSIX checksum mismatch. Download the 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [IO.Compression.ZipFile]::OpenRead($vsix)
 try {
-    if (@($archive.Entries | Where-Object { $_.FullName -match '(?i)(^|/)_xmlsignatures(/|$)' }).Count) {
+    if (@($archive.Entries | Where-Object {
+        $_.FullName.Replace('\', '/') -match '(?i)(^|/)(_xmlsignatures|package/services/digital-signature)(/|$)|\.(psdsxs|psdor|psdsor)$'
+    }).Count) {
         throw 'Input already has package signatures. Use the original unsigned GitHub VSIX.'
     }
     $manifests = @($archive.Entries | Where-Object { $_.FullName -ceq 'extension.vsixmanifest' })
@@ -92,7 +94,9 @@ try {
     if ($signedHash -eq $inputHash) { throw 'Output is unchanged; do not distribute it as signed.' }
     $signed = [IO.Compression.ZipFile]::OpenRead($output)
     try {
-        if (-not @($signed.Entries | Where-Object { $_.FullName -match '(?i)^_xmlsignatures/.*\.psdsxs$' }).Count) {
+        if (-not @($signed.Entries | Where-Object {
+            $_.FullName.Replace('\', '/') -match '(?i)^(_xmlsignatures|package/services/digital-signature)/.*\.psdsxs$'
+        }).Count) {
             throw 'Output has no VSIX package signature; do not distribute it.'
         }
     }

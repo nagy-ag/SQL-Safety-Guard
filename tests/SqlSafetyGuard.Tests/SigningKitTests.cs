@@ -11,6 +11,7 @@ public class SigningKitTests
     [InlineData("wrong-hash", false, "checksum mismatch")]
     [InlineData("duplicate-hash", false, "exactly one entry")]
     [InlineData("signed", false, "already has package signatures")]
+    [InlineData("opc-signed", false, "already has package signatures")]
     [InlineData("wrong-version", false, "identity/version")]
     [InlineData("existing-output", false, "already exists")]
     public async Task SigningKitChecksInputsBeforeAccessingKeysOrTools(string scenario, bool success, string message)
@@ -27,6 +28,7 @@ public class SigningKitTests
                     writer.Write("<PackageManifest><Metadata><Identity Id=\"SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558\" Version=\"" +
                         (scenario == "wrong-version" ? "1.0.0" : "1.0.1") + "\" /></Metadata></PackageManifest>");
                 if (scenario == "signed") zip.CreateEntry("_xmlsignatures/sig1.psdsxs");
+                if (scenario == "opc-signed") zip.CreateEntry("package/services/digital-signature/xml-signature/sig1.psdsxs");
             }
             var original = File.ReadAllBytes(input);
             var checksum = Convert.ToHexString(SHA256.HashData(original));

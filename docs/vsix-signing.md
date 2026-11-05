@@ -213,5 +213,6 @@ or replace the project's safety tests and release acceptance.
 - [Microsoft: signing VSIX packages](https://learn.microsoft.com/en-us/visualstudio/extensibility/signing-vsix-packages?view=visualstudio)
 - [Microsoft: Sign CLI reference for VSIX](https://learn.microsoft.com/en-us/visualstudio/extensibility/dotnet-sign-cli-reference-vsix?view=visualstudio)
 - [Sign CLI package and prerequisites](https://www.nuget.org/packages/sign)
+- [Sign CLI: VSIX/OPC signature parts and verification](https://github.com/dotnet/sign/blob/main/docs/primer.md#signature-formats-by-file-type)
 - [Microsoft: New-SelfSignedCertificate](https://learn.microsoft.com/en-us/powershell/module/pki/new-selfsignedcertificate?view=windowsserver2025-ps)
 - [Microsoft: Export-Certificate](https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2025-ps)

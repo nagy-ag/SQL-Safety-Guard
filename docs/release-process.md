@@ -41,7 +41,8 @@ when recording the omission. Builds use deterministic compilation and neutral re
 
 Before writing assets, it reads every VSIX entry, validates ZIP CRCs, checks the manifest Id/version and SSMS target,
 and requires the assemblies, symbols, package registration, `Options/registration.json`, license and third-party
-notices. It rejects signatures (`_xmlsignatures/`), private-key files (`.pfx`, `.p12`, `.key`), unsafe entry paths,
+notices. It rejects signatures (`_xmlsignatures/`, OPC `package/services/digital-signature/` and signature-part extensions),
+private-key files (`.pfx`, `.p12`, `.key`), unsafe entry paths,
 and the local user profile path in UTF-8 or UTF-16LE entry data. This checks the built artifact, not just build flags.
 
 The default output is `../release-out/<version>` relative to the repository. Override with

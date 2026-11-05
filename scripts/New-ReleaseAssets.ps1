@@ -117,7 +117,8 @@ public static class ReleaseAssetBytes {
         if ($archive.Entries.Count -ne $count) { throw 'ZIP entry counts disagree.' }
         foreach ($entry in $archive.Entries) {
             $name = $entry.FullName.Replace('\', '/')
-            if ($name -match '(^|/)_xmlsignatures(/|$)' -or $name -match '\.(pfx|p12|key)$') { throw "Forbidden release entry: $name" }
+            if ($name -match '(^|/)(_xmlsignatures|package/services/digital-signature)(/|$)|\.(psdsxs|psdor|psdsor)$' -or
+                $name -match '\.(pfx|p12|key)$') { throw "Forbidden release entry: $name" }
             if ($name -match '(^/|:|(^|/)\.\.?(/|$))') { throw "Unsafe ZIP path: $name" }
             $stream = $entry.Open()
             $memory = New-Object IO.MemoryStream
