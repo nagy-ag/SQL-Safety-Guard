@@ -1,23 +1,28 @@
 # Verification status
 
-Updated **2026-11-05** during preparation of the owner-requested **1.0.2 pane interaction release**.
-The candidate removes automatic editor tinting and caret-driven highlights; only a group explicitly chosen in the pane
-is highlighted. Returning to editing clears the choice. The safe-section arrow points up when collapsed and down when
-expanded. Analyzer classification, F5 policy and the production text-only boundary are unchanged.
+Updated **2026-11-05** after publication of the owner-requested **1.0.2 pane interaction release**.
+[SQL Safety Guard 1.0.2](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.2) is stable and Latest, source
+`5ceeeb0ed1a619cccd50d332d074efb205bf43ac`, annotated tag `v1.0.2`. Earlier releases are retained. See the
+[publication record](../history/runs/2026-11-05-release-1.0.2-publication.md) for hashes, CI links and validation limits.
+GitHub downloads remain unsigned; support is **SSMS 22.0 and later 22.x releases**, 64-bit, manifest range `[22.0,23.0)`.
 
-The locked offline gate passed **1,635 .NET tests / 10 Python tests / 527 current rules**. Debug and Release solution builds
-and **45 Release WPF interaction checks** passed, including both arrow states and toggle behavior. An isolated Debug
-SSMS run passed **17 highlight checks plus fresh-analysis clearing** and produced **18 Light-theme captures**. The
-chosen/cleared editor and both arrow directions were inspected; settings restored byte-for-byte and SSMS exited cleanly.
-The [focused UI record](../history/runs/2026-11-05-pane-interaction-1.0.2.md) identifies the candidate and limitations.
-The final committed-source packaging gate and publication are pending.
+Only a group explicitly chosen in the pane is highlighted; red/yellow statements have no idle tint and cursor movement
+never activates a highlight. Returning to editing clears it. The safe-section chevron points **up when collapsed** and
+**down when expanded**. Analyzer classification, F5 confirmation policy and the production text-only boundary are unchanged.
+
+The final clean-source gate passed **1,635 .NET tests / 10 Python tests / 527 current rules**, the Release rebuild,
+**45 Release WPF checks** and package integrity/privacy/unsigned checks. Debug also built successfully. The focused
+Debug candidate passed **17 real-editor checks plus fresh-analysis clearing**, with **18 Light-theme captures**; the
+chosen/cleared editor and both arrow states were inspected. All five uploaded API hashes and fresh downloads match local
+assets; the full ZIP contains the identical VSIX. GitHub CI passed for both `main` and `v1.0.2` at the published source.
+
+The capture session closed cleanly and restored its settings byte-for-byte. Original isolated extension files were
+restored and matched the backup; normal-profile settings were unchanged. The [focused UI record](../history/runs/2026-11-05-pane-interaction-1.0.2.md)
+identifies the pre-commit Debug candidate. The publication record explains the initial disk-space failure and a tooling
+fixture timeout; the complete unchanged gate subsequently passed with task temporary files on the system drive.
+No new SQL/server campaign, exact Release-artifact live execution acceptance, all-theme pass, company signing or cloud
+resource was added. Older observations below retain their own source identities and are not new execution tests of 1.0.2.
 See [release acceptance](../release-acceptance.md) and the [changelog](../../CHANGELOG.md).
-
-The latest published package is currently [1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1), source
-`939ab15ee419daa86a61cab2a7cbd39ace64632a`, identified by annotated tag `v1.0.1` and
-[its publication record](../history/runs/2026-11-05-release-1.0.1-publication.md). Earlier releases are retained.
-GitHub downloads remain unsigned; support is **SSMS 22.0 and later 22.x releases**, 64-bit, with manifest range `[22.0,23.0)`.
-Older runtime observations below retain their own source identities and are not fresh execution tests of this UI update.
 
 ## Retained conclusions from 1.0.1 and earlier
 

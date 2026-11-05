@@ -26,13 +26,15 @@ unsigned and support **SSMS 22.0 and later 22.x releases**, 64-bit, bounded to `
 | Arrow template and interaction | PASS: both directions, toggle state, content visibility and expand/collapse actions |
 | Isolated SSMS highlight checks | PASS: 17 checks plus fresh-analysis clearing; actual buffer and adornment layer |
 | Light-theme visual check | PASS: chosen/cleared SQL and collapsed-up/expanded-down arrows; 18 captures |
-| Clean committed-source packaging gate | Pending source commit |
+| Clean committed-source packaging gate | PASS: full offline gate, Release rebuild, all 45 WPF checks and unsigned asset validation |
+| Published assets and fresh downloads | PASS: all five API hashes and downloaded bytes match local assets |
+| GitHub CI at release source | PASS: main and v1.0.2 |
 
 An initial packaging attempt and one fixture failed because the system disk was full. Temporary files were redirected
 to another volume and the full offline suite and builds then passed. No analyzer limit or test assertion was relaxed.
 The arrow checks instantiate the actual WPF templates. The isolated Debug SSMS run also produced 18 Light-theme captures,
 including both arrow states and the highlighted/cleared editor. Its settings were restored byte-for-byte and SSMS exited
-cleanly. The original isolated installation is being restored. See the [focused UI record](history/runs/2026-11-05-pane-interaction-1.0.2.md).
+cleanly. The original isolated extension files were restored and match the backup; normal-profile settings were unchanged. See the [focused UI record](history/runs/2026-11-05-pane-interaction-1.0.2.md).
 This is UI evidence, not actual F5 execution.
 
 ## Scope and retained limits
@@ -40,4 +42,12 @@ This is UI evidence, not actual F5 execution.
 This UI update does not repeat the SQL/server campaign, exact Release-artifact execution acceptance, every SSMS version,
 the full theme matrix, company signing, or signed-copy verification. Prior evidence and unresolved observation gaps remain
 in [verification/status.md](verification/status.md). No SQL execution or new cloud resource is needed for these changes.
-Publication details and checksums will be recorded after the clean-source package is validated and uploaded.
+
+## Published result
+
+[SQL Safety Guard 1.0.2](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.2) is stable and Latest, published
+**2026-11-05 at 15:27:33 UTC**, from source `5ceeeb0ed1a619cccd50d332d074efb205bf43ac`, annotated tag `v1.0.2`.
+Main and the tag were pushed without force; earlier releases were retained. All five GitHub API asset hashes and fresh
+downloads match local validated assets. See the [publication record](history/runs/2026-11-05-release-1.0.2-publication.md)
+for exact checksums, the two successful source/tag CI runs and the unchanged-gate retry after a tooling fixture timeout.
+This record update is documentation only; the fixed tag identifies the published product source.
