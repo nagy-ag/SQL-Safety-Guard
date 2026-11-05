@@ -14,7 +14,7 @@ queries no server metadata. The new maintenance command only hands off to the lo
 ## Qualified conclusion
 
 The installed November 4 package was confirmed to match the published Release DLL, yet its Tools submenu was absent.
-The local, uncommitted UI correction adds **Uninstall SQL Safety Guard...** to the native settings page beside Import
+The UI correction adds **Uninstall SQL Safety Guard...** to the native settings page beside Import
 and Export, and gives the Tools submenu the parent command group required by the shell. The existing confirmation,
 instance/profile binding and installer handoff are reused. No guard or analyzer behavior changed. Debug and Release
 rebuilds, **1,628 .NET tests**, **32 Release interaction checks**, and local package integrity checks passed. In an owned
@@ -27,6 +27,10 @@ installer remained and was stopped only after file removal was confirmed. All pr
 matched; the normal SSMS process was left running. This correction is prepared as **1.0.1** and is **not yet in the
 published GitHub release**. The fallback uninstall script now also accepts the observed not-installed code 1002, with
 offline fixture coverage. Release packaging adds a ZIP containing the identical VSIX, scripts and instructions.
+The owner requested a company signing kit while keeping GitHub downloads unsigned. The kit adds a checksum/identity
+check and a helper for signing a separate copy with an existing company key; it includes no keys or certificates.
+Sign CLI 0.9.1-beta.26552.4 was installed outside the repository and its version/command help checked. Company-key
+signing and cryptographic signature/chain/timestamp verification remain pending on the company computer.
 See the [uninstall UI record](../history/runs/2026-11-05-uninstall-ui.md) for the evidence and limitations.
 
 The [release preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md) passed the locked offline gate

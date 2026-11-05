@@ -23,9 +23,12 @@ administrator rights (see [user-guide.md](user-guide.md)); pick one of the two p
 |---|---|
 | `SqlSafetyGuard-<version>.vsix` | The extension |
 | `SqlSafetyGuard-<version>-scripts.zip` | `install.ps1`, `uninstall.ps1`, `scripts\SsmsCommon.ps1` |
+| `SqlSafetyGuard-<version>.zip` | Identical VSIX, install/uninstall scripts, instructions, legal notices and signing kit |
+| `SqlSafetyGuard-<version>-signing.zip` | Company signing helper and guide; no keys, certificates or tool binaries |
 | `SHA256SUMS.txt` | Checksums; verify with `Get-FileHash -Algorithm SHA256` |
 
-Extract the scripts zip into one folder, put the `.vsix` next to `install.ps1`, and unblock the files if they were downloaded
+Extract the full ZIP, or extract the scripts ZIP and put the `.vsix` next to `install.ps1`. Download `SHA256SUMS.txt`
+beside that folder's VSIX for the signing helper; see [vsix-signing.md](vsix-signing.md). Unblock the files if they were downloaded
 (`Get-ChildItem -Recurse | Unblock-File`).
 
 ## Install for all users of a laptop (administrator)
@@ -48,7 +51,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\uninstall.ps1
 
 This removes the all-users copy and, for the account running it, any per-user install.
 
-Per-user VSIX installations also offer **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**.
+Per-user VSIX installations offer **Tools > Options > SQL Safety Guard > Uninstall SQL Safety Guard...** beside Import
+and Export. The Tools > SQL Safety Guard submenu also registers this command, although its live popup remains unverified.
 The command confirms first, then opens the adjacent SSMS VSIXInstaller for the running instance/profile. Users save work
 and close SSMS when prompted; it does not elevate, delete loaded files or disable the query guard. It refuses all-users
 manual copies and unrecognized paths with administrator guidance. Keep using the elevated script for all-users removal.

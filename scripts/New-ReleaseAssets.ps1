@@ -161,6 +161,20 @@ public static class ReleaseAssetBytes {
     $vsixName = "SqlSafetyGuard-$version.vsix"
     $scriptsName = "SqlSafetyGuard-$version-scripts.zip"
     $bundleName = "SqlSafetyGuard-$version.zip"
+    $signingName = "SqlSafetyGuard-$version-signing.zip"
+    function Add-SigningKit($Zip, [string] $Prefix) {
+        foreach ($file in @('Sign-CompanyVsix.ps1', 'README.txt')) {
+            [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($Zip, (Join-Path $repository "signing/$file"), "$Prefix$file")
+        }
+        # One maintained signing guide; online references stay usable after extraction without a source checkout.
+        $guide = [IO.File]::ReadAllText((Join-Path $repository 'docs/vsix-signing.md'))
+        foreach ($target in @('release-process.md', '../.agents/skills/ssms-extension-ui/SKILL.md', '../signing/Sign-CompanyVsix.ps1')) {
+            $repoTarget = if ($target.StartsWith('../')) { $target.Substring(3) } else { "docs/$target" }
+            $guide = $guide.Replace("]($target)", "](https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/$repoTarget)")
+        }
+        $guideWriter = [IO.StreamWriter]::new($Zip.CreateEntry("${Prefix}SIGNING.md").Open(), [Text.Encoding]::UTF8)
+        try { $guideWriter.Write($guide) } finally { $guideWriter.Dispose() }
+    }
     Copy-Item -LiteralPath $vsix -Destination (Join-Path $OutputDirectory $vsixName)
     $scriptsZip = [IO.Compression.ZipFile]::Open((Join-Path $OutputDirectory $scriptsName), [IO.Compression.ZipArchiveMode]::Create)
     try {
@@ -169,12 +183,15 @@ public static class ReleaseAssetBytes {
         }
     }
     finally { $scriptsZip.Dispose() }
+    $signingZip = [IO.Compression.ZipFile]::Open((Join-Path $OutputDirectory $signingName), [IO.Compression.ZipArchiveMode]::Create)
+    try { Add-SigningKit $signingZip '' } finally { $signingZip.Dispose() }
     $bundle = [IO.Compression.ZipFile]::Open((Join-Path $OutputDirectory $bundleName), [IO.Compression.ZipArchiveMode]::Create)
     try {
         [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($bundle, (Join-Path $OutputDirectory $vsixName), $vsixName)
         foreach ($file in @('install.ps1', 'uninstall.ps1', 'scripts/SsmsCommon.ps1', 'LICENSE', 'THIRD-PARTY-NOTICES.md')) {
             [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($bundle, (Join-Path $repository $file), $file)
         }
+        Add-SigningKit $bundle 'signing/'
         $instructions = @"
 SQL Safety Guard $version for SQL Server Management Studio 22.x (64-bit)
 
@@ -195,6 +212,9 @@ Save your work and close SSMS, then run .\uninstall.ps1 from this extracted fold
 
 GitHub packages are unsigned. Verify the ZIP or standalone VSIX using the release's
 SHA256SUMS.txt. The VSIX inside this ZIP is identical to the standalone download.
+The signing/ folder contains the optional company signing helper and SIGNING.md.
+Download SHA256SUMS.txt into this extracted folder before using that helper.
+Signing happens only on the company computer; keep signed copies internal.
 Instructions and verification limits:
 https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/user-guide.md
 "@
@@ -202,7 +222,7 @@ https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/user-guide.md
         try { $writer.Write($instructions) } finally { $writer.Dispose() }
     }
     finally { $bundle.Dispose() }
-    $sums = foreach ($name in @($vsixName, $scriptsName, $bundleName)) {
+    $sums = foreach ($name in @($vsixName, $scriptsName, $bundleName, $signingName)) {
         $hash = (Get-FileHash -LiteralPath (Join-Path $OutputDirectory $name) -Algorithm SHA256).Hash.ToLowerInvariant()
         "$hash  $name"
     }

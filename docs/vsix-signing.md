@@ -8,6 +8,11 @@ distribution record, independent of whether GitHub marks the release stable or p
 The company signing computer needs Sign CLI, its prerequisites, and access to the signing private key. It does
 not need source code or Visual Studio build workloads. SSMS 22 is needed for the signed-copy installation check.
 
+Release 1.0.1 includes the signing kit in the full `SqlSafetyGuard-1.0.1.zip` under `signing/`, and separately as
+`SqlSafetyGuard-1.0.1-signing.zip`. The kit contains `Sign-CompanyVsix.ps1`, `README.txt` and this guide as `SIGNING.md`.
+It includes no certificates, private keys or Sign CLI binaries. Download the release's `SHA256SUMS.txt` separately.
+The helper's maintained source is [Sign-CompanyVsix.ps1](../signing/Sign-CompanyVsix.ps1).
+
 This guide describes an internal pilot with a self-signed certificate. If IT supplies a company-issued certificate or managed
 signing service, use that identity and its key-access instructions instead of creating the pilot certificate below.
 
@@ -31,13 +36,15 @@ signing service, use that identity and its key-access instructions instead of cr
 Use PowerShell under the company Windows account that will sign future releases. Switching to a different administrator
 account also switches `CurrentUser` and can make the key unavailable.
 
-Install Sign CLI with the .NET 8 SDK or later and the Microsoft Visual C++ 14 runtime available. Install a specific version
-selected and tested by the release owner from the [official package page](https://www.nuget.org/packages/sign).
+Install the **.NET 10 SDK** and Microsoft Visual C++ 14 runtime on a supported x64 Windows computer. The current
+[official package page](https://www.nuget.org/packages/sign) still lists .NET 8+, but notes that .NET 8/9 support will be
+removed shortly after November 10, 2026. The 1.0.1 kit's command syntax was checked with **Sign CLI
+0.9.1-beta.26552.4** on November 5, 2026. This tool is a prerelease; have IT approve it and verify actual signing,
+chain and timestamp on the company computer. No company key was used during release preparation.
 
 ```powershell
 $ErrorActionPreference = 'Stop'
-$signVersion = Read-Host 'Exact Sign CLI package version selected for this release process'
-if ([string]::IsNullOrWhiteSpace($signVersion)) { throw 'A package version is required.' }
+$signVersion = '0.9.1-beta.26552.4' # Have IT approve this pinned version.
 dotnet tool install --global sign --version $signVersion
 if ($LASTEXITCODE -ne 0) { throw 'Sign CLI installation failed.' }
 sign --version
@@ -96,18 +103,44 @@ Follow [release-process.md](release-process.md). Download `SqlSafetyGuard-<versi
 from GitHub Releases. Compare the VSIX SHA-256 with the checksum before signing. For an independently
 authenticated comparison, convey the expected hash through an authenticated company channel too.
 
-Copy the downloaded file to an `unsigned` staging folder as `SqlSafetyGuard-<version>-unsigned.vsix`. Keep its
-hash and source revision with the internal signing evidence. No private key or signing tool moves to the repository,
-the development computer, or GitHub. The signed result is a separate internal copy of the GitHub package.
+Keep the original filename when using the helper below. For the manual alternative, copy the download to an `unsigned`
+staging folder as `SqlSafetyGuard-<version>-unsigned.vsix`. Keep its hash and source revision with the internal signing
+evidence. No private key moves to the repository, development computer or GitHub. The signed result is a separate
+internal copy of the GitHub package.
 
 ### 2. Sign on the company laptop
 
+For the packaged helper, keep the original GitHub VSIX filename and put `SHA256SUMS.txt` next to it. From the
+extracted `signing` folder, first check the input without a key or Sign CLI:
+
+```powershell
+.\Sign-CompanyVsix.ps1 -VsixPath ..\SqlSafetyGuard-1.0.1.vsix -ChecksumsPath ..\SHA256SUMS.txt -CheckOnly
+```
+
+Then sign a separate copy using your public certificate and output paths:
+
+```powershell
+.\Sign-CompanyVsix.ps1 -VsixPath ..\SqlSafetyGuard-1.0.1.vsix -ChecksumsPath ..\SHA256SUMS.txt `
+    -PublicCertificatePath "$env:USERPROFILE\Documents\SqlSafetyGuardSigning\SqlSafetyGuard-Pilot.cer" `
+    -OutputPath "$env:USERPROFILE\Documents\SqlSafetyGuardSigning\signed\SqlSafetyGuard-1.0.1.vsix"
+```
+
+The helper checks the input hash, package identity/version and absence of package signatures, then checks a DER public
+certificate against the current user's code-signing key and validity period. It signs a disposable copy, refuses existing
+output/receipt files, and records both hashes, certificate SHA-256 fingerprint and tool version in `<output>.signing.json`.
+The receipt explicitly leaves signature/chain/timestamp verification **PENDING**. Signature-file presence is only a
+structural check, not cryptographic verification. The helper changes no trust settings and never creates or exports keys.
+For managed/HSM keys outside `CurrentUser\My`, follow IT's provider workflow instead.
+
+The following manual alternative uses the same certificate-store command and a separate output. Unlike the helper,
+you must perform and retain the checksum/identity checks yourself before running it.
+
 Place the received file in `Documents\SqlSafetyGuardSigning\unsigned`. Run as the company account that owns the private key.
-Set `$version` to the version actually built; `1.0.0` below is an example. This does not change the manifest version.
+Set `$version` to the version actually built; `1.0.1` below is an example. This does not change the manifest version.
 
 ```powershell
 $ErrorActionPreference = 'Stop'
-$version = '1.0.0' # Replace with the version in the built VSIX manifest.
+$version = '1.0.1' # Replace with the version in the built VSIX manifest.
 $signingFolder = Join-Path $env:USERPROFILE 'Documents\SqlSafetyGuardSigning'
 $cerPath = Join-Path $signingFolder 'SqlSafetyGuard-Pilot.cer'
 $vsix = Join-Path $signingFolder "unsigned\SqlSafetyGuard-$version-unsigned.vsix"

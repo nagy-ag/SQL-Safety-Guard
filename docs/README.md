@@ -12,7 +12,7 @@ a wave number in their name are snapshots and live in [history/](history/README.
 | [architecture.md](architecture.md) | Project boundaries, dependencies, traced flows and implementation limits. | Living, hand-written |
 | [it-deployment.md](it-deployment.md) | All-users install and uninstall, security facts, checks. For IT. | Living, hand-written |
 | [release-process.md](release-process.md) | How to version, capture themes, test, tag and publish a release. | Living, hand-written |
-| [vsix-signing.md](vsix-signing.md) | Sign a finished VSIX on a company laptop: key privacy, pilot certificate, trust and release order. | Living, hand-written |
+| [vsix-signing.md](vsix-signing.md) | Use the downloadable company signing kit: input checks, key privacy, pilot certificate, trust and release order. | Living, hand-written |
 | [verification/status.md](verification/status.md) | Where verification stands right now: latest run, false greens, open gaps, next steps. **Read this first.** | Living, hand-written |
 | [verification/policy-questions.md](verification/policy-questions.md) | Behaviours that need a company decision, with the short list on top. | Living, hand-written |
 | [statement-verdicts.md](statement-verdicts.md) | Which colour every statement kind gets, for permanent and temp targets. | Generated, test-guarded |

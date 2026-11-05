@@ -53,6 +53,8 @@ individual patches and future major versions are not all tested. See the [verifi
 3. Start SSMS; the safety pane appears beside each SQL query editor.
 
 The release also provides `SqlSafetyGuard-<version>.zip` with the same VSIX, install/uninstall scripts and instructions.
+It includes the optional company signing kit, also available as `SqlSafetyGuard-<version>-signing.zip`.
+GitHub downloads remain unsigned; see the [company signing guide](docs/vsix-signing.md).
 Extract the ZIP before installing. Use `SHA256SUMS.txt` to verify either download.
 
 GitHub packages are unsigned. The [user guide](docs/user-guide.md) covers scripts, upgrades and uninstalling.

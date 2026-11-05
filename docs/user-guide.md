@@ -11,7 +11,9 @@ with the evidence and remaining gaps listed in [verification/status.md](verifica
 
 Download `SqlSafetyGuard-<version>.vsix` from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
 Alternatively, download `SqlSafetyGuard-<version>.zip` and extract it: it contains the identical VSIX, installation and
-removal scripts, and `README.txt`. The scripts-only ZIP is available separately. Check the download with `SHA256SUMS.txt`.
+removal scripts, `README.txt` and the optional company signing kit. Scripts-only and signing-only ZIPs are available
+separately. GitHub downloads stay unsigned; see [vsix-signing.md](vsix-signing.md) for company signing instructions.
+Check the download with `SHA256SUMS.txt`.
 If Windows blocks the download, right-click it > Properties > Unblock > OK. Close SSMS, then double-click the VSIX.
 The install is per user and needs no administrator. If IT already installed an all-users copy, do not add a second copy.
 To update, install a newer VSIX the same way.

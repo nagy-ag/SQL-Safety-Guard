@@ -12,8 +12,11 @@ remains unsigned and supports **SSMS 22.0 and later 22.x releases**, 64-bit, bou
   the guard, force-close SSMS, elevate, or delete loaded extension files itself.
 - Treats the observed installer exit 1002 (not installed) as an already-absent result in the fallback uninstall script,
   matching the install helper; other failures still abort. Offline fixtures cover both supported not-installed codes.
-- Adds `SqlSafetyGuard-1.0.1.zip` containing the standalone VSIX, scripts, instructions and legal notices. Separate
-  VSIX/scripts-only downloads remain available; `SHA256SUMS.txt` covers all three assets.
+- Adds `SqlSafetyGuard-1.0.1.zip` containing the standalone VSIX, scripts, instructions, legal notices and company signing
+  kit. Separate VSIX/scripts/signing-kit downloads remain available; `SHA256SUMS.txt` covers all four assets.
+- Keeps GitHub downloads unsigned. The signing kit checks the input and signs a separate company copy with an existing
+  local code-signing key; no key is included or created here. Sign CLI 0.9.1-beta.26552.4 help/version checks passed;
+  company-key signing, signature/chain/timestamp verification and signed-copy SSMS acceptance remain company-side work.
 - Synchronizes manifest, assembly and product versions. Analyzer classification and execution-guard policy are unchanged.
 
 ## Evidence and remaining gates
