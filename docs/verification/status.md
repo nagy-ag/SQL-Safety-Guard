@@ -1,17 +1,25 @@
 # Verification status
 
-Updated **2026-11-05** after publication of the owner-authorized **1.0.1 uninstall UI release**, including the company
-signing kit. [SQL Safety Guard 1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1) is stable and Latest;
-the earlier 1.0.0 release is retained. GitHub downloads remain unsigned.
-Published source: `939ab15ee419daa86a61cab2a7cbd39ace64632a`, identified by annotated tag `v1.0.1` and
-[the publication record](../history/runs/2026-11-05-release-1.0.1-publication.md). The release supports **SSMS 22.0 and later
-22.x releases**, 64-bit, with manifest range `[22.0,23.0)`. All five uploaded assets and fresh downloads match local hashes.
-The older published sources, campaign base `5e8c7f2`, frozen candidates and manual visual packages retain their own
-identities below. Their runtime observations are not fresh execution tests of the rebuilt publication artifact.
-The analyzer's classification policy is unchanged. The extension still opens no SQL connections, executes no SQL and
-queries no server metadata. The new maintenance command only hands off to the local SSMS installer after confirmation.
+Updated **2026-11-05** during preparation of the owner-requested **1.0.2 pane interaction release**.
+The candidate removes automatic editor tinting and caret-driven highlights; only a group explicitly chosen in the pane
+is highlighted. Returning to editing clears the choice. The safe-section arrow points up when collapsed and down when
+expanded. Analyzer classification, F5 policy and the production text-only boundary are unchanged.
 
-## Qualified conclusion
+The locked offline gate passed **1,635 .NET tests / 10 Python tests / 527 current rules**. Debug and Release solution builds
+and **45 Release WPF interaction checks** passed, including both arrow states and toggle behavior. An isolated Debug
+SSMS run passed **17 highlight checks plus fresh-analysis clearing** and produced **18 Light-theme captures**. The
+chosen/cleared editor and both arrow directions were inspected; settings restored byte-for-byte and SSMS exited cleanly.
+The [focused UI record](../history/runs/2026-11-05-pane-interaction-1.0.2.md) identifies the candidate and limitations.
+The final committed-source packaging gate and publication are pending.
+See [release acceptance](../release-acceptance.md) and the [changelog](../../CHANGELOG.md).
+
+The latest published package is currently [1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1), source
+`939ab15ee419daa86a61cab2a7cbd39ace64632a`, identified by annotated tag `v1.0.1` and
+[its publication record](../history/runs/2026-11-05-release-1.0.1-publication.md). Earlier releases are retained.
+GitHub downloads remain unsigned; support is **SSMS 22.0 and later 22.x releases**, 64-bit, with manifest range `[22.0,23.0)`.
+Older runtime observations below retain their own source identities and are not fresh execution tests of this UI update.
+
+## Retained conclusions from 1.0.1 and earlier
 
 The installed November 4 package was confirmed to match the published Release DLL, yet its Tools submenu was absent.
 The UI correction adds **Uninstall SQL Safety Guard...** to the native settings page beside Import

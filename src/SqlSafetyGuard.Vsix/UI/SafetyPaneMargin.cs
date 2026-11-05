@@ -21,7 +21,7 @@ namespace SqlSafetyGuard.UI
 {
     /// <summary>
     /// The safety pane inside one query window. Re-analyzes (off the UI thread) a moment after the text or the
-    /// selection changes, highlights statements in the editor, and follows the caret. Never executes anything.
+    /// selection changes, and highlights only the group explicitly chosen in the pane. Never executes anything.
     /// </summary>
     internal sealed partial class SafetyPaneMargin : IWpfTextViewMargin
     {
@@ -40,17 +40,17 @@ namespace SqlSafetyGuard.UI
         private readonly IAdornmentLayer _layer;
         private readonly SafetyPaneControl _control;
         private readonly DispatcherTimer _debounce;
-        private readonly DispatcherTimer _clearSelection;
 
         private int _version;
         private CancellationTokenSource _analysis;
         private List<PaneGroup> _groups = new List<PaneGroup>();
         private PaneGroup _selected;
-        private bool _clearingFromEditorBackground;
+        private bool _navigatingFromPane;
         private bool _disposed;
         private long _lastEditTimestamp;
         private string _reason = "open";
         private Span? _analyzedSelection; // null = whole window
+        private Span? _highlightSelection; // Execution selection when the pane group was explicitly chosen.
 
         // Settings for this window's connection. SSMS only exposes the connection of the active query window, so
         // they are refreshed while this window is active and reused while it isn't.
@@ -82,18 +82,11 @@ namespace SqlSafetyGuard.UI
                 StartAnalysis();
             };
 
-            _clearSelection = new DispatcherTimer(DispatcherPriority.Input);
-            _clearSelection.Tick += (sender, args) =>
-            {
-                _clearSelection.Stop();
-                _clearingFromEditorBackground = false;
-                if (!_disposed) ClearGroupSelection();
-            };
-
             _view.TextBuffer.Changed += OnBufferChanged;
             _view.Selection.SelectionChanged += OnSelectionChanged;
             _view.Caret.PositionChanged += OnCaretMoved;
-            _view.VisualElement.PreviewMouseLeftButtonDown += OnEditorMouseDown;
+            _view.VisualElement.PreviewMouseDown += OnEditorMouseDown;
+            _view.VisualElement.PreviewKeyDown += OnEditorKeyDown;
             _view.LayoutChanged += OnLayoutChanged;
             _view.GotAggregateFocus += OnGotFocus;
             _view.Closed += (s, e) => Dispose();
@@ -134,12 +127,12 @@ namespace SqlSafetyGuard.UI
             _disposed = true;
             Live.Remove(this);
             _debounce.Stop();
-            _clearSelection.Stop();
             _analysis?.Cancel();
             _view.TextBuffer.Changed -= OnBufferChanged;
             _view.Selection.SelectionChanged -= OnSelectionChanged;
             _view.Caret.PositionChanged -= OnCaretMoved;
-            _view.VisualElement.PreviewMouseLeftButtonDown -= OnEditorMouseDown;
+            _view.VisualElement.PreviewMouseDown -= OnEditorMouseDown;
+            _view.VisualElement.PreviewKeyDown -= OnEditorKeyDown;
             _view.LayoutChanged -= OnLayoutChanged;
             _view.GotAggregateFocus -= OnGotFocus;
         }
@@ -175,14 +168,18 @@ namespace SqlSafetyGuard.UI
 
         private void OnBufferChanged(object sender, TextContentChangedEventArgs e)
         {
+            ClearGroupSelection();
             _lastEditTimestamp = Stopwatch.GetTimestamp();
             Schedule("edit");
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
         {
+            var selection = CurrentSelection();
+            if (!_navigatingFromPane && _selected != null && !Equals(selection, _highlightSelection))
+                ClearGroupSelection();
             // Moving the caret also raises this; only a change in what F5 would run needs a new analysis.
-            if (!Equals(CurrentSelection(), _analyzedSelection))
+            if (!Equals(selection, _analyzedSelection))
                 Schedule("selection");
         }
 
@@ -368,7 +365,9 @@ namespace SqlSafetyGuard.UI
         private void OnGroupSelected(PaneGroup group)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            if (_collapsed) return;
             _selected = group;
+            _highlightSelection = CurrentSelection();
             Redraw();
             PaneTrace.Write($"select '{group?.Key}' source=pane");
             if (group != null)
@@ -383,10 +382,18 @@ namespace SqlSafetyGuard.UI
             ThreadHelper.ThrowIfNotOnUIThread();
             if (group == null)
                 return;
+            OnGroupSelected(group);
             var span = group.Findings[0].SpanIn(_view.TextSnapshot);
-            _view.Caret.MoveTo(span.Start);
-            _view.ViewScroller.EnsureSpanVisible(span, EnsureSpanVisibleOptions.ShowStart);
-            ((UIElement)_view).Focus();
+            // Pane navigation is the one caret move that keeps the explicitly requested highlight.
+            // Do not select text: SSMS executes the selection when one exists.
+            _navigatingFromPane = true;
+            try
+            {
+                _view.Caret.MoveTo(span.Start);
+                _view.ViewScroller.EnsureSpanVisible(span, EnsureSpanVisibleOptions.ShowStart);
+                ((UIElement)_view).Focus();
+            }
+            finally { _navigatingFromPane = false; }
             PaneTrace.Write($"activate '{group.Key}' caretLine={_view.Caret.Position.BufferPosition.GetContainingLine().LineNumber + 1}");
         }
 
@@ -394,20 +401,16 @@ namespace SqlSafetyGuard.UI
 
         private void OnEditorMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (_disposed || _view.IsClosed || _view.InLayout) return;
-            var location = e.GetPosition(_view.VisualElement);
-            var line = _view.TextViewLines.GetTextViewLineContainingYCoordinate(location.Y + _view.ViewportTop);
-            var position = line?.GetBufferPositionFromXCoordinate(location.X + _view.ViewportLeft);
-            if (position.HasValue && position.Value.Position < position.Value.Snapshot.Length &&
-                !char.IsWhiteSpace(position.Value.Snapshot[position.Value.Position])) return;
-            _clearingFromEditorBackground = true;
             ClearGroupSelection();
-            _clearSelection.Start();
         }
+
+        private void OnEditorKeyDown(object sender, KeyEventArgs e) => ClearGroupSelection();
 
         private void ClearGroupSelection()
         {
+            if (_disposed || _selected == null) return;
             _selected = null;
+            _highlightSelection = null;
             _control.Select(null);
             Redraw();
         }
@@ -415,18 +418,7 @@ namespace SqlSafetyGuard.UI
         private void OnCaretMoved(object sender, CaretPositionChangedEventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if (_clearingFromEditorBackground) return;
-            var caret = e.NewPosition.BufferPosition;
-            var hit = _groups.FirstOrDefault(g => g.Findings.Any(f => f.SpanIn(caret.Snapshot).IntersectsWith(new Span(caret.Position, 0)) ||
-                                                                       f.SpanIn(caret.Snapshot).Contains(caret.Position)));
-            if (hit == _selected)
-                return;
-
-            // Follow the caret: select and highlight, but don't scroll (the user is already looking there).
-            _selected = hit;
-            _control.Select(hit);
-            Redraw();
-            PaneTrace.Write($"select '{hit?.Key}' source=caret line={caret.GetContainingLine().LineNumber + 1}");
+            if (!_navigatingFromPane) ClearGroupSelection();
         }
 
         // ---- highlights ---------------------------------------------------------------------------------
@@ -440,18 +432,13 @@ namespace SqlSafetyGuard.UI
             var redrawTime = Stopwatch.StartNew();
             _layer.RemoveAllAdornments();
 
-            foreach (var group in _groups.Where(group => !group.Verdict.IsGreen() || group == _selected))
+            foreach (var group in _groups.Where(group => !_collapsed && group == _selected))
             {
-                bool selected = group == _selected;
                 var color = ((SolidColorBrush)VerdictBrushes.For(group.Verdict)).Color;
-                var fill = new SolidColorBrush(Color.FromArgb(selected ? (byte)0x48 : (byte)0x16, color.R, color.G, color.B));
+                var fill = new SolidColorBrush(Color.FromArgb(0x48, color.R, color.G, color.B));
                 fill.Freeze();
-                Pen pen = null;
-                if (selected)
-                {
-                    pen = new Pen(new SolidColorBrush(Color.FromArgb(0xB0, color.R, color.G, color.B)), 1);
-                    pen.Freeze();
-                }
+                var pen = new Pen(new SolidColorBrush(Color.FromArgb(0xB0, color.R, color.G, color.B)), 1);
+                pen.Freeze();
 
                 foreach (var finding in group.Findings)
                 {
@@ -497,6 +484,7 @@ namespace SqlSafetyGuard.UI
 
         private void ApplyWidth()
         {
+            if (_collapsed) ClearGroupSelection();
             _control.SetCollapsed(_collapsed);
             _control.Width = _collapsed ? CollapsedWidth : _expandedWidth;
         }

@@ -19,6 +19,7 @@ The stored values are invariant lowercase hyphenated names, NOT the registration
 param(
     [string] $SettingsPath,
     [Parameter(Mandatory = $true)][string] $OutputDirectory,
+    [switch] $CheckPaneHighlights,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
 )
@@ -281,6 +282,26 @@ try {
         [ThemeCaptureNative]::ShowMain($main)
         Send-Command 'dismisswelcome'
         Send-Command 'widen' '160'
+        if ($CheckPaneHighlights) {
+            $highlightSql = Join-Path $script:channelDirectory 'highlights.sql'
+            [IO.File]::WriteAllText($highlightSql, "UPDATE dbo.HighlightA SET x = 1;`r`nEXEC dbo.HighlightProc;`r`nSELECT 1;", $utf8)
+            Send-Command 'replacefile' $highlightSql
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Capture-Surface 'main' 'highlights-initial'
+            Send-Command 'highlightcheck'
+            Wait-Receipt '\tpane-highlights\t17\tPASS\r?$'
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'highlightassertclear'
+            Wait-Receipt '\tpane-highlights\treanalysis-clear\tPASS\r?$'
+            Send-Command 'pick' 'dbo.HighlightA'
+            Capture-Surface 'main' 'highlights-picked'
+            Send-Command 'caret' '3'
+            Capture-Surface 'main' 'highlights-cleared'
+            Send-Command 'safe'
+            Capture-Surface 'pane' 'safe-expanded'
+            Send-Command 'safe'
+            Capture-Surface 'pane' 'safe-collapsed'
+        }
         foreach ($query in @(
             @{ Name = 'green'; Text = 'SELECT 1;'; Verdict = 'ReadOnly' },
             @{ Name = 'yellow'; Text = 'EXEC dbo.SomeProc;'; Verdict = 'Unknown' },

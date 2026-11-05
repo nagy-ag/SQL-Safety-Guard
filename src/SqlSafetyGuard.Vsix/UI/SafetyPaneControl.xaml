@@ -126,6 +126,51 @@
             <Setter Property="ItemTemplate" Value="{StaticResource GroupTemplate}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         </Style>
+        <!-- Explicit state arrows: collapsed points up, expanded points down. -->
+        <Style x:Key="SafeSectionExpander" TargetType="Expander">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <DockPanel>
+                                <ToggleButton x:Name="SafeSectionToggle" DockPanel.Dock="Top"
+                                              Content="{TemplateBinding Header}"
+                                              Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Stretch"
+                                              AutomationProperties.Name="{Binding Header.Text, RelativeSource={RelativeSource TemplatedParent}}"
+                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="FocusBorder" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Padding="2">
+                                                <DockPanel>
+                                                    <Path x:Name="SafeSectionChevron" DockPanel.Dock="Left" Width="8" Height="4" Margin="2,0,8,0"
+                                                          VerticalAlignment="Center" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.5"
+                                                          Data="M 0,4 L 4,0 L 8,4" />
+                                                    <ContentPresenter />
+                                                </DockPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="SafeSectionChevron" Property="Data" Value="M 0,0 L 4,4 L 8,0" />
+                                                </Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                    <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <ContentPresenter x:Name="SafeSectionDetails" Visibility="Collapsed" />
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Setter TargetName="SafeSectionDetails" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="PatternTemplate">
             <DockPanel Margin="0,3">
                 <Border DockPanel.Dock="Right" BorderThickness="1" CornerRadius="2" Padding="4,1" Margin="8,0,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
@@ -188,7 +233,7 @@
             </Border>
             <Grid>
                 <DockPanel x:Name="AnalysisPage" Background="Transparent" PreviewMouseLeftButtonDown="OnAnalysisBackgroundMouseDown">
-                    <Expander Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
+                    <Expander Style="{StaticResource SafeSectionExpander}" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
                         <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
                         <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
                     </Expander>

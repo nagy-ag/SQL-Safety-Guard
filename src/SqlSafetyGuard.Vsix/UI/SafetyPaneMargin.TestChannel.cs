@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Threading;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
+using SqlSafetyGuard.Analyzer;
 
 namespace SqlSafetyGuard.UI
 {
@@ -181,6 +182,15 @@ namespace SqlSafetyGuard.UI
                     _view.Selection.Clear();
                     _view.Caret.MoveTo(snapshot.GetLineFromLineNumber(int.Parse(arg) - 1).Start);
                     break;
+                case "highlightcheck":
+                    SmokePaneHighlights();
+                    break;
+                case "highlightassertclear":
+                    Redraw();
+                    if (_selected != null || _layer.Elements.Count != 0)
+                        throw new InvalidOperationException("Reanalysis restored a cleared highlight.");
+                    ExtensionCheckTrace.Write("pane-highlights", "reanalysis-clear", "PASS");
+                    break;
                 case "select":
                     var lines = arg.Split(' ').Select(int.Parse).ToArray();
                     var from = snapshot.GetLineFromLineNumber(lines[0] - 1).Start;
@@ -241,6 +251,70 @@ namespace SqlSafetyGuard.UI
                     PaneTrace.Write($"cmd unknown verb '{verb}'");
                     break;
             }
+        }
+
+        private void SmokePaneHighlights()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("Highlight checks require a private test directory.");
+            var first = _groups.First(group => group.Verdict.IsRed());
+            var second = _groups.First(group => group.Verdict.IsYellow());
+            int checks = 0;
+            void Check(bool condition, string description)
+            {
+                if (!condition) throw new InvalidOperationException(description);
+                checks++;
+            }
+            bool OnlyGroup(PaneGroup group) => _selected == group && _layer.Elements.Count > 0 &&
+                _layer.Elements.All(element => element.VisualSpan.HasValue &&
+                    group.Findings.Any(finding => finding.SpanIn(_view.TextSnapshot) == element.VisualSpan.Value));
+            bool Clear() => _selected == null && _layer.Elements.Count == 0;
+
+            Check(Clear(), "Fresh analysis must not tint red/yellow statements.");
+            _view.Caret.MoveTo(new SnapshotPoint(_view.TextSnapshot, _view.TextSnapshot.Length));
+            Check(Clear(), "Moving the caret must not activate a highlight.");
+            _control.ClickGroup(first);
+            Check(OnlyGroup(first), "Choosing red must draw only that group's statements.");
+            Check(_view.Selection.IsEmpty, "Choosing a group must not select SQL text.");
+            _control.ClickGroup(second);
+            Check(OnlyGroup(second), "Choosing yellow must replace the red highlight.");
+            _view.VisualElement.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(
+                System.Windows.Input.Mouse.PrimaryDevice, 0, System.Windows.Input.MouseButton.Left)
+                { RoutedEvent = System.Windows.UIElement.PreviewMouseDownEvent });
+            Check(Clear(), "An editor click must clear the highlight.");
+            _control.ClickGroup(first);
+            OnEditorKeyDown(_view.VisualElement, null);
+            Check(Clear(), "An editor key must clear the highlight.");
+            _control.ClickGroup(first);
+            _view.Caret.MoveTo(_view.TextSnapshot.GetLineFromLineNumber(1).Start);
+            Check(Clear(), "Caret navigation must clear, without selecting another group.");
+            _control.ClickGroup(first);
+            OnGroupActivated(first);
+            Check(OnlyGroup(first) && _view.Selection.IsEmpty, "Pane activation must keep the highlight without selecting SQL.");
+            _view.Selection.Select(first.Findings[0].SpanIn(_view.TextSnapshot), false);
+            Check(Clear(), "Changing execution selection must clear the highlight.");
+            var executionSelection = CurrentSelection();
+            _control.ClickGroup(second);
+            Check(OnlyGroup(second) && Equals(executionSelection, CurrentSelection()), "Choosing a group must preserve existing execution selection.");
+            OnSelectionChanged(_view.Selection, EventArgs.Empty);
+            Check(OnlyGroup(second), "A selection notification without an execution-scope change must keep the chosen highlight.");
+            OnGroupActivated(second);
+            Check(OnlyGroup(second) && Equals(executionSelection, CurrentSelection()), "Pane activation must preserve existing execution selection.");
+            _control.Select(null);
+            OnGroupSelected(null);
+            Check(Clear(), "Pane background deselection must clear the highlight.");
+            _view.Selection.Clear();
+            _control.ClickGroup(first);
+            SetCollapsedEverywhere(true);
+            Check(Clear(), "Collapsing the pane must clear the highlight.");
+            SetCollapsedEverywhere(false);
+            Redraw();
+            Check(Clear(), "Expanding and redrawing must not restore highlights.");
+            _control.ClickGroup(first);
+            _view.TextBuffer.Insert(_view.TextSnapshot.Length, Environment.NewLine + "-- highlight check edit");
+            Check(Clear(), "A real buffer edit must clear the highlight immediately.");
+            ExtensionCheckTrace.Write("pane-highlights", checks.ToString(), "PASS");
         }
 
         private void SmokeGuardFailure(string action)

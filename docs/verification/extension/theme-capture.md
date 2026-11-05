@@ -6,6 +6,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
+# Add -CheckPaneHighlights for the click-to-highlight checks and both safe-section arrow states.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
 ```
 
@@ -32,6 +33,13 @@ Wait for `shown`/`captured` receipts in `events.tsv`, not just `ack` (which mean
 `manifest.csv` records theme, surface, PNG path, bytes, dimensions and pixel variance/non-blank status. Open several PNGs
 to verify content as well: pixel variance alone cannot prove the correct surface was captured. All capture code/verbs are
 compiled out of Release; this is a visual check, not evidence of F5 execution behavior.
+
+`-CheckPaneHighlights` also runs 17 in-process checks on the real editor buffer and adornment layer, followed by a
+fresh-analysis check that cleared highlights stay cleared. It covers initial red/yellow statements without tint,
+choosing and switching groups, editor mouse/key/caret interaction, pane activation with empty and nonempty SQL
+selections, deselection, collapse/expand and a real buffer edit. These checks never dispatch Execute or open a SQL
+connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
+content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
 
 The stored `environment.visualExperience.colorTheme` mapping is:
 

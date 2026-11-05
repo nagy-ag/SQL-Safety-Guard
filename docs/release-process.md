@@ -8,8 +8,8 @@ in this repository or in GitHub release assets.
 
 Keep the VSIX manifest (`src/SqlSafetyGuard.Vsix/source.extension.vsixmanifest`, `MAJOR.MINOR.PATCH`),
 `src/SqlSafetyGuard.Vsix/Properties/AssemblyInfo.cs` and `src/SqlSafetyGuard.Analyzer/SqlSafetyGuard.Analyzer.csproj`
-(`MAJOR.MINOR.PATCH.0`) equal. `VersionConsistencyTests` enforces this. Release notes live on GitHub; there is no separate
-changelog file.
+(`MAJOR.MINOR.PATCH.0`) equal. `VersionConsistencyTests` enforces this. Update [CHANGELOG.md](../CHANGELOG.md)
+and the GitHub release notes for each release.
 
 - **Patch** (1.0.1): fixes that change no colour.
 - **Minor**: a colour change or new feature. Explain colour changes explicitly in release notes.

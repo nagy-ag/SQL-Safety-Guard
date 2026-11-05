@@ -1,54 +1,43 @@
-# Release 1.0.1 acceptance
+# Release 1.0.2 acceptance
 
-Updated **2026-11-05** for the owner-requested **1.0.1 uninstall UI update**. The owner authorized committing/pushing
-GitHub `main` and publishing 1.0.1 with a ZIP containing the VSIX. The earlier 1.0.0 release is retained. The package
-remains unsigned and supports **SSMS 22.0 and later 22.x releases**, 64-bit, bounded to `[22.0,23.0)`.
+Updated **2026-11-05** for the owner-requested **1.0.2 pane interaction update**. The owner authorized updating
+GitHub `main`, publishing 1.0.2 and updating the changelog. Earlier releases are retained. GitHub packages remain
+unsigned and support **SSMS 22.0 and later 22.x releases**, 64-bit, bounded to `[22.0,23.0)`.
 
 ## Changes
 
-- Adds **Uninstall SQL Safety Guard...** beside Import and Export under **Tools > Options > SQL Safety Guard**.
-- Corrects the command-group hierarchy of the Tools submenu. Its live popup visibility remains unverified.
-- Reuses the existing No-default confirmation and instance/profile-specific installer handoff. It does not disable
-  the guard, force-close SSMS, elevate, or delete loaded extension files itself.
-- Treats the observed installer exit 1002 (not installed) as an already-absent result in the fallback uninstall script,
-  matching the install helper; other failures still abort. Offline fixtures cover both supported not-installed codes.
-- Adds `SqlSafetyGuard-1.0.1.zip` containing the standalone VSIX, scripts, instructions, legal notices and company signing
-  kit. Separate VSIX/scripts/signing-kit downloads remain available; `SHA256SUMS.txt` covers all four assets.
-- Keeps GitHub downloads unsigned. The signing kit checks the input and signs a separate company copy with an existing
-  local code-signing key; no key is included or created here. Sign CLI 0.9.1-beta.26552.4 help/version checks passed;
-  company-key signing, signature/chain/timestamp verification and signed-copy SSMS acceptance remain company-side work.
-- Synchronizes manifest, assembly and product versions. Analyzer classification and execution-guard policy are unchanged.
+- Highlights appear only for the finding group explicitly chosen in the pane. Red/yellow statements have no idle tint,
+  and cursor movement never activates a highlight.
+- Editor clicks, keys, caret/SQL-selection changes, buffer edits, pane-background deselection and pane collapse clear
+  the chosen highlight. A refresh cannot restore a choice that was cleared.
+- Double-click/Enter navigation keeps the requested highlight without selecting SQL text or changing the execution scope.
+- The **No permanent changes detected** arrow points **up when collapsed** and **down when expanded**. The toggle action
+  and automatic opening of the safe section are retained.
+- Updates [CHANGELOG.md](../CHANGELOG.md), the user guide and all product version numbers. Analyzer verdicts and F5
+  confirmation policy are unchanged.
 
-## Published result and evidence
+## Local validation
 
-[SQL Safety Guard 1.0.1](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.1) was published stable and Latest
-on **2026-11-05 at 09:47:09 UTC**, release ID **435014557**, from clean source
-`939ab15ee419daa86a61cab2a7cbd39ace64632a` (annotated tag `v1.0.1`). `main` was fast-forwarded and pushed without force;
-the 1.0.0 release/tag were preserved. All five asset digests and fresh downloads match the validated local files.
-See the [publication record](history/runs/2026-11-05-release-1.0.1-publication.md) for exact hashes and CI results.
+| Check | Result |
+|---|---|
+| Locked offline suite | PASS: 1,635 .NET tests, 10 Python tests, 527 current rules |
+| Debug and Release solution builds | PASS |
+| Release WPF interaction scripts | PASS: 26 pane, 15 confirmation, 4 settings checks |
+| Arrow template and interaction | PASS: both directions, toggle state, content visibility and expand/collapse actions |
+| Isolated SSMS highlight checks | PASS: 17 checks plus fresh-analysis clearing; actual buffer and adornment layer |
+| Light-theme visual check | PASS: chosen/cleared SQL and collapsed-up/expanded-down arrows; 18 captures |
+| Clean committed-source packaging gate | Pending source commit |
 
-The [November 5 UI record](history/runs/2026-11-05-uninstall-ui.md) identifies the earlier local candidate and measured
-evidence. Its Release settings button was visible/enabled in isolated SSMS 22.11.2. No preserved the installation and
-started no installer; Yes launched the correct profile-specific installer. Extension files and registration were later
-absent. The final installer page/normal interactive exit and Tools popup were not captured. The hidden test installer
-was stopped only after files were removed; the normal SSMS process and protected settings/assemblies were preserved.
+An initial packaging attempt and one fixture failed because the system disk was full. Temporary files were redirected
+to another volume and the full offline suite and builds then passed. No analyzer limit or test assertion was relaxed.
+The arrow checks instantiate the actual WPF templates. The isolated Debug SSMS run also produced 18 Light-theme captures,
+including both arrow states and the highlighted/cleared editor. Its settings were restored byte-for-byte and SSMS exited
+cleanly. The original isolated installation is being restored. See the [focused UI record](history/runs/2026-11-05-pane-interaction-1.0.2.md).
+This is UI evidence, not actual F5 execution.
 
-That candidate passed both builds, 1,628 .NET tests, 32 Release interaction checks and local package validation.
-Those are not a fresh execution campaign or a live test of the final 1.0.1 artifact. The final clean-source release gate
-passed **1,635 .NET tests, 10 Python tests, 527 current generated rules**, the Release rebuild, 32 interaction checks and
-package validation; Debug also rebuilt successfully. Independent archive checks confirm matching nested VSIX/scripts/kits,
-correct version/target, unsigned packages, no certificate/key files and working online guide links after extraction.
-Two earlier full-gate attempts failed an unchanged three-second timing assertion; it passed alone. The new external
-PowerShell fixtures were isolated from parallel analyzer timing tests, after which the full gate passed. Assertions and
-analyzer behavior were retained. Actual company-key signing and signed-copy verification were not performed here.
+## Scope and retained limits
 
-## Retained compatibility limits
-
-Earlier frozen compatibility candidates have focused execution evidence on one representative of every SSMS 22.x
-minor through 22.11, with the distinctions and observation gaps in [verification/status.md](verification/status.md).
-No new SQL/server campaign, full-theme pass or exhaustive execution-route acceptance is part of this packaging update.
-The earlier eleven-row manual report remains user-reported evidence; its retained counters did not independently
-corroborate the entire sequence. New release metadata does not turn incomplete observations into passes.
-
-The [1.0.0 publication record](history/runs/2026-11-04-ssms-22-publication.md) preserves its source and checksums.
-The final 1.0.1 package is unsigned; company signing remains a separate internal copy.
+This UI update does not repeat the SQL/server campaign, exact Release-artifact execution acceptance, every SSMS version,
+the full theme matrix, company signing, or signed-copy verification. Prior evidence and unresolved observation gaps remain
+in [verification/status.md](verification/status.md). No SQL execution or new cloud resource is needed for these changes.
+Publication details and checksums will be recorded after the clean-source package is validated and uploaded.

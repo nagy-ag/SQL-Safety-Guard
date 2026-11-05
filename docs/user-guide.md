@@ -18,14 +18,14 @@ If Windows blocks the download, right-click it > Properties > Unblock > OK. Clos
 The install is per user and needs no administrator. If IT already installed an all-users copy, do not add a second copy.
 To update, install a newer VSIX the same way.
 
-Version **1.0.1** adds the uninstall button on the native settings page. Close SSMS and install the newer VSIX to update
-from 1.0.0. Earlier same-version 1.0.0 replacement packages required uninstall/reinstall and checksum comparison;
+Version **1.0.2** adds click-to-highlight findings and corrects the safe-section arrow; 1.0.1 added the uninstall button
+on the native settings page. Close SSMS and install the newer VSIX to update. Earlier same-version 1.0.0 replacement packages required uninstall/reinstall and checksum comparison;
 that historical limitation does not require keeping the old version for this update.
 
 For script installation, download and extract the scripts ZIP from the same release, then provide the package path:
 
 ```powershell
-.\install.ps1 -VsixPath .\SqlSafetyGuard-1.0.1.vsix
+.\install.ps1 -VsixPath .\SqlSafetyGuard-1.0.2.vsix
 ```
 
 From a source checkout, the script can also find the newest built package:
@@ -104,11 +104,14 @@ Previous installer checks on SSMS 22.11.2 (VS shell 18.11):
     or yellow. Empty sections are omitted. **Click** a row to expand or collapse a short explanation; groups with
     multiple findings also show their statement types and lines. Only permanent whole-target destructive operations
     have red warning text in the details; temporary-object operations remain neutral. Only one row can be expanded;
-    selecting another row closes the previous details. Clicking blank space in the pane or whitespace in the SQL
-    editor clears the selected row and closes its details. Expansion survives reanalysis
-    for the same object. **Space** toggles details, **Right/Left** expands/collapses, and **double-click** or **Enter**
-    jumps to the statements. Selection highlights them; the editor caret follows the corresponding row without
-    automatically expanding it. Arrow-key navigation works across both lists. Yellow/red statements retain light tinting.
+    selecting another row closes the previous details. Choosing a row highlights only that group's SQL statements and
+    scrolls to its first statement. There is no automatic yellow/red tinting, and moving the editor cursor never activates
+    a highlight. Clicking in the editor, typing, changing the SQL selection, clicking blank pane space or collapsing the
+    pane clears the selected row, its highlight and details. Expansion survives reanalysis for the same object while
+    it remains selected. **Space** toggles details, **Right/Left** expands/collapses, and **double-click** or **Enter**
+    jumps to the statement, keeping the highlight until the next editor interaction. Highlighting never selects SQL text
+    or changes the execution scope. Arrow-key navigation works across both lists. The footer arrow points **up when
+    collapsed** and **down when expanded**.
   - **⚙ Settings** is a read-only view of this window's server, database, matched rule, F5 warning mode, button-only
     confirmation, safe tables, trusted procedures, and tempdb handling. Each effective pattern identifies its
     global or rule source. **Settings...** opens SQL Safety Guard's options page.

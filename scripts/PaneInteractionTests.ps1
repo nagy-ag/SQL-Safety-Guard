@@ -50,6 +50,27 @@ try {
     $groups.SetValue($second, 1)
     $groups.SetValue($safe, 2)
     Invoke-Control ShowResult @('Test', 'Nothing executes', $groups)
+    $section = $control.FindName('SafeSection')
+    [void]$section.ApplyTemplate()
+    $toggle = $section.Template.FindName('SafeSectionToggle', $section)
+    [void]$toggle.ApplyTemplate()
+    $chevron = $toggle.Template.FindName('SafeSectionChevron', $toggle)
+    $details = $section.Template.FindName('SafeSectionDetails', $section)
+    Assert-State ($null -ne $toggle -and $null -ne $chevron) 'Safe-section arrow must have an explicit template.'
+    Assert-State ($toggle.Content -eq $section.Header) 'Safe-section template must preserve its header.'
+    foreach ($expanded in @($false, $true, $false)) {
+        $section.IsExpanded = $expanded
+        $geometry = $chevron.Data.GetFlattenedPathGeometry().Figures[0]
+        $tip = $geometry.Segments[0].Points[0]
+        Assert-State ($geometry.StartPoint.Y -eq $(if ($expanded) { 0 } else { 4 }) -and $tip.Y -eq $(if ($expanded) { 4 } else { 0 })) 'Collapsed arrow must point up; expanded arrow must point down.'
+        Assert-State ($details.Visibility -eq $(if ($expanded) { [Windows.Visibility]::Visible } else { [Windows.Visibility]::Collapsed })) 'Safe-section content visibility must follow its expanded state.'
+        Assert-State ($toggle.IsChecked -eq $expanded) 'Safe-section toggle must track its expanded state.'
+    }
+    # Use the actual ToggleButton command path; a routed Click alone does not toggle IsChecked.
+    $toggle.GetType().GetMethod('OnClick', [Reflection.BindingFlags]'Instance,NonPublic').Invoke($toggle, @())
+    Assert-State $section.IsExpanded 'Safe-section button must expand the section.'
+    $toggle.GetType().GetMethod('OnClick', [Reflection.BindingFlags]'Instance,NonPublic').Invoke($toggle, @())
+    Assert-State (-not $section.IsExpanded) 'Safe-section button must collapse the section.'
     Invoke-Control ClickGroup @($first)
     Assert-State $first.IsExpanded 'First click should expand its row.'
     Invoke-Control ClickGroup @($second)
@@ -65,7 +86,7 @@ try {
     Invoke-Control ShowResult @('Test', 'Nothing executes', $groups)
     Assert-State $safe.IsExpanded 'Reanalysis should preserve the one expanded object.'
     Invoke-Control Select @($second)
-    Assert-State (-not $safe.IsExpanded) 'Caret-driven selection should collapse previous details.'
+    Assert-State (-not $safe.IsExpanded) 'Programmatic selection should collapse previous details.'
     Invoke-Control ClickGroup @($second)
     foreach ($source in @([Windows.Controls.ListBoxItem]::new(), [Windows.Controls.Primitives.ScrollBar]::new(), [Windows.Controls.Primitives.ToggleButton]::new())) {
         $eventArgs = [Windows.Input.MouseButtonEventArgs]::new([Windows.Input.Mouse]::PrimaryDevice, 0, [Windows.Input.MouseButton]::Left)
