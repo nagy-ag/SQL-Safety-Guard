@@ -1,6 +1,6 @@
-# Compact Options 1.0.3 verification
-
 > **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+
+# Compact Options 1.0.3 verification
 
 ## Scope
 
