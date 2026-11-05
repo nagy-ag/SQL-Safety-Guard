@@ -17,6 +17,7 @@ $installerArgs = @('/quiet', "/instanceIds:$($ssms.InstanceId)", "/logFile:`"$en
 $process = Start-Process -FilePath $installer -ArgumentList $installerArgs -WindowStyle Hidden -Wait -PassThru
 switch ($process.ExitCode) {
     0 { Write-Host 'Uninstalled with VSIXInstaller.' -ForegroundColor Green }
+    1002 { Write-Host 'Not installed through VSIXInstaller.' }
     2003 { Write-Host 'Not installed through VSIXInstaller.' }
     default { throw "VSIXInstaller exit code $($process.ExitCode) (log: $env:TEMP\SqlSafetyGuard_VSIXInstaller.log). Uninstall failed." }
 }

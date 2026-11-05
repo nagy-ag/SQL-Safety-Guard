@@ -292,7 +292,7 @@ public class SettingsTransferTests
     }
 
     [Fact]
-    public void ToolsMenuOwnsAnalyzeAndSettingsWhileTransferActionsLiveOnNativeSettingsPage()
+    public void ToolsMenuOwnsAnalyzeAndSettingsWhileTransferAndUninstallActionsLiveOnNativeSettingsPage()
     {
         var repo = TestRepository.Root;
         XNamespace ns = "http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable";
@@ -308,8 +308,9 @@ public class SettingsTransferTests
         var registration = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Options/registration.json")));
         Assert.DoesNotContain("docs/", registration.ToString());
         var actions = (Newtonsoft.Json.Linq.JArray)registration["categories"]!["sqlSafetyGuard"]!["commands"]!;
-        Assert.Equal(new[] { "Import Settings...", "Export Settings..." }, actions.Select(action => (string?)action["vsct"]!["text"]));
-        Assert.Equal(new[] { 0x102, 0x101 }, actions.Select(action => (int)action["vsct"]!["id"]!));
+        Assert.Equal(new[] { "Import Settings...", "Export Settings...", "Uninstall SQL Safety Guard..." },
+            actions.Select(action => (string?)action["vsct"]!["text"]));
+        Assert.Equal(new[] { 0x102, 0x101, 0x108 }, actions.Select(action => (int)action["vsct"]!["id"]!));
         var adapter = File.ReadAllText(Path.Combine(repo, "src/SqlSafetyGuard.Vsix/Commands/SettingsCommands.cs"));
         Assert.DoesNotContain("RequireTypedConfirmation", adapter);
     }

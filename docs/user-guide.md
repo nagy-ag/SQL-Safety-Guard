@@ -10,18 +10,20 @@ future major versions require separate verification. Focused checks covered repr
 with the evidence and remaining gaps listed in [verification/status.md](verification/status.md).
 
 Download `SqlSafetyGuard-<version>.vsix` from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
+Alternatively, download `SqlSafetyGuard-<version>.zip` and extract it: it contains the identical VSIX, installation and
+removal scripts, and `README.txt`. The scripts-only ZIP is available separately. Check the download with `SHA256SUMS.txt`.
 If Windows blocks the download, right-click it > Properties > Unblock > OK. Close SSMS, then double-click the VSIX.
 The install is per user and needs no administrator. If IT already installed an all-users copy, do not add a second copy.
 To update, install a newer VSIX the same way.
 
-The compatibility update retains version **1.0.0** at the owner's request. An earlier 1.0.0 installation needs
-uninstall/reinstall; compare the release's SHA-256 checksum to identify the package. The November 4 published compatibility
-VSIX has SHA-256 `944732eba0ff020ed61b5836b939d3e86954b887c550f2926dbbd6b71c0d3c87`.
+Version **1.0.1** adds the uninstall button on the native settings page. Close SSMS and install the newer VSIX to update
+from 1.0.0. Earlier same-version 1.0.0 replacement packages required uninstall/reinstall and checksum comparison;
+that historical limitation does not require keeping the old version for this update.
 
 For script installation, download and extract the scripts ZIP from the same release, then provide the package path:
 
 ```powershell
-.\install.ps1 -VsixPath .\SqlSafetyGuard-1.0.0.vsix
+.\install.ps1 -VsixPath .\SqlSafetyGuard-1.0.1.vsix
 ```
 
 From a source checkout, the script can also find the newest built package:
@@ -39,8 +41,9 @@ against the SSMS setup instance:
 ```
 
 This is a per-user install. The files land in `%LocalAppData%\Microsoft\SSMS\22.0_<instanceId>\Extensions\<random>\`,
-and the extension shows up in SSMS under **Extensions > Manage Extensions**, where it can also be disabled or
-uninstalled. Double-clicking the `.vsix` (with SSMS closed) does the same thing. Explorer opens it with VSLauncher →
+and registers with that SSMS installation. SSMS 22 builds can omit **Extensions > Manage Extensions**; use the
+SQL Safety Guard uninstall command described below. Double-clicking the `.vsix` (with SSMS closed) installs the extension.
+Explorer opens it with VSLauncher →
 VSIXInstaller, which installs straight into SSMS 22 when that's the only matching product.
 
 Options: `-VsixPath <path>` to install a specific build (e.g. the Debug one); `-Copy` (elevated PowerShell only) to
@@ -237,7 +240,9 @@ built-in lists. An unrelated `OtherDb.custom.sp_executesql` is an ordinary unkno
 
 ## Uninstall
 
-For a per-user VSIX installation, choose **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**.
+For a per-user VSIX installation, open **Tools > Options > SQL Safety Guard** and choose
+**Uninstall SQL Safety Guard...** beside Import and Export on the native settings page. The same command is also
+available under **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**.
 Choose **Yes** to open SSMS's interactive uninstaller; **No** is the default and leaves everything unchanged.
 Save your work and close SSMS when the installer asks, then finish removal there. Opening the installer alone does not
 mean removal succeeded. The command does not disable the query guard. It targets the running SSMS installation
@@ -258,8 +263,10 @@ its default profile; unlike the in-extension command, it does not target an expe
 isolated install with `VSIXInstaller /instanceIds:<id> /rootSuffix:<suffix> /uninstall:<extension-id>` for that exact profile.
 The [GitHub Releases page](https://github.com/nagy-ag/SQL-Safety-Guard/releases) supplies the optional scripts download.
 
-If you installed the earlier 1.0.0 package without this menu command, uninstall that copy using the script, then install the
-replacement 1.0.0 VSIX. Packages with the same version are not a normal in-place upgrade; compare their published checksums.
+The published November 4 1.0.0 package has a menu-registration defect: its SQL Safety Guard submenu can be absent, and
+its settings page has no uninstall button. Version 1.0.1 adds the settings button and corrects the submenu's parent
+group. If neither UI entry is available in an older build, install 1.0.1 or remove that copy using the script.
+Packages with the same version are not a normal in-place upgrade; compare their published checksums.
 
 ## Share settings with colleagues
 

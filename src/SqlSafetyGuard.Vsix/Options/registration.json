@@ -19,6 +19,13 @@
             "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
             "id": 257
           }
+        },
+        {
+          "vsct": {
+            "text": "Uninstall SQL Safety Guard...",
+            "set": "84195f28-a147-4898-bcad-b1ad3c744ae2",
+            "id": 264
+          }
         }
       ]
     }

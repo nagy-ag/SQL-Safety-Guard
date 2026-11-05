@@ -1,6 +1,7 @@
 # Verification status
 
-Updated **2026-11-04** after publication of the **1.0.0 SSMS 22.x compatibility update**.
+Updated **2026-11-05** for preparation of the owner-authorized **1.0.1 uninstall UI release** after publication of
+the **1.0.0 SSMS 22.x compatibility update**. The final 1.0.1 packaging gates and publication are pending.
 Published source: `7c036b8b26850d2b44fe7a034c1334327f5b0088`, identified by replacement tag `v1.0.0` and
 [the publication record](../history/runs/2026-11-04-ssms-22-publication.md). The stable release is marked Latest and targets
 `main`. Its tested SQLCMD adapter and outline-free badges support **SSMS 22.0 and later 22.x releases**, 64-bit,
@@ -11,6 +12,22 @@ The analyzer's classification policy is unchanged. The extension still opens no 
 queries no server metadata. The new maintenance command only hands off to the local SSMS installer after confirmation.
 
 ## Qualified conclusion
+
+The installed November 4 package was confirmed to match the published Release DLL, yet its Tools submenu was absent.
+The local, uncommitted UI correction adds **Uninstall SQL Safety Guard...** to the native settings page beside Import
+and Export, and gives the Tools submenu the parent command group required by the shell. The existing confirmation,
+instance/profile binding and installer handoff are reused. No guard or analyzer behavior changed. Debug and Release
+rebuilds, **1,628 .NET tests**, **32 Release interaction checks**, and local package integrity checks passed. In an owned
+isolated Release session, the settings button was visible/enabled and opened the production confirmation naming the
+correct installation/profile. The Tools popup was not exposed by private-desktop automation, so live menu visibility
+is not a pass. Declining the settings confirmation preserved the installation and started no installer; accepting it
+launched the adjacent installer with the correct isolated suffix. The test extension files disappeared and an independent
+installer lookup reported it not installed. The installer's completion page/clean exit was not captured: a hidden test
+installer remained and was stopped only after file removal was confirmed. All protected profile/settings/DLL hashes
+matched; the normal SSMS process was left running. This correction is prepared as **1.0.1** and is **not yet in the
+published GitHub release**. The fallback uninstall script now also accepts the observed not-installed code 1002, with
+offline fixture coverage. Release packaging adds a ZIP containing the identical VSIX, scripts and instructions.
+See the [uninstall UI record](../history/runs/2026-11-05-uninstall-ui.md) for the evidence and limitations.
 
 The [release preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md) passed the locked offline gate
 (**1,627 .NET / 10 Python / 527 rules**), both rebuilds, **32 Release interaction checks** and local package validation.

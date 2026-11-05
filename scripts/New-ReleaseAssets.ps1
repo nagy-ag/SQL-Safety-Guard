@@ -160,6 +160,7 @@ public static class ReleaseAssetBytes {
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
     $vsixName = "SqlSafetyGuard-$version.vsix"
     $scriptsName = "SqlSafetyGuard-$version-scripts.zip"
+    $bundleName = "SqlSafetyGuard-$version.zip"
     Copy-Item -LiteralPath $vsix -Destination (Join-Path $OutputDirectory $vsixName)
     $scriptsZip = [IO.Compression.ZipFile]::Open((Join-Path $OutputDirectory $scriptsName), [IO.Compression.ZipArchiveMode]::Create)
     try {
@@ -168,7 +169,40 @@ public static class ReleaseAssetBytes {
         }
     }
     finally { $scriptsZip.Dispose() }
-    $sums = foreach ($name in @($vsixName, $scriptsName)) {
+    $bundle = [IO.Compression.ZipFile]::Open((Join-Path $OutputDirectory $bundleName), [IO.Compression.ZipArchiveMode]::Create)
+    try {
+        [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($bundle, (Join-Path $OutputDirectory $vsixName), $vsixName)
+        foreach ($file in @('install.ps1', 'uninstall.ps1', 'scripts/SsmsCommon.ps1', 'LICENSE', 'THIRD-PARTY-NOTICES.md')) {
+            [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($bundle, (Join-Path $repository $file), $file)
+        }
+        $instructions = @"
+SQL Safety Guard $version for SQL Server Management Studio 22.x (64-bit)
+
+INSTALL OR UPDATE
+Save your queries and close SSMS. Extract this entire ZIP, then double-click
+$vsixName and follow the installer. Reopen SSMS and open a SQL query window.
+For a scripted installation, open PowerShell in the extracted folder and run:
+  .\install.ps1 -VsixPath .\$vsixName
+
+UNINSTALL FROM SSMS
+Open Tools > Options > SQL Safety Guard. Click Uninstall SQL Safety Guard...
+beside Import and Export. Confirm Yes, then follow the SSMS installer's prompts.
+Save your work and close SSMS when asked; reopen SSMS after removal completes.
+Administrator-managed all-users copies must be removed by your administrator.
+
+FALLBACK UNINSTALL
+Save your work and close SSMS, then run .\uninstall.ps1 from this extracted folder.
+
+GitHub packages are unsigned. Verify the ZIP or standalone VSIX using the release's
+SHA256SUMS.txt. The VSIX inside this ZIP is identical to the standalone download.
+Instructions and verification limits:
+https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/user-guide.md
+"@
+        $writer = New-Object IO.StreamWriter($bundle.CreateEntry('README.txt').Open(), [Text.Encoding]::UTF8)
+        try { $writer.Write($instructions) } finally { $writer.Dispose() }
+    }
+    finally { $bundle.Dispose() }
+    $sums = foreach ($name in @($vsixName, $scriptsName, $bundleName)) {
         $hash = (Get-FileHash -LiteralPath (Join-Path $OutputDirectory $name) -Algorithm SHA256).Hash.ToLowerInvariant()
         "$hash  $name"
     }

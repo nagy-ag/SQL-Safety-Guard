@@ -52,9 +52,12 @@ individual patches and future major versions are not all tested. See the [verifi
 2. Close SSMS, unblock the download in Properties if needed, and double-click the VSIX.
 3. Start SSMS; the safety pane appears beside each SQL query editor.
 
+The release also provides `SqlSafetyGuard-<version>.zip` with the same VSIX, install/uninstall scripts and instructions.
+Extract the ZIP before installing. Use `SHA256SUMS.txt` to verify either download.
+
 GitHub packages are unsigned. The [user guide](docs/user-guide.md) covers scripts, upgrades and uninstalling.
 
-To uninstall a per-user installation, choose **Tools > SQL Safety Guard > Uninstall SQL Safety Guard...**, confirm,
+To uninstall a per-user installation, choose **Tools > Options > SQL Safety Guard > Uninstall SQL Safety Guard...**, confirm,
 then save your work and close SSMS when its installer asks. All-users installations are removed by IT.
 
 ## Documentation

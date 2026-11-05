@@ -4,8 +4,8 @@
 
 .DESCRIPTION
     Default: runs SSMS's own VSIXInstaller.exe against the SSMS 22 setup instance (a per-user install under
-    %LocalAppData%\Microsoft\SSMS\22.0_<instanceId>\Extensions). This is the supported VSIX mechanism; SSMS
-    shows the extension in Extensions > Manage Extensions and can disable/uninstall it.
+    %LocalAppData%\Microsoft\SSMS\22.0_<instanceId>\Extensions). This is the supported VSIX mechanism.
+    Uninstall from SQL Safety Guard's settings page or run uninstall.ps1 with SSMS closed.
 
     -Copy: fallback that extracts the VSIX into <SSMS>\Common7\IDE\Extensions\SqlSafetyGuard (all users,
     requires an elevated PowerShell) and touches extensions.configurationchanged so SSMS rescans on next

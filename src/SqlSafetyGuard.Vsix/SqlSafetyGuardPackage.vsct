@@ -8,6 +8,9 @@
   <Commands package="guidSqlSafetyGuardPackage">
     <Groups>
       <!-- Tools menu -->
+      <Group guid="guidSqlSafetyGuardCmdSet" id="ToolsRootGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
       <Group guid="guidSqlSafetyGuardCmdSet" id="ToolsMenuGroup" priority="0x0100">
         <Parent guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" />
       </Group>
@@ -22,7 +25,7 @@
 
     <Menus>
       <Menu guid="guidSqlSafetyGuardCmdSet" id="SqlSafetyGuardMenu" priority="0x0100" type="Menu">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+        <Parent guid="guidSqlSafetyGuardCmdSet" id="ToolsRootGroup" />
         <Strings><ButtonText>SQL Safety Guard</ButtonText></Strings>
       </Menu>
     </Menus>
@@ -116,6 +119,7 @@
     <GuidSymbol name="guidSqlSafetyGuardCmdSet" value="{84195f28-a147-4898-bcad-b1ad3c744ae2}">
       <IDSymbol name="ToolsMenuGroup" value="0x1020" />
       <IDSymbol name="MaintenanceMenuGroup" value="0x1023" />
+      <IDSymbol name="ToolsRootGroup" value="0x1024" />
       <IDSymbol name="SqlSafetyGuardMenu" value="0x1022" />
       <IDSymbol name="SqlEditorToolbarGroup" value="0x1021" />
       <IDSymbol name="cmdidAnalyzeQuery" value="0x0100" />

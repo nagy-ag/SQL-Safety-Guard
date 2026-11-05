@@ -126,6 +126,21 @@ public class ExtensionUninstallTests
             Path.Combine(Path.GetDirectoryName(Host)!, "devenv.exe"), Ini, Assembly(), LocalData, new[] { Host }));
 
     [Fact]
+    public void ToolsSubmenuHasAParentGroupSoSsmsCanDisplayItsCommands()
+    {
+        XNamespace ns = "http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable";
+        var commands = XDocument.Load(Path.Combine(TestRepository.Root, "src/SqlSafetyGuard.Vsix/SqlSafetyGuardPackage.vsct"));
+        var menu = commands.Descendants(ns + "Menu").Single(e => (string?)e.Attribute("id") == "SqlSafetyGuardMenu");
+        var parent = menu.Element(ns + "Parent")!;
+        // SSMS silently omits a submenu parented directly to a menu instead of a group.
+        var group = Assert.Single(commands.Descendants(ns + "Group"), e =>
+            (string?)e.Attribute("guid") == (string?)parent.Attribute("guid") &&
+            (string?)e.Attribute("id") == (string?)parent.Attribute("id"));
+        Assert.Equal("guidSHLMainMenu", (string?)group.Element(ns + "Parent")?.Attribute("guid"));
+        Assert.Equal("IDM_VS_MENU_TOOLS", (string?)group.Element(ns + "Parent")?.Attribute("id"));
+    }
+
+    [Fact]
     public void MenuCommandIsRegisteredWithoutToolbarPlacementOrShortcutAndDefaultsToNo()
     {
         XNamespace ns = "http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable";

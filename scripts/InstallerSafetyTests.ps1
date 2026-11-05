@@ -136,6 +136,15 @@ function Remove-ManualCopies { throw 'Manual deletion after failure' }
     $ErrorActionPreference = 'Stop'
     Assert-True ($uninstallExit -ne 0) 'Uninstall exit code was zero.'
     Assert-True ($uninstallOutput -notlike '*Done. Restart SSMS*') 'Uninstall reported Done after failure.'
+    foreach ($notInstalled in @(1002, 2003)) {
+        $absentWrapper = $wrapper.Replace('ExitCode = 5', "ExitCode = $notInstalled").Replace(
+            "function Remove-ManualCopies { throw 'Manual deletion after failure' }",
+            'function Remove-ManualCopies { return $false }; function Update-SsmsConfiguration { return $true }')
+        [IO.File]::WriteAllText((Join-Path $fixtureScripts 'SsmsCommon.ps1'), $absentWrapper)
+        $uninstallOutput = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $FixtureRoot 'uninstall/uninstall.ps1') 2>&1 | Out-String
+        Assert-True ($LASTEXITCODE -eq 0) "Already-absent uninstall failed for exit $notInstalled."
+        Assert-True ($uninstallOutput -like '*Not installed through VSIXInstaller*Done. Restart SSMS*') 'Already-absent uninstall did not complete.'
+    }
     Write-Host "Installer safety fixtures passed ($caseCount checks)."
 }
 finally { Remove-ExtensionDirectory -Path $FixtureRoot -Root $repository }

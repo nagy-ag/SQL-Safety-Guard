@@ -46,11 +46,12 @@ and the local user profile path in UTF-8 or UTF-16LE entry data. This checks the
 
 The default output is `../release-out/<version>` relative to the repository. Override with
 `-OutputDirectory <absolute-path>`; output must be outside the repository in a new or empty directory.
-The three files are:
+The four files are:
 
 - `SqlSafetyGuard-<version>.vsix` — validated unsigned package.
 - `SqlSafetyGuard-<version>-scripts.zip` — `install.ps1`, `uninstall.ps1`, `scripts/SsmsCommon.ps1`, preserving that layout.
-- `SHA256SUMS.txt` — SHA-256 hashes of both assets.
+- `SqlSafetyGuard-<version>.zip` — the identical VSIX plus those scripts, `README.txt`, license and dependency notices.
+- `SHA256SUMS.txt` — SHA-256 hashes of all three download assets.
 
 The script never signs, tags, uploads or creates a release. Never commit these files or raw run output.
 
@@ -63,7 +64,7 @@ The script never signs, tags, uploads or creates a release. Never commit these f
    Use [ThemeAcceptanceCapture.ps1](../scripts/ThemeAcceptanceCapture.ps1) with the Debug VSIX installed in Exp
    to capture the pane, real dialog previews, integrated settings and toolbar without input or SQL execution.
    See the extension UI skill for the command, stored theme values and restoration checks.
-2. When publication is requested, tag the committed source `v<version>`, push it, and attach the script's three unsigned
+2. When publication is requested, tag the committed source `v<version>`, push it, and attach the script's four unsigned
    assets and concise product/validation notes. Normally create a **pre-release** for acceptance. If the owner explicitly requests
    stable publication, create a full release and mark it latest, stating the validation performed and any acceptance
    checks not repeated. Stable publication does not imply a fresh live SSMS/server campaign.
