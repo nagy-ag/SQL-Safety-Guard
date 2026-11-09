@@ -1,14 +1,14 @@
 # Release process
 
 GitHub releases are **always unsigned**. Signing is optional and happens only on the owner's company computer,
-after downloading the GitHub package; see [vsix-signing.md](vsix-signing.md). No signing keys or certificates belong
+after downloading the GitHub package; see [vsix-signing.md](../it/signing.md). No signing keys or certificates belong
 in this repository or in GitHub release assets.
 
 ## Version numbers
 
 Keep the VSIX manifest (`src/SqlSafetyGuard.Vsix/source.extension.vsixmanifest`, `MAJOR.MINOR.PATCH`),
 `src/SqlSafetyGuard.Vsix/Properties/AssemblyInfo.cs` and `src/SqlSafetyGuard.Analyzer/SqlSafetyGuard.Analyzer.csproj`
-(`MAJOR.MINOR.PATCH.0`) equal. `VersionConsistencyTests` enforces this. Update [CHANGELOG.md](../CHANGELOG.md)
+(`MAJOR.MINOR.PATCH.0`) equal. `VersionConsistencyTests` enforces this. Update [CHANGELOG.md](../../CHANGELOG.md)
 and the GitHub release notes for each release.
 
 - **Patch** (1.0.1): fixes that change no colour.
@@ -20,7 +20,7 @@ GitHub's **Latest** label identifies the latest published release. Main can cont
 documentation-only publication record, without a newer release. The “commits to main since this release” link compares
 main with the fixed release tag; it does not describe the installed extension version.
 The November 4 SQLCMD compatibility update also retains 1.0.0 at the owner's request and replaces the older published
-1.0.0 after backup and committed-source validation; see [release-acceptance.md](release-acceptance.md). Compatibility wording is
+1.0.0 after backup and committed-source validation; see the [release records](../history/releases/README.md). Compatibility wording is
 "SSMS 22.0 and later 22.x releases"; the manifest and release validation use `[22.0,23.0)`, not an unbounded future-major claim.
 The owner explicitly requested replacing the initial 1.0.0 package with the uninstall-capable build while retaining 1.0.0.
 Back up the old tag/release/assets outside the repository, validate the new committed build before deletion, and replace
@@ -63,11 +63,12 @@ The script never signs, tags, uploads or creates a release. Never commit these f
 
 ## Publish and try it
 
-1. Complete [release-acceptance.md](release-acceptance.md) and the isolated-profile smoke checks described in
-   [development.md](development.md) and the [extension UI skill](../.agents/skills/ssms-extension-ui/SKILL.md).
+1. Write the release record `docs/history/releases/<version>.md` (changes, local validation, scope and limits; start it with
+   the snapshot header) and complete the isolated-profile smoke checks described in [ssms-testing.md](ssms-testing.md)
+   and the [extension UI skill](../../.agents/skills/ssms-extension-ui/SKILL.md).
    Check install, green/yellow/red F5, failure confirmation, settings/import/export, upgrade and uninstall.
    The all-themes pass happens only when the owner asks for it.
-   Use [ThemeAcceptanceCapture.ps1](../scripts/ThemeAcceptanceCapture.ps1) with the Debug VSIX installed in Exp
+   Use [ThemeAcceptanceCapture.ps1](../../scripts/ThemeAcceptanceCapture.ps1) with the Debug VSIX installed in Exp
    to capture the pane, real dialog previews, integrated settings and toolbar without input or SQL execution.
    See the extension UI skill for the command, stored theme values and restoration checks.
 2. When publication is requested, tag the committed source `v<version>`, push it, and attach the script's five unsigned
@@ -75,9 +76,13 @@ The script never signs, tags, uploads or creates a release. Never commit these f
    stable publication, create a full release and mark it latest, stating the validation performed and any acceptance
    checks not repeated. Stable publication does not imply a fresh live SSMS/server campaign.
 3. The owner downloads the package and checks its hash. On their company computer they may sign a copy using
-   [vsix-signing.md](vsix-signing.md), then try the exact downloaded or signed copy.
+   [vsix-signing.md](../it/signing.md), then try the exact downloaded or signed copy.
 4. After the owner's acceptance, the owner changes a GitHub pre-release into a full release and marks it latest.
    The GitHub files remain unsigned; an internally signed copy has its own checksum and distribution record.
+
+After publication, add the published result (source, tag, asset checksums, download and CI checks) to the release
+record, add its row to [history/releases/](../history/releases/README.md), and point the "Current release" and
+"Latest release" sections of [status.md](../status.md) at it.
 
 A pre-release is a published package marked as still being tried and is not the normal latest release.
 A full release is the accepted package offered as the latest version for general use.

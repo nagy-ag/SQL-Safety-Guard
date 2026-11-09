@@ -57,7 +57,7 @@ pane state for the captured execution snapshot.
   `Microsoft.VSSDK.BuildTools` 17.14.
 - Manifest target: `<InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.0,23.0)">` with
   `ProductArchitecture amd64`. It supports SSMS 22.0 and later 22.x releases, with an upper bound before the next
-  major version. Representative-build evidence and coverage limits are in [verification/status.md](verification/status.md).
+  major version. Representative-build evidence and coverage limits are in [status.md](../status.md).
 - SQL Editor command IDs come from SSMS's own command table (`SQLEditors.dll` → `Menus.ctmenu`, decompiled with
   `vsct.exe`). `Query.Execute` is `{52692960-56BC-4989-B5D3-94C47A513E8D}:1`, the SQL Editor toolbar is
   `{33f13ac3-80bb-4ecb-85bc-225435603a5e}:0x0001`, the "SQL Query Editor" key-binding scope is
@@ -195,53 +195,19 @@ permission to execute. Other guard failures ask for approval using the failure p
 
 These undocumented host members are version-sensitive. SSMS 22.11.2 was checked with isolated-profile Debug
 instrumentation, SQL Server Extended Events and independent counters. See
-[execution verification](verification/extension/extension-checks.md) for before/after evidence and coverage limits.
+[execution verification](ssms-testing.md) for before/after evidence and coverage limits.
 
 ## Limitations
 
-- **Not a security boundary.** Triggers fired by a write, the insides of procedures and functions, and dynamic
-  SQL built at runtime can't be seen. Scalar functions called in a SELECT are treated as reads; a CLR or
-  extended function could still have side effects. A green verdict means "nothing visible writes", not
-  "nothing can write".
-  Use a read-only login (`db_datareader` + `db_denydatawriter`) for real protection on production.
-- **SQLCMD:**
-  - If the SQLCMD Mode state can't be read (for example, a future SSMS changes the command), SQLCMD lines are
-    interpreted as if the mode were on, which errs toward showing writes.
-  - Variable substitution is not expanded for semantic classification. Every substitution is at least yellow,
-    including inside strings and values supplied by SSMS options. Original editor positions are preserved.
-  - Files included with `:r` are not read.
-- **Characters the T-SQL tokenizer rejects** (such as a stray `\`) are skipped, and analysis resumes after them, so
-  they can't hide a later `GO` or write.
-- **Recovery around syntax errors is a heuristic.** It splits statements by keywords, so an unusual statement can
-  make it blank more text than necessary. Anything blanked is listed as NOT ANALYZED and scanned for write
-  keywords. Large broken batches deliberately use this coarse fallback instead of recovering every statement.
-- Only text run through `Query.Execute` from a `.sql`/SQL editor is guarded. Not guarded: MDX/DMX/XMLA editors,
-  Object Explorer actions (Edit Top 200 Rows, scripting wizards, dialogs), Copilot-run queries, and other
-  extensions.
-- Writes through a CTE or derived table that joins several tables list *every* base table (conservative).
-- Views and synonyms are classified by name (a write to a view is red; the view's base tables aren't resolved).
-- `KILL`, `SHUTDOWN`, `RECONFIGURE`, `RESTORE`, Service Broker statements (`SEND`, `RECEIVE`, …) and any other
-  statement type not listed above are red (conservative). BACKUP, UPDATE STATISTICS, CHECKPOINT and recognized
-  DBCC commands with unknown effects (for example, `DBCC MEMORYMAP`) are yellow. Unrecognized DBCC names
-  (for example, `DBCC SSG_UNKNOWN`) parse as DLL unloads and are red; other DBCC commands are judged per command
-  (read-only green, changing red).
-  [docs/history/2026-10-27-statement-coverage.md](history/2026-10-27-statement-coverage.md) records the reviewed ScriptDom statement inventory and
-  important semantic/resource limits; an inventory is not a proof of soundness. See also the
-  [statement verdicts](statement-verdicts.md) for representative SQL examples and their colours. The
-  [systematic verification report](history/2026-10-27-all-kinds/README.md) separates all 334 static
-  checks from 267 live-passed kinds, three failed-only kinds, and 64 not live tested. The current verification state is always in
-  [docs/verification/status.md](verification/status.md); [docs/README.md](README.md) lists every current document.
-- **Transactions are tracked by reading the text, not the session.** A `COMMIT` with no `BEGIN TRAN` in the text is
-  yellow, because it may commit work an earlier run left open. A transaction still open at the end gets an
-  OPEN TRANSACTION row. The guard can't see whether your session actually has an open transaction right now.
-  Parsed `@@TRANCOUNT`/`XACT_STATE()` predicates are distinguished from strings/comments. Unreachable branches,
-  zero-iteration loops and statements after RETURN cannot close a possibly open transaction. GO repetition and
-  uncertain control transfers are conservative. With implicit transactions on, explicit BEGIN can add two levels;
-  a tableless `SELECT 1` does not open one. This is not a full control-flow or SQL Server session simulator.
-- Box (column) selections are analyzed as the selected text; the reported line numbers assume a normal selection.
-- Allow/trusted lists require known database/default-schema context when qualification is omitted. The VSIX does
-  not discover the login's default schema. Target switches disable contextual trust for the entire analysis, but
-  do not re-select environment mode mid-script. Trust entries are user assertions, not verified procedure bodies.
-- Microsoft does not officially support third-party SSMS extensions. A future SSMS update could change command
-  IDs or host internals. If the guard cannot attach to the execution command at all, execution is unguarded and
-  can run without a question. An attached guard that fails during a check uses the failure confirmation above.
+User-visible limitations are maintained in one place: [user guide, Limitations](../user/user-guide.md#limitations).
+That section covers what the guard cannot see, what is not guarded, SQLCMD, syntax-error recovery, transactions,
+connection and name context, and conservative verdicts.
+
+The evidence behind them:
+
+- The [statement coverage inventory](../history/2026-10-27-statement-coverage.md) records the reviewed ScriptDom statement
+  inventory and important semantic and resource limits; an inventory is not a proof of soundness.
+- The [systematic verification report](../history/2026-10-27-all-kinds/README.md) separates all 334 static checks from 267
+  live-passed kinds, three failed-only kinds and 64 kinds not tested live.
+- [Statement verdicts](../user/statement-verdicts.md) give representative SQL and colours; [status.md](../status.md) has
+  the current verification state.

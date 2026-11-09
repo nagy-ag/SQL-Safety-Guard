@@ -30,22 +30,15 @@ inside a procedure or dynamic SQL is expensive.
 6. **Permanent versus temporary is the key distinction.** `#temp` tables, table variables and temp procedures are green
    (TempOnly); permanent objects, including permanent `tempdb` objects unless explicitly opted in, are red.
 
-| Verdict | Colour | Meaning |
-|---|---|---|
-| ReadOnly | green | Reads, variables, session/control statements, balanced transactions, known read-only or trusted procedures |
-| TempOnly | green | Writes only temporary tables/procedures or table variables |
-| AllowListed | green | Writes only objects matching the user's allow-list |
-| Unknown | yellow | Cannot see what runs (procedures, dynamic SQL, `INSERT ... EXEC`, DBCC/BACKUP, parse errors) |
-| RealWrite | red | Any change to a permanent object: DML, DDL, security, server state, remote writes |
-
-The precise promises are in [docs/verification/contract.md](docs/verification/contract.md); the current evidence is in
-[docs/verification/status.md](docs/verification/status.md).
+Verdict enum to colour: `ReadOnly`, `TempOnly` and `AllowListed` are green; `Unknown` is yellow; `RealWrite` is red.
+What each colour means for users is in the [README](README.md#the-colours); the precise promises are in [docs/safety/contract.md](docs/safety/contract.md); the current evidence is in
+[docs/status.md](docs/status.md).
 
 ## Product decisions (do not reverse without the owner)
 
 - Confirmation uses buttons only. F5 must never require typing anything (no typed database-name confirmation).
 - The safety UI lives in an editor pane beside the query, not in a docked tool window.
-- Behaviours listed in [docs/verification/policy-questions.md](docs/verification/policy-questions.md) are undecided company
+- Behaviours listed in [docs/safety/policy-questions.md](docs/safety/policy-questions.md) are undecided company
   policy. Report them; do not silently change them.
 
 ## Code map
@@ -58,17 +51,20 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 | `tests/SqlSafetyGuard.ServerHarness` | Executes cases on a disposable server and compares the verdict with what really changed |
 | `tests/SqlSafetyGuard.ExtensionChecks` | Checks against a running SSMS (which window executes, which commands are intercepted) |
 | `tools/verification` | Generators for the rule inventory and campaign cases |
-| `docs/development.md` | Build, debug, solution layout and implementation details |
-| `docs/architecture.md` | Responsibilities, dependencies, traced flows and text-only boundaries |
-| `docs/install.md`, `docs/user-guide.md`, `docs/settings.md` | Install/update/uninstall; daily use and limitations; settings reference with examples |
-| `docs/` | Start at [docs/README.md](docs/README.md) |
+| `docs/user/` | Install, user guide, settings reference, generated statement verdicts |
+| `docs/it/` | All-users deployment and company signing |
+| `docs/dev/` | `development.md` (build, debug, implementation notes), `architecture.md`, release process and acceptance |
+| `docs/safety/` | The verdict contract and the policy questions awaiting the owner |
+| `docs/status.md` | Current verification state only; dated evidence and per-release records live in `docs/history/` |
+| `docs/verification/rules/` | Generated rule inventory |
+| `docs/` | Start at [docs/README.md](docs/README.md); human contributors start at [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## Build and test
 
 ```powershell
 dotnet test tests\SqlSafetyGuard.Tests                     # analyzer + tests (must pass before any merge or push)
 powershell.exe -NoProfile -File scripts\Verify-Offline.ps1 # locked offline suite and generated/tool checks; no SQL
-# The VSIX needs Visual Studio's MSBuild (see docs/development.md):  MSBuild.exe SqlSafetyGuard.sln /restore /p:Configuration=Release
+# The VSIX needs Visual Studio's MSBuild (see docs/dev/development.md):  MSBuild.exe SqlSafetyGuard.sln /restore /p:Configuration=Release
 $env:UPDATE_STATEMENT_VERDICTS='1'; dotnet test tests\SqlSafetyGuard.Tests --filter FullyQualifiedName~StatementVerdictsTests; Remove-Item Env:UPDATE_STATEMENT_VERDICTS
 python tools/verification/generate_inventory.py            # regenerate docs/verification/rules/
 ```
@@ -77,7 +73,7 @@ python tools/verification/generate_inventory.py            # regenerate docs/ver
 
 - Never commit zip archives or raw run output; evidence stays outside the repository.
 - `docs/README.md` lists every current document. Dated reports go to `docs/history/` with the snapshot header; after a
-  verification run rewrite `docs/verification/status.md`. Generated files are regenerated, never hand-edited. `DocsIndexTests`
+  verification run or release rewrite `docs/status.md`. Generated files are regenerated, never hand-edited. `DocsIndexTests`
   enforces the index.
 - Do not commit or push unless asked. Run the full test suite before pushing.
 

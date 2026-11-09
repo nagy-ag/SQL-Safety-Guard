@@ -33,7 +33,7 @@ Assert-SsmsNotRunning
 if (-not $VsixPath) {
     $VsixPath = Get-ChildItem (Join-Path $PSScriptRoot 'src\SqlSafetyGuard.Vsix\bin') -Recurse -Filter 'SqlSafetyGuard.vsix' -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
-    if (-not $VsixPath) { throw 'No SqlSafetyGuard.vsix found. Download a VSIX from GitHub Releases and pass -VsixPath (see docs/install.md), or build first (docs/development.md).' }
+    if (-not $VsixPath) { throw 'No SqlSafetyGuard.vsix found. Download a VSIX from GitHub Releases and pass -VsixPath (see docs/user/install.md), or build first (docs/dev/development.md).' }
 }
 $VsixPath = (Resolve-Path $VsixPath).Path
 Write-Host "VSIX: $VsixPath"

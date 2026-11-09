@@ -43,15 +43,15 @@ profile. SQL is unnecessary for uninstall acceptance; preserve other profiles an
 
 ## Theme capture without executing SQL
 
-Use [the capture runbook](../../../docs/verification/extension/theme-capture.md) for commands, channel receipts,
+Use [the capture runbook](../../../docs/dev/ssms-testing.md) for commands, channel receipts,
 restoration checks and theme values.
 The mandatory isolation/no-input rules above still apply. Check one theme for UI changes; run all themes only when
 explicitly authorized for a finished release. Capture is visual evidence, never proof of F5 execution behavior.
 
 ## Product documentation
 
-See `docs/development.md` for build/debug and implementation details; `docs/install.md`, `docs/user-guide.md` and
-`docs/settings.md` for installation, use and settings examples; and `docs/verification/status.md` for current
+See `docs/dev/development.md` for build/debug and implementation details; `docs/user/install.md`, `docs/user/user-guide.md` and
+`docs/user/settings.md` for installation, use and settings examples; and `docs/status.md` for current
 evidence. The root README is the product description.
 
 A guard failure before classification asks Run anyway or Cancel (default/Escape). Only known Off settings with a verified

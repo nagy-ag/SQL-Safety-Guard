@@ -1,4 +1,19 @@
-# Theme capture without executing SQL
+# Testing in SSMS
+
+Two kinds of checks run against a real SSMS 22:
+
+- [Visual and settings checks](#visual-and-settings-checks-no-sql) capture the pane, dialogs, Options page and editors,
+  and drive the settings controls. They never execute SQL.
+- [Execution routing checks](#execution-routing-checks-sql-on-a-disposable-database) prove which window SSMS executes and
+  which commands the guard intercepts. They execute SQL against an owned disposable database.
+
+Both run in an isolated SSMS profile that you own, never in anyone's normal profile, and use Debug-only in-process hooks
+instead of the real mouse, keyboard, clipboard or focus. Read the local machine rules (`AGENTS.local.md`) and the
+[extension UI skill](../../.agents/skills/ssms-extension-ui/SKILL.md) before running either.
+
+## Visual and settings checks (no SQL)
+
+### Setup and run
 
 Install the **Debug** VSIX in **Exp**, with SSMS closed: uninstall the previous extension, install the VSIX, then
 run `SSMS.exe /rootSuffix Exp /updateconfiguration` hidden. Leave other profiles and other agents' processes alone.
@@ -20,6 +35,8 @@ It uses process-scoped test/fault-injection variables, never dispatches Execute,
 Inspect `restoration.json` for identical hashes **and** `SsmsExited: true`; a process that failed to close could later rewrite
 settings, so close that run cleanly and restore `settings.original.json` again before continuing.
 
+### Channel verbs and receipts
+
 The Debug file channel accepts `document.sql|verb|argument` in its private test directory. `showconfirm`, `showfailure`,
 `showlisteditor allowList|trustedProcedures|environmentRules` (the structured list and rule editors), and `showimportpreview <absolute .ssgsettings.json path>` show
 the real dialogs modeless with ShowActivated=false, owned by SSMS. Run, Save and Import handlers are inert in previews; buttons retain their production enabled state.
@@ -35,12 +52,16 @@ Wait for `shown`/`captured` receipts in `events.tsv`, not just `ack` (which mean
 to verify content as well: pixel variance alone cannot prove the correct surface was captured. All capture code/verbs are
 compiled out of Release; this is a visual check, not evidence of F5 execution behavior.
 
+### Pane highlight checks
+
 `-CheckPaneHighlights` also runs 17 in-process checks on the real editor buffer and adornment layer, followed by a
 fresh-analysis check that cleared highlights stay cleared. It covers initial red/yellow statements without tint,
 choosing and switching groups, editor mouse/key/caret interaction, pane activation with empty and nonempty SQL
 selections, deselection, collapse/expand and a real buffer edit. These checks never dispatch Execute or open a SQL
 connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
 content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
+
+### Settings checks
 
 `-CheckCompactSettings` routes focus events through the six real controls, verifies that the native content host
 does not block keyboard entry, and reads all six edited values back from the native settings manager. It restores
@@ -52,6 +73,8 @@ each list editor through its real command and fills its form as a user would (`s
 allow-list and rule editors with sample entries. Dialog previews also record a `chrome` receipt with the title-bar
 colours applied; the native title bar itself is not part of the WPF captures. SSMS supplies the Preview caption around the custom GEL content area; the
 compact settings themselves are live, with immediate persistence. No SQL or Execute command is used.
+
+### Theme values
 
 The stored `environment.visualExperience.colorTheme` mapping is:
 
@@ -76,3 +99,35 @@ Checked against SSMS 22's `CommonExtensions/Platform/Shell/Shell.registration.js
 `Microsoft.VisualStudio.Shell.UI.Internal.dll`: `EnvironmentOptions.GeneralOptionsPage.KnownThemeInvariantNameMap`,
 `ColorThemeProvider.ComputeMoniker` and `ColorThemeDefinitionResolver.GetThemeInfo`. The tinted values are invariant
 hyphenated names, not their theme GUIDs. Windows contrast themes are outside this 13-theme pass.
+
+## Execution routing checks (SQL on a disposable database)
+
+The maintained execution-check driver is documented in the [ExtensionChecks README](../../tests/SqlSafetyGuard.ExtensionChecks/README.md).
+It launches an owned isolated SSMS profile, uses Debug-only hooks, and executes SQL against an owned disposable database.
+It is separate from offline UI interaction tests and visual captures. Read local machine rules before running it.
+
+### Evidence and limits
+
+The latest retained execution-target campaign is the [October 28 snapshot](../history/2026-10-28-extension/README.md):
+35 PASS, zero FAIL, one toolbar BLOCKED across 36 scenarios. Those counts describe that historical Debug build, not the
+current working tree. Original ledgers and events are preserved with checksums. No new live execution evidence is implied
+by later builds, unit tests or documentation changes.
+
+Physical keyboard shortcuts are not synthesized. Their command bindings and common Query.Execute dispatch are inspected.
+Toolbar UIA availability, successful results-file Save, custom stored-procedure shortcuts and future SSMS host versions
+remain separate coverage limits. The guard reads the focused editor's execution candidate and cross-checks host identities;
+an ambiguous target requires a warning even in Off or Red-only mode.
+
+### Result contract
+
+The driver retains all scenario diagnostics and writes a machine-readable summary. FAIL makes the run fail. BLOCKED is
+incomplete unless the caller names the exact expected blocked scenarios; that exception remains visible in the summary
+and is never counted as PASS. Missing expected scenarios, an empty result set and duplicate scenario names cannot pass.
+Setup/runtime failures abort, and the owning wrapper still performs cleanup in finally.
+
+The result-aggregation helper is exercised offline without loading the UI client or opening a SQL connection. Its tests
+establish result handling only. Real command routing, captured-text identity, submission count and side effects require
+the separate integration observations described in the driver README.
+
+For current qualified evidence, use [status.md](../status.md); for component responsibilities, use
+[architecture.md](architecture.md).

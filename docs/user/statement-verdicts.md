@@ -9,7 +9,7 @@ The colour SQL Safety Guard gives each kind of T-SQL statement, with one example
 Verdicts use default settings: no allow-list and no environment rules; explicitly configured exceptions are noted.
 The verdict columns compare permanent and #temp / @table targets; statements without a table/object target use the first column, with — in the second.
 One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.
-A query takes the colour of its most serious statement. See [live-server evidence](history/2026-10-27-all-kinds/README.md).
+A query takes the colour of its most serious statement. See [live-server evidence](../history/2026-10-27-all-kinds/README.md).
 
 Jump to: [Common statements](#common-statements) · [Green (44)](#green) · [Yellow (12)](#yellow) · [Red (271)](#red) · [No standalone SQL (7)](#no-standalone-sql)
 

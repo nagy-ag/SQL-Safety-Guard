@@ -51,7 +51,7 @@ public class MetamorphicVerificationTests(ITestOutputHelper output)
                     yield return (Path.GetFileName(path), sql);
             }
         }
-        string docs = File.ReadAllText(Path.Combine(TestRepository.Root, "docs/statement-verdicts.md"));
+        string docs = File.ReadAllText(Path.Combine(TestRepository.Root, "docs/user/statement-verdicts.md"));
         foreach (Match match in Regex.Matches(docs, "`([^`\\r\\n]+)`"))
             if (SqlKeyword.IsMatch(match.Groups[1].Value))
                 yield return ("statement-verdicts.md", match.Groups[1].Value);

@@ -4,7 +4,7 @@ GitHub downloads stay unsigned. Run this kit on the company signing computer.
 No keys, certificates or third-party tool binaries are included.
 
 1. Read SIGNING.md, including identity, certificate setup and trust instructions.
-   In a source checkout the maintained guide is docs/vsix-signing.md.
+   In a source checkout the maintained guide is docs/it/signing.md.
 2. Download the release's original SqlSafetyGuard-<version>.vsix and SHA256SUMS.txt.
    Keep their original filenames. The full release ZIP already contains the VSIX.
 3. Check the input without accessing keys or installing tools:

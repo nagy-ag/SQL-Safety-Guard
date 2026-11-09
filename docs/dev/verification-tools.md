@@ -1,10 +1,25 @@
-# Verification how-to
+# Verification tools
 
-Current state: [status.md](status.md). Promises: [contract.md](contract.md). Undecided policy: [policy-questions.md](policy-questions.md). This page describes offline checks; dated results live in [../history](../history/README.md). Typed database-name confirmation remains disabled. The commands below execute no SQL. For maintained launchers and mode safety, use the [tooling entry-point map](../../tools/verification/README.md).
+How SQL Safety Guard's verdicts are checked, and where each tool lives. Current results: [status.md](../status.md).
+Promises: [contract.md](../safety/contract.md). Undecided policy: [policy-questions.md](../safety/policy-questions.md).
+Dated results live in [history](../history/README.md). Typed database-name confirmation remains disabled.
+
+## Where the tools are
+
+| Tool | What it does | Read |
+|---|---|---|
+| `tests/SqlSafetyGuard.Tests` | Analyzer, policy, generated-document and docs-index tests; the offline checks below | this page |
+| `tools/verification` | Rule inventory, coverage report and campaign generators; maintained entry points and their SQL access | [tools/verification/README.md](../../tools/verification/README.md) |
+| `tests/SqlSafetyGuard.ServerHarness` | Runs cases on a disposable server and compares verdicts with what changed | [harness README](../../tests/SqlSafetyGuard.ServerHarness/README.md), [campaign](../../tests/SqlSafetyGuard.ServerHarness/Campaign/README.md), [oracle](../../tests/SqlSafetyGuard.ServerHarness/Campaign/ORACLE.md), [validation](../../tests/SqlSafetyGuard.ServerHarness/Campaign/VALIDATION.md), [test world](../../tests/SqlSafetyGuard.ServerHarness/Campaign/WORLD.md), [coverage](../../tests/SqlSafetyGuard.ServerHarness/Coverage/README.md) |
+| `tests/SqlSafetyGuard.ExtensionChecks` | Execution routing checks against a running SSMS | [ExtensionChecks README](../../tests/SqlSafetyGuard.ExtensionChecks/README.md), [ssms-testing.md](ssms-testing.md) |
+| `scripts/` | Offline gate, Release UI interaction checks, isolated SSMS capture, release packaging | [ssms-testing.md](ssms-testing.md), [release-process.md](release-process.md) |
+
+Anything that executes SQL needs a disposable server; read the [server verification skill](../../.agents/skills/server-verification/SKILL.md)
+first. The commands on the rest of this page execute no SQL.
 
 ## Inventory and rule references
 
-`rules/rules.json` is the machine register; `rules/rules.md` is its generated readable rendering. The register contains
+`docs/verification/rules/rules.json` is the machine register; [rules.md](../verification/rules/rules.md) is its generated readable rendering. The register contains
 reviewed semantic entries and explicit dispatch-table members. Retired overlapping `decision.*` checkpoints are recorded
 in `rule-id-migrations.json`; they are not extra semantic rules or a correctness denominator.
 
@@ -13,7 +28,7 @@ recursively (excluding bin/obj), reads pinned ScriptDom metadata, and uses Rosly
 References include qualified method identity and exact declaration location. `RuleInventoryTests` checks both against the
 source and compiled test methods. None of this measures asserted branches or SQL Server behavior.
 
-`rule-test-map.json` records associations; missing mappings are report-only and appear in generated `uncovered.md`.
+`rule-test-map.json` records associations; missing mappings are report-only and appear in generated [uncovered.md](../verification/rules/uncovered.md).
 Constructed-AST DBCC tests do not establish executable syntax or feature availability. Legacy DISABLE_DEF_CNST_CHK remains
 AST-only in this parser. Source/file movement requires regeneration and review while rule IDs and verdicts remain stable.
 
@@ -47,7 +62,7 @@ python -B tools/verification/report_coverage.py BASELINE.xml AUGMENTED.xml --out
 dotnet test tests\SqlSafetyGuard.Tests
 ```
 
-`rules/uncovered.md` lists missing named-test associations in current source. The [original measured coverage report](../history/2026-10-28-offline-coverage/README.md)
+`docs/verification/rules/uncovered.md` lists missing named-test associations in current source. The [original measured coverage report](../history/2026-10-28-offline-coverage/README.md)
 is immutable historical evidence. New measured reports require actual input paths, measurement date, build attribution and
 a new external output directory. Their input hashes are recorded; the caller-supplied revision is not independently verified
 by the report. No raw test artifacts are committed. Full-suite time varies by machine; seeded expansion is opt-in.

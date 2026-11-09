@@ -1,7 +1,7 @@
 # Development
 
 Build and debug instructions for SQL Safety Guard. For installation and daily use, see the
-[user guide](user-guide.md). Architecture: [architecture.md](architecture.md). Current evidence: [verification/status.md](verification/status.md).
+[user guide](../user/user-guide.md). Architecture: [architecture.md](architecture.md). Current evidence: [status.md](../status.md).
 
 ## Solution layout
 
@@ -78,17 +78,17 @@ Run `scripts/Verify-Offline.ps1` for locked restore, the offline test suite, gen
 The GitHub workflow runs the same offline checks on Windows. It does not install SSMS or connect to SQL Server.
 
 For VSIX changes, build Debug and Release with Visual Studio MSBuild. Run the in-process WPF interaction scripts for
-changed surfaces; these load controls without starting SSMS or executing SQL. See [verification/extension/theme-capture.md](verification/extension/theme-capture.md)
+changed surfaces; these load controls without starting SSMS or executing SQL. See [ssms-testing.md](ssms-testing.md)
 for optional isolated visual capture. The complete theme pass requires the owner's explicit finished-release instruction.
 
 Unit guard tests establish policy decisions; XAML tests establish structure/defaults; in-process interaction checks establish
 control behavior. Actual host target binding and server submission require separate integration evidence. A successful
-build or any one of these layers does not prove the others. See [verification/how-to.md](verification/how-to.md) for the evidence map.
+build or any one of these layers does not prove the others. See [verification-tools.md](verification-tools.md) for the evidence map.
 
 ## Samples and shortcut
 
 `samples/01-try-these.sql` is checked by `SamplesTests.cs` (every `expect:` line) and `WholeFileSamplesTests.cs` (analyzing
-the whole file lists every example). Keep both passing when changing the samples the [user guide](user-guide.md#try-it)
+the whole file lists every example). Keep both passing when changing the samples the [user guide](../user/user-guide.md#try-it)
 describes.
 
 Analyze Query uses **Ctrl+Shift+F5**, scoped to the SQL Query Editor. The original request was Ctrl+Shift+A, but SSMS 22

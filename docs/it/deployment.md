@@ -1,7 +1,7 @@
 # SQL Safety Guard — IT deployment guide
 
 For administrators installing SQL Safety Guard on company laptops. Users can also install it for themselves without
-administrator rights (see the [install guide](install.md)); pick one of the two per laptop.
+administrator rights (see the [install guide](../user/install.md)); pick one of the two per laptop.
 
 ## What it is (for security review)
 
@@ -10,7 +10,7 @@ administrator rights (see the [install guide](install.md)); pick one of the two 
   never leaves the machine. Settings are stored in the user's SSMS settings.
 - It is a safety net against mistakes, **not a security boundary**; database permissions remain the real protection.
 - GitHub packages are **unsigned**. If application control requires a signature, IT can sign and validate an internal copy
-  on the company computer; see [vsix-signing.md](vsix-signing.md). Keep its checksum separate from the GitHub package.
+  on the company computer; see [vsix-signing.md](signing.md). Keep its checksum separate from the GitHub package.
 
 ## Requirements
 
@@ -28,7 +28,7 @@ administrator rights (see the [install guide](install.md)); pick one of the two 
 | `SHA256SUMS.txt` | Checksums; verify with `Get-FileHash -Algorithm SHA256` |
 
 Extract the full ZIP, or extract the scripts ZIP and put the `.vsix` next to `install.ps1`. Download `SHA256SUMS.txt`
-beside that folder's VSIX for the signing helper; see [vsix-signing.md](vsix-signing.md). Unblock the files if they were downloaded
+beside that folder's VSIX for the signing helper; see [vsix-signing.md](signing.md). Unblock the files if they were downloaded
 (`Get-ChildItem -Recurse | Unblock-File`).
 
 ## Install for all users of a laptop (administrator)

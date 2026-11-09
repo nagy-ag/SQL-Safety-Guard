@@ -168,11 +168,16 @@ public static class ReleaseAssetBytes {
             [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($Zip, (Join-Path $repository "signing/$file"), "$Prefix$file")
         }
         # One maintained signing guide; online references stay usable after extraction without a source checkout.
-        $guide = [IO.File]::ReadAllText((Join-Path $repository 'docs/vsix-signing.md'))
-        foreach ($target in @('release-process.md', '../.agents/skills/ssms-extension-ui/SKILL.md', '../signing/Sign-CompanyVsix.ps1')) {
-            $repoTarget = if ($target.StartsWith('../')) { $target.Substring(3) } else { "docs/$target" }
-            $guide = $guide.Replace("]($target)", "](https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/$repoTarget)")
-        }
+        $guide = [IO.File]::ReadAllText((Join-Path $repository 'docs/it/signing.md'))
+        # Every relative link becomes a tag-pinned link, resolved from the guide's folder in the repository.
+        $guide = [regex]::Replace($guide, '\]\((?!https?:|mailto:|#)([^)#\s]+)(#[^)\s]*)?\)', [Text.RegularExpressions.MatchEvaluator] {
+            param($match)
+            $parts = [Collections.Generic.List[string]]::new()
+            foreach ($part in ('docs/it/' + $match.Groups[1].Value) -split '/') {
+                if ($part -eq '..') { $parts.RemoveAt($parts.Count - 1) } elseif ($part -and $part -ne '.') { $parts.Add($part) }
+            }
+            "](https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/$($parts -join '/')$($match.Groups[2].Value))"
+        })
         $guideWriter = [IO.StreamWriter]::new($Zip.CreateEntry("${Prefix}SIGNING.md").Open(), [Text.Encoding]::UTF8)
         try { $guideWriter.Write($guide) } finally { $guideWriter.Dispose() }
     }
@@ -217,7 +222,7 @@ The signing/ folder contains the optional company signing helper and SIGNING.md.
 Download SHA256SUMS.txt into this extracted folder before using that helper.
 Signing happens only on the company computer; keep signed copies internal.
 Instructions and verification limits:
-https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/install.md
+https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/user/install.md
 "@
         $writer = New-Object IO.StreamWriter($bundle.CreateEntry('README.txt').Open(), [Text.Encoding]::UTF8)
         try { $writer.Write($instructions) } finally { $writer.Dispose() }

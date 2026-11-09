@@ -33,7 +33,7 @@ with applications, or any environment where an accidental `UPDATE` without `WHER
 | Real write | 🔴 Red | Changes a permanent table, schema, permission or server setting |
 
 Green runs without a question once the guard has confirmed which window SSMS will execute. By default, yellow and red
-ask first; the warning mode can be changed globally or per server. See [which colour each statement gets](docs/statement-verdicts.md).
+ask first; the warning mode can be changed globally or per server. See [which colour each statement gets](docs/user/statement-verdicts.md).
 
 ## Safety principles
 
@@ -43,7 +43,7 @@ ask first; the warning mode can be changed globally or per server. See [which co
 - **Spelling does not matter.** Brackets, missing schemas, `BEGIN/END`, `TRY/CATCH`, `IF`, loops, transactions,
   `EXEC(...)`, `sp_executesql`, CTEs, `OUTPUT INTO` and multiple `GO` batches do not hide a write.
 - **A safety net, not a security boundary.** It cannot see inside procedures, triggers or SQL built at runtime. Use
-  database permissions (for example a read-only login) for real protection. See the [limitations](docs/user-guide.md#limitations).
+  database permissions (for example a read-only login) for real protection. See the [limitations](docs/user/user-guide.md#limitations).
 
 ## Get started
 
@@ -51,26 +51,31 @@ ask first; the warning mode can be changed globally or per server. See [which co
 2. Close SSMS and double-click the file (unblock it in Properties first if Windows blocks it).
 3. Start SSMS and open a query window: the safety pane appears on the right.
 
-Requires 64-bit SSMS 22.x. No administrator rights are needed. The [install guide](docs/install.md) covers scripted
+Requires 64-bit SSMS 22.x. No administrator rights are needed. The [install guide](docs/user/install.md) covers scripted
 installs, updates, uninstalling and checking downloads.
 
 ## Documentation
 
 **Using it**
 
-- [Install guide](docs/install.md): download, install, update and uninstall.
-- [User guide](docs/user-guide.md): the pane, the F5 confirmation, samples to try, troubleshooting and limitations.
-- [Settings](docs/settings.md): warning modes, safe tables, trusted procedures and per-server environment rules.
-- [Statement verdicts](docs/statement-verdicts.md): the colour of every T-SQL statement kind.
+- [Install guide](docs/user/install.md): download, install, update and uninstall.
+- [User guide](docs/user/user-guide.md): the pane, the F5 confirmation, samples to try, troubleshooting and limitations.
+- [Settings](docs/user/settings.md): warning modes, safe tables, trusted procedures and per-server environment rules.
+- [Statement verdicts](docs/user/statement-verdicts.md): the colour of every T-SQL statement kind.
 
 **Deploying it in a company**
 
-- [IT deployment](docs/it-deployment.md): all-users installation, security facts and post-install checks.
-- [Company signing](docs/vsix-signing.md): sign an internal copy of the unsigned GitHub package.
+- [IT deployment](docs/it/deployment.md): all-users installation, security facts and post-install checks.
+- [Company signing](docs/it/signing.md): sign an internal copy of the unsigned GitHub package.
+
+**Trusting it**
+
+- [Status](docs/status.md): how well it is verified right now, and what is still open.
+- [What the colours promise](docs/safety/contract.md), and the [policy questions](docs/safety/policy-questions.md) awaiting a decision.
 
 **Developing it**
 
-- [Development](docs/development.md), [architecture](docs/architecture.md) and [verification status](docs/verification/status.md).
+- [Contributing](CONTRIBUTING.md): the safety rule, code layout, build and test, and where to read before a change.
 - [All documentation](docs/README.md) and the [changelog](CHANGELOG.md).
 
 ## License

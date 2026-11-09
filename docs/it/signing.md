@@ -3,7 +3,7 @@
 GitHub releases are always unsigned. The owner downloads the unsigned release, checks its checksum, and may
 sign a copy on their own company computer before trying it. Signing never happens in this repository or on GitHub;
 never upload the signed copy or private key to the GitHub release. An internal signed copy has its own checksum and
-distribution record, independent of whether GitHub marks the release stable or prerelease. See [release-process.md](release-process.md).
+distribution record, independent of whether GitHub marks the release stable or prerelease. See [release-process.md](../dev/release-process.md).
 
 The company signing computer needs Sign CLI, its prerequisites, and access to the signing private key. It does
 not need source code or Visual Studio build workloads. SSMS 22 is needed for the signed-copy installation check.
@@ -11,7 +11,7 @@ not need source code or Visual Studio build workloads. SSMS 22 is needed for the
 Release 1.0.1 includes the signing kit in the full `SqlSafetyGuard-1.0.1.zip` under `signing/`, and separately as
 `SqlSafetyGuard-1.0.1-signing.zip`. The kit contains `Sign-CompanyVsix.ps1`, `README.txt` and this guide as `SIGNING.md`.
 It includes no certificates, private keys or Sign CLI binaries. Download the release's `SHA256SUMS.txt` separately.
-The helper's maintained source is [Sign-CompanyVsix.ps1](../signing/Sign-CompanyVsix.ps1).
+The helper's maintained source is [Sign-CompanyVsix.ps1](../../signing/Sign-CompanyVsix.ps1).
 
 This guide describes an internal pilot with a self-signed certificate. If IT supplies a company-issued certificate or managed
 signing service, use that identity and its key-access instructions instead of creating the pilot certificate below.
@@ -99,7 +99,7 @@ replaced.
 
 ### 1. Download the unsigned release on the company computer
 
-Follow [release-process.md](release-process.md). Download `SqlSafetyGuard-<version>.vsix` and `SHA256SUMS.txt`
+Follow [release-process.md](../dev/release-process.md). Download `SqlSafetyGuard-<version>.vsix` and `SHA256SUMS.txt`
 from GitHub Releases. Compare the VSIX SHA-256 with the checksum before signing. For an independently
 authenticated comparison, convey the expected hash through an authenticated company channel too.
 
@@ -182,7 +182,7 @@ the pilot example assumes a key in `CurrentUser\My`.
    with IT. A zero exit code and the existence of an output file do not replace signature verification. Do not assume
    `Get-AuthenticodeSignature` is a VSIX package verifier.
 2. Smoke-test the exact signed output in an isolated SSMS 22 profile using the
-   [extension UI workflow](../.agents/skills/ssms-extension-ui/SKILL.md). Check installer certificate/signature details and the
+   [extension UI workflow](../../.agents/skills/ssms-extension-ui/SKILL.md). Check installer certificate/signature details and the
    expected pilot trust state, then pane, green/yellow/red execution guards, settings and upgrade/uninstall behaviour.
    Use VSIXInstaller for this check; manual extraction does not exercise its signature checks.
 3. Generate a separate internal `SHA256SUMS.txt` from the final signed VSIX and any other internal distribution assets. Do not replace the GitHub checksums. This VSIX hash differs

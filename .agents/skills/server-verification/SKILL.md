@@ -54,11 +54,11 @@ Inputs must validate completely before execution. Rejections and duplicate IDs r
 ## Reporting
 
 - Put the run report in `docs/history/runs/<date>-<name>.md` with the snapshot header.
-- Rewrite `docs/verification/status.md`: bottom line, run table, defects fixed, coverage, open items.
+- Add the run report under `docs/history/runs/`, then update `docs/status.md` ("At a glance" and "Open limits").
 - Never commit raw results or zips.
 
 ## Product documentation
 
-See `docs/development.md` for build/debug and implementation details; `docs/install.md`, `docs/user-guide.md` and
-`docs/settings.md` for installation, use and settings examples; and `docs/verification/status.md` for current
+See `docs/dev/development.md` for build/debug and implementation details; `docs/user/install.md`, `docs/user/user-guide.md` and
+`docs/user/settings.md` for installation, use and settings examples; and `docs/status.md` for current
 evidence. The root README is the product description.

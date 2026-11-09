@@ -1,13 +1,13 @@
 # Install guide
 
 How to download, install, update and remove SQL Safety Guard for yourself. To install it for every user of a computer,
-see the [IT deployment guide](it-deployment.md). Once installed, continue with the [user guide](user-guide.md).
+see the [IT deployment guide](../it/deployment.md). Once installed, continue with the [user guide](user-guide.md).
 
 ## Requirements
 
 - 64-bit **SQL Server Management Studio 22.0 or a later 22.x release**. The package is limited to SSMS 22; a future
   major version needs separate verification. Focused checks covered representative builds from 22.0 to 22.11; the
-  evidence and remaining gaps are in [verification/status.md](verification/status.md).
+  evidence and remaining gaps are in [status.md](../status.md).
 - No administrator rights. The normal installation is per user.
 - SSMS must be closed while installing, updating or uninstalling.
 
@@ -20,7 +20,7 @@ All files are on [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/r
 | `SqlSafetyGuard-<version>.vsix` | The extension. This is all most people need. |
 | `SqlSafetyGuard-<version>.zip` | The identical VSIX plus install/uninstall scripts, `README.txt`, legal notices and the optional company signing kit |
 | `SqlSafetyGuard-<version>-scripts.zip` | Only `install.ps1`, `uninstall.ps1` and their helper |
-| `SqlSafetyGuard-<version>-signing.zip` | Only the company signing kit; see [company signing](vsix-signing.md) |
+| `SqlSafetyGuard-<version>-signing.zip` | Only the company signing kit; see [company signing](../it/signing.md) |
 | `SHA256SUMS.txt` | Checksums of the files above |
 
 GitHub packages are **unsigned**. To check a download, compare `Get-FileHash -Algorithm SHA256 <file>` with the line in
@@ -45,13 +45,13 @@ Download and extract the scripts ZIP (or the full ZIP) from the same release, op
 
 The script finds SSMS 22, validates the package, removes a previous version, installs with SSMS's own installer and
 refreshes SSMS's extension cache. From a source checkout, `.\install.ps1` without arguments installs the newest local
-build. Details for administrators are in [how the install scripts work](it-deployment.md#how-the-install-scripts-work).
+build. Details for administrators are in [how the install scripts work](../it/deployment.md#how-the-install-scripts-work).
 
 ## Update
 
 Close SSMS and install the newer VSIX the same way; it replaces the old version. Keep the previous `.vsix` until the
 new one works, so you can reinstall it (`.\install.ps1 -VsixPath <previous.vsix>`) if something goes wrong.
-The [changelog](../CHANGELOG.md) lists what changed in each version.
+The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
 ## Uninstall
 

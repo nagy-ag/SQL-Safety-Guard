@@ -16,12 +16,12 @@ public class StatementVerdictsTests
     public void CommittedStatementVerdictsMatchCurrentAnalyzer()
     {
         var repository = TestRepository.Root;
-        var path = Path.Combine(repository, "docs/statement-verdicts.md");
+        var path = Path.Combine(repository, "docs/user/statement-verdicts.md");
         var generated = Generate(Path.Combine(repository, "tests/SqlSafetyGuard.ServerHarness/Coverage"));
         if (Environment.GetEnvironmentVariable("UPDATE_STATEMENT_VERDICTS") == "1")
             File.WriteAllText(path, generated, new UTF8Encoding(false));
         Assert.True(File.Exists(path) && File.ReadAllText(path).Replace("\r\n", "\n") == generated,
-            "docs/statement-verdicts.md is stale. Regenerate in PowerShell: " +
+            "docs/user/statement-verdicts.md is stale. Regenerate in PowerShell: " +
             "$env:UPDATE_STATEMENT_VERDICTS='1'; dotnet test tests/SqlSafetyGuard.Tests " +
             "--filter FullyQualifiedName~StatementVerdictsTests; Remove-Item Env:UPDATE_STATEMENT_VERDICTS");
     }
@@ -116,7 +116,7 @@ public class StatementVerdictsTests
         output.AppendLine("Verdicts use default settings: no allow-list and no environment rules; explicitly configured exceptions are noted.");
         output.AppendLine("The verdict columns compare permanent and #temp / @table targets; statements without a table/object target use the first column, with — in the second.");
         output.AppendLine("One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.");
-        output.AppendLine("A query takes the colour of its most serious statement. See [live-server evidence](history/2026-10-27-all-kinds/README.md).\n");
+        output.AppendLine("A query takes the colour of its most serious statement. See [live-server evidence](../history/2026-10-27-all-kinds/README.md).\n");
         output.AppendLine($"Jump to: [Common statements](#common-statements) · [Green ({Count(0)})](#green) · [Yellow ({Count(1)})](#yellow) · " +
             $"[Red ({Count(2)})](#red) · [No standalone SQL ({Count(3)})](#no-standalone-sql)");
         output.AppendLine("\n## Common statements\n");

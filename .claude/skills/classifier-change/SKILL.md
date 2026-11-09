@@ -19,7 +19,7 @@ Before moving anything **toward green** (red → yellow, yellow → green, or ad
 Moving **toward red** (catching a missed write) needs no server evidence; do it, then add evidence if you can.
 
 Never relax a verdict to reduce noise. If the noise is a real usability problem, record it in
-`docs/verification/policy-questions.md` for the owner instead.
+`docs/safety/policy-questions.md` for the owner instead.
 
 ## Checklist for every change
 
@@ -35,13 +35,14 @@ Never relax a verdict to reduce noise. If the noise is a real usability problem,
 - [ ] The finding names the object that physically changes (table, not index/statistic/schema name).
 - [ ] Row-scope notes stay honest: "affects every row" only when nothing limits the rows.
 - [ ] Resource limits still fail closed (`AnalysisLimitException` → warning, never green).
-- [ ] Regenerate `docs/statement-verdicts.md` (`UPDATE_STATEMENT_VERDICTS=1`, see `AGENTS.md`) and, when rule tables change,
+- [ ] Regenerate `docs/user/statement-verdicts.md` (`UPDATE_STATEMENT_VERDICTS=1`, see `AGENTS.md`) and, when rule tables change,
       the inventory (`python tools/verification/generate_inventory.py`); review the diff.
 - [ ] Full `dotnet test tests\SqlSafetyGuard.Tests` passes.
-- [ ] If a false green was fixed, add it to the "Defects found and fixed" table in `docs/verification/status.md`.
+- [ ] If a false green was fixed, record it in a dated report under `docs/history/runs/` and update "Known false
+      greens" in `docs/status.md`.
 
 ## Product documentation
 
-See `docs/development.md` for build/debug and implementation details; `docs/install.md`, `docs/user-guide.md` and
-`docs/settings.md` for installation, use and settings examples; and `docs/verification/status.md` for current
+See `docs/dev/development.md` for build/debug and implementation details; `docs/user/install.md`, `docs/user/user-guide.md` and
+`docs/user/settings.md` for installation, use and settings examples; and `docs/status.md` for current
 evidence. The root README is the product description.

@@ -1,10 +1,13 @@
 # History
 
 Dated snapshots, newest first. They are kept as evidence and are **not maintained**; for the current state read
-[../verification/status.md](../verification/status.md), and for all current documents [../README.md](../README.md).
+[../status.md](../status.md), and for all current documents [../README.md](../README.md).
+
+Release records, one per version, are indexed in [releases/](releases/README.md).
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-09 | [runs/2026-11-09-status-before-restructure.md](runs/2026-11-09-status-before-restructure.md) | The full status page and evidence ledger as they stood before the documentation restructure; status.md became a current-only page. |
 | 2026-11-09 | [runs/2026-11-09-release-1.0.4-publication.md](runs/2026-11-09-release-1.0.4-publication.md) | 1.0.4 published stable and Latest from `c4e35af`, tag `v1.0.4`; packaging gate passed, all five asset digests and fresh downloads match, full ZIP carries the identical VSIX, CI passed for main and tag. |
 | 2026-11-09 | [runs/2026-11-09-settings-editors-1.0.4.md](runs/2026-11-09-settings-editors-1.0.4.md) | 1.0.4 candidate: Options scrolling fixed (sticky category copy hidden), count-only list rows with structured table/procedure and rule editors, themed title bars; 1,663 .NET tests, isolated SSMS Light and Dark checks for scrolling, native settings and editors, settings restored. |
 | 2026-11-06 | [runs/2026-11-06-local-ssms-upgrade-complete.md](runs/2026-11-06-local-ssms-upgrade-complete.md) | PASS: unchanged published 1.0.3 survived exact local 22.9.2→22.11.3 same-installation update; three focused cases before/after, six native/persisted settings and 27 payload hashes preserved; two shell metadata cache changes separate, host activity errors qualified; owned SSMS closed and monitor disabled. |

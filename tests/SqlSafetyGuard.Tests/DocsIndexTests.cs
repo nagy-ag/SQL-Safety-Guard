@@ -10,16 +10,54 @@ public class DocsIndexTests
 
     private static readonly Regex Link = new(@"\]\(([^)#\s]+)(#[^)]*)?\)");
 
+    /// <summary>Current documents live in an audience folder; only the map and the status page sit directly in docs/.</summary>
+    private static readonly string[] CurrentFolders = { "user/", "it/", "dev/", "safety/", "verification/rules/" };
+
+    private static IEnumerable<string> CurrentDocuments() => Directory.EnumerateFiles(Docs, "*.md", SearchOption.AllDirectories)
+        .Select(path => Path.GetRelativePath(Docs, path).Replace('\\', '/'))
+        .Where(path => !path.StartsWith("history/", StringComparison.Ordinal) && !IsMovedPage(path));
+
+    /// <summary>A page kept at an old path only so that frozen snapshots' links still resolve.</summary>
+    private static bool IsMovedPage(string path) =>
+        File.ReadLines(Path.Combine(Docs, path)).FirstOrDefault()?.StartsWith("# Moved:", StringComparison.Ordinal) == true;
+
     [Fact]
     public void EveryCurrentDocumentIsListedOnTheStartPage()
     {
         var index = File.ReadAllText(Path.Combine(Docs, "README.md"));
-        var unlisted = Directory.EnumerateFiles(Docs, "*.md", SearchOption.AllDirectories)
-            .Select(path => Path.GetRelativePath(Docs, path).Replace('\\', '/'))
-            .Where(path => path != "README.md" && !path.StartsWith("history/", StringComparison.Ordinal))
+        var unlisted = CurrentDocuments()
+            .Where(path => path != "README.md")
             .Where(path => !index.Contains("](" + path + ")", StringComparison.Ordinal))
             .ToList();
         Assert.True(unlisted.Count == 0, "Add to docs/README.md or move to docs/history/: " + string.Join(", ", unlisted));
+    }
+
+    [Fact]
+    public void CurrentDocumentsLiveInTheirAudienceFolder()
+    {
+        var misplaced = CurrentDocuments()
+            .Where(path => path != "README.md" && path != "status.md")
+            .Where(path => !CurrentFolders.Any(folder => path.StartsWith(folder, StringComparison.Ordinal)))
+            .ToList();
+        Assert.True(misplaced.Count == 0, "Move into user/, it/, dev/ or safety/ (or history/ if dated): " + string.Join(", ", misplaced));
+    }
+
+    [Fact]
+    public void MovedPagesPointToACurrentDocument()
+    {
+        var moved = Directory.EnumerateFiles(Docs, "*.md", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(Docs, path).Replace('\\', '/'))
+            .Where(path => !path.StartsWith("history/", StringComparison.Ordinal) && IsMovedPage(path))
+            .ToList();
+        Assert.NotEmpty(moved);
+        foreach (var path in moved)
+        {
+            var text = File.ReadAllText(Path.Combine(Docs, path));
+            Assert.True(text.Length < 600, "A moved page should only point to the new location: " + path);
+            var targets = Link.Matches(text).Select(match => Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.Combine(Docs, path))!, match.Groups[1].Value)));
+            Assert.True(targets.Any(target => target.EndsWith(".md", StringComparison.Ordinal) && File.Exists(target) &&
+                !IsMovedPage(Path.GetRelativePath(Docs, target))), "A moved page must link to a current document: " + path);
+        }
     }
 
     [Fact]
