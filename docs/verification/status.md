@@ -1,6 +1,54 @@
 # Verification status
 
-Updated **2026-11-05** after publication of the owner-requested **1.0.3 compact Options update**.
+Updated **2026-11-06** after the authorized **local published 1.0.3 same-installation SSMS upgrade**.
+
+**PASS for the three focused local checks: SQL Safety Guard 1.0.3 survived SSMS 22.9.2→22.11.3.**
+The [completed local upgrade snapshot](../history/runs/2026-11-06-local-ssms-upgrade-complete.md)
+records exact **22.9.12120.119 → 22.11.12328.437**, the same installation identity/path and isolated
+profile, successful settings/execution checks before and after, and **all 27 published package
+members unchanged**. Upgrade exit was 0 with no reboot. No post-upgrade repair, configuration
+refresh, reinstall, cache deletion or settings rewrite was performed.
+
+| Latest local evidence | Result |
+|---|---|
+| Green read | Correct connection, exact SELECT submitted; before counter 0, after counter 1; successful completion without guard prompt |
+| Red Cancel | Expected server/database, whole-window context and permanent UPDATE target; no UPDATE submission or counter/event delta |
+| Red Run anyway | Exactly one attributed UPDATE per phase: counter 0→1 before, 1→2 after; final audit events 2 |
+| Settings | Both complete native forms, six typed values each, and six closed persisted keys/types/values preserved |
+| Package integrity | Same 27 payload paths/hashes match frozen published VSIX and baseline; no missing/extra files |
+| SSMS cache/metadata | ExtensionMetadata2.0.mpack and ExtensionMetadataCache.mpack changed; CompatibilityList.xml and extensions.configurationchanged unchanged; deltas recorded separately |
+| Closure / monitor | Owned SSMS closed cleanly, installer complete, same monitor disabled; backups and owned test evidence retained |
+
+Scope is three focused local cases on an isolated profile. Physical F5, SQLCMD-on, deliberate
+ambiguity and the eleven-case VM suite are not newly qualified. Baseline green used a human toolbar
+click; baseline red and all after tests used owned UI Automation/messages, with no global input or
+clipboard/focus calls. No Debug hook, product edit, rebuild or repackaging was used.
+
+The after activity log retains 29 shell/C# UI-resource, Unified Settings, source-control and Copilot
+errors. None names SQL Safety Guard or its package GUID; its package load completed and the focused
+checks passed. General SSMS/Copilot health is not certified. An immediate observation before the
+asynchronous Run completed is preserved alongside the settled exactly-once SQL evidence; no write
+was retried. Results-grid cells were not individually exposed in after UIA, so green execution is
+corroborated by exact server input, SSMS success and independent counter readback.
+
+Visual Studio Community's registered version remained unchanged. Original profiles/backups are
+preserved; normal-profile migration was not tested. The downgrade created a new installation ID
+before baseline, and the tested upgrade preserved it. No cloud was used. The immutable
+[earlier baseline-only snapshot](../history/runs/2026-11-06-local-ssms-upgrade-baseline.md) remains a
+record of its earlier consent-expiry point, not the final upgrade outcome.
+
+## Retained VM upgrade evidence
+
+The earlier [native connection-confirmation retry](../history/runs/2026-11-06-ssms-229-2211-connection-confirmation-retry.md)
+remains INCOMPLETE: 11 raw baseline cases were corroborated, but its original reviewer rejected a
+Windows-1252 phase summary as invalid UTF-8 and never authorized the upgrade. That original
+review was not rerun or replaced by the diagnostic audit. Its exported hashes and owned cloud,
+billing and IAP cleanup were verified; generated key deletion remained approval-blocked. All
+prior attempt snapshots and clocks remain intact in the [history index](../history/README.md).
+
+## Retained 1.0.3 publication evidence
+
+The owner-requested **1.0.3 compact Options update** was published earlier on **2026-11-05**.
 [SQL Safety Guard 1.0.3](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.3) is stable and Latest,
 source `30aec84e40758b28da85378e57b5dff3f6b0d7c9`, annotated tag `v1.0.3`, published at **17:03:19 UTC**.
 The [user-guide format reference](../user-guide.md#settings) and changelog are updated. Earlier releases are retained.
@@ -197,6 +245,11 @@ Earlier live Debug uninstall acceptance remains evidence for its recorded build/
 
 | Component | Evidence and identity | Establishes | Limits |
 |---|---|---|---|
+| SSMS 22.9.2 to 22.11.3 all-forms observer retry, November 6 | [All-forms observer retry](../history/runs/2026-11-06-ssms-229-2211-all-forms-observer-retry.md); unchanged published 1.0.3 | Actual22.9.2/build22.9.12120.119; 27 package members, five panes, six persisted settings and31 files unchanged; both exports verified; cloud/billing/tunnel cleanup, monitor disabled | Startup FromHandle ElementNotAvailableException before native observer; zero execution cases, formal0/11 INCOMPLETE; no upgrade; current key deletion approval-blocked; local fixture is not SSMS acceptance |
+| SSMS 22.9.2 → 22.11.3 settings-observer retry, November 6 | [Settings-observer retry](../history/runs/2026-11-06-ssms-229-2211-settings-observer-retry.md); unchanged published 1.0.3, VSIX `0ee37ae4…` | Actual 22.9.2/build 22.9.12120.119; 27 package-member hashes; five panes; final six persisted settings and 31 files unchanged; both exports verified; cloud removed, billing unlinked, tunnel closed, monitor disabled | Two distinct UIA identities per setting and dropdown API error; early gate prevents execution; formal 0/11 INCOMPLETE; update/restart not attempted; four local generated key files remain after automatic approval review blocked deletion |
+| SSMS 22.9.2 → 22.11.3 diagnostic retry, November 6 | [Diagnostic retry](../history/runs/2026-11-06-ssms-229-2211-diagnostic-retry.md); unchanged published 1.0.3, VSIX `0ee37ae4…` | Actual 22.9.2/build 22.9.12120.119; 27 initial member hashes; five panes and eleven raw execution observations corroborated; both exports verified; cloud removed, billing unlinked, tunnel closed, monitor disabled | Native settings control observation not unique; values/final profile comparison missing; formal 0/11 INCOMPLETE; update/restart not attempted; four local generated key files remain after automatic approval review blocked deletion |
+| SSMS 22.9.2 → 22.11.3 upgrade retry, November 6 | [Retry](../history/runs/2026-11-06-ssms-229-2211-upgrade-retry.md); unchanged published 1.0.3, VSIX `0ee37ae4…` | Actual 22.9.2/build 22.9.12120.119; initial installed file hashes; five pane observations; both exports/manifests verified; owned cloud/billing/tunnel/keys cleaned | Baseline stopped on unidentified retained SSMS/installer process; settings/execution not reached; 0/11 available cases, no update or restart acceptance; INCOMPLETE |
+| SSMS 22.9.2 → 22.11.3 upgrade attempt | [Attempt](../history/runs/2026-11-05-ssms-229-2211-upgrade-attempt.md); unchanged published 1.0.3, VSIX `0ee37ae4…` | Frozen package and Microsoft-signed bootstrappers verified; guest SQL Express READY; owned resources/billing/tunnel/keys cleaned | SSH timeout during initial SSMS installation; no installed-version receipt, extension baseline, upgrade or execution cases; locked-log export failed; INCOMPLETE |
 | Published SSMS 22.x compatibility update 1.0.0 | [Publication](../history/runs/2026-11-04-ssms-22-publication.md), source `7c036b8`, replacement `v1.0.0`; VSIX hash above | Clean committed-source official build, full locked offline gate, 32 interaction checks, package inspection, GitHub asset digests and three fresh-download hashes; old release replaced, new stable release Latest | Source/tag CI queued at publication; exact new artifact not freshly installed/live-traced; candidate/manual scenario limits unchanged; same-version uninstall/reinstall required |
 | Local 1.0.0 compatibility preparation and owner manual acceptance | [Preparation](../history/runs/2026-11-04-ssms-22-release-preparation.md); base `5e8c7f2` plus promoted adapter/badges and bounded manifest; new package hash above | 1,627 .NET / 10 Python / 527 rules; both rebuilds; 32 Release interaction checks; package/Release-source checks; user reports eleven manual rows and outline PASS; owned cleanup and 20 protected hashes | Uncommitted/unpublished preflight; final artifact not freshly installed; manual final counters 1,1 do not corroborate cumulative 4,3; no new execution trace; existing automated/unknown/uninstall/22.3 settings gaps retained |
 | Local retry and badge change | [Retry](../history/runs/2026-11-04-ssms-2211-local-candidate-retry.md); original frozen candidate plus separately hashed visual build | Both visual-candidate builds and 1,627 unit tests PASS; original normal-profile bytes/settings restored; owned SQL/profile cleanup verified | Zero new execution cases; Computer Use runtime blocked; revised startup helper not live-proven; visual candidate not installed or visually accepted |
