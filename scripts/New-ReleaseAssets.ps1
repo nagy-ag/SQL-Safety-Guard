@@ -217,7 +217,7 @@ The signing/ folder contains the optional company signing helper and SIGNING.md.
 Download SHA256SUMS.txt into this extracted folder before using that helper.
 Signing happens only on the company computer; keep signed copies internal.
 Instructions and verification limits:
-https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/user-guide.md
+https://github.com/nagy-ag/SQL-Safety-Guard/blob/v$version/docs/install.md
 "@
         $writer = New-Object IO.StreamWriter($bundle.CreateEntry('README.txt').Open(), [Text.Encoding]::UTF8)
         try { $writer.Write($instructions) } finally { $writer.Dispose() }

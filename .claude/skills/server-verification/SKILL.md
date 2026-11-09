@@ -59,5 +59,6 @@ Inputs must validate completely before execution. Rejections and duplicate IDs r
 
 ## Product documentation
 
-See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
-settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.
+See `docs/development.md` for build/debug and implementation details; `docs/install.md`, `docs/user-guide.md` and
+`docs/settings.md` for installation, use and settings examples; and `docs/verification/status.md` for current
+evidence. The root README is the product description.

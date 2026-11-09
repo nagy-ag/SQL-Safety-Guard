@@ -60,7 +60,7 @@ The precise promises are in [docs/verification/contract.md](docs/verification/co
 | `tools/verification` | Generators for the rule inventory and campaign cases |
 | `docs/development.md` | Build, debug, solution layout and implementation details |
 | `docs/architecture.md` | Responsibilities, dependencies, traced flows and text-only boundaries |
-| `docs/user-guide.md` | Install, use, settings examples and user limitations |
+| `docs/install.md`, `docs/user-guide.md`, `docs/settings.md` | Install/update/uninstall; daily use and limitations; settings reference with examples |
 | `docs/` | Start at [docs/README.md](docs/README.md) |
 
 ## Build and test

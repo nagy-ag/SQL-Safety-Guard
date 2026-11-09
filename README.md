@@ -1,79 +1,79 @@
 # SQL Safety Guard for SSMS 22
 
-SQL Safety Guard checks T-SQL **before it runs** in SQL Server Management Studio **22.0 and later 22.x releases**.
-It shows whether a query reads data, touches temporary objects, or changes permanent data.
-The extension never executes SQL itself or sends your queries elsewhere.
+SQL Safety Guard is an extension for SQL Server Management Studio (SSMS) **22.x** that checks your T-SQL **before it runs**
+and tells you whether it changes real data. A forgotten `WHERE`, a write in the wrong query window, or a write hidden
+inside a procedure or dynamic SQL is caught before you press F5, not after.
 
-It is for people working on databases where a mistaken `UPDATE` without `WHERE`,
-a write in the wrong window, or a hidden procedure write would be expensive.
+It reads only the query text. It never executes SQL itself, opens no connections of its own, and never sends your
+queries anywhere.
 
-## What you see
+## Who it is for
 
-A safety pane beside every query editor updates as you type or change the selection.
-It groups the objects a query may change and explains the warning.
-**Analyze Query** (Tools > SQL Safety Guard, toolbar, or **Ctrl+Shift+F5**) checks immediately.
+People who work on databases where a mistake is expensive: production support, data fixes, reporting servers shared
+with applications, or any environment where an accidental `UPDATE` without `WHERE` would hurt.
 
-The F5 guard checks the exact selection or whole window SSMS is about to execute.
-It covers F5, Ctrl+E, Alt+X and the Execute button through the same command.
-With the default settings, yellow and red pause for a buttons-only confirmation.
-**Cancel** is the default; **Run anyway** continues that execution. No typing is required.
+## How it works
+
+- **Safety pane.** A narrow pane beside every query editor shows, as you type, what the query would change. It checks
+  exactly what F5 would run: the selection if there is one, otherwise the whole window. Objects are grouped into
+  *changes to permanent objects*, *can't see inside* and *allowed by your settings*.
+- **F5 guard.** When you execute (F5, Ctrl+E, Alt+X or the Execute button), SQL Safety Guard analyzes the exact text
+  SSMS is about to run. With the default settings, a yellow or red query pauses for a buttons-only confirmation:
+  **Cancel** is the default, **Run anyway** continues. Nothing ever needs to be typed.
+- **Analyze Query** (Tools > SQL Safety Guard, the toolbar, or **Ctrl+Shift+F5**) re-checks the current window on demand.
+
+## The colours
 
 | Verdict | Colour | Meaning |
 |---|---|---|
-| Read-only | Green | Reads, variables, session/control statements, balanced transactions, known read-only procedures |
-| Temp only | Green | Writes only temporary tables/procedures or table variables |
-| Allow-listed | Green | Writes only tables matching your safe-table settings |
-| Unknown | Yellow | Cannot see what runs: procedures, runtime dynamic SQL, parse errors or unresolved targets |
-| Real write | Red | Changes a permanent object, permission or server state |
+| Read-only | 🟢 Green | Reads, variables, session settings, balanced transactions, known read-only procedures |
+| Temp only | 🟢 Green | Writes only `#temp` tables, table variables or temporary procedures |
+| Allow-listed | 🟢 Green | Writes only tables you listed as safe in the settings |
+| Unknown | 🟡 Yellow | Cannot see what runs: procedures, dynamic SQL built at runtime, parse errors |
+| Real write | 🔴 Red | Changes a permanent table, schema, permission or server setting |
 
-Green runs directly only when the execution target is verified.
-An ambiguous target asks for confirmation even in Off or Red-only mode.
-Environment rules can choose warning modes and add trusted tables/procedures per connection.
+Green runs without a question once the guard has confirmed which window SSMS will execute. By default, yellow and red
+ask first; the warning mode can be changed globally or per server. See [which colour each statement gets](docs/statement-verdicts.md).
 
-## Safety rules
+## Safety principles
 
-Unknown effects stay yellow. Parse errors and analysis limits do not become green.
-A guard failure before a verdict asks **Run anyway** or **Cancel**; a failed dialog cancels.
-Known Off settings with a verified target respect the user's choice to skip checking.
-Failures are logged in Output, mark the guard degraded, and attempt a session warning InfoBar.
-A later status or logging failure cannot authorize a computed red/yellow warning.
+- **Green needs proof.** If the analyzer cannot see what a query does, the answer is yellow, never green.
+- **Fail closed.** A parse error, an analysis limit, an internal error or doubt about which window SSMS will execute
+  leads to a question, not a silent run.
+- **Spelling does not matter.** Brackets, missing schemas, `BEGIN/END`, `TRY/CATCH`, `IF`, loops, transactions,
+  `EXEC(...)`, `sp_executesql`, CTEs, `OUTPUT INTO` and multiple `GO` batches do not hide a write.
+- **A safety net, not a security boundary.** It cannot see inside procedures, triggers or SQL built at runtime. Use
+  database permissions (for example a read-only login) for real protection. See the [limitations](docs/user-guide.md#limitations).
 
-This is a safety net, not a security boundary. It cannot inspect procedure bodies,
-triggers or runtime SQL. Use a read-only login for production protection.
-If an SSMS change prevents the guard attaching to the execution command at all,
-that command is unguarded. See the [limitations](docs/user-guide.md#limitations).
+## Get started
 
-## Install
+1. Download the latest `.vsix` from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
+2. Close SSMS and double-click the file (unblock it in Properties first if Windows blocks it).
+3. Start SSMS and open a query window: the safety pane appears on the right.
 
-Requires 64-bit SSMS 22.x. Focused compatibility checks covered representative builds from 22.0 through 22.11;
-individual patches and future major versions are not all tested. See the [verification status](docs/verification/status.md).
-
-1. Download the VSIX from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
-2. Close SSMS, unblock the download in Properties if needed, and double-click the VSIX.
-3. Start SSMS; the safety pane appears beside each SQL query editor.
-
-The release also provides `SqlSafetyGuard-<version>.zip` with the same VSIX, install/uninstall scripts and instructions.
-See the [changelog](CHANGELOG.md) for version changes.
-It includes the optional company signing kit, also available as `SqlSafetyGuard-<version>-signing.zip`.
-GitHub downloads remain unsigned; see the [company signing guide](docs/vsix-signing.md).
-Extract the ZIP before installing. Use `SHA256SUMS.txt` to verify either download.
-
-GitHub packages are unsigned. The [user guide](docs/user-guide.md) covers scripts, upgrades and uninstalling.
-
-To uninstall a per-user installation, choose **Tools > Options > SQL Safety Guard > Uninstall SQL Safety Guard...**, confirm,
-then save your work and close SSMS when its installer asks. All-users installations are removed by IT.
+Requires 64-bit SSMS 22.x. No administrator rights are needed. The [install guide](docs/install.md) covers scripted
+installs, updates, uninstalling and checking downloads.
 
 ## Documentation
 
-- [User guide](docs/user-guide.md): use the pane, try examples, shortcuts and settings.
-- [IT deployment](docs/it-deployment.md): installation for a team.
-- [Development](docs/development.md): build, debug, implementation and limitations.
-- [Verification status](docs/verification/status.md): evidence, coverage and open questions.
-- [All documentation](docs/README.md): current documents and historical reports.
+**Using it**
+
+- [Install guide](docs/install.md): download, install, update and uninstall.
+- [User guide](docs/user-guide.md): the pane, the F5 confirmation, samples to try, troubleshooting and limitations.
+- [Settings](docs/settings.md): warning modes, safe tables, trusted procedures and per-server environment rules.
+- [Statement verdicts](docs/statement-verdicts.md): the colour of every T-SQL statement kind.
+
+**Deploying it in a company**
+
+- [IT deployment](docs/it-deployment.md): all-users installation, security facts and post-install checks.
+- [Company signing](docs/vsix-signing.md): sign an internal copy of the unsigned GitHub package.
+
+**Developing it**
+
+- [Development](docs/development.md), [architecture](docs/architecture.md) and [verification status](docs/verification/status.md).
+- [All documentation](docs/README.md) and the [changelog](CHANGELOG.md).
 
 ## License
 
 [MIT License](LICENSE), Copyright (c) 2026 NagyAG.
 Bundled dependency information is in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
-
-Development entry points: [build/debug](docs/development.md), [architecture and text-only boundary](docs/architecture.md), and [verification modes](tools/verification/README.md).

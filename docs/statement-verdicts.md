@@ -1,10 +1,55 @@
 # Statement verdicts
 
-🟢 Green = read-only or temp-only, runs without asking; 🟡 Yellow = can't tell, asks; 🔴 Red = changes permanent data/schema/server (or is conservatively treated as doing so), asks.
+The colour SQL Safety Guard gives each kind of T-SQL statement, with one example each.
+
+- 🟢 **Green** runs without asking: reads, or writes only to temporary objects.
+- 🟡 **Yellow** asks first: the analyzer cannot see what will run.
+- 🔴 **Red** asks first: changes permanent data, schema or server state (or is conservatively treated as doing so).
+
 Verdicts use default settings: no allow-list and no environment rules; explicitly configured exceptions are noted.
 The verdict columns compare permanent and #temp / @table targets; statements without a table/object target use the first column, with — in the second.
 One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.
-See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kinds have no standalone SQL verdict and appear last.
+A query takes the colour of its most serious statement. See [live-server evidence](history/2026-10-27-all-kinds/README.md).
+
+Jump to: [Common statements](#common-statements) · [Green (44)](#green) · [Yellow (12)](#yellow) · [Red (271)](#red) · [No standalone SQL (7)](#no-standalone-sql)
+
+## Common statements
+
+The statements most queries are made of. Every kind, including these, is listed again in its colour section below.
+
+| Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example |
+|---|---|---|---|---|
+| SELECT | 🟢 Green | 🟢 Green | 🔴 Red for SELECT INTO a permanent table. 🔴 Red when advancing a sequence. | `SELECT Id FROM dbo.Items;` |
+| INSERT | 🔴 Red | 🟢 Green | 🟢 Green with an allow-listed target. | `INSERT dbo.Items VALUES (3,30);` |
+| UPDATE | 🔴 Red | 🟢 Green | 🟢 Green with an allow-listed target. | `UPDATE dbo.Items SET Qty = 20 WHERE Id = 1;` |
+| DELETE | 🔴 Red | 🟢 Green | 🟢 Green with an allow-listed target. | `DELETE FROM dbo.Items WHERE Id = 1;` |
+| MERGE | 🔴 Red | 🟢 Green | 🟢 Green with an allow-listed target. | `MERGE dbo.Items AS t USING (SELECT 1 AS Id) AS s ON t.Id = s.Id WHEN MATCHED THEN DELETE;` |
+| TRUNCATE TABLE | 🔴 Red | 🟢 Green (#temp) · — (@table) | 🟢 Green with an allow-listed target. | `TRUNCATE TABLE dbo.Items;` |
+| BULK INSERT | 🔴 Red | 🟢 Green (#temp) · — (@table) | 🟢 Green with an allow-listed target. | `BULK INSERT dbo.Items FROM 'C:\data\items.csv';` |
+| CREATE TABLE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `CREATE TABLE dbo.Items (Id int);` |
+| ALTER TABLE … ADD | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `ALTER TABLE T ADD jsonCol JSON` |
+| DROP TABLE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `DROP TABLE dbo.Items;` |
+| CREATE INDEX | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `CREATE INDEX ind1 ON t1(c1)` |
+| CREATE VIEW | 🔴 Red | — |  | `CREATE VIEW v1 AS SELECT * FROM t1` |
+| CREATE PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `CREATE PROCEDURE p1 AS RETURN 0;` |
+| ALTER PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `ALTER PROCEDURE dbo.P AS SELECT 2;` |
+| DROP PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `DROP PROCEDURE p1` |
+| EXEC | 🟡 Yellow | — | 🟢 Green for a built-in read-only system procedure. 🟢 Green when this procedure is trusted in settings. 🟢 Green for literal dynamic SQL that reads. 🔴 Red for literal dynamic SQL that writes. 🔴 Red for a known writing system procedure. | `EXEC dbo.CoverageProc;` |
+| BEGIN TRANSACTION | 🟡 Yellow | — | Unmatched transaction boundary in isolation. 🟢 Green for a balanced transaction. | `BEGIN TRAN;` |
+| COMMIT TRANSACTION | 🟡 Yellow | — | Unmatched transaction boundary in isolation. 🟢 Green for a balanced transaction. | `COMMIT;` |
+| ROLLBACK TRANSACTION | 🟢 Green | — |  | `ROLLBACK` |
+| DECLARE @variable | 🟢 Green | — |  | `DECLARE @value int;` |
+| SET @variable | 🟢 Green | — |  | `SET @a ^= 1` |
+| USE | 🟡 Yellow | — |  | `USE master` |
+| GRANT | 🔴 Red | — |  | `GRANT BACKUP LOG TO [guest]` |
+| REVOKE | 🔴 Red | — |  | `REVOKE all TO PUBLIC CASCADE` |
+| DENY | 🔴 Red | — |  | `DENY all TO PUBLIC CASCADE` |
+| BACKUP DATABASE | 🟡 Yellow | — |  | `BACKUP DATABASE d1 TO someDevice` |
+| DBCC CHECKDB | 🟢 Green | — | 🔴 Red for FREEPROCCACHE. 🔴 Red with REPAIR_ALLOW_DATA_LOSS. 🔴 Red for SSG_UNKNOWN (parsed as DLL unload). 🟡 Yellow for MEMORYMAP (default-parser errors included). | `DBCC CHECKDB (N'Coverage');` |
+
+## Green
+
+Runs without asking. 44 statement kinds.
 
 | Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
 |---|---|---|---|---|---|
@@ -52,6 +97,13 @@ See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kin
 | THROW | 🟢 Green | — |  | `THROW` | `ThrowStatement` |
 | WAITFOR | 🟢 Green | — | Contained statements are analyzed too. 🔴 Red when dequeuing from a queue. 🟢 Green when getting a conversation group. | `WAITFOR DELAY '00:00:01';` | `WaitForStatement` |
 | label: | 🟢 Green | — |  | `gogo:` | `LabelStatement` |
+
+## Yellow
+
+Asks first under the default warning mode: the effect cannot be seen from the text. 12 statement kinds.
+
+| Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
+|---|---|---|---|---|---|
 | ALTER TABLE … WITH (CLUSTER BY) | 🟡 Yellow | — | Alternate-dialect fixture (FabricDW); colour is the default analyzer response, including parse errors. | `ALTER TABLE Customers WITH (CLUSTER BY (CustomerID));` | `AlterTableAddClusterByStatement` |
 | BACKUP DATABASE | 🟡 Yellow | — |  | `BACKUP DATABASE d1 TO someDevice` | `BackupDatabaseStatement` |
 | BACKUP LOG | 🟡 Yellow | — |  | `BACKUP LOG d1 TO someDevice` | `BackupTransactionLogStatement` |
@@ -64,6 +116,13 @@ See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kin
 | UPDATE STATISTICS | 🟡 Yellow | 🟡 Yellow (#temp) · — (@table) |  | `UPDATE STATISTICS dbo.Items;` | `UpdateStatisticsStatement` |
 | USE | 🟡 Yellow | — |  | `USE master` | `UseStatement` |
 | USE FEDERATION | 🟡 Yellow | — |  | `USE FEDERATION ROOT WITH RESET` | `UseFederationStatement` |
+
+## Red
+
+Asks first: a permanent change, or treated as one. 271 statement kinds.
+
+| Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
+|---|---|---|---|---|---|
 | ADD SENSITIVITY CLASSIFICATION | 🔴 Red | — |  | `ADD SENSITIVITY CLASSIFICATION TO T1.C1, T1.C2, DBO.T1.C3 WITH (LABEL = 'Highly Confidential', INFORMATION_TYPE = 'Financial')` | `AddSensitivityClassificationStatement` |
 | ADD SIGNATURE | 🔴 Red | — |  | `ADD SIGNATURE TO HumanResources.uspUpdateEmployeeLogin BY CERTIFICATE HumanResourcesDP` | `AddSignatureStatement` |
 | ALTER APPLICATION ROLE | 🔴 Red | — |  | `ALTER APPLICATION ROLE CoverageApp WITH NAME = CoverageAppRenamed;` | `AlterApplicationRoleStatement` |
@@ -336,7 +395,9 @@ See [live-server evidence](history/2026-10-27-all-kinds/README.md); AST-only kin
 | WHILE | 🔴 Red | — | Contained statements are analyzed too; their effects can change the colour. | `WHILE @a > 10 CREATE TABLE t1 ( c1 INT );` | `WhileStatement` |
 | WRITETEXT | 🔴 Red | 🔴 Red (#temp) · — (@table) |  | `WRITETEXT dbo.Items.Body @ptrval 0xFF;` | `WriteTextStatement` |
 
-## AST-only kinds
+## No standalone SQL
+
+Syntax-tree node kinds that no standalone SQL text produces, so they have no verdict of their own. 7 statement kinds.
 
 | Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
 |---|---|---|---|---|---|

@@ -50,8 +50,9 @@ explicitly authorized for a finished release. Capture is visual evidence, never 
 
 ## Product documentation
 
-See `docs/development.md` for build/debug and implementation details, `docs/user-guide.md` for installation, use and
-settings examples, and `docs/verification/status.md` for current evidence. The root README is a short front page.
+See `docs/development.md` for build/debug and implementation details; `docs/install.md`, `docs/user-guide.md` and
+`docs/settings.md` for installation, use and settings examples; and `docs/verification/status.md` for current
+evidence. The root README is the product description.
 
 A guard failure before classification asks Run anyway or Cancel (default/Escape). Only known Off settings with a verified
 target bypass the question. A broken failure dialog cancels. Debug `guardfailurecheck` exercises this handler without SQL.

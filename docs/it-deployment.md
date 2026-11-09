@@ -1,7 +1,7 @@
 # SQL Safety Guard — IT deployment guide
 
 For administrators installing SQL Safety Guard on company laptops. Users can also install it for themselves without
-administrator rights (see [user-guide.md](user-guide.md)); pick one of the two per laptop.
+administrator rights (see the [install guide](install.md)); pick one of the two per laptop.
 
 ## What it is (for security review)
 
@@ -64,6 +64,49 @@ manual copies and unrecognized paths with administrator guidance. Keep using the
 - Keep the previous `.vsix` until the new version is confirmed working, so you can reinstall it.
 - The owner replaced the original 1.0.0 package while retaining its version. For a laptop with that older package,
   uninstall/reinstall rather than relying on same-version upgrade detection; identify the replacement by its checksum.
+
+## How the install scripts work
+
+`install.ps1` finds the newest SSMS 22 with `vswhere` (product `Microsoft.VisualStudio.Product.Ssms`, versions compared
+numerically), validates the package, removes any previous version, and runs **SSMS's own `VSIXInstaller.exe`**
+against that SSMS setup instance:
+
+```
+"<SSMS>\Common7\IDE\VSIXInstaller.exe" /quiet /instanceIds:<instanceId> SqlSafetyGuard.vsix
+```
+
+This is a per-user install: the files land in `%LocalAppData%\Microsoft\SSMS\22.0_<instanceId>\Extensions\<random>\` and
+are registered with that SSMS installation. Double-clicking the `.vsix` does the same (Explorer opens it with
+VSLauncher, which hands it to VSIXInstaller for SSMS 22 when that is the only matching product). SSMS 22 builds can omit
+**Extensions > Manage Extensions**; use the uninstall command or script instead.
+
+`-VsixPath <path>` installs a specific build. `-Copy` (elevated PowerShell only) extracts the VSIX into
+`<SSMS>\Common7\IDE\Extensions\SqlSafetyGuard` and touches `extensions.configurationchanged`. The copy path rejects unsafe
+archive paths (traversal, rooted/alternate-stream paths and duplicate entries), validates the manifest and required
+assemblies, and extracts into a sibling staging directory **before** moving the current install; a failed replacement
+restores the backup. The VSIXInstaller path aborts on a failed uninstall and reports failed upgrades with recovery
+instructions. Installer log paths are quoted even when TEMP contains spaces, and uninstall failures return a nonzero
+exit code instead of printing success.
+
+After installing or uninstalling, both scripts run `SSMS.exe /updateconfiguration` (hidden, about 10 seconds) so SSMS
+rebuilds its editor component cache. The safety pane is an editor (MEF) component; without this step SSMS can keep a
+stale cache after an upgrade and the pane silently doesn't appear (or SSMS reports a missing file). If the step fails,
+the script prints the command to run by hand with SSMS closed.
+
+`uninstall.ps1` runs `VSIXInstaller /uninstall:SqlSafetyGuard.fd93cdc5-5bc3-4b7b-afaa-e0c208810558` for the discovered
+SSMS instance's default profile and removes any `-Copy` install folder (elevated). Remove an isolated profile with
+`VSIXInstaller /instanceIds:<id> /rootSuffix:<suffix> /uninstall:<extension-id>`.
+
+### Installation methods checked on SSMS 22.11.2 (VS shell 18.11)
+
+- ✅ VSIXInstaller per-user install (`install.ps1`): loads, all features work.
+- ✅ Double-clicking the `.vsix`: same per-user install.
+- ✅ Manual copy into `<SSMS>\Common7\IDE\Extensions` (`install.ps1 -Copy`, elevated): on the next start SSMS
+  regenerates its pkgdef cache, imports `SqlSafetyGuard.pkgdef`, and the package, command, shortcut and F5 guard all
+  work. `uninstall.ps1` (elevated) removes it. Don't combine it with a per-user install of the same extension.
+- ❌ Manual copy into `%LocalAppData%\Microsoft\SSMS\22.0_<id>\Extensions\<folder>` plus touching
+  `extensions.configurationchanged`: **not picked up**. Per-user extensions must be registered by VSIXInstaller, so
+  `install.ps1` doesn't offer this.
 
 ## Checks after install
 
