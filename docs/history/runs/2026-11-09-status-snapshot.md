@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md). This is the full status page as it stood before the 2026-11-09 documentation restructure (main `9e7c696`), including its evidence ledger; only relative links were re-pointed to the new layout.
+> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md). The full status page and evidence ledger as of 2026-11-09.
 
 # Verification status
 

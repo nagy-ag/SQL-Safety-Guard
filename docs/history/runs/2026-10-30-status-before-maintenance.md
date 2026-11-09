@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md).
 
 Prior status narrative from 2026-10-30; relative links were rebased for this archive. No new run is claimed.
 
@@ -11,11 +11,11 @@ This page is rewritten after every run; the dated details live in [../history/](
 ## Bottom line
 
 **No known false green.** Every write the analyzer calls green has either been fixed or is a documented policy choice waiting for a
-company decision ([policy-questions.md](../../verification/policy-questions.md)). Typed confirmation stays disabled.
+company decision ([policy-questions.md](../../safety/policy-questions.md)). Typed confirmation stays disabled.
 
 ## Independent release acceptance - 2026-10-30
 
-[Independent acceptance report](2026-10-30-release-acceptance-final.md): commit `2848b4f` passed both zero-warning builds, 1,574 tests and 32 Release interaction checks. All 169 theme images were independently reviewed with no visual issues; Exp settings were restored and owned SSMS processes exited. No SQL was executed. The [release acceptance](../../release-acceptance.md) records the matrix and unverified items.
+[Independent acceptance report](2026-10-30-release-acceptance-final.md): commit `2848b4f` passed both zero-warning builds, 1,574 tests and 32 Release interaction checks. All 169 theme images were independently reviewed with no visual issues; Exp settings were restored and owned SSMS processes exited. No SQL was executed. The [release acceptance](../releases/1.0.4.md) records the matrix and unverified items.
 
 ## Previous theme acceptance - 2026-10-30
 
@@ -99,7 +99,7 @@ disturbed results) and 3 are the known `TempdbIsTemp` and `RAISERROR … WITH LO
 
 ## Open items
 
-1. **Company decisions:** the 9-item short list in [policy-questions.md](../../verification/policy-questions.md), each with a recommended answer (four would move verdicts toward yellow/red; none toward green).
+1. **Company decisions:** the 9-item short list in [policy-questions.md](../../safety/policy-questions.md), each with a recommended answer (four would move verdicts toward yellow/red; none toward green).
 2. **Harness fixes implemented** (not analyzer bugs): joined principal snapshots exclude other workers' clone lifecycle,
    retain owned/non-clone changes, and disable clone exclusions in Docker. Clone creation retries SQL error 596 once on fresh
    connections, never after case execution starts. Checked live: 800 generated cases with 4 workers gave 0 false greens and

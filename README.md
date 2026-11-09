@@ -48,8 +48,9 @@ ask first; the warning mode can be changed globally or per server. See [which co
 ## Get started
 
 1. Download the latest `.vsix` from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases).
-2. Close SSMS and double-click the file (unblock it in Properties first if Windows blocks it).
-3. Start SSMS and open a query window: the safety pane appears on the right.
+2. Save your work, close SSMS, and sign in to the Windows account you use SSMS with.
+3. Double-click the `.vsix` and follow the installer (if Windows blocks it, unblock it in its Properties first).
+4. Start SSMS and open a query window: the safety pane appears on the right.
 
 Requires 64-bit SSMS 22.x. No administrator rights are needed. The [install guide](docs/user/install.md) covers scripted
 installs, updates, uninstalling and checking downloads.

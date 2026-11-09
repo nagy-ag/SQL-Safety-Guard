@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../verification/status.md). All current docs: [docs/README.md](../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../status.md). All current docs: [docs/README.md](../README.md).
 
 # T-SQL statement coverage
 
@@ -23,7 +23,7 @@ See the [combined execution evidence and limitations](2026-10-27-all-kinds/READM
 [reproducible runners](../../tests/SqlSafetyGuard.ServerHarness/Coverage/README.md). The earlier
 [118-fixture / 103-kind report](2026-10-27-strict-coverage.md) is historical, not the current total.
 These results do not prove every clause combination or every possible side effect. SSMS UI acceptance is
-documented separately in [release acceptance](../release-acceptance.md); headless policy tests do not replace it.
+documented separately in [release acceptance](releases/1.0.4.md); headless policy tests do not replace it.
 
 ## By category
 

@@ -47,6 +47,6 @@ Details: [release record](history/releases/1.0.4.md) and [verification snapshot]
 | Looking for | Go to |
 |---|---|
 | Every release, with its acceptance and publication records | [history/releases/](history/releases/README.md) |
-| The full evidence ledger and the status page as it stood before 2026-11-09 | [frozen status snapshot](history/runs/2026-11-09-status-before-restructure.md) |
+| The full evidence ledger and earlier status, as of 2026-11-09 | [status snapshot](history/runs/2026-11-09-status-snapshot.md) |
 | All dated runs, newest first | [history/](history/README.md) |
 | How each kind of check works and what it proves | [verification tools](dev/verification-tools.md), [testing in SSMS](dev/ssms-testing.md) |

@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md).
 
 # Local published 1.0.3 upgrade baseline — 2026-11-06
 

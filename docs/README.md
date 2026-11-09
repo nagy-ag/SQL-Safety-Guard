@@ -62,8 +62,8 @@ Machine-readable companions sit next to their page in `verification/rules/` (`ru
 
 1. A current file has no date or wave in its name, lives in the folder for its audience and is updated in place.
 2. A dated result goes to `history/` and starts with a "Snapshot — not maintained" line pointing back to `status.md`.
+   Snapshots are never edited, except to keep their links pointing at current documents.
 3. `status.md` describes now only. After a verification run or release, add the dated record under `history/` and update
    status; never append history to it.
 4. Generated files say so in their first lines; regenerate them, don't edit them.
-5. A page kept at an old path for old links starts with `# Moved:` and points to the new page.
-6. `DocsIndexTests` fails when a link is broken, a current document is not listed here, or a document sits outside its folder.
+5. `DocsIndexTests` fails when a link is broken, a current document is not listed here, or a document sits outside its folder.

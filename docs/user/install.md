@@ -28,10 +28,15 @@ GitHub packages are **unsigned**. To check a download, compare `Get-FileHash -Al
 
 ## Install
 
+SQL Safety Guard installs for one Windows account: the account you're signed in to when you install it.
+
 1. Save your work and close SSMS.
-2. If Windows blocks the download, right-click it > **Properties** > **Unblock** > **OK**.
-3. Double-click the `.vsix` and follow the installer.
-4. Start SSMS and open a query window. The safety pane appears on its right.
+2. Sign in to the Windows account you use SSMS with.
+3. Install the downloaded `.vsix`:
+   - If Windows blocks the file, right-click it, choose **Properties**, tick **Unblock**, then choose **OK**.
+   - Double-click the `.vsix` and follow the installer.
+   - Optionally, restart the computer.
+4. Start SSMS and open a query window. The safety pane appears on the right of the editor.
 
 If IT has already installed an all-users copy on your computer, do not add a second copy.
 

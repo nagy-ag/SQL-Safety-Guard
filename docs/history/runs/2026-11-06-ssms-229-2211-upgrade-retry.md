@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md).
 
 # SSMS 22.9.2 to 22.11.3 upgrade retry — November 6
 

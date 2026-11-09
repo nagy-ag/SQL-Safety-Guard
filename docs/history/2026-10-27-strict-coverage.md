@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../verification/status.md). All current docs: [docs/README.md](../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../status.md). All current docs: [docs/README.md](../README.md).
 
 # Strict runtime verification — October 27, 2026
 
@@ -54,6 +54,6 @@ Missing families include Service Broker, keys/certificates/encryption, full-text
 
 ## Extension integration boundary
 
-The new headless guard tests exercise the production GuardDecision logic for guard modes, approve/cancel, failure behavior and typed database-name policy through a counted execution adapter. They do **not** execute the installed VSIX, SSMS DTE command dispatch, dialogs or editor routing; they do not independently establish exactly-once execution inside SSMS. Prior [release acceptance](../release-acceptance.md) remains separate. No desktop automation or theme checks were performed in this task.
+The new headless guard tests exercise the production GuardDecision logic for guard modes, approve/cancel, failure behavior and typed database-name policy through a counted execution adapter. They do **not** execute the installed VSIX, SSMS DTE command dispatch, dialogs or editor routing; they do not independently establish exactly-once execution inside SSMS. Prior [release acceptance](releases/1.0.4.md) remains separate. No desktop automation or theme checks were performed in this task.
 
 Terra supplied the initial reflected inventory and 14 proposed cases. The parent expanded the corpus, implemented the strict runner/oracle and guard-contract tests, executed the server checks, corrected the measurement issues, and preserved this qualified evidence. No commit or push was created for this task.

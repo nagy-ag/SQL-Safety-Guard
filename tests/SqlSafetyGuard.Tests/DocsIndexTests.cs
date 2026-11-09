@@ -15,11 +15,7 @@ public class DocsIndexTests
 
     private static IEnumerable<string> CurrentDocuments() => Directory.EnumerateFiles(Docs, "*.md", SearchOption.AllDirectories)
         .Select(path => Path.GetRelativePath(Docs, path).Replace('\\', '/'))
-        .Where(path => !path.StartsWith("history/", StringComparison.Ordinal) && !IsMovedPage(path));
-
-    /// <summary>A page kept at an old path only so that frozen snapshots' links still resolve.</summary>
-    private static bool IsMovedPage(string path) =>
-        File.ReadLines(Path.Combine(Docs, path)).FirstOrDefault()?.StartsWith("# Moved:", StringComparison.Ordinal) == true;
+        .Where(path => !path.StartsWith("history/", StringComparison.Ordinal));
 
     [Fact]
     public void EveryCurrentDocumentIsListedOnTheStartPage()
@@ -43,34 +39,19 @@ public class DocsIndexTests
     }
 
     [Fact]
-    public void MovedPagesPointToACurrentDocument()
-    {
-        var moved = Directory.EnumerateFiles(Docs, "*.md", SearchOption.AllDirectories)
-            .Select(path => Path.GetRelativePath(Docs, path).Replace('\\', '/'))
-            .Where(path => !path.StartsWith("history/", StringComparison.Ordinal) && IsMovedPage(path))
-            .ToList();
-        Assert.NotEmpty(moved);
-        foreach (var path in moved)
-        {
-            var text = File.ReadAllText(Path.Combine(Docs, path));
-            Assert.True(text.Length < 600, "A moved page should only point to the new location: " + path);
-            var targets = Link.Matches(text).Select(match => Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.Combine(Docs, path))!, match.Groups[1].Value)));
-            Assert.True(targets.Any(target => target.EndsWith(".md", StringComparison.Ordinal) && File.Exists(target) &&
-                !IsMovedPage(Path.GetRelativePath(Docs, target))), "A moved page must link to a current document: " + path);
-        }
-    }
-
-    [Fact]
     public void RelativeLinksInDocsResolve()
     {
         var broken = new List<string>();
+        // Checksum-protected originals stay byte-for-byte, so their links describe the repository as it was then.
+        var protectedFiles = ProtectedFiles().Select(entry => entry.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
         var maintainedRoots = new[] { "docs", ".agents", ".claude", "src", "tests", "tools", "scripts" };
         var documents = maintainedRoots.SelectMany(directory => Directory.EnumerateFiles(
                 Path.Combine(TestRepository.Root, directory), "*.md", SearchOption.AllDirectories))
             .Concat(Directory.EnumerateFiles(TestRepository.Root, "*.md", SearchOption.TopDirectoryOnly));
         foreach (var path in documents
                      .Where(path => !Path.GetRelativePath(TestRepository.Root, path).Split(Path.DirectorySeparatorChar)
-                         .Any(part => part is "bin" or "obj" or ".git" or ".vs")))
+                         .Any(part => part is "bin" or "obj" or ".git" or ".vs"))
+                     .Where(path => !protectedFiles.Contains(path)))
         {
             foreach (Match match in Link.Matches(File.ReadAllText(path)))
             {

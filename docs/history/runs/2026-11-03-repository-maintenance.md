@@ -1,4 +1,4 @@
-> **Snapshot — not maintained.** Current state: [verification/status.md](../../verification/status.md). All current docs: [docs/README.md](../../README.md).
+> **Snapshot — not maintained.** Current state: [status.md](../../status.md). All current docs: [docs/README.md](../../README.md).
 
 # Repository maintenance, 2026-11-03
 
@@ -57,7 +57,7 @@ to behavior-preserving type extraction; the VSIX runtime changes are comments. D
 separate from runtime behavior.
 
 Analyzer verdict policy, guard decisions and confirmation behavior are unchanged. Unknown analysis still fails closed;
-the [owner policy questions](../../verification/policy-questions.md) remain pending. Verification entry-point validation,
+the [owner policy questions](../../safety/policy-questions.md) remain pending. Verification entry-point validation,
 reporting and campaign principals intentionally changed and require their updated runbooks.
 
 The new CI workflow has not run remotely. A real freeze needs a clean reviewed checkout; release packaging was not run
