@@ -25,11 +25,18 @@ bars. Earlier releases are retained. GitHub packages remain unsigned and support
 | Isolated SSMS, Light and Dark | PASS: native settings 12, scrolling 11, editors 4; title bar attributes accepted |
 | Capture shutdown and settings restoration | PASS: clean exit and byte-for-byte restoration |
 | Owner's local SSMS | Scroll-fix and editor builds installed for the owner's own trial |
-| Clean committed-source packaging gate | Pending |
-| GitHub publication | Pending |
+| Clean committed-source packaging gate | PASS: offline suite, locked Release rebuild, 55 WPF checks, unsigned artifact validation |
+| Published asset/download hashes | PASS: all five digests and fresh downloads match; nested VSIX identical |
+| GitHub CI at release source | PASS: main and v1.0.4 |
 
 See the [1.0.4 verification snapshot](history/runs/2026-11-09-settings-editors-1.0.4.md) for the reproduction, the editor
 checks and the limits (title bar not seen on the private capture desktop; Edit as text not driven in SSMS).
+
+## Published result
+
+[SQL Safety Guard 1.0.4](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.4) is stable and Latest,
+published **2026-11-09 at 11:47:16 UTC**, from source `c4e35af95f4a3480f34f3d0d99d7b898b572acfc`, annotated tag
+`v1.0.4`. See the [publication record](history/runs/2026-11-09-release-1.0.4-publication.md) for checksums and CI links.
 
 ## Scope and retained limits
 

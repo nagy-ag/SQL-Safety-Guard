@@ -1,6 +1,9 @@
 # Verification status
 
-Updated **2026-11-09** for **release 1.0.4** (settings editors, Options scrolling and themed title bars).
+Updated **2026-11-09** after publication of **release 1.0.4** (settings editors, Options scrolling and themed title bars).
+[SQL Safety Guard 1.0.4](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.4) is stable and Latest, source
+`c4e35af95f4a3480f34f3d0d99d7b898b572acfc`, annotated tag `v1.0.4`. See the
+[publication record](../history/runs/2026-11-09-release-1.0.4-publication.md) for checksums and CI links.
 
 The Options page now scrolls when it is taller than its window: SSMS's sticky copy of the category no longer covers the
 page. The list settings show only counts, and open structured editors for safe tables, trusted procedures and
