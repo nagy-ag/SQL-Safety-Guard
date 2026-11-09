@@ -1,5 +1,19 @@
 # Verification status
 
+Updated **2026-11-09** for **release 1.0.4** (settings editors, Options scrolling and themed title bars).
+
+The Options page now scrolls when it is taller than its window: SSMS's sticky copy of the category no longer covers the
+page. The list settings show only counts, and open structured editors for safe tables, trusted procedures and
+environment rules; the stored format, import and export are unchanged. Dialog title bars follow the SSMS theme.
+Analyzer classification, F5 policy and the production text-only boundary are unchanged.
+
+The offline gate passed **1,663 .NET tests** (28 new editor-model tests) and **10 Python tests**; Debug and Release built.
+The isolated SSMS passed the native settings, scrolling and editor checks in Light and Dark, and settings were restored
+byte-for-byte. See the [1.0.4 verification snapshot](../history/runs/2026-11-09-settings-editors-1.0.4.md) for evidence and limits,
+and [release acceptance](../release-acceptance.md) for packaging and publication. No SQL was executed.
+
+## Retained 22.9 to 22.11 upgrade evidence
+
 Updated **2026-11-06** after the authorized **local published 1.0.3 same-installation SSMS upgrade**.
 
 **PASS for the three focused local checks: SQL Safety Guard 1.0.3 survived SSMS 22.9.2→22.11.3.**
