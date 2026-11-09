@@ -58,22 +58,22 @@ namespace SqlSafetyGuard.UI
                     {
                         case "allowList":
                             title = "Safe tables allow-list";
-                            description = "One pattern per line, for example dbo.Staging_*. Matching data writes become green; DDL is not authorized.";
+                            description = Commands.SettingsCommands.AllowListDescription;
                             entries = current.AllowList;
                             break;
                         case "trustedProcedures":
                             title = "Trusted procedures";
-                            description = "One schema-qualified procedure pattern per line. Trust authorizes its effects; the procedure body is not inspected.";
+                            description = Commands.SettingsCommands.TrustedProceduresDescription;
                             entries = current.TrustedProcedures;
                             break;
                         case "environmentRules":
                             title = "Environment rules";
-                            description = "One rule per line: server | database | label | Off/Red/YellowRed | false | allow-list | trusted procedures. First match wins; lists add to global entries.";
+                            description = "";
                             entries = current.EnvironmentRules;
                             break;
                         default: throw new ArgumentException("Expected allowList, trustedProcedures or environmentRules.");
                     }
-                    var editor = new SettingsListDialog(title, description, entries);
+                    var editor = Commands.SettingsCommands.CreateEditor(arg, title, description, entries, text => { });
                     ShowCaptureDialog(arg, editor);
                     break;
                 case "showimportpreview":
@@ -94,6 +94,9 @@ namespace SqlSafetyGuard.UI
                     break;
                 case "compactsettingscheck":
                     CheckCompactSettings();
+                    break;
+                case "compactsettingsscroll":
+                    CheckCompactSettingsScroll();
                     break;
                 case "capture":
                     int separator = arg.IndexOf(' ');
@@ -155,7 +158,7 @@ namespace SqlSafetyGuard.UI
             try
             {
                 // Route focus events through the real host without desktop input.
-                foreach (string name in new[] { "WarningMode", "ShowConnection", "AllowList", "TrustedProcedures", "EnvironmentRules", "TempdbIsTemp" })
+                foreach (string name in new[] { "WarningMode", "ShowConnection", "EditAllowList", "EditTrustedProcedures", "EditEnvironmentRules", "TempdbIsTemp" })
                 {
                     var input = (UIElement)control.FindName(name);
                     var focus = new System.Windows.Input.KeyboardFocusChangedEventArgs(System.Windows.Input.Keyboard.PrimaryDevice,
@@ -166,18 +169,24 @@ namespace SqlSafetyGuard.UI
                 }
                 ((ComboBox)control.FindName("WarningMode")).SelectedIndex = original.GuardMode == ExecutionMode.Red ? 2 : 1;
                 ((CheckBox)control.FindName("ShowConnection")).IsChecked = !original.ShowServerAndDatabase;
-                ((TextBox)control.FindName("AllowList")).Text = "dbo.CompactSettingsProbe";
-                ((TextBox)control.FindName("TrustedProcedures")).Text = "dbo.CompactSettingsReader";
-                ((TextBox)control.FindName("EnvironmentRules")).Text = "PROBE-* | Sandbox | Probe | YellowRed | false";
                 ((CheckBox)control.FindName("TempdbIsTemp")).IsChecked = !original.TempdbIsTemp;
+                // Lists change only through their editors, which store through the same option page.
+                page.AllowList = "dbo.CompactSettingsProbe";
+                page.TrustedProcedures = "dbo.CompactSettingsReader";
+                page.EnvironmentRules = "PROBE-* | Sandbox | Probe | YellowRed | false";
+                page.PersistChanges();
+                string Summary(string name) => ((TextBlock)control.FindName(name)).Text;
                 var manager = (Microsoft.VisualStudio.Utilities.UnifiedSettings.ISettingsManager)
                     Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(NativeSettingsService));
                 var reader = manager.GetReader();
                 Check(reader.GetValue<string>("sqlSafetyGuard.guardMode").Value == (original.GuardMode == ExecutionMode.Red ? "YellowRed" : "Red"), "mode persistence");
                 Check(reader.GetValue<bool>("sqlSafetyGuard.showConnection").Value == !original.ShowServerAndDatabase, "connection persistence");
-                Check(reader.GetValue<string>("sqlSafetyGuard.allowList").Value == "dbo.CompactSettingsProbe", "allow-list persistence");
-                Check(reader.GetValue<string>("sqlSafetyGuard.trustedProcedures").Value == "dbo.CompactSettingsReader", "trusted persistence");
-                Check(reader.GetValue<string>("sqlSafetyGuard.environmentRules").Value == "PROBE-* | Sandbox | Probe | YellowRed | false", "rules persistence");
+                Check(reader.GetValue<string>("sqlSafetyGuard.allowList").Value == "dbo.CompactSettingsProbe" &&
+                    Summary("AllowListSummary") == "1 pattern", "allow-list persistence and summary");
+                Check(reader.GetValue<string>("sqlSafetyGuard.trustedProcedures").Value == "dbo.CompactSettingsReader" &&
+                    Summary("TrustedSummary") == "1 procedure", "trusted persistence and summary");
+                Check(reader.GetValue<string>("sqlSafetyGuard.environmentRules").Value == "PROBE-* | Sandbox | Probe | YellowRed | false" &&
+                    Summary("RulesSummary") == "1 rule", "rules persistence and summary");
                 Check(reader.GetValue<bool>("sqlSafetyGuard.tempdbIsTemp").Value == !original.TempdbIsTemp, "tempdb persistence");
                 ExtensionCheckTrace.Write("compact-settings", checks.ToString(), "PASS");
             }
@@ -199,6 +208,120 @@ namespace SqlSafetyGuard.UI
             }
         }
 
+        /// <summary>
+        /// Proves the integrated settings page scrolls under SQL Safety Guard's custom content, without the desktop
+        /// mouse. Shrinks the page viewport to force overflow, raises in-process wheel input over each control,
+        /// then waits for SSMS's sticky category header and hit-tests the viewport: only the scrolled content may
+        /// be under the pointer. Restores the page size and offset afterwards.
+        /// </summary>
+        private static void CheckCompactSettingsScroll()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var invariant = System.Globalization.CultureInfo.InvariantCulture;
+            var control = AllCompactSettings().First(value => value.IsVisible && Ancestor<ScrollViewer>(value) != null);
+            var host = Ancestor<ScrollViewer>(control);
+            var original = host.VerticalOffset;
+            int checks = 0;
+            try
+            {
+                // Simulate a short Options window so the page overflows, as on a small screen.
+                host.Height = Math.Max(120, control.ActualHeight / 2);
+                host.UpdateLayout();
+                if (host.ScrollableHeight <= 0) throw new InvalidOperationException("The settings page did not overflow.");
+                foreach (string name in new[] { "SettingsContent", "WarningMode", "ShowConnection", "AllowListBox", "TrustedBox", "RulesBox", "TempdbIsTemp" })
+                {
+                    var target = (UIElement)control.FindName(name);
+                    host.ScrollToVerticalOffset(0);
+                    host.UpdateLayout();
+                    Wheel(target, -120);
+                    host.UpdateLayout();
+                    var down = host.VerticalOffset;
+                    Wheel(target, 120);
+                    host.UpdateLayout();
+                    if (down <= 0 || host.VerticalOffset >= down) throw new InvalidOperationException("The settings page did not scroll over " + name);
+                    checks++;
+                }
+                host.ScrollToVerticalOffset(host.ScrollableHeight / 2);
+                host.UpdateLayout();
+            }
+            catch
+            {
+                Restore();
+                throw;
+            }
+
+            // SSMS updates its sticky category header at Input priority after a scroll; let it settle first.
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(800) };
+            timer.Tick += (sender, args) =>
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                timer.Stop();
+                try
+                {
+                    foreach (var instance in AllCompactSettings())
+                        ExtensionCheckTrace.Write("compact-scroll-instance", instance.IsVisible.ToString(), instance.ActualHeight.ToString("0", invariant),
+                            ReferenceEquals(instance, control) ? "content" : instance.IsDescendantOf(host) ? "scrolled" : "overlay",
+                            CompactSettingsControl.IsStickyHeaderCopy(instance) ? "sticky" : "normal");
+                    var overlay = AllCompactSettings().FirstOrDefault(value => !value.IsDescendantOf(host) && value.IsVisible && value.ActualHeight > 0);
+                    if (overlay != null) throw new InvalidOperationException("A sticky copy of the settings covers the scrolling page.");
+                    checks++;
+                    var root = (UIElement)PresentationSource.FromVisual(host).RootVisual;
+                    foreach (double fraction in new[] { 0.25, 0.5, 0.75 })
+                    {
+                        var point = host.TranslatePoint(new System.Windows.Point(host.ViewportWidth / 2, host.ViewportHeight * fraction), root);
+                        var hit = root.InputHitTest(point) as DependencyObject;
+                        ExtensionCheckTrace.Write("compact-scroll-hit", fraction.ToString(invariant), hit?.GetType().Name ?? "(none)",
+                            hit != null && hit is Visual visual && visual.IsDescendantOf(host) ? "content" : "outside");
+                        if (!(hit is Visual found) || !found.IsDescendantOf(host))
+                            throw new InvalidOperationException("Pointer input over the settings page does not reach its scrolling content.");
+                        var before = host.VerticalOffset;
+                        Wheel((UIElement)(hit as UIElement ?? Ancestor<UIElement>(hit)), 120);
+                        host.UpdateLayout();
+                        if (host.VerticalOffset >= before) throw new InvalidOperationException("The wheel did not scroll at the pointer position.");
+                        Wheel((UIElement)(hit as UIElement ?? Ancestor<UIElement>(hit)), -120);
+                        host.UpdateLayout();
+                        checks++;
+                    }
+                    ExtensionCheckTrace.Write("compact-settings-scroll", checks.ToString(invariant), "PASS");
+                }
+                catch (Exception exception)
+                {
+                    ExtensionCheckTrace.Write("error", "compactsettingsscroll", exception.ToString());
+                }
+                finally { Restore(); }
+            };
+            timer.Start();
+
+            void Restore()
+            {
+                host.ClearValue(FrameworkElement.HeightProperty);
+                host.ScrollToVerticalOffset(original);
+            }
+
+            void Wheel(UIElement target, int delta)
+            {
+                // Same pairing the WPF input manager uses: tunnel, then bubble with shared Handled state.
+                var args = new System.Windows.Input.MouseWheelEventArgs(System.Windows.Input.Mouse.PrimaryDevice, Environment.TickCount, delta)
+                    { RoutedEvent = UIElement.PreviewMouseWheelEvent };
+                target.RaiseEvent(args);
+                args.RoutedEvent = UIElement.MouseWheelEvent;
+                target.RaiseEvent(args);
+            }
+        }
+
+        private static IEnumerable<CompactSettingsControl> AllCompactSettings() =>
+            PresentationSource.CurrentSources.OfType<HwndSource>()
+                .Where(source => source.RootVisual != null)
+                .SelectMany(source => CapturePreview.VisualDescendants(source.RootVisual))
+                .OfType<CompactSettingsControl>().ToList();
+
+        private static T Ancestor<T>(DependencyObject node) where T : DependencyObject
+        {
+            for (node = node == null ? null : VisualTreeHelper.GetParent(node); node != null; node = VisualTreeHelper.GetParent(node))
+                if (node is T match) return match;
+            return null;
+        }
+
         private static void ShowCaptureDialog(string surface, Window dialog)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -211,7 +334,11 @@ namespace SqlSafetyGuard.UI
                 if (CaptureDialogs.TryGetValue(surface, out var value) && ReferenceEquals(value, dialog)) CaptureDialogs.Remove(surface);
             };
             dialog.Show(); // Never ShowModal: no paused Execute command and no continuation to resume.
-            CaptureAtIdle(() => ExtensionCheckTrace.Write("shown", surface, dialog.ActualWidth.ToString(), dialog.ActualHeight.ToString()));
+            CaptureAtIdle(() =>
+            {
+                ExtensionCheckTrace.Write("chrome", surface, DialogChrome.LastResult);
+                ExtensionCheckTrace.Write("shown", surface, dialog.ActualWidth.ToString(), dialog.ActualHeight.ToString());
+            });
         }
 
         private static void CaptureAtIdle(Action action)

@@ -11,6 +11,7 @@ namespace SqlSafetyGuard.UI
         internal ConfirmExecutionDialog(AnalysisResult result, QuerySnapshot snapshot, ConnectionContext connection, GuardSettings settings, bool showConnection, string targetWarning = null)
         {
             InitializeComponent();
+            DialogChrome.Apply(this);
             if (targetWarning != null)
             {
                 TargetWarningText.Text = targetWarning;

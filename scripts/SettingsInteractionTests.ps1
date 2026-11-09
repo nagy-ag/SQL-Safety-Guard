@@ -76,22 +76,26 @@ try {
     [void]$hostPanel.Children.Add($control)
     $hostPanel.AddHandler([Windows.Input.Keyboard]::PreviewGotKeyboardFocusEvent,
         [Windows.Input.KeyboardFocusChangedEventHandler] { param($sender, $eventArgs) $eventArgs.Handled = $true })
-    $focus = [Windows.Input.KeyboardFocusChangedEventArgs]::new([Windows.Input.Keyboard]::PrimaryDevice, 0, $null, $control.FindName('AllowList'))
+    $focus = [Windows.Input.KeyboardFocusChangedEventArgs]::new([Windows.Input.Keyboard]::PrimaryDevice, 0, $null, $control.FindName('EditAllowList'))
     $focus.RoutedEvent = [Windows.Input.Keyboard]::PreviewGotKeyboardFocusEvent
-    $control.FindName('AllowList').RaiseEvent($focus)
+    $control.FindName('EditAllowList').RaiseEvent($focus)
     if ($focus.Handled) { throw 'The editable form must allow keyboard focus inside the native content host.' }
     if ($script:commits -ne 0) { throw 'Opening/refreshing settings must not persist anything.' }
     if ($control.FindName('WarningMode').SelectedIndex -ne 2 -or -not $control.FindName('ShowConnection').IsChecked -or $control.FindName('TempdbIsTemp').IsChecked) { throw 'Existing defaults changed.' }
+    function Summary($name) { $control.FindName($name).Text }
+    if ((Summary 'AllowListSummary') -ne 'None' -or (Summary 'TrustedSummary') -ne 'None' -or (Summary 'RulesSummary') -ne 'None') { throw 'Empty lists must read None.' }
     $control.FindName('WarningMode').SelectedIndex = 1
     $control.FindName('ShowConnection').IsChecked = $false
-    $control.FindName('AllowList').Text = 'dbo.Stage_*'
-    $control.FindName('TrustedProcedures').Text = 'dbo.Reader'
-    $control.FindName('EnvironmentRules').Text = 'TEST-* | Sandbox | Test | YellowRed | false'
     $control.FindName('TempdbIsTemp').IsChecked = $true
-    if ($script:commits -ne 6 -or [int](Get-Option 'GuardMode') -ne 1 -or (Get-Option 'ShowServerAndDatabase') -or -not (Get-Option 'TempdbIsTemp') -or
-        (Get-Option 'AllowList') -ne 'dbo.Stage_*' -or (Get-Option 'TrustedProcedures') -ne 'dbo.Reader' -or (Get-Option 'EnvironmentRules') -notlike 'TEST-*') { throw 'Every control must immediately update and persist its corresponding existing setting.' }
-    Set-Option 'AllowList' "dbo.First`r`ndbo.Second"
-    if ($control.FindName('AllowList').Text -ne (Get-Option 'AllowList') -or $script:commits -ne 6) { throw 'An editor/import/native update must refresh the display without saving it again.' }
+    if ($script:commits -ne 3 -or [int](Get-Option 'GuardMode') -ne 1 -or (Get-Option 'ShowServerAndDatabase') -or -not (Get-Option 'TempdbIsTemp')) {
+        throw 'Every control must immediately update and persist its corresponding existing setting.' }
+    Set-Option 'AllowList' "-- note`r`ndbo.First`r`ndbo.Second"
+    Set-Option 'TrustedProcedures' 'usp_NoSchema'
+    Set-Option 'EnvironmentRules' "TEST-* | Sandbox | Test | YellowRed | false`r`nnot a rule"
+    if ((Summary 'AllowListSummary') -ne '2 patterns' -or $control.FindName('AllowListProblem').Visibility -ne 'Collapsed' -or $script:commits -ne 3) {
+        throw 'A list update must refresh its count without saving it again.' }
+    if ((Summary 'TrustedSummary') -ne '1 procedure' -or $control.FindName('TrustedProblem').Visibility -ne 'Visible') { throw 'An invalid procedure must be counted and flagged.' }
+    if ((Summary 'RulesSummary') -ne '2 rules' -or $control.FindName('RulesProblem').Text -notlike '*1 rule has a problem*') { throw 'An unreadable rule must be counted and flagged.' }
     $script:failCommit = $true
     $control.FindName('WarningMode').SelectedIndex = 0
     if ([int](Get-Option 'GuardMode') -ne 1 -or $control.FindName('WarningMode').SelectedIndex -ne 1 -or
@@ -111,11 +115,13 @@ try {
     if (($script:commands -join ',') -ne '261,262,263,258,257,264') { throw 'The compact page must invoke the six existing editor/transfer/uninstall commands.' }
     $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::UnloadedEvent))
     Set-Option 'AllowList' 'dbo.WhileClosed'
-    if ($control.FindName('AllowList').Text -eq (Get-Option 'AllowList')) { throw 'An unloaded page must release its settings subscription.' }
+    if ((Summary 'AllowListSummary') -ne '2 patterns') { throw 'An unloaded page must release its settings subscription.' }
     $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::LoadedEvent))
-    if ($control.FindName('AllowList').Text -ne (Get-Option 'AllowList')) { throw 'Reopening must load the current settings.' }
+    if ((Summary 'AllowListSummary') -ne '1 pattern') { throw 'Reopening must load the current settings.' }
     $control.RaiseEvent([Windows.RoutedEventArgs]::new([Windows.FrameworkElement]::UnloadedEvent))
-    Write-Output 'Passed 14 settings checks (4 list editor, 10 compact page; shell rendering excluded); no desktop input or SQL execution.'
+
+    # The structured editors need SSMS's theme service; ThemeAcceptanceCapture -CheckCompactSettings drives them in SSMS.
+    Write-Output 'Passed 14 settings checks (4 text editor, 10 compact page; shell rendering excluded); no desktop input or SQL execution.'
 }
 finally {
     [AppDomain]::CurrentDomain.remove_AssemblyResolve($resolver)

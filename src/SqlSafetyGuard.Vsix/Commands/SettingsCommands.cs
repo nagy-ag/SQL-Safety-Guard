@@ -23,12 +23,22 @@ namespace SqlSafetyGuard.Commands
             service.AddCommand(new OleMenuCommand((s, e) => Import(package), new CommandID(PackageGuids.CommandSet, PackageIds.ImportSettingsCommand)));
             service.AddCommand(new OleMenuCommand((s, e) => ShowSettings(package),
                 new CommandID(PackageGuids.CommandSet, PackageIds.SettingsCommand)));
-            AddEditor(PackageIds.EditAllowListCommand, "Safe tables allow-list", "One pattern per line, for example dbo.Staging_*. Matching data writes become green; DDL is not authorized.", "allowList");
-            AddEditor(PackageIds.EditTrustedProceduresCommand, "Trusted procedures", "One schema-qualified procedure pattern per line. Trust authorizes its effects; the procedure body is not inspected.", "trustedProcedures");
-            AddEditor(PackageIds.EditEnvironmentRulesCommand, "Environment rules", "One rule per line: server | database | label | Off/Red/YellowRed | false | allow-list | trusted procedures. First match wins; lists add to global entries.", "environmentRules");
+            AddEditor(PackageIds.EditAllowListCommand, "Safe tables allow-list", AllowListDescription, "allowList");
+            AddEditor(PackageIds.EditTrustedProceduresCommand, "Trusted procedures", TrustedProceduresDescription, "trustedProcedures");
+            AddEditor(PackageIds.EditEnvironmentRulesCommand, "Environment rules", "", "environmentRules");
 
             void AddEditor(int id, string title, string description, string key) => service.AddCommand(
                 new OleMenuCommand((s, e) => EditList(package, title, description, key), new CommandID(PackageGuids.CommandSet, id)));
+        }
+
+        internal const string AllowListDescription = "Writes to matching tables are green. DDL (CREATE / ALTER / DROP TABLE) always stays red.";
+        internal const string TrustedProceduresDescription = "Calls to these procedures are green. Their bodies are not checked.";
+
+        /// <summary>The structured editor for a list setting; both hand composed text to <paramref name="save"/>.</summary>
+        internal static Microsoft.VisualStudio.PlatformUI.DialogWindow CreateEditor(string key, string title, string description, string text, Action<string> save)
+        {
+            if (key == "environmentRules") return new RulesDialog(text) { Save = save };
+            return new PatternListDialog(title, description, text, key == "trustedProcedures") { Save = save };
         }
 
         internal static void ShowSettings(SqlSafetyGuardPackage package)
@@ -47,8 +57,7 @@ namespace SqlSafetyGuard.Commands
             {
                 var current = Capture(package.Options);
                 string initial = key == "allowList" ? current.AllowList : key == "trustedProcedures" ? current.TrustedProcedures : current.EnvironmentRules;
-                var editor = new SettingsListDialog(title, description, initial);
-                editor.Save = text =>
+                var editor = CreateEditor(key, title, description, initial, text =>
                 {
                     var proposed = new SettingsSnapshot(current.GuardMode, current.ShowServerAndDatabase,
                         key == "allowList" ? text : current.AllowList, current.TempdbIsTemp,
@@ -57,7 +66,7 @@ namespace SqlSafetyGuard.Commands
                     // Use the same validation and concurrent-change protection as an import.
                     var change = SettingsTransfer.PrepareImport(SettingsTransfer.Export(proposed, "1.0", DateTimeOffset.UtcNow), current);
                     Apply(package.Options, change);
-                };
+                });
                 editor.ShowModal();
             }
             catch (Exception ex) { Message(package, "Settings were not changed. " + ex.Message, true); }

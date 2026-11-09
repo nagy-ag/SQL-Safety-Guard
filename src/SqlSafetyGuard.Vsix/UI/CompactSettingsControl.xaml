@@ -10,12 +10,19 @@
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="MinHeight" Value="30" />
         </Style>
-        <Style TargetType="TextBox">
+        <Style x:Key="Summary" TargetType="Border">
             <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}" />
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}" />
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
-            <Setter Property="Padding" Value="6,5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="7,6" />
             <Setter Property="MinHeight" Value="30" />
+        </Style>
+        <Style x:Key="Problem" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#C62828" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+            <Setter Property="Visibility" Value="Collapsed" />
         </Style>
         <Style x:Key="SettingRow" TargetType="Border">
             <Setter Property="Padding" Value="0,14" />
@@ -53,30 +60,39 @@
         <Border Style="{StaticResource SettingRow}">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="310" /></Grid.ColumnDefinitions>
                 <StackPanel><TextBlock Text="Safe tables allow-list" Style="{StaticResource SettingTitle}" />
-                    <TextBlock Style="{StaticResource SettingHelp}" Text="Matching data writes become green. This authorizes the target and its side effects; DDL stays red. Use Edit list for one pattern per line; semicolons also work." /></StackPanel>
+                    <TextBlock Style="{StaticResource SettingHelp}" Text="Matching data writes become green. This authorizes the target and its side effects; DDL stays red. Use Edit list to add, change or test patterns." /></StackPanel>
                 <Grid Grid.Column="1" VerticalAlignment="Top"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBox x:Name="AllowList" AutomationProperties.Name="Safe tables allow-list" TextChanged="OnAllowListChanged" />
-                    <Button Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="261" Click="OnCommand" AutomationProperties.Name="Edit safe tables allow-list" />
+                    <StackPanel>
+                        <Border x:Name="AllowListBox" Style="{StaticResource Summary}"><TextBlock x:Name="AllowListSummary" AutomationProperties.Name="Safe tables allow-list" /></Border>
+                        <TextBlock x:Name="AllowListProblem" Style="{StaticResource Problem}" />
+                    </StackPanel>
+                    <Button x:Name="EditAllowList" Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="261" Click="OnCommand" VerticalAlignment="Top" AutomationProperties.Name="Edit safe tables allow-list" />
                 </Grid>
             </Grid>
         </Border>
         <Border Style="{StaticResource SettingRow}">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="310" /></Grid.ColumnDefinitions>
                 <StackPanel><TextBlock Text="Trusted procedures" Style="{StaticResource SettingTitle}" />
-                    <TextBlock Style="{StaticResource SettingHelp}" Text="Explicitly authorized procedures become green without inspecting their bodies. Use schema-qualified names; wildcards are allowed only in the final part. Use Edit list for one entry per line." /></StackPanel>
+                    <TextBlock Style="{StaticResource SettingHelp}" Text="Explicitly authorized procedures become green without inspecting their bodies. Use Edit list to add, change or test procedures." /></StackPanel>
                 <Grid Grid.Column="1" VerticalAlignment="Top"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBox x:Name="TrustedProcedures" AutomationProperties.Name="Trusted procedures" TextChanged="OnTrustedChanged" />
-                    <Button Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="262" Click="OnCommand" AutomationProperties.Name="Edit trusted procedures" />
+                    <StackPanel>
+                        <Border x:Name="TrustedBox" Style="{StaticResource Summary}"><TextBlock x:Name="TrustedSummary" AutomationProperties.Name="Trusted procedures" /></Border>
+                        <TextBlock x:Name="TrustedProblem" Style="{StaticResource Problem}" />
+                    </StackPanel>
+                    <Button x:Name="EditTrustedProcedures" Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="262" Click="OnCommand" VerticalAlignment="Top" AutomationProperties.Name="Edit trusted procedures" />
                 </Grid>
             </Grid>
         </Border>
         <Border Style="{StaticResource SettingRow}">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="310" /></Grid.ColumnDefinitions>
                 <StackPanel><TextBlock Text="Environment rules" Style="{StaticResource SettingTitle}" />
-                    <TextBlock Style="{StaticResource SettingHelp}" Text="First matching server/database rule wins. Rule lists ADD to global lists. Unknown connections use global settings. Use Edit rules for a larger editor and the rule format. For examples, see the User guide on the SQL Safety Guard GitHub project page." /></StackPanel>
+                    <TextBlock Style="{StaticResource SettingHelp}" Text="First matching server/database rule wins. Rule lists ADD to global lists. Unknown connections use global settings. Use Edit rules to add, order or change rules." /></StackPanel>
                 <Grid Grid.Column="1" VerticalAlignment="Top"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBox x:Name="EnvironmentRules" AutomationProperties.Name="Environment rules" TextChanged="OnRulesChanged" />
-                    <Button Grid.Column="1" Content="Edit rules..." Margin="8,0,0,0" Tag="263" Click="OnCommand" AutomationProperties.Name="Edit environment rules" />
+                    <StackPanel>
+                        <Border x:Name="RulesBox" Style="{StaticResource Summary}"><TextBlock x:Name="RulesSummary" AutomationProperties.Name="Environment rules" /></Border>
+                        <TextBlock x:Name="RulesProblem" Style="{StaticResource Problem}" />
+                    </StackPanel>
+                    <Button x:Name="EditEnvironmentRules" Grid.Column="1" Content="Edit rules..." Margin="8,0,0,0" Tag="263" Click="OnCommand" VerticalAlignment="Top" AutomationProperties.Name="Edit environment rules" />
                 </Grid>
             </Grid>
         </Border>

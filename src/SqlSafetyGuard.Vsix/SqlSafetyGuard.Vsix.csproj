@@ -58,6 +58,7 @@
     <Compile Include="Guard\ExecuteGuard.cs" />
     <Compile Include="Options\GeneralOptionsPage.cs" />
     <Compile Include="Options\SettingsTransfer.cs" />
+    <Compile Include="Options\SettingsEntries.cs" />
     <Compile Include="Services\AnalysisRunner.cs" />
     <Compile Include="Services\ConnectionInfoReader.cs" />
     <Compile Include="Services\ExecutionTarget.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="UI\ConfirmExecutionDialog.xaml.cs">
       <DependentUpon>ConfirmExecutionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\DialogChrome.cs" />
     <Compile Include="UI\FindingRow.cs" />
     <Compile Include="UI\CompactSettingsFactory.cs" />
     <Compile Include="UI\CompactSettingsControl.xaml.cs">
@@ -81,6 +83,12 @@
     </Compile>
     <Compile Include="UI\SettingsImportDialog.xaml.cs">
       <DependentUpon>SettingsImportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PatternListDialog.xaml.cs">
+      <DependentUpon>PatternListDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RulesDialog.xaml.cs">
+      <DependentUpon>RulesDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SettingsListDialog.xaml.cs">
       <DependentUpon>SettingsListDialog.xaml</DependentUpon>
@@ -98,6 +106,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\CompactSettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\PatternListDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\RulesDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

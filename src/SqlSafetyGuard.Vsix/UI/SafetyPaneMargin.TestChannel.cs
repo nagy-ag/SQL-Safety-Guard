@@ -100,6 +100,7 @@ namespace SqlSafetyGuard.UI
                 case "showimportpreview":
                 case "showoptions":
                 case "compactsettingscheck":
+                case "compactsettingsscroll":
                 case "capture":
                 case "closedialogs":
                 case "preparecaptureclose":
@@ -363,6 +364,7 @@ namespace SqlSafetyGuard.UI
             ThreadHelper.ThrowIfNotOnUIThread();
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
                 throw new InvalidOperationException("Settings editor checks require a private test directory.");
+            int passed = 0, allowListRuns = 0;
             foreach (int id in new[] { PackageIds.EditAllowListCommand, PackageIds.EditTrustedProceduresCommand,
                 PackageIds.EditEnvironmentRulesCommand, PackageIds.EditAllowListCommand })
             {
@@ -370,34 +372,91 @@ namespace SqlSafetyGuard.UI
                 timer.Tick += (s, e) =>
                 {
                     ThreadHelper.ThrowIfNotOnUIThread();
-                    var dialog = System.Windows.Application.Current.Windows.OfType<SettingsListDialog>().FirstOrDefault();
+                    var dialog = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>()
+                        .FirstOrDefault(window => window is PatternListDialog || window is RulesDialog);
                     if (dialog == null) return;
                     timer.Stop();
                     try
                     {
-                        if (dialog.Entries.Text.Contains("\r\r")) throw new InvalidOperationException("Doubled newlines.");
-                        var buttons = ((System.Windows.Controls.StackPanel)((System.Windows.Controls.Grid)dialog.Content).Children[3]).Children;
-                        var cancel = (System.Windows.Controls.Button)buttons[1];
-                        if (!cancel.IsDefault || !cancel.IsCancel) throw new InvalidOperationException("Cancel is not the default.");
-                        if (id == PackageIds.EditTrustedProceduresCommand)
+                        void Click(System.Windows.Controls.Button button) =>
+                            button.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
+                        void Check(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+                        if (dialog is PatternListDialog patterns)
                         {
-                            dialog.Entries.Text = "unqualified";
-                            ((System.Windows.Controls.Button)buttons[0]).RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-                            if (dialog.Error.Visibility != System.Windows.Visibility.Visible) throw new InvalidOperationException("Invalid trust was not rejected.");
+                            Check(patterns.CancelButton.IsCancel && !patterns.CancelButton.IsDefault && !patterns.SaveButton.IsDefault,
+                                "Enter must neither save nor discard; Escape cancels.");
+                            if (id == PackageIds.EditTrustedProceduresCommand)
+                            {
+                                patterns.LoadText("unqualified");
+                                Check(patterns.Entries.Single().HasProblem, "A schema-less procedure must be marked.");
+                                Click(patterns.SaveButton);
+                                Check(patterns.Error.Visibility == System.Windows.Visibility.Visible, "Invalid trust was not rejected.");
+                                patterns.DialogResult = false;
+                            }
+                            else if (allowListRuns++ == 1)
+                            {
+                                // Second visit: unchanged text survives exactly, problems block Save, order is kept.
+                                const string odd = "-- Staging\n[dbo] . [Odd.Name]\n\"sales\".Orders";
+                                patterns.LoadText(odd);
+                                Check(patterns.CurrentText == odd, "Unchanged entries must keep their exact text: " + patterns.CurrentText);
+                                Check(patterns.NameBox.Text == "Odd.Name" && patterns.SchemaBox.Text == "dbo" && patterns.NoteBox.Text == "Staging",
+                                    "The form must show the selected entry as parts.");
+                                Click(patterns.AddButton);
+                                patterns.DatabaseBox.Text = "Sandbox";
+                                patterns.NameBox.Text = "Test_*";
+                                Check(patterns.FormProblem.Visibility == System.Windows.Visibility.Visible, "A database without a schema must be explained.");
+                                var stored = TryGetPackage().Options.AllowList;
+                                Click(patterns.SaveButton);
+                                Check(patterns.IsVisible && patterns.Error.Visibility == System.Windows.Visibility.Visible &&
+                                    TryGetPackage().Options.AllowList == stored, "Save must refuse an entry with a problem.");
+                                patterns.SchemaBox.Text = "dbo";
+                                Click(patterns.UpButton);
+                                Check(patterns.CurrentText == "Sandbox.dbo.Test_*\n-- Staging\n[dbo] . [Odd.Name]\n\"sales\".Orders",
+                                    "Unexpected order: " + patterns.CurrentText);
+                                patterns.DialogResult = false;
+                                Check(TryGetPackage().Options.AllowList == stored, "Cancel must not store edits.");
+                            }
+                            else
+                            {
+                                // Fill the form as a user would: Add, type the parts, test a name, Save.
+                                patterns.LoadText("");
+                                Click(patterns.AddButton);
+                                patterns.SchemaBox.Text = "dbo";
+                                patterns.NameBox.Text = "SgSettings_*";
+                                patterns.NoteBox.Text = "Settings check";
+                                Click(patterns.AddButton);
+                                patterns.SchemaBox.Text = "dbo";
+                                patterns.NameBox.Text = "SgSettings_Extra";
+                                patterns.TryBox.Text = "dbo.SgSettings_Extra";
+                                Check(patterns.TryResult.Text.StartsWith("✓", StringComparison.Ordinal), "Try a name did not match: " + patterns.TryResult.Text);
+                                const string expected = "-- Settings check\ndbo.SgSettings_*\ndbo.SgSettings_Extra";
+                                Check(patterns.CurrentText == expected, "Unexpected composed text: " + patterns.CurrentText);
+                                Click(patterns.SaveButton);
+                                Check(patterns.Error.Visibility != System.Windows.Visibility.Visible, patterns.Error.Text);
+                                Check(TryGetPackage().Options.AllowList.Replace("\r\n", "\n") == expected, "The saved allow-list differs from the editor.");
+                            }
                         }
-                        if (id == PackageIds.EditAllowListCommand)
+                        else if (dialog is RulesDialog rules)
                         {
-                            dialog.Entries.Text = "dbo.SgSettings_*\r\ndbo.SgSettings_Extra";
-                            ((System.Windows.Controls.Button)buttons[0]).RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-                            if (dialog.Error.Visibility == System.Windows.Visibility.Visible) throw new InvalidOperationException(dialog.Error.Text);
+                            var before = TryGetPackage().Options.EnvironmentRules;
+                            rules.LoadText("");
+                            Click(rules.AddButton);
+                            rules.ServerBox.Text = "SGCHECK-*";
+                            rules.LabelBox.Text = "Check";
+                            rules.ModeRed.IsChecked = true;
+                            rules.SafeTablesBox.Text = "dbo.Check_*";
+                            Check(rules.CurrentText == "SGCHECK-* |  | Check | Red | false | dbo.Check_*", "Unexpected rule text: " + rules.CurrentText);
+                            Check(!rules.Rules.Single().HasProblem, "A complete rule must be valid.");
+                            rules.DialogResult = false;
+                            Check(TryGetPackage().Options.EnvironmentRules == before, "Cancel must not store rule edits.");
                         }
-                        else dialog.DialogResult = false;
+                        passed++;
                         ExtensionCheckTrace.Write("settings-list", id.ToString(), "PASS");
                     }
                     catch (Exception ex)
                     {
                         ExtensionCheckTrace.Write("settings-list-error", ex.ToString());
-                        dialog.DialogResult = false;
+                        if (dialog.IsVisible) ((Microsoft.VisualStudio.PlatformUI.DialogWindow)dialog).DialogResult = false;
                     }
                 };
                 timer.Start();
@@ -405,6 +464,8 @@ namespace SqlSafetyGuard.UI
                 try { TryGetPackage().Dte.Commands.Raise(PackageGuids.CommandSetString, id, ref input, ref output); }
                 finally { timer.Stop(); }
             }
+            if (passed != 4) throw new InvalidOperationException("Settings editor checks failed: " + passed + " of 4 passed.");
+            ExtensionCheckTrace.Write("settings-lists", passed.ToString(), "PASS");
         }
 
         private void SmokeSettingsUi(string path)

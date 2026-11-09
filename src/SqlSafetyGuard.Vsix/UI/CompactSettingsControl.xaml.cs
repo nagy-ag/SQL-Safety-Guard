@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using SqlSafetyGuard.Options;
 
 namespace SqlSafetyGuard.UI
@@ -30,8 +31,30 @@ namespace SqlSafetyGuard.UI
                 new System.Windows.Input.KeyboardFocusChangedEventHandler((s, e) => e.Handled = false), true);
             _refreshing = false;
             RefreshValues();
-            Loaded += (s, e) => { _page.Changed += OnSettingsChanged; RefreshValues(); };
+            Loaded += (s, e) =>
+            {
+                Visibility = IsStickyHeaderCopy(this) ? Visibility.Collapsed : Visibility.Visible;
+                _page.Changed += OnSettingsChanged;
+                RefreshValues();
+            };
             Unloaded += (s, e) => _page.Changed -= OnSettingsChanged;
+        }
+
+        /// <summary>
+        /// The settings page repeats a scrolled-past category, including its preview content, as a sticky header
+        /// above the page. A second full settings form there would cover the scrolling page and take its wheel
+        /// input, so that copy stays empty. Only the sticky CategoryView has a finite MaxVerticalExtent; anything
+        /// unrecognized keeps the settings visible.
+        /// </summary>
+        internal static bool IsStickyHeaderCopy(DependencyObject element)
+        {
+            for (var node = element == null ? null : VisualTreeHelper.GetParent(element); node != null; node = VisualTreeHelper.GetParent(node))
+            {
+                if (node.GetType().Name != "CategoryView") continue;
+                var extent = node.GetType().GetProperty("MaxVerticalExtent")?.GetValue(node) as double?;
+                return extent.HasValue && !double.IsNaN(extent.Value);
+            }
+            return false;
         }
 
         private void OnSettingsChanged(object sender, EventArgs e) => RefreshValues();
@@ -43,12 +66,23 @@ namespace SqlSafetyGuard.UI
             {
                 WarningMode.SelectedIndex = (int)_page.GuardMode;
                 ShowConnection.IsChecked = _page.ShowServerAndDatabase;
-                if (AllowList.Text != _page.AllowList) AllowList.Text = _page.AllowList;
-                if (TrustedProcedures.Text != _page.TrustedProcedures) TrustedProcedures.Text = _page.TrustedProcedures;
-                if (EnvironmentRules.Text != _page.EnvironmentRules) EnvironmentRules.Text = _page.EnvironmentRules;
                 TempdbIsTemp.IsChecked = _page.TempdbIsTemp;
+                ShowSummary(AllowListSummary, AllowListProblem, PatternText.Summarize(_page.AllowList, procedures: false), "pattern", "patterns");
+                ShowSummary(TrustedSummary, TrustedProblem, PatternText.Summarize(_page.TrustedProcedures, procedures: true), "procedure", "procedures");
+                ShowSummary(RulesSummary, RulesProblem, RuleText.Summarize(_page.EnvironmentRules), "rule", "rules");
             }
             finally { _refreshing = false; }
+        }
+
+        /// <summary>Only counts: the lists are edited in their own dialogs, so this row never grows.</summary>
+        private static void ShowSummary(TextBlock summary, TextBlock problem, (int Count, int Problems) value, string one, string many)
+        {
+            summary.Text = value.Count == 0 ? "None" : value.Count + " " + (value.Count == 1 ? one : many);
+            summary.FontStyle = value.Count == 0 ? FontStyles.Italic : FontStyles.Normal;
+            summary.Opacity = value.Count == 0 ? 0.7 : 1;
+            problem.Text = value.Problems == 0 ? "" : "⚠ " + value.Problems + " " + (value.Problems == 1 ? one + " has a problem and is" : many + " have a problem and are") +
+                " ignored. Open the editor to fix " + (value.Problems == 1 ? "it." : "them.");
+            problem.Visibility = value.Problems == 0 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void Edit(Action assign, Action restore)
@@ -78,21 +112,6 @@ namespace SqlSafetyGuard.UI
         {
             var before = _page.ShowServerAndDatabase;
             Edit(() => _page.ShowServerAndDatabase = ShowConnection.IsChecked == true, () => _page.ShowServerAndDatabase = before);
-        }
-        private void OnAllowListChanged(object sender, TextChangedEventArgs e)
-        {
-            var before = _page.AllowList;
-            Edit(() => _page.AllowList = AllowList.Text, () => _page.AllowList = before);
-        }
-        private void OnTrustedChanged(object sender, TextChangedEventArgs e)
-        {
-            var before = _page.TrustedProcedures;
-            Edit(() => _page.TrustedProcedures = TrustedProcedures.Text, () => _page.TrustedProcedures = before);
-        }
-        private void OnRulesChanged(object sender, TextChangedEventArgs e)
-        {
-            var before = _page.EnvironmentRules;
-            Edit(() => _page.EnvironmentRules = EnvironmentRules.Text, () => _page.EnvironmentRules = before);
         }
         private void OnTempdbChanged(object sender, RoutedEventArgs e)
         {

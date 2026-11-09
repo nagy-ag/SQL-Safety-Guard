@@ -352,6 +352,23 @@ try {
         if ($CheckCompactSettings) {
             Send-Command 'compactsettingscheck'
             Wait-Receipt '\tcompact-settings\t12\tPASS\r?$'
+            Send-Command 'compactsettingsscroll'
+            Wait-Receipt '\tcompact-settings-scroll\t11\tPASS\r?$'
+            Send-Command 'settingslistcheck'
+            Wait-Receipt '\tsettings-lists\t4\tPASS\r?$'
+            # Show the structured editors with content: the allow-list saved by the check, plus sample rules.
+            $rules = Join-Path $script:channelDirectory 'sample-rules.txt'
+            [IO.File]::WriteAllText($rules, "-- Local playground`r`n*SQLEXPRESS | SgPlay_* | Playground | YellowRed | false | dbo.SgDemo_Playground_* | dbo.usp_SgDemo_Read`r`n" +
+                "PROD-SQL* | | Production | YellowRed | false`r`nTEST-SQL* | Sandbox* | Test | Red | false | dbo.Test_*`r`nnot a rule", $utf8)
+            Send-Command 'rulesfile' $rules
+            foreach ($list in 'allowList', 'environmentRules') {
+                Send-Command 'showlisteditor' $list
+                Wait-Receipt ('\tshown\t' + $list + '\t')
+                Capture-Surface $list ('list-' + $list + '-filled')
+                Send-Command 'closedialogs'
+            }
+            Send-Command 'showoptions'
+            Wait-Receipt '\tshown\toptions\tF5 warnings\r?$'
         }
         Capture-Surface 'main' 'options'
         Close-OwnedSsms

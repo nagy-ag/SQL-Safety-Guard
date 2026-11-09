@@ -9,6 +9,7 @@ namespace SqlSafetyGuard.UI
         internal GuardFailureDialog(Exception exception)
         {
             InitializeComponent();
+            DialogChrome.Apply(this);
 #if DEBUG
             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
                 ShowActivated = false;

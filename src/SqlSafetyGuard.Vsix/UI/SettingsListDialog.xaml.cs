@@ -11,6 +11,7 @@ namespace SqlSafetyGuard.UI
         internal SettingsListDialog(string title, string description, string entries)
         {
             InitializeComponent();
+            DialogChrome.Apply(this);
             Title = "SQL Safety Guard — " + title;
             Description.Text = description;
             Entries.Text = entries.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", Environment.NewLine);

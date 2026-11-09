@@ -85,6 +85,16 @@ Unit guard tests establish policy decisions; XAML tests establish structure/defa
 control behavior. Actual host target binding and server submission require separate integration evidence. A successful
 build or any one of these layers does not prove the others. See [verification/how-to.md](verification/how-to.md) for the evidence map.
 
+## Samples and shortcut
+
+`samples/01-try-these.sql` is checked by `SamplesTests.cs` (every `expect:` line) and `WholeFileSamplesTests.cs` (analyzing
+the whole file lists every example). Keep both passing when changing the samples the [user guide](user-guide.md#try-it)
+describes.
+
+Analyze Query uses **Ctrl+Shift+F5**, scoped to the SQL Query Editor. The original request was Ctrl+Shift+A, but SSMS 22
+binds it globally to `Project.AddNewItem`. Ctrl+Alt combinations were avoided because Ctrl+Alt is AltGr on many European
+layouts and types characters such as `\`.
+
 ## Compact Options presentation
 
 The Options page uses `UI/CompactSettingsControl.xaml` through `CompactSettingsFactory`, registered as the
@@ -93,8 +103,24 @@ The six `Options/registration.json` properties remain the storage/migration cont
 the duplicate generated controls. Category keywords retain discovery by setting name. Do not rename or retype these
 properties to change layout. The control uses the existing persistence method and command IDs, not a second settings store.
 
+The three list settings show only counts on the page. `UI/PatternListDialog` (safe tables, trusted procedures) and
+`UI/RulesDialog` (environment rules) edit them as entries with named fields. `Options/SettingsEntries.cs` is the
+editor model, shared as source with the unit tests: it parses the stored text into entries (a `--` line above an entry
+is its note), composes it back, validates each entry and explains or tests a pattern. Matching and validation always go
+through the analyzer's `AllowList` and `EnvironmentRules`; unedited entries keep their original text byte-for-byte.
+Save hands the composed text to the existing import validation, so the stored format, import and export are unchanged.
+`SettingsEntriesTests` covers parsing, composition, validation, Try a name and the export/import round trip.
+
+When the page scrolls past the category title, SSMS repeats the category, preview content included, as a sticky header
+above the scrolling list. A second full form there would cover the page and take its wheel input. The control therefore
+collapses itself when its `CategoryView` ancestor has a finite `MaxVerticalExtent` (only the sticky copy does); an
+unrecognized host keeps the form visible.
+
 `SettingsInteractionTests.ps1` checks actual control events with injected storage and command callbacks.
 For the real host, add `-CheckCompactSettings` to a one-theme `ThemeAcceptanceCapture.ps1` run. Its Debug-only channel
 routes keyboard-focus events through the host, changes each of the six controls, reads back native settings, and
-restores the original option values. It never dispatches Execute or opens SQL. The enclosing script closes its owned
+restores the original option values. It then forces the page to overflow, checks wheel scrolling over every control,
+waits for the sticky header and hit-tests the viewport. `settingslistcheck` then drives both editors through their
+real controls (Add, parts, Try a name, Save, refusal of a problem entry, order, Cancel), and the run captures the
+editors filled with sample entries. It never dispatches Execute or opens SQL. The enclosing script closes its owned
 SSMS session and restores isolated settings bytes. Raw captures/receipts stay outside the repository.

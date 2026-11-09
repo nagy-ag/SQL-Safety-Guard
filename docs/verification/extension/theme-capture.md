@@ -7,7 +7,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
 # Add -CheckPaneHighlights for the click-to-highlight checks and both safe-section arrow states.
-# Add -CheckCompactSettings for focus routing and native persistence of all six compact controls.
+# Add -CheckCompactSettings for focus routing, native persistence and page scrolling of the compact controls.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
 ```
 
@@ -21,7 +21,7 @@ Inspect `restoration.json` for identical hashes **and** `SsmsExited: true`; a pr
 settings, so close that run cleanly and restore `settings.original.json` again before continuing.
 
 The Debug file channel accepts `document.sql|verb|argument` in its private test directory. `showconfirm`, `showfailure`,
-`showlisteditor allowList|trustedProcedures|environmentRules`, and `showimportpreview <absolute .ssgsettings.json path>` show
+`showlisteditor allowList|trustedProcedures|environmentRules` (the structured list and rule editors), and `showimportpreview <absolute .ssgsettings.json path>` show
 the real dialogs modeless with ShowActivated=false, owned by SSMS. Run, Save and Import handlers are inert in previews; buttons retain their production enabled state.
 `showoptions` opens the real integrated options page. `capture <surface> <absolute PNG path>` waits through dispatcher
 ContextIdle/ApplicationIdle and uses RenderTargetBitmap at actual layout size/DPI for `pane`, `confirm`, `failure`,
@@ -45,7 +45,12 @@ content visibility and toggle actions. These are UI checks, not a new execution/
 `-CheckCompactSettings` routes focus events through the six real controls, verifies that the native content host
 does not block keyboard entry, and reads all six edited values back from the native settings manager. It restores
 the original option values in a finally block. The outer capture run closes its owned process and restores the
-original settings file byte-for-byte. SSMS supplies the Preview caption around the custom GEL content area; the
+original settings file byte-for-byte. A second step shrinks the page viewport so it overflows, raises in-process wheel
+input over each control, waits for SSMS's sticky category header, and requires that no copy of the form covers the page
+and that hit-tests at three heights reach the scrolling content (`compact-settings-scroll 11 PASS`). It then opens
+each list editor through its real command and fills its form as a user would (`settings-lists 4 PASS`), and captures the
+allow-list and rule editors with sample entries. Dialog previews also record a `chrome` receipt with the title-bar
+colours applied; the native title bar itself is not part of the WPF captures. SSMS supplies the Preview caption around the custom GEL content area; the
 compact settings themselves are live, with immediate persistence. No SQL or Execute command is used.
 
 The stored `environment.visualExperience.colorTheme` mapping is:

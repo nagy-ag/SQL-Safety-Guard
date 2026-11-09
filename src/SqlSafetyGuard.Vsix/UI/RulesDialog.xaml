@@ -1,0 +1,154 @@
+<platformUi:DialogWindow x:Class="SqlSafetyGuard.UI.RulesDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:platformUi="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+    xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+    Title="SQL Safety Guard — Environment rules"
+    Width="920" Height="640" MinWidth="720" MinHeight="480"
+    WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+    Background="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelBrushKey}}"
+    Foreground="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}">
+    <platformUi:DialogWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="Visible" />
+        <SolidColorBrush x:Key="ProblemBrush" Color="#C62828" />
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ListBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="Height" Value="84" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}">
+            <Setter Property="Padding" Value="10,4" />
+            <Setter Property="MinHeight" Value="28" />
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:ThemedDialogColors.WindowPanelTextBrushKey}}" />
+            <Setter Property="Margin" Value="0,0,18,0" />
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,3" />
+        </Style>
+        <Style x:Key="Hint" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+    </platformUi:DialogWindow.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock TextWrapping="Wrap" Margin="0,0,0,12"
+            Text="The first rule that matches the window's server and database wins; use ↑ and ↓ to set the order. Rule lists add to the global lists. Unknown servers or databases use the global settings." />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="18" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button x:Name="AddButton" Content="+ Add" Click="OnAdd" Margin="0,0,6,0" AutomationProperties.Name="Add rule" />
+                    <Button x:Name="UpButton" Content="↑" Click="OnUp" Margin="0,0,6,0" MinWidth="32" AutomationProperties.Name="Move up" />
+                    <Button x:Name="DownButton" Content="↓" Click="OnDown" Margin="0,0,6,0" MinWidth="32" AutomationProperties.Name="Move down" />
+                    <Button x:Name="RemoveButton" Content="Remove" Click="OnRemove" />
+                </StackPanel>
+                <ListBox x:Name="RuleList" SelectionChanged="OnSelectionChanged" HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Rules"
+                    Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
+                    Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+                    BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="2,4">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                    <Border Margin="6,0,0,0" Padding="5,0" CornerRadius="7" BorderThickness="1" VerticalAlignment="Center"
+                                        BorderBrush="{StaticResource ProblemBrush}" Visibility="{Binding IsProduction, Converter={StaticResource Visible}}">
+                                        <TextBlock Text="PROD" FontSize="10" Foreground="{StaticResource ProblemBrush}" />
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Subtitle}" FontSize="11" Opacity="0.75" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Problem, StringFormat=⚠ {0}}" FontSize="11" TextWrapping="Wrap"
+                                    Foreground="{StaticResource ProblemBrush}" Visibility="{Binding HasProblem, Converter={StaticResource Visible}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <TextBlock x:Name="EmptyText" Grid.Column="2" TextWrapping="Wrap" Opacity="0.8" Visibility="Collapsed"
+                Text="No rules: every connection uses the global settings. Choose + Add to create one." />
+            <ScrollViewer x:Name="FormScroller" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel x:Name="Form" Margin="0,0,4,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Server" Style="{StaticResource FieldLabel}" />
+                            <TextBox x:Name="ServerBox" FontFamily="Consolas" TextChanged="OnFieldChanged" AutomationProperties.Name="Server" />
+                            <TextBlock Text="Name or pattern with * and ?" Style="{StaticResource Hint}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Database" Style="{StaticResource FieldLabel}" />
+                            <TextBox x:Name="DatabaseBox" FontFamily="Consolas" TextChanged="OnFieldChanged" AutomationProperties.Name="Database" />
+                            <TextBlock Text="Empty = any known database" Style="{StaticResource Hint}" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="Label" Style="{StaticResource FieldLabel}" Margin="0,12,0,3" />
+                    <TextBox x:Name="LabelBox" TextChanged="OnFieldChanged" AutomationProperties.Name="Label" />
+                    <TextBlock Text="Shown in the pane header. Labels containing PROD are red." Style="{StaticResource Hint}" />
+                    <TextBlock Text="When F5 asks" Style="{StaticResource FieldLabel}" Margin="0,12,0,5" />
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="ModeOff" Content="Off" GroupName="Mode" Checked="OnModeChecked" />
+                        <RadioButton x:Name="ModeRed" Content="Warn on red only" GroupName="Mode" Checked="OnModeChecked" />
+                        <RadioButton x:Name="ModeYellowRed" Content="Warn on yellow and red" GroupName="Mode" Checked="OnModeChecked" />
+                    </StackPanel>
+                    <Grid Margin="0,12,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Extra safe tables" Style="{StaticResource FieldLabel}" />
+                            <TextBox x:Name="SafeTablesBox" Style="{StaticResource ListBox}" TextChanged="OnFieldChanged" AutomationProperties.Name="Extra safe tables" />
+                            <TextBlock Text="One pattern per line, e.g. dbo.Test_*" Style="{StaticResource Hint}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Extra trusted procedures" Style="{StaticResource FieldLabel}" />
+                            <TextBox x:Name="TrustedBox" Style="{StaticResource ListBox}" TextChanged="OnFieldChanged" AutomationProperties.Name="Extra trusted procedures" />
+                            <TextBlock Text="One per line, schema-qualified, e.g. dbo.usp_Read_*" Style="{StaticResource Hint}" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="Note" Style="{StaticResource FieldLabel}" Margin="0,12,0,3" />
+                    <TextBox x:Name="NoteBox" TextChanged="OnNoteChanged" AutomationProperties.Name="Note" />
+                    <TextBlock x:Name="FormProblem" TextWrapping="Wrap" Margin="0,12,0,0" Foreground="{StaticResource ProblemBrush}" Visibility="Collapsed" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <TextBlock x:Name="Error" Grid.Row="2" TextWrapping="Wrap" Margin="0,10,0,0" Foreground="{StaticResource ProblemBrush}" Visibility="Collapsed" />
+        <DockPanel Grid.Row="3" Margin="0,16,0,0" LastChildFill="False">
+            <Button x:Name="EditAsTextButton" Content="Edit as text..." Click="OnEditAsText" DockPanel.Dock="Left" />
+            <Button x:Name="CancelButton" Content="Cancel" MinWidth="90" IsCancel="True" DockPanel.Dock="Right" />
+            <Button x:Name="SaveButton" Content="Save" MinWidth="90" Click="OnSave" Margin="0,0,8,0" DockPanel.Dock="Right" />
+        </DockPanel>
+    </Grid>
+</platformUi:DialogWindow>

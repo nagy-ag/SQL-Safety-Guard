@@ -9,6 +9,7 @@ namespace SqlSafetyGuard.UI
         internal SettingsImportDialog(SettingsImport import)
         {
             InitializeComponent();
+            DialogChrome.Apply(this);
 #if DEBUG
             // The explicitly enabled in-process smoke channel must never take foreground focus.
             if (!string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY"))) ShowActivated = false;
