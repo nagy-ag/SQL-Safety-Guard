@@ -6,6 +6,7 @@ releases are documented by the dated records they were published with. Version c
 
 | Version | Published | Records |
 |---|---|---|
+| 1.0.5 | 2026-11-10 | [Release record](1.0.5.md) · [preparation](../runs/2026-11-10-release-1.0.5-preparation.md) · [functional verification](../runs/2026-11-10-row-gestures.md) |
 | 1.0.4 | 2026-11-09 | [Release record](1.0.4.md) · [verification](../runs/2026-11-09-settings-editors-1.0.4.md) · [publication](../runs/2026-11-09-release-1.0.4-publication.md) |
 | 1.0.3 | 2026-11-05 | [Verification](../runs/2026-11-05-compact-settings-1.0.3.md) · [publication](../runs/2026-11-05-release-1.0.3-publication.md) |
 | 1.0.2 | 2026-11-05 | [Verification](../runs/2026-11-05-pane-interaction-1.0.2.md) · [publication](../runs/2026-11-05-release-1.0.2-publication.md) |

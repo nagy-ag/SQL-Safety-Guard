@@ -7,6 +7,7 @@ Release records, one per version, are indexed in [releases/](releases/README.md)
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-10 | [releases/1.0.5.md](releases/1.0.5.md) | 1.0.5 published stable and Latest from `a6eade1`; clean-source packaging, 1,693 .NET/10 Python tests, 58 WPF checks, all five downloads/digests and main/tag CI PASS. |
 | 2026-11-10 | [runs/2026-11-10-release-1.0.5-preparation.md](runs/2026-11-10-release-1.0.5-preparation.md) | Owner-approved stable 1.0.5 preparation: procedure-body inspection and unified row gestures; prior UI evidence retained, committed-source packaging and publication next. |
 | 2026-11-10 | [runs/2026-11-10-row-gestures.md](runs/2026-11-10-row-gestures.md) | Outer and nested object rows share single-click highlighting, double-click expansion and individual statement highlighting; reversed section chevrons, removed body paragraph; 1,693 .NET/10 Python tests, both rebuilds, 29 Release pane checks, 21 editor and 25 procedure checks PASS. |
 | 2026-11-10 | [runs/2026-11-10-nested-procedure-pane.md](runs/2026-11-10-nested-procedure-pane.md) | Procedure body uses the normal pane sections and single-line rows nested inside the SP; 1,693 .NET/10 Python tests, both builds, 26 Release pane checks and 17 isolated SSMS body checks plus existing highlight checks. |
