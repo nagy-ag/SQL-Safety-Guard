@@ -81,6 +81,20 @@ public class GuardUiContractTests
     }
 
     [Fact]
+    public void ProcedureBodyFindingsAreLabeledAsDeferredAndNavigateWithButtons()
+    {
+        var document = XDocument.Load(Path.Combine(TestRepository.Root, "src/SqlSafetyGuard.Vsix/UI/SafetyPaneControl.xaml"));
+        XNamespace p = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
+        var body = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "ProcedureBodyTemplate");
+        Assert.Contains("potential effects when called", body.ToString());
+        Assert.DoesNotContain("Based on this window's text", body.ToString());
+        Assert.Contains("Body analysis incomplete", body.ToString());
+        var finding = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "BodyFindingTemplate");
+        Assert.Equal("OnBodyFindingClick", (string?)Assert.Single(finding.Descendants(p + "Button")).Attribute("Click"));
+    }
+
+    [Fact]
     public void PaneRowsAndSettingsUseShellThemeResources()
     {
         var repository = TestRepository.Root;

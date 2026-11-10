@@ -65,13 +65,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
                         <StackPanel>
-                            <ToggleButton x:Name="RowHeader" Content="{TemplateBinding Header}"
+                            <Button x:Name="RowHeader" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0"
                                           Foreground="{TemplateBinding Foreground}"
                                           AutomationProperties.Name="{Binding Tooltip}"
-                                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
+                                          Click="OnRowClick" MouseDoubleClick="OnRowDoubleClick" KeyDown="OnRowKeyDown">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
                                         <Border x:Name="FocusBorder" BorderThickness="1" BorderBrush="Transparent" Padding="0,2">
                                             <ContentPresenter />
                                         </Border>
@@ -81,8 +81,8 @@
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
+                                </Button.Template>
+                            </Button>
                             <ContentPresenter x:Name="RowDetails" Visibility="Collapsed" />
                         </StackPanel>
                         <ControlTemplate.Triggers>
@@ -92,29 +92,90 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <DataTemplate x:Key="GroupTemplate">
-            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Expanded="OnGroupExpanded">
-                <Expander.Header>
-                    <Grid ToolTip="{Binding Tooltip}">
-                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding ObjectName}" Margin="0,0,10,0" ToolTip="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
-                        <TextBlock Grid.Column="1" Text="{Binding Subtitle}" HorizontalAlignment="Right" Margin="0,0,10,0" />
-                        <TextBlock Grid.Column="2" Text="{Binding Line}" HorizontalAlignment="Right" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
-                    </Grid>
-                </Expander.Header>
-                <StackPanel Margin="0,5,0,3">
-                    <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" FontSize="11">
+        <DataTemplate x:Key="GroupRowHeaderTemplate">
+            <Grid ToolTip="{Binding Tooltip}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding ObjectName}" Margin="0,0,10,0" ToolTip="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="1" Text="{Binding Subtitle}" Margin="0,0,10,0" HorizontalAlignment="Right" />
+                <TextBlock Grid.Column="2" Text="{Binding Line}" HorizontalAlignment="Right" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="GroupReasonTemplate">
+            <TextBlock Text="{Binding Reason}" TextWrapping="Wrap" FontSize="11">
+                <TextBlock.Style><Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+                    <Style.Triggers><DataTrigger Binding="{Binding IsWholeTarget}" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowValidationErrorTextBrushKey}}" /><Setter Property="FontWeight" Value="SemiBold" />
+                    </DataTrigger></Style.Triggers>
+                </Style></TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="SectionHeaderTemplate">
+            <DockPanel Margin="10,12,10,4">
+                <Ellipse DockPanel.Dock="Left" Width="8" Height="8" Margin="0,0,6,0" Fill="{Binding Items[0].Marker}" />
+                <TextBlock DockPanel.Dock="Left" FontSize="10" FontWeight="Bold" Margin="0,0,8,0"><Run Text="{Binding Name, Mode=OneWay}" /><Run Text=" " /><Run Text="{Binding ItemCount, Mode=OneWay}" /></TextBlock>
+                <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="BodyFindingTemplate">
+            <Button Click="OnBodyFindingClick" HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                    Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
+                    Padding="3,5" ToolTip="Jump to this statement without selecting SQL text" AutomationProperties.Name="{Binding SafeText}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Note}" Visibility="{Binding NoteVisibility}" FontSize="11" TextWrapping="Wrap">
                         <TextBlock.Style><Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
-                            <Style.Triggers><DataTrigger Binding="{Binding IsWholeTarget}" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowValidationErrorTextBrushKey}}" /><Setter Property="FontWeight" Value="SemiBold" /><Setter Property="Opacity" Value="1" />
+                            <Style.Triggers><DataTrigger Binding="{Binding IsPermanentWholeTarget}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowValidationErrorTextBrushKey}}" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
                             </DataTrigger></Style.Triggers>
                         </Style></TextBlock.Style>
                     </TextBlock>
-                    <StackPanel Visibility="{Binding MultipleFindingsVisibility}" Margin="0,4,0,0" TextElement.Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}">
-                        <TextBlock Text="{Binding OperationSummary}" TextWrapping="Wrap" FontSize="11" />
-                        <TextBlock Text="{Binding LineSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,2,0,0" />
+                    <DockPanel Margin="0,2,0,0">
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding EditorLine, StringFormat=Line {0}}" FontSize="11" Margin="6,0,0,0" />
+                        <TextBlock Text="{Binding Finding.Action}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    </DockPanel>
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="BodyGroupTemplate">
+            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="8,5"
+                      Header="{Binding}" HeaderTemplate="{StaticResource GroupRowHeaderTemplate}">
+                <StackPanel Margin="0,5,0,3">
+                    <ItemsControl ItemsSource="{Binding Findings}" ItemTemplate="{StaticResource BodyFindingTemplate}" Margin="0,3,0,0" />
+                </StackPanel>
+            </Expander>
+        </DataTemplate>
+        <DataTemplate x:Key="BodySectionTemplate">
+            <StackPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SectionHeaderTemplate}" />
+                <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource BodyGroupTemplate}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ProcedureBodyTemplate">
+            <Expander Style="{DynamicResource SafeSectionExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="0,8,0,0"
+                      Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}">
+                <Expander.Header><TextBlock Text="Body — potential effects when called" TextWrapping="Wrap" FontWeight="SemiBold" ToolTip="{Binding Summary}" /></Expander.Header>
+                <Border Margin="10,6,0,0" Padding="4,0,0,0" BorderThickness="1,0,0,0"
+                        BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+                    <StackPanel>
+                        <TextBlock Text="Body analysis incomplete." Visibility="{Binding IncompleteVisibility}" FontSize="11" TextWrapping="Wrap" Margin="8,0,0,6" />
+                        <ItemsControl ItemsSource="{Binding Sections}" ItemTemplate="{StaticResource BodySectionTemplate}" />
+                        <Expander Style="{DynamicResource SafeSectionExpander}" Visibility="{Binding SafeVisibility}" IsExpanded="{Binding IsSafeExpanded, Mode=TwoWay}" Margin="8,12,0,0"
+                                  Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}">
+                            <Expander.Header><TextBlock Text="{Binding SafeHeading}" TextWrapping="Wrap" FontSize="11" /></Expander.Header>
+                            <ItemsControl ItemsSource="{Binding Safe}" ItemTemplate="{StaticResource BodyGroupTemplate}" />
+                        </Expander>
                     </StackPanel>
+                </Border>
+            </Expander>
+        </DataTemplate>
+        <DataTemplate x:Key="GroupTemplate">
+            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+                      Header="{Binding}" HeaderTemplate="{StaticResource GroupRowHeaderTemplate}">
+                <StackPanel Margin="0,5,0,3">
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GroupReasonTemplate}" Visibility="{Binding SingleFindingVisibility}" />
+                    <ItemsControl ItemsSource="{Binding Findings}" ItemTemplate="{StaticResource BodyFindingTemplate}" Visibility="{Binding MultipleFindingsVisibility}" Margin="0,3,0,0" />
+                    <ItemsControl ItemsSource="{Binding Bodies}" ItemTemplate="{StaticResource ProcedureBodyTemplate}" />
                 </StackPanel>
             </Expander>
         </DataTemplate>
@@ -126,7 +187,7 @@
             <Setter Property="ItemTemplate" Value="{StaticResource GroupTemplate}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         </Style>
-        <!-- Explicit state arrows: collapsed points up, expanded points down. -->
+        <!-- Explicit state arrows: collapsed points down, expanded points up. -->
         <Style x:Key="SafeSectionExpander" TargetType="Expander">
             <Setter Property="Template">
                 <Setter.Value>
@@ -144,13 +205,13 @@
                                                 <DockPanel>
                                                     <Path x:Name="SafeSectionChevron" DockPanel.Dock="Left" Width="8" Height="4" Margin="2,0,8,0"
                                                           VerticalAlignment="Center" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.5"
-                                                          Data="M 0,4 L 4,0 L 8,4" />
+                                                          Data="M 0,0 L 4,4 L 8,0" />
                                                     <ContentPresenter />
                                                 </DockPanel>
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
-                                                    <Setter TargetName="SafeSectionChevron" Property="Data" Value="M 0,0 L 4,4 L 8,0" />
+                                                    <Setter TargetName="SafeSectionChevron" Property="Data" Value="M 0,4 L 4,0 L 8,4" />
                                                 </Trigger>
                                                 <Trigger Property="IsKeyboardFocused" Value="True">
                                                     <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" />
@@ -235,21 +296,12 @@
                 <DockPanel x:Name="AnalysisPage" Background="Transparent" PreviewMouseLeftButtonDown="OnAnalysisBackgroundMouseDown">
                     <Expander Style="{StaticResource SafeSectionExpander}" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
                         <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
-                        <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown" />
+                        <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" KeyDown="OnGroupKeyDown" />
                     </Expander>
                     <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Margin="10" Opacity="0.7" TextWrapping="Wrap" Visibility="Collapsed" />
-                    <ListBox x:Name="GroupList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" MouseDoubleClick="OnGroupDoubleClick" KeyDown="OnGroupKeyDown">
+                    <ListBox x:Name="GroupList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" KeyDown="OnGroupKeyDown">
                         <ListBox.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.HeaderTemplate><DataTemplate>
-                                    <DockPanel Margin="10,12,10,4">
-                                        <Ellipse DockPanel.Dock="Left" Width="8" Height="8" Margin="0,0,6,0" Fill="{Binding Items[0].Marker}" />
-                                        <TextBlock Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" DockPanel.Dock="Left" FontSize="10" FontWeight="Bold" Margin="0,0,8,0"><Run Text="{Binding Name, Mode=OneWay}" /><Run Text=" " /><Run Text="{Binding ItemCount, Mode=OneWay}" />
-                                        </TextBlock>
-                                        <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
-                                    </DockPanel>
-                                </DataTemplate></GroupStyle.HeaderTemplate>
-                            </GroupStyle>
+                            <GroupStyle HeaderTemplate="{StaticResource SectionHeaderTemplate}" />
                         </ListBox.GroupStyle>
                     </ListBox>
                 </DockPanel>

@@ -28,6 +28,8 @@ namespace SqlSafetyGuard.Analyzer
         private readonly List<Finding> _findings;
         private readonly List<SqlParseError> _errors;
         private readonly List<SkippedRegion> _skipped;
+        private readonly List<ProcedureBodyAnalysis> _bodies;
+        private bool _incompleteAnalysis;
 
         /// <summary>Transaction nesting across the whole text (a transaction outlives GO batches).</summary>
         private TransactionState _transactions = new TransactionState();
@@ -168,12 +170,14 @@ namespace SqlSafetyGuard.Analyzer
             AddAt(scope, _transactions.OpenedAt.Value, "OPEN TRANSACTION", string.Empty, null, Verdict.Unknown, note);
         }
 
-        public StatementWalker(AnalyzerOptions options, List<Finding> findings, List<SqlParseError> errors, List<SkippedRegion> skipped)
+        public StatementWalker(AnalyzerOptions options, List<Finding> findings, List<SqlParseError> errors, List<SkippedRegion> skipped,
+            List<ProcedureBodyAnalysis> bodies = null)
         {
             _options = options;
             _findings = findings;
             _errors = errors;
             _skipped = skipped;
+            _bodies = bodies;
         }
 
         public void AnalyzeText(Scope scope)
@@ -262,6 +266,8 @@ namespace SqlSafetyGuard.Analyzer
                     : "has a syntax error; its body is not analyzed";
                 var position = scope.PositionOfOffset(region.Start, region.End - region.Start);
                 AddAt(blocked, position, module.Action, module.Name, null, Verdict.RealWrite, note);
+                if (_bodies != null && module.Action.EndsWith("PROCEDURE", StringComparison.Ordinal))
+                    AddIncompleteBody(_findings[_findings.Count - 1], "Body analysis incomplete: " + note);
                 RecordSkipped(scope, region.Start, region.End - region.Start,
                     module.Misplaced ? module.Action + " is not the first statement in its batch" : module.Action + " could not be parsed");
             }
@@ -396,6 +402,7 @@ namespace SqlSafetyGuard.Analyzer
 
             if (scope.IsDynamic)
             {
+                _incompleteAnalysis = true;
                 var first = errors[0];
                 Add(scope, null, "EXEC", "dynamic SQL", null, Verdict.Unknown,
                     "could not parse dynamic SQL: " + first.Message);
@@ -715,10 +722,11 @@ namespace SqlSafetyGuard.Analyzer
             }
 
             // CREATE/ALTER/DROP of modules, security, databases, GRANT/REVOKE/DENY and anything unrecognized.
-            // Module bodies are not walked: they do not run when the module is created.
+            // Deferred body effects are collected separately and never enter this execution's findings.
             if (statement is ProcedureStatementBody procedureDefinition && Classifier.IsTemp(procedureDefinition.ProcedureReference?.Name, _options))
             {
                 Add(scope, statement, Classifier.ActionName(statement), GuessTarget(statement, scope), null, Verdict.TempOnly, "temporary procedure definition; the body is not run now");
+                InspectProcedureBody(procedureDefinition, scope);
                 return;
             }
             if (statement is DropProcedureStatement dropProcedures)
@@ -729,6 +737,58 @@ namespace SqlSafetyGuard.Analyzer
             }
             var note = IsModuleDefinition(statement) ? "changes a definition; the body is not run now" : null;
             Add(scope, statement, Classifier.ActionName(statement), GuessTarget(statement, scope), null, Verdict.RealWrite, note);
+            if (statement is ProcedureStatementBody procedure)
+                InspectProcedureBody(procedure, scope);
+        }
+
+        private void AddIncompleteBody(Finding definition, string reason)
+        {
+            var diagnostic = new Finding(definition.Line, definition.Column, definition.StartOffset, 0,
+                "NOT ANALYZED", string.Empty, null, Verdict.Unknown, reason);
+            _bodies.Add(new ProcedureBodyAnalysis(definition,
+                new AnalysisResult(new[] { diagnostic }, new SqlParseError[0]), false));
+        }
+
+        private void InspectProcedureBody(ProcedureStatementBody procedure, Scope scope)
+        {
+            if (_bodies == null) return;
+            var definition = _findings[_findings.Count - 1];
+            if (scope.BlockingErrorLine.HasValue)
+            {
+                AddIncompleteBody(definition, "Body analysis incomplete: this batch has a syntax error; recovered text cannot establish the complete body");
+                return;
+            }
+            if (procedure.StatementList == null)
+            {
+                AddIncompleteBody(definition, "Body analysis incomplete: no T-SQL body is available in this definition");
+                return;
+            }
+
+            var findings = new List<Finding>();
+            var errors = new List<SqlParseError>();
+            var skipped = new List<SkippedRegion>();
+            // A fresh walker prevents transaction/target context from leaking into or out of a body.
+            // It shares the thread's work budget and cancellation token. Nested module definitions remain DDL.
+            // The connection's default schema/database are not proof of a module's later name resolution.
+            // Keep explicit opt-ins, but require written qualification for context-dependent matches.
+            var bodyOptions = new AnalyzerOptions(_options.AllowList.Patterns, _options.TempdbIsTemp, _options.MaxDynamicSqlDepth,
+                _options.SqlCmdMode, trustedProcedures: _options.TrustedProcedures.Patterns);
+            var walker = new StatementWalker(bodyOptions, findings, errors, skipped);
+            bool complete = true;
+            try
+            {
+                walker.WalkStatements(procedure.StatementList.Statements, scope);
+                walker.FinishTransactions(scope);
+            }
+            catch (AnalysisLimitException exception)
+            {
+                complete = false;
+                findings.Add(new Finding(definition.Line, definition.Column, definition.StartOffset, 0,
+                    "NOT ANALYZED", string.Empty, null, Verdict.Unknown, "Body analysis incomplete: " + exception.Message));
+            }
+            complete &= !walker._incompleteAnalysis && errors.Count == 0 && skipped.Count == 0;
+            _bodies.Add(new ProcedureBodyAnalysis(definition,
+                new AnalysisResult(findings.OrderBy(f => f.StartOffset).ToList(), errors, skipped), complete));
         }
 
         /// <summary>
@@ -1017,6 +1077,7 @@ namespace SqlSafetyGuard.Analyzer
         {
             if (scope.DynamicDepth >= _options.MaxDynamicSqlDepth)
             {
+                _incompleteAnalysis = true;
                 Add(scope, executeStatement, action, target, null, Verdict.Unknown, "dynamic SQL nested too deeply to analyze");
                 return;
             }

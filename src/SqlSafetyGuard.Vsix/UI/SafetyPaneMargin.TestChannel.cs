@@ -187,6 +187,9 @@ namespace SqlSafetyGuard.UI
                 case "highlightcheck":
                     SmokePaneHighlights();
                     break;
+                case "procedurebodycheck":
+                    SmokeProcedureBody();
+                    break;
                 case "highlightassertclear":
                     Redraw();
                     if (_selected != null || _layer.Elements.Count != 0)
@@ -255,6 +258,140 @@ namespace SqlSafetyGuard.UI
             }
         }
 
+        private void SmokeProcedureBody()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("Procedure body checks require a private test directory.");
+            int checks = 0;
+            void Check(bool condition, string description)
+            {
+                if (!condition) throw new InvalidOperationException(description);
+                checks++;
+            }
+            var group = _groups.Single(g => g.Bodies.Count > 0);
+            var body = group.Bodies.Single();
+            Check(group.IsExpanded && body.IsExpanded, "A single procedure body must open automatically.");
+            Check(_selected == null && _selectedBodyFinding == null && _layer.Elements.Count == 0,
+                "Automatic body expansion must not select or highlight the definition.");
+            Check(body.IsComplete && body.Warnings.Any(g => g.Verdict.IsRed()) && body.Warnings.Any(g => g.Verdict.IsYellow()),
+                "The sample must expose red writes and yellow uncertainty separately.");
+            Check(_control.HeaderRedCount.Text == "1" && _control.HeaderYellowCount.Text == "0",
+                "Deferred effects must not enter the execution header counts.");
+            Check(body.Sections.All(section => section.Items.All(item => item.Section == section.Name)) &&
+                body.Sections.Sum(section => section.ItemCount) == body.Warnings.Count,
+                "Body rows must use the normal verdict sections without losing or duplicating objects.");
+            var finding = body.Warnings.SelectMany(g => g.Findings).First(f => f.Finding.Action == "DELETE");
+            Check(finding.Finding.AffectsAllRows, "Body must preserve whole-target warnings.");
+            // Invoke the actual rendered button, not just the margin handler.
+            _control.UpdateLayout();
+            var expanders = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>().ToList();
+            var definitionRow = expanders.First(expander => ReferenceEquals(expander.DataContext, group));
+            var bodyRow = expanders.First(expander => ReferenceEquals(expander.DataContext, body.Warnings[0]));
+            Check(ReferenceEquals(definitionRow.HeaderTemplate, bodyRow.HeaderTemplate),
+                "Definition and body objects must render the same normal row header template.");
+            var header = (System.Windows.Controls.Button)definitionRow.Template.FindName("RowHeader", definitionRow);
+            var labels = CapturePreview.VisualDescendants(header).OfType<System.Windows.Controls.TextBlock>().ToList();
+            var name = labels.First(label => label.Text == group.ObjectName);
+            var action = labels.First(label => label.Text == group.Subtitle);
+            Check(Math.Abs(name.TranslatePoint(new System.Windows.Point(), header).Y - action.TranslatePoint(new System.Windows.Point(), header).Y) < 1,
+                "The stored procedure name and CREATE/ALTER action must stay on one row.");
+            var button = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Button>()
+                .First(b => ReferenceEquals(b.DataContext, finding));
+            button.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(_selectedBodyFinding == finding && _view.Caret.Position.BufferPosition.Position == finding.SpanIn(_view.TextSnapshot).Start.Position,
+                "Body statement click must navigate to its exact editor position.");
+            Check(_view.Selection.IsEmpty, "Body navigation must not select SQL.");
+            Check(_layer.Elements.Count > 0 && _layer.Elements.All(e => e.VisualSpan == finding.SpanIn(_view.TextSnapshot)),
+                "Only the chosen body statement may be highlighted.");
+            // Existing execution selections must also survive body navigation unchanged.
+            _view.Selection.Select(new SnapshotSpan(_view.TextSnapshot, 0, 4), false);
+            var selection = CurrentSelection();
+            OnBodyFindingActivated(finding);
+            Check(Equals(selection, CurrentSelection()), "Body navigation must preserve an existing execution selection.");
+            _view.Selection.Clear();
+            OnEditorKeyDown(_view.VisualElement, null);
+            Check(_selectedBodyFinding == null && _layer.Elements.Count == 0, "Editor interaction must clear body highlights.");
+            Check(group.IsExpanded, "Clearing a body highlight must keep its procedure breakdown open.");
+            body.IsExpanded = false;
+            _control.ShowResult("1 real write", "F5 will ask first", _groups);
+            Check(!body.IsExpanded, "Reanalysis must preserve an explicitly collapsed body.");
+            body.IsExpanded = true;
+            _control.Select(group);
+            int parentActivations = 0;
+            Action<PaneGroup> activated = selected => parentActivations++;
+            _control.GroupActivated += activated;
+            try
+            {
+                foreach (var key in new[] { System.Windows.Input.Key.Left, System.Windows.Input.Key.Enter })
+                {
+                    var input = new System.Windows.Input.KeyEventArgs(System.Windows.Input.Keyboard.PrimaryDevice,
+                        System.Windows.PresentationSource.FromVisual(_control), 0, key)
+                        { RoutedEvent = System.Windows.Input.Keyboard.KeyDownEvent };
+                    bodyRow.RaiseEvent(input);
+                }
+                Check(group.IsExpanded && parentActivations == 0,
+                    "Keys on a nested object must not collapse or activate the outer procedure.");
+            }
+            finally { _control.GroupActivated -= activated; _control.ClearListSelection(); }
+            body.Warnings[0].IsExpanded = true;
+            body.IsSafeExpanded = true;
+            var refreshed = new PaneProcedureBody(SqlSafetyAnalyzer.Analyze(_view.TextSnapshot.GetText()).ProcedureBodies.Single(),
+                _view.TextSnapshot, 0, null);
+            var refreshedGroup = new PaneGroup(group.Key, group.Findings) { Bodies = new[] { refreshed } };
+            _control.ShowResult("1 real write", "F5 will ask first", new[] { refreshedGroup });
+            Check(refreshed.IsExpanded && refreshed.IsSafeExpanded && refreshed.Warnings[0].IsExpanded,
+                "Fresh analysis must preserve expanded body objects and the nested safe section.");
+            _control.ShowResult("1 real write", "F5 will ask first", _groups);
+            body.IsSafeExpanded = false;
+            foreach (var item in body.Warnings) item.IsExpanded = item.IsWholeTarget;
+            _control.UpdateLayout();
+            var orders = body.Warnings.First(item => item.Findings.Count > 1);
+            var orderRow = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>()
+                .First(row => ReferenceEquals(row.DataContext, orders));
+            var orderHeader = (System.Windows.Controls.Button)orderRow.Template.FindName("RowHeader", orderRow);
+            void Click(System.Windows.Controls.Button target) => target.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            void DoubleClick(System.Windows.Controls.Button target) => target.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(
+                System.Windows.Input.Mouse.PrimaryDevice, 0, System.Windows.Input.MouseButton.Left)
+                { RoutedEvent = System.Windows.Controls.Control.MouseDoubleClickEvent });
+            bool OnlyOrders() => _selected == orders && _selectedBodyFinding == null &&
+                orders.Findings.All(item => _layer.Elements.Any(element => element.VisualSpan == item.SpanIn(_view.TextSnapshot))) &&
+                _layer.Elements.All(element => orders.Findings.Any(item => element.VisualSpan == item.SpanIn(_view.TextSnapshot)));
+            bool wasExpanded = orders.IsExpanded;
+            Click(orderHeader);
+            Check(orders.IsExpanded == wasExpanded && OnlyOrders(), "A nested row single click must highlight every matching statement without expanding.");
+            DoubleClick(orderHeader);
+            Check(orders.IsExpanded != wasExpanded && group.IsExpanded && OnlyOrders(), "A nested double click must toggle only its own details and preserve the group highlight.");
+            _control.UpdateLayout();
+            var firstOrder = orders.Findings[0];
+            var orderStatement = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Button>()
+                .First(target => ReferenceEquals(target.DataContext, firstOrder));
+            Click(orderStatement);
+            Check(_selected == null && _selectedBodyFinding == firstOrder && _layer.Elements.Count > 0 &&
+                _layer.Elements.All(element => element.VisualSpan == firstOrder.SpanIn(_view.TextSnapshot)),
+                "Choosing a nested detail must replace the object highlight with just that statement.");
+            Click(orderHeader);
+            Check(OnlyOrders() && orders.IsExpanded, "Clicking the same nested row again must restore all its highlights and keep its details open.");
+            _view.Selection.Select(new SnapshotSpan(_view.TextSnapshot, 0, 4), false);
+            var originalSelection = CurrentSelection();
+            Click(orderHeader);
+            DoubleClick(orderHeader);
+            Check(Equals(originalSelection, CurrentSelection()), "Nested single/double clicks must preserve the exact existing execution selection.");
+            _view.Selection.Clear();
+            _control.UpdateLayout();
+            var definitionHeader = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>()
+                .First(row => ReferenceEquals(row.DataContext, group));
+            var definitionButton = (System.Windows.Controls.Button)definitionHeader.Template.FindName("RowHeader", definitionHeader);
+            Click(definitionButton);
+            Check(_selected == group && group.IsExpanded, "An outer single click must select the whole object without changing expansion.");
+            DoubleClick(definitionButton);
+            Check(!group.IsExpanded && _selected == group, "An outer double click must collapse details and keep the object highlighted.");
+            DoubleClick(definitionButton);
+            Check(group.IsExpanded && _view.Selection.IsEmpty, "A second outer double click must reopen details without selecting SQL.");
+            OnEditorKeyDown(_view.VisualElement, null);
+            ExtensionCheckTrace.Write("procedure-body", checks.ToString(), "PASS");
+        }
+
         private void SmokePaneHighlights()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -313,6 +450,28 @@ namespace SqlSafetyGuard.UI
             SetCollapsedEverywhere(false);
             Redraw();
             Check(Clear(), "Expanding and redrawing must not restore highlights.");
+            _control.UpdateLayout();
+            var objectRow = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>()
+                .First(row => ReferenceEquals(row.DataContext, first));
+            var objectButton = (System.Windows.Controls.Button)objectRow.Template.FindName("RowHeader", objectRow);
+            bool wasExpanded = first.IsExpanded;
+            objectButton.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(first.Findings.Count == 2 && first.IsExpanded == wasExpanded && OnlyGroup(first) &&
+                first.Findings.All(item => _layer.Elements.Any(element => element.VisualSpan == item.SpanIn(_view.TextSnapshot))),
+                "An outer row single click must highlight all its statements without toggling details.");
+            objectButton.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice, 0,
+                System.Windows.Input.MouseButton.Left) { RoutedEvent = System.Windows.Controls.Control.MouseDoubleClickEvent });
+            Check(first.IsExpanded != wasExpanded && OnlyGroup(first), "An outer double click must toggle details without losing the whole-object highlight.");
+            _control.UpdateLayout();
+            var individual = first.Findings.Last();
+            var statementButton = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Button>()
+                .First(button => ReferenceEquals(button.DataContext, individual));
+            statementButton.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(_selected == null && _selectedBodyFinding == individual && _layer.Elements.Count > 0 &&
+                _layer.Elements.All(element => element.VisualSpan == individual.SpanIn(_view.TextSnapshot)),
+                "An outer statement detail must highlight only that statement.");
+            objectButton.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(OnlyGroup(first) && first.IsExpanded, "Clicking the selected outer row again must restore all its statements without collapsing.");
             _control.ClickGroup(first);
             _view.TextBuffer.Insert(_view.TextSnapshot.Length, Environment.NewLine + "-- highlight check edit");
             Check(Clear(), "A real buffer edit must clear the highlight immediately.");

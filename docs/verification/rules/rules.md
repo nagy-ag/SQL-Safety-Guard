@@ -289,7 +289,7 @@ ActionNames contains UpdateStatisticsStatement; choose this action label; verdic
 Overall is the maximum finding severity, with parse errors flooring it at Unknown. Blocked findings remain included.
 
 - Outcomes: ReadOnly, TempOnly, AllowListed, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:25`.
+- Source: `src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:27`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263
 
 ## aggregate.presentation
@@ -297,7 +297,7 @@ Overall is the maximum finding severity, with parse errors flooring it at Unknow
 Warnings exclude green findings and sort by severity then offset; summary counts runnable writes, nondiagnostic unknowns, syntax errors and blocked warnings separately without changing Overall.
 
 - Outcomes: annotation only; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:50`.
+- Source: `src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:55`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263
 
 ## verdict.severity
@@ -713,7 +713,7 @@ Write precedence: temporary target, then eligible allow-list match, otherwise pe
 Empty or whitespace SQL produces no actions when settings are valid.
 
 - Outcomes: ReadOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:52`.
+- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:53`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.EmptyText_IsReadOnlyWithNoFindings @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18
 
 ## entry.length
@@ -729,7 +729,7 @@ Text over 5 Mi UTF-16 characters is not analyzed; return a warning rather than g
 Work-limit failure adds Unknown without discarding earlier findings.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:81`.
+- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:82`.
 - Existing tests: No reviewed association.
 
 ## entry.settings
@@ -737,7 +737,7 @@ Work-limit failure adds Unknown without discarding earlier findings.
 Invalid allow list, procedure trust or configuration warnings contribute Unknown even on empty SQL.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:47`.
+- Source: `src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:48`.
 - Existing tests: SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32
 
 ## environment.confirm-failure
@@ -1281,7 +1281,7 @@ Combine tokenization and parser errors instead of dropping lexical diagnostics.
 Explicit msdb.sys/msdb.dbo sp_add_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_add_jobschedule
@@ -1289,7 +1289,7 @@ Explicit msdb.sys/msdb.dbo sp_add_job qualifies for system-procedure classificat
 Explicit msdb.sys/msdb.dbo sp_add_jobschedule qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_add_jobserver
@@ -1297,7 +1297,7 @@ Explicit msdb.sys/msdb.dbo sp_add_jobschedule qualifies for system-procedure cla
 Explicit msdb.sys/msdb.dbo sp_add_jobserver qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_add_jobstep
@@ -1305,7 +1305,7 @@ Explicit msdb.sys/msdb.dbo sp_add_jobserver qualifies for system-procedure class
 Explicit msdb.sys/msdb.dbo sp_add_jobstep qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_add_schedule
@@ -1313,7 +1313,7 @@ Explicit msdb.sys/msdb.dbo sp_add_jobstep qualifies for system-procedure classif
 Explicit msdb.sys/msdb.dbo sp_add_schedule qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_attach_schedule
@@ -1321,7 +1321,7 @@ Explicit msdb.sys/msdb.dbo sp_add_schedule qualifies for system-procedure classi
 Explicit msdb.sys/msdb.dbo sp_attach_schedule qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_delete_backuphistory
@@ -1329,7 +1329,7 @@ Explicit msdb.sys/msdb.dbo sp_attach_schedule qualifies for system-procedure cla
 Explicit msdb.sys/msdb.dbo sp_delete_backuphistory qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_delete_job
@@ -1337,7 +1337,7 @@ Explicit msdb.sys/msdb.dbo sp_delete_backuphistory qualifies for system-procedur
 Explicit msdb.sys/msdb.dbo sp_delete_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_delete_jobstep
@@ -1345,7 +1345,7 @@ Explicit msdb.sys/msdb.dbo sp_delete_job qualifies for system-procedure classifi
 Explicit msdb.sys/msdb.dbo sp_delete_jobstep qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_help_job
@@ -1353,7 +1353,7 @@ Explicit msdb.sys/msdb.dbo sp_delete_jobstep qualifies for system-procedure clas
 Explicit msdb.sys/msdb.dbo sp_help_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_help_jobhistory
@@ -1361,7 +1361,7 @@ Explicit msdb.sys/msdb.dbo sp_help_job qualifies for system-procedure classifica
 Explicit msdb.sys/msdb.dbo sp_help_jobhistory qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_help_jobstep
@@ -1369,7 +1369,7 @@ Explicit msdb.sys/msdb.dbo sp_help_jobhistory qualifies for system-procedure cla
 Explicit msdb.sys/msdb.dbo sp_help_jobstep qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_help_schedule
@@ -1377,7 +1377,7 @@ Explicit msdb.sys/msdb.dbo sp_help_jobstep qualifies for system-procedure classi
 Explicit msdb.sys/msdb.dbo sp_help_schedule qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_purge_jobhistory
@@ -1385,7 +1385,7 @@ Explicit msdb.sys/msdb.dbo sp_help_schedule qualifies for system-procedure class
 Explicit msdb.sys/msdb.dbo sp_purge_jobhistory qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_send_dbmail
@@ -1393,7 +1393,7 @@ Explicit msdb.sys/msdb.dbo sp_purge_jobhistory qualifies for system-procedure cl
 Explicit msdb.sys/msdb.dbo sp_send_dbmail qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_start_job
@@ -1401,7 +1401,7 @@ Explicit msdb.sys/msdb.dbo sp_send_dbmail qualifies for system-procedure classif
 Explicit msdb.sys/msdb.dbo sp_start_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_stop_job
@@ -1409,7 +1409,7 @@ Explicit msdb.sys/msdb.dbo sp_start_job qualifies for system-procedure classific
 Explicit msdb.sys/msdb.dbo sp_stop_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_update_job
@@ -1417,7 +1417,7 @@ Explicit msdb.sys/msdb.dbo sp_stop_job qualifies for system-procedure classifica
 Explicit msdb.sys/msdb.dbo sp_update_job qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## msdb-procedure.sp_update_jobstep
@@ -1425,7 +1425,7 @@ Explicit msdb.sys/msdb.dbo sp_update_job qualifies for system-procedure classifi
 Explicit msdb.sys/msdb.dbo sp_update_jobstep qualifies for system-procedure classification; remote and other schemas remain ineligible.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-table.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121; SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14
 
 ## options.defaults
@@ -3297,7 +3297,7 @@ UnknownStatementTypes contains UpdateStatisticsStatement; classify as Unknown af
 Remote/variable execution is Unknown; qualify system names before built-in writer/safe tables or trusted procedures.
 
 - Outcomes: ReadOnly, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226; SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ProcedureNameInVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134; SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84
 
 ## exec.dynamic
@@ -3305,7 +3305,7 @@ Remote/variable execution is Unknown; qualify system names before built-in write
 Literal strings and literal concatenation recurse with outer EXEC location; runtime text and excess nesting warn Unknown.
 
 - Outcomes: ReadOnly, TempOnly, AllowListed, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1016`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1076`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlConcatenatedLiterals_AreAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101; SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlWithVariablePart_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108; SqlSafetyGuard.Tests.AdditionalAnalyzerTests.NestedDynamicSql_IsLimitedByDepth @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:115
 
 ## exec.empty
@@ -3313,7 +3313,7 @@ Literal strings and literal concatenation recurse with outer EXEC location; runt
 No findings from literal dynamic text yields empty-dynamic-SQL green finding.
 
 - Outcomes: ReadOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1028`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1089`.
 - Existing tests: No reviewed association.
 
 ## exec.linked
@@ -3321,7 +3321,7 @@ No findings from literal dynamic text yields empty-dynamic-SQL green finding.
 EXEC AT linked server is opaque even when text is literal.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:820`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:880`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226
 
 ## exec.missing
@@ -3329,7 +3329,7 @@ EXEC AT linked server is opaque even when text is literal.
 Missing executable specification cannot be analyzed and warns.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:814`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:874`.
 - Existing tests: No reviewed association.
 
 ## exec.namespace
@@ -3337,7 +3337,7 @@ Missing executable specification cannot be analyzed and warns.
 System dispatch permits local sys/dbo and qualified master; explicit msdb supports the enumerated Agent/mail/history names only.
 
 - Outcomes: ReadOnly, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:988`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1048`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SchemaQualifiedReadOnlyProc_IsReadOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141
 
 ## exec.ordinary
@@ -3345,7 +3345,7 @@ System dispatch permits local sys/dbo and qualified master; explicit msdb suppor
 Unrecognized procedure calls warn; INSERT EXEC warning is in addition to destination write.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:877`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:937`.
 - Existing tests: SqlSafetyGuard.Tests.SystemProcedureTests.UnknownProcedure_StaysYellow @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:31; SqlSafetyGuard.Tests.RequiredCasesTests.Case13_InsertExec_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120
 
 ## exec.sp-executesql
@@ -3353,7 +3353,7 @@ Unrecognized procedure calls warn; INSERT EXEC warning is in addition to destina
 Only qualified system sp_executesql with literal first/@stmt argument recurses; runtime argument warns.
 
 - Outcomes: ReadOnly, TempOnly, AllowListed, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:842`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:902`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86; SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93
 
 ## exec.spaceused
@@ -3361,7 +3361,7 @@ Only qualified system sp_executesql with literal first/@stmt argument recurses; 
 sp_spaceused updateusage absent/false/0 is green; unknown or enabled usage correction is red.
 
 - Outcomes: ReadOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1005`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1065`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.RealWritesAreNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75; SqlSafetyGuard.Tests.SoundnessRegressionTests.OrdinaryReadsRemainReadOnly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107
 
 ## exec.streaming-wrapper
@@ -3369,7 +3369,7 @@ sp_spaceused updateusage absent/false/0 is green; unknown or enabled usage corre
 System sp_create_streaming_job is a writing procedure independently of batch-level parser rewriting, control-flow wrappers, or literal dynamic SQL.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871`.
 - Existing tests: SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingProcedureIsRedInEveryWrapper @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224; SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingParserHotswapIsOnlyAtBatchLevel @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265; SqlSafetyGuard.Tests.MetamorphicVerificationTests.ProcedureTableVerdictsAreIndependentOfNesting @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:250
 
 ## exec.trusted
@@ -3377,7 +3377,7 @@ System sp_create_streaming_job is a writing procedure independently of batch-lev
 A qualified trusted-procedure pattern grants ReadOnly after built-in writer overrides. Body not inspected.
 
 - Outcomes: ReadOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:870`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:930`.
 - Existing tests: SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84
 
 ## sqlcmd.mode-off
@@ -3385,7 +3385,7 @@ A qualified trusted-procedure pattern grants ReadOnly after built-in writer over
 When mode is off, recognizable SQLCMD syntax adds a mode-off hint at first actual syntax occurrence.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:346`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:352`.
 - Existing tests: SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:72; SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_DollarParenInAString_IsJustAString @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:97
 
 ## sqlcmd.walk
@@ -3393,7 +3393,7 @@ When mode is off, recognizable SQLCMD syntax adds a mode-off hint at first actua
 connect invalidates target context; include/OS/query-exit and variable expansion warn; ordinary directives and plain exit/quit are green.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:351`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:357`.
 - Existing tests: SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42
 
 ## txn.begin
@@ -3401,7 +3401,7 @@ connect invalidates target context; include/OS/query-exit and variable expansion
 Track nested depth and highest opening position; implicit mode can add an extra nesting level.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:70`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:72`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.BalancedTransaction_IsGreen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:25; SqlSafetyGuard.Tests.TransactionTests.NestedTransactions_Balanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:33
 
 ## txn.commit
@@ -3409,7 +3409,7 @@ Track nested depth and highest opening position; implicit mode can add an extra 
 Commit decreases tracked depth; walker warns for lone or extra unguarded commits.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:86`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:88`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.LoneCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:10; SqlSafetyGuard.Tests.TransactionTests.ExtraCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:18
 
 ## txn.finish
@@ -3417,7 +3417,7 @@ Commit decreases tracked depth; walker warns for lone or extra unguarded commits
 Warn for open or uncertain transactions at end, including implicit mode when work opened a transaction.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:157`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:159`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.BeginWithoutCommit_ReportsOpenTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:39; SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_LeftOpen_IsReported @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:119
 
 ## txn.if
@@ -3425,7 +3425,7 @@ Warn for open or uncertain transactions at end, including implicit mode when wor
 Both IF branches are analyzed; TRANCOUNT/XACT_STATE predicates refine transaction path state.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:910`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:970`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.GuardedCommit_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:91; SqlSafetyGuard.Tests.TransactionTests.XactStateGuard_ClosesTheTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:98
 
 ## txn.implicit-start
@@ -3433,7 +3433,7 @@ Both IF branches are analyzed; TRANCOUNT/XACT_STATE predicates refine transactio
 Only enumerated operations start an implicit transaction; named SELECT tables are checked.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:139`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:141`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_Committed_IsFine @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:128
 
 ## txn.merge
@@ -3441,7 +3441,7 @@ Only enumerated operations start an implicit transaction; named SELECT tables ar
 Merge branch depth, peaks, implicit and uncertainty; terminated paths are handled separately.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:117`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:119`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.IfCommitElseRollback_IsBalanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:67; SqlSafetyGuard.Tests.TransactionTests.UnguardedIf_StaysConservative @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:105
 
 ## txn.rollback
@@ -3449,7 +3449,7 @@ Merge branch depth, peaks, implicit and uncertainty; terminated paths are handle
 Full rollback clears depth; known savepoint rollback preserves the open transaction.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:95`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:97`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.RollbackCloses @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:52; SqlSafetyGuard.Tests.TransactionTests.RollbackToSavepoint_KeepsTransactionOpen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:60
 
 ## walk.blocked-transaction
@@ -3457,7 +3457,7 @@ Full rollback clears depth; known savepoint rollback preserves the open transact
 A syntactically blocked batch must not change tracked transaction state.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:495`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:502`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.TransactionsInBrokenBatch_DontCount @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:136
 
 ## walk.catch-exit
@@ -3465,7 +3465,7 @@ A syntactically blocked batch must not change tracked transaction state.
 CATCH termination with open or uncertain transaction adds TRANSACTION FLOW warning.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:550`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:557`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.PossiblyOpenTransactionsAreReported @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160
 
 ## walk.composable
@@ -3473,7 +3473,7 @@ CATCH termination with open or uncertain transaction adds TRANSACTION FLOW warni
 Composable nested DML adds independent base-target and OUTPUT INTO findings.
 
 - Outcomes: TempOnly, AllowListed, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:744`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:804`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83
 
 ## walk.depth
@@ -3481,7 +3481,7 @@ Composable nested DML adds independent base-target and OUTPUT INTO findings.
 Statement recursion exceeding 1000 terminates analysis conservatively.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:470`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:477`.
 - Existing tests: No reviewed association.
 
 ## walk.dml-targets
@@ -3489,7 +3489,7 @@ Statement recursion exceeding 1000 terminates analysis conservatively.
 Resolve each DML base; unresolved target is Unknown, remote base RealWrite, table variable TempOnly.
 
 - Outcomes: TempOnly, AllowListed, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1117`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1178`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RemoteTargets_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220; SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaAliasOfTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35
 
 ## walk.drop-index
@@ -3497,7 +3497,7 @@ Resolve each DML base; unresolved target is Unknown, remote base RealWrite, tabl
 Legacy index names use the table portion for temporary classification, not the index name.
 
 - Outcomes: TempOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:787`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:847`.
 - Existing tests: No reviewed association.
 
 ## walk.drop-procedures
@@ -3505,7 +3505,7 @@ Legacy index names use the table portion for temporary classification, not the i
 DROP PROCEDURE classifies each object separately and disallows table allow-list.
 
 - Outcomes: TempOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:724`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:732`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180
 
 ## walk.drop-statistics
@@ -3513,7 +3513,7 @@ DROP PROCEDURE classifies each object separately and disallows table allow-list.
 For table.statistics names use penultimate identifier to detect temporary tables.
 
 - Outcomes: TempOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:677`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:684`.
 - Existing tests: SqlSafetyGuard.Tests.FalseAlarmTests.DropStatistics_FollowsTempRules @ tests/SqlSafetyGuard.Tests/FalseAlarmTests.cs:28
 
 ## walk.fallback
@@ -3521,7 +3521,7 @@ For table.statistics names use penultimate identifier to detect temporary tables
 All unrecognized statement kinds default RealWrite; module definitions receive body-not-run note.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:730`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738`.
 - Existing tests: SqlSafetyGuard.Tests.AstOnlyKindTests.ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution @ tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20
 
 ## walk.guess-target
@@ -3529,7 +3529,7 @@ All unrecognized statement kinds default RealWrite; module definitions receive b
 Fallback extracts a module/drop/name/database target via ordered reflection; failing getters are ignored.
 
 - Outcomes: RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1240`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1301`.
 - Existing tests: No reviewed association.
 
 ## walk.hidden
@@ -3537,7 +3537,7 @@ Fallback extracts a module/drop/name/database target via ordered reflection; fai
 Scan execution expressions for remote sources and sequence increments; skip already-counted write fragments.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:798`.
 - Existing tests: SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30
 
 ## walk.insert-exec
@@ -3545,7 +3545,7 @@ Scan execution expressions for remote sources and sequence increments; skip alre
 INSERT EXEC combines destination verdict with execution effects; nested composable DML is traversed.
 
 - Outcomes: TempOnly, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:769`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:829`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.InsertExecOfReadOnlyProc_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147; SqlSafetyGuard.Tests.SystemProcedureTests.InsertExecOfKnownWriter_IsRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:37
 
 ## walk.module
@@ -3553,7 +3553,7 @@ INSERT EXEC combines destination verdict with execution effects; nested composab
 Classify module definition itself; do not execute or independently scan stored body statements.
 
 - Outcomes: TempOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1237`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1298`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DefinitionAndSecurityChanges_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197
 
 ## walk.named-target
@@ -3561,7 +3561,7 @@ Classify module definition itself; do not execute or independently scan stored b
 Named DDL/TRUNCATE/INTO/bulk targets use resolved qualified names and eligibility flags.
 
 - Outcomes: TempOnly, AllowListed, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1192`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1253`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180
 
 ## walk.output
@@ -3569,7 +3569,7 @@ Named DDL/TRUNCATE/INTO/bulk targets use resolved qualified names and eligibilit
 OUTPUT INTO writes its own target independently of the main DML target.
 
 - Outcomes: TempOnly, AllowListed, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1184`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1245`.
 - Existing tests: SqlSafetyGuard.Tests.RequiredCasesTests.Case07_OutputIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65; SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83
 
 ## walk.parse
@@ -3577,7 +3577,7 @@ OUTPUT INTO writes its own target independently of the main DML target.
 Top-level parse failures recover bounded batches; literal dynamic parse failure remains Unknown.
 
 - Outcomes: Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:179`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:183`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ParseErrorInOneBatch_OtherBatchesStillAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232; SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UnparseableDynamicSql_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126
 
 ## walk.repeat
@@ -3585,7 +3585,7 @@ Top-level parse failures recover bounded batches; literal dynamic parse failure 
 A GO repetition count other than one requires warning; do not assume a single execution.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:445`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:452`.
 - Existing tests: No reviewed association.
 
 ## walk.return
@@ -3593,7 +3593,7 @@ A GO repetition count other than one requires warning; do not assume a single ex
 RETURN marks current transaction path terminated, but does not suppress classification of later writes.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:517`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:524`.
 - Existing tests: SqlSafetyGuard.Tests.AnalysisResourceTests.EarlyReturnPreservesContinuingTransactionPaths @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:125
 
 ## walk.rowfilter
@@ -3601,7 +3601,7 @@ RETURN marks current transaction path terminated, but does not suppress classifi
 WHERE, non-percent TOP, restricting joins and CTE/derived resolution change all-rows notes; percent TOP and preserved outer sides do not establish restriction.
 
 - Outcomes: annotation only; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1035`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1096`.
 - Existing tests: SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68
 
 ## walk.select-into
@@ -3609,7 +3609,7 @@ WHERE, non-percent TOP, restricting joins and CTE/derived resolution change all-
 SELECT INTO classifies its destination; plain SELECT begins ReadOnly then scans hidden effects.
 
 - Outcomes: TempOnly, AllowListed, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:598`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:605`.
 - Existing tests: SqlSafetyGuard.Tests.RequiredCasesTests.Case06_SelectIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57; SqlSafetyGuard.Tests.RequiredCasesTests.Case02_SelectIntoTempThenDeleteTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20
 
 ## walk.switch-both
@@ -3617,7 +3617,7 @@ SELECT INTO classifies its destination; plain SELECT begins ReadOnly then scans 
 ALTER TABLE SWITCH classifies source and destination independently, without allow-list.
 
 - Outcomes: TempOnly, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:648`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:655`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.SwitchClassifiesBothTables @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15
 
 ## walk.target-switch
@@ -3625,7 +3625,7 @@ ALTER TABLE SWITCH classifies source and destination independently, without allo
 USE or federation/context switch invalidates contextual allow lists and trusted procedures for following statements.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:437`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:444`.
 - Existing tests: SqlSafetyGuard.Tests.EnvironmentRuleTests.TargetSwitchesDisableContextualTrust @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99; SqlSafetyGuard.Tests.EnvironmentRuleTests.FederationSwitchInvalidatesTargetContext @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222
 
 ## walk.temp-procedure
@@ -3633,7 +3633,7 @@ USE or federation/context switch invalidates contextual allow lists and trusted 
 A temporary procedure definition is TempOnly; its stored body does not execute now.
 
 - Outcomes: TempOnly; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:719`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:726`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.TemporaryProcedureDefinitionsDoNotExecuteBodies @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186
 
 ## walk.throw
@@ -3641,7 +3641,7 @@ A temporary procedure definition is TempOnly; its stored body does not execute n
 THROW terminates the transaction path; following statement findings remain conservatively included.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:521`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:528`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177
 
 ## walk.transfer
@@ -3649,7 +3649,7 @@ THROW terminates the transaction path; following statement findings remain conse
 BREAK/CONTINUE/GOTO are Unknown while a transaction or implicit mode may skip cleanup, otherwise ReadOnly.
 
 - Outcomes: ReadOnly, Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:525`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:532`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177
 
 ## walk.try-peak
@@ -3657,7 +3657,7 @@ BREAK/CONTINUE/GOTO are Unknown while a transaction or implicit mode may skip cl
 CATCH begins with potential peak depth from TRY, including a TRY that later committed.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:541`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:548`.
 - Existing tests: SqlSafetyGuard.Tests.TransactionTests.CommitInCatch_AfterTryOpened_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:84
 
 ## walk.waitfor
@@ -3665,7 +3665,7 @@ CATCH begins with potential peak depth from TRY, including a TRY that later comm
 WAITFOR with an embedded statement recursively uses that statement verdict.
 
 - Outcomes: ReadOnly, TempOnly, Unknown, RealWrite; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:592`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:599`.
 - Existing tests: SqlSafetyGuard.Tests.SoundnessRegressionTests.WaitForPreservesInnerStatementVerdict @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31
 
 ## walk.while-zero
@@ -3673,7 +3673,7 @@ WAITFOR with an embedded statement recursively uses that statement verdict.
 Merge loop state with pre-loop state to account for zero iterations and scan loop predicate effects.
 
 - Outcomes: Unknown; review: reviewed-semantic.
-- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:509`.
+- Source: `src/SqlSafetyGuard.Analyzer/StatementWalker.cs:516`.
 - Existing tests: SqlSafetyGuard.Tests.AdditionalAnalyzerTests.WhileAndTryCatch_AreWalked @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153
 
 ## writing-procedure.sp_add_job

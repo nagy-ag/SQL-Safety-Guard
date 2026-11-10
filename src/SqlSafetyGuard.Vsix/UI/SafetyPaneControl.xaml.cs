@@ -28,6 +28,7 @@ namespace SqlSafetyGuard.UI
 
         internal event Action<PaneGroup> GroupSelected;
         internal event Action<PaneGroup> GroupActivated;
+        internal event Action<PaneFinding> BodyFindingActivated;
         internal event Action CollapseToggled;
         internal event Action<double> WidthDragged;
         internal event Action EditOptions;
@@ -83,13 +84,38 @@ namespace SqlSafetyGuard.UI
             _settingSelection = true;
             try
             {
-                var expandedKey = AllGroups().FirstOrDefault(group => group.IsExpanded)?.Key;
-                foreach (var group in groups) group.IsExpanded = string.Equals(group.Key, expandedKey, StringComparison.OrdinalIgnoreCase);
+                var expandedKeys = new HashSet<string>(AllGroups().Where(group => group.IsExpanded).Select(group => group.Key), StringComparer.OrdinalIgnoreCase);
+                var previousKeys = new HashSet<string>(AllGroups().Select(g => g.Key), StringComparer.OrdinalIgnoreCase);
+                var oldBodies = AllGroups().SelectMany(g => g.Bodies).GroupBy(b => b.Definition.Target, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(g => g.Key, g => new
+                    {
+                        g.First().IsExpanded,
+                        g.First().IsSafeExpanded,
+                        Groups = g.First().Sections.SelectMany(s => s.Items).Concat(g.First().Safe)
+                            .ToDictionary(nested => nested.Key, nested => nested.IsExpanded, StringComparer.OrdinalIgnoreCase)
+                    }, StringComparer.OrdinalIgnoreCase);
+                bool singleBody = groups.Sum(g => g.Bodies.Count) == 1;
+                bool hasExpandedGroup = groups.Any(group => expandedKeys.Contains(group.Key));
+                foreach (var group in groups)
+                {
+                    group.IsExpanded = expandedKeys.Contains(group.Key) ||
+                        (!hasExpandedGroup && singleBody && group.Bodies.Count > 0 && !previousKeys.Contains(group.Key));
+                    foreach (var body in group.Bodies)
+                    {
+                        body.IsExpanded = singleBody;
+                        if (!oldBodies.TryGetValue(body.Definition.Target, out var previous)) continue;
+                        body.IsExpanded = previous.IsExpanded;
+                        body.IsSafeExpanded = previous.IsSafeExpanded;
+                        foreach (var nested in body.Sections.SelectMany(s => s.Items).Concat(body.Safe))
+                            if (previous.Groups.TryGetValue(nested.Key, out bool expanded)) nested.IsExpanded = expanded;
+                    }
+                }
                 var main = new ListCollectionView(groups.Where(group => group.Section != "Safe").ToList());
                 main.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PaneGroup.Section)));
                 GroupList.ItemsSource = main;
                 var safe = groups.Where(group => group.Section == "Safe").ToList();
                 SafeList.ItemsSource = safe;
+                GroupList.SelectedItem = SafeList.SelectedItem = null;
                 SafeHeader.Text = "No permanent changes detected · " + safe.Count;
                 SafeSection.Visibility = safe.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
                 if (allSafe || _safeOpenedAutomatically) SafeSection.IsExpanded = allSafe;
@@ -127,7 +153,6 @@ namespace SqlSafetyGuard.UI
 
         internal void Select(PaneGroup group)
         {
-            CollapseOtherGroups(group);
             _settingSelection = true;
             try
             {
@@ -143,22 +168,55 @@ namespace SqlSafetyGuard.UI
             finally { _settingSelection = false; }
         }
 
+        internal void ClearListSelection()
+        {
+            _settingSelection = true;
+            try { GroupList.SelectedItem = SafeList.SelectedItem = null; }
+            finally { _settingSelection = false; }
+        }
+
         internal void ClickGroup(PaneGroup group)
         {
-            CollapseOtherGroups(group);
-            var list = group.Section == "Safe" ? SafeList : GroupList;
-            if (list == SafeList) SafeSection.IsExpanded = true;
-            list.SelectedItem = group;
+            if (GroupList.Items.Contains(group) || SafeList.Items.Contains(group)) Select(group);
+            else ClearListSelection();
+            GroupSelected?.Invoke(group);
+        }
+
+        internal void ToggleGroup(PaneGroup group)
+        {
+            ClickGroup(group);
             group.IsExpanded = !group.IsExpanded;
         }
 
         private IEnumerable<PaneGroup> AllGroups() =>
             GroupList.Items.Cast<PaneGroup>().Concat(SafeList.Items.Cast<PaneGroup>());
 
-        private void CollapseOtherGroups(PaneGroup selected)
+        private void OnRowClick(object sender, RoutedEventArgs e)
         {
-            foreach (var group in AllGroups())
-                if (group != selected) group.IsExpanded = false;
+            if (((FrameworkElement)sender).DataContext is PaneGroup group) ClickGroup(group);
+            e.Handled = true;
+        }
+
+        private void OnRowDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left) return;
+            if (((FrameworkElement)sender).DataContext is PaneGroup group) ToggleGroup(group);
+            e.Handled = true;
+        }
+
+        private void OnRowKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(((FrameworkElement)sender).DataContext is PaneGroup group)) return;
+            if (e.Key == Key.Right || e.Key == Key.Left)
+            {
+                group.IsExpanded = e.Key == Key.Right;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Enter)
+            {
+                GroupActivated?.Invoke(group);
+                e.Handled = true;
+            }
         }
 
         private void OnAnalysisBackgroundMouseDown(object sender, MouseButtonEventArgs e)
@@ -196,37 +254,37 @@ namespace SqlSafetyGuard.UI
             var list = (ListBox)sender;
             var group = list.SelectedItem as PaneGroup;
             if (group == null) return;
-            CollapseOtherGroups(group);
             _settingSelection = true;
             try { (list == GroupList ? SafeList : GroupList).SelectedItem = null; }
             finally { _settingSelection = false; }
             GroupSelected?.Invoke(group);
         }
 
-        private void OnGroupDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OnBodyFindingClick(object sender, RoutedEventArgs e)
         {
-            if (ItemsControl.ContainerFromElement((ListBox)sender, e.OriginalSource as DependencyObject) is ListBoxItem item &&
-                item.DataContext is PaneGroup group)
-            {
-                GroupActivated?.Invoke(group);
-                e.Handled = true;
-            }
-        }
-
-        private void OnGroupExpanded(object sender, RoutedEventArgs e)
-        {
-            if (_settingSelection || !(((Expander)sender).DataContext is PaneGroup group)) return;
-            CollapseOtherGroups(group);
-            var list = group.Section == "Safe" ? SafeList : GroupList;
-            list.SelectedItem = group;
+            if (((FrameworkElement)sender).DataContext is PaneFinding finding)
+                BodyFindingActivated?.Invoke(finding);
+            e.Handled = true;
         }
 
         private void OnGroupKeyDown(object sender, KeyEventArgs e)
         {
+            // Statement buttons and nested body expanders own their keyboard gestures.
             var list = (ListBox)sender;
-            if ((e.Key == Key.Space || e.Key == Key.Left || e.Key == Key.Right) && list.SelectedItem is PaneGroup selected)
+            var source = e.OriginalSource as DependencyObject;
+            while (source != null && !(source is ListBoxItem))
             {
-                selected.IsExpanded = e.Key == Key.Right || (e.Key == Key.Space && !selected.IsExpanded);
+                if (source is Button || (source is Expander expander && !list.Items.Contains(expander.DataContext))) return;
+                source = source is Visual ? VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
+            }
+            if ((e.Key == Key.Left || e.Key == Key.Right) && list.SelectedItem is PaneGroup selected)
+            {
+                selected.IsExpanded = e.Key == Key.Right;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Space && list.SelectedItem is PaneGroup chosen)
+            {
+                ClickGroup(chosen);
                 e.Handled = true;
             }
             else if (e.Key == Key.Enter && list.SelectedItem is PaneGroup group)

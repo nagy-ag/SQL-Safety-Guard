@@ -9,11 +9,12 @@ evidence are frozen in [history/](history/README.md). What the colours promise i
 | Question | Answer |
 |---|---|
 | Current release | **1.0.4**, stable and Latest, published 2026-11-09 ([release record](history/releases/1.0.4.md)) |
+| Local working tree | Release candidate **1.0.5**: procedure-body inspection with nested pane sections, unified single/double-click gestures and reversed section chevrons; 1,693 .NET/10 Python tests, both builds, 29 Release pane checks and isolated SSMS checks pass ([verification](history/runs/2026-11-10-row-gestures.md)). Committed-source packaging and stable publication are next. |
 | Known false greens | None open. The last full server campaign (2026-10-30, about 11 hours) found no real false green after single-worker triage ([report](history/runs/2026-10-30-full-run.md)) |
 | Offline gate | 1,663 .NET tests and 10 Python tests pass on every release; the generated rule inventory and statement verdicts are checked for freshness |
 | SSMS versions | Focused checks on representative 22.0 to 22.11 builds, including an in-place 22.9 to 22.11 upgrade; the full minor-version matrix is incomplete (open limit 1) |
 | Waiting for a decision | Trusted procedures, allow-list effects, permanent tempdb opt-in, logging and session state ([policy questions](safety/policy-questions.md)) |
-| Never covered | Procedure bodies, triggers and SQL built at runtime are not inspected (yellow, never green); physical F5 key presses are not synthesized in tests |
+| Uninspected runtime effects | Bodies of called procedures are not retrieved; triggers and SQL built at runtime are not inspected (yellow, never green). Procedure definitions present in the editor have a separate potential-effects breakdown. Physical F5 key presses are not synthesized in tests. |
 
 ## Latest release: 1.0.4
 

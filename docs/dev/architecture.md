@@ -81,7 +81,12 @@ stack, not the SSMS UI stack. Cancellation is checked during tokenization, parsi
 - **Literal dynamic SQL** (`EXEC('…')`, `EXEC('a' + 'b')`, `sp_executesql N'…'`) is parsed recursively, up to 3
   levels deep. Its findings are reported at the EXEC's line with the note "inside dynamic SQL". Anything built
   at runtime is Unknown.
-- Procedure/function/trigger/view bodies are **not** walked: creating them doesn't run them.
+- Creating a module does not run its body. Procedure definitions visible in the text additionally produce
+  `AnalysisResult.ProcedureBodies`: deferred findings from a fresh walker with independent transaction and target
+  context, original editor positions, and the shared cancellation/work budget. They never enter execution verdicts,
+  counts or F5 warnings. Recovery in a broken batch, unavailable T-SQL bodies, dynamic parse failures and limits mark
+  body analysis incomplete. Calls do not resolve procedure definitions from the editor or server. Function, trigger
+  and view bodies remain outside this inspection feature.
 - **Side effects hidden in reads:**
   - `OPENQUERY`, `OPENROWSET` (query form) and `OPENDATASOURCE` used as a *source* are Unknown. They send text
     to another server, and that text can change data there. This applies in FROM, subqueries, CTEs, `DECLARE`,

@@ -449,7 +449,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:25",
+      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:27",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
@@ -460,7 +460,7 @@
       "category": "aggregation",
       "condition": "Warnings exclude green findings and sort by severity then offset; summary counts runnable writes, nondiagnostic unknowns, syntax errors and blocked warnings separately without changing Overall.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:50",
+      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:55",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
@@ -1201,7 +1201,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:52",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:53",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.EmptyText_IsReadOnlyWithNoFindings @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18"
       ],
@@ -1228,7 +1228,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:81",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:82",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1239,7 +1239,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:47",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:48",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
@@ -2189,7 +2189,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2205,7 +2205,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2221,7 +2221,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2237,7 +2237,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2253,7 +2253,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2269,7 +2269,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2285,7 +2285,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2301,7 +2301,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2317,7 +2317,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2333,7 +2333,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2349,7 +2349,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2365,7 +2365,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2381,7 +2381,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2397,7 +2397,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2413,7 +2413,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:999",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2429,7 +2429,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2445,7 +2445,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1001",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2461,7 +2461,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2477,7 +2477,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1000",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -5967,7 +5967,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ProcedureNameInVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134",
@@ -5986,7 +5986,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1016",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1076",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlConcatenatedLiterals_AreAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlWithVariablePart_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108",
@@ -6001,7 +6001,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1028",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1089",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6012,7 +6012,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:820",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:880",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226"
       ],
@@ -6025,7 +6025,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:814",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:874",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6038,7 +6038,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:988",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1048",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SchemaQualifiedReadOnlyProc_IsReadOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141"
       ],
@@ -6051,7 +6051,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:877",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:937",
       "existingTests": [
         "SqlSafetyGuard.Tests.SystemProcedureTests.UnknownProcedure_StaysYellow @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:31",
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case13_InsertExec_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120"
@@ -6069,7 +6069,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:842",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:902",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86",
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93"
@@ -6084,7 +6084,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1005",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1065",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.RealWritesAreNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75",
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.OrdinaryReadsRemainReadOnly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107"
@@ -6098,7 +6098,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:811",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871",
       "existingTests": [
         "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingProcedureIsRedInEveryWrapper @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224",
         "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingParserHotswapIsOnlyAtBatchLevel @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265",
@@ -6113,7 +6113,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:870",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:930",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
@@ -6126,7 +6126,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:346",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:352",
       "existingTests": [
         "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:72",
         "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_DollarParenInAString_IsJustAString @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:97"
@@ -6141,7 +6141,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:351",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:357",
       "existingTests": [
         "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42"
       ],
@@ -6155,7 +6155,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:70",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:72",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.BalancedTransaction_IsGreen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:25",
         "SqlSafetyGuard.Tests.TransactionTests.NestedTransactions_Balanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:33"
@@ -6170,7 +6170,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:86",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:88",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.LoneCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:10",
         "SqlSafetyGuard.Tests.TransactionTests.ExtraCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:18"
@@ -6184,7 +6184,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:157",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:159",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.BeginWithoutCommit_ReportsOpenTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:39",
         "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_LeftOpen_IsReported @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:119"
@@ -6199,7 +6199,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:910",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:970",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.GuardedCommit_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:91",
         "SqlSafetyGuard.Tests.TransactionTests.XactStateGuard_ClosesTheTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:98"
@@ -6213,7 +6213,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:139",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:141",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_Committed_IsFine @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:128"
       ],
@@ -6226,7 +6226,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:117",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:119",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.IfCommitElseRollback_IsBalanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:67",
         "SqlSafetyGuard.Tests.TransactionTests.UnguardedIf_StaysConservative @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:105"
@@ -6241,7 +6241,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:95",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:97",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.RollbackCloses @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:52",
         "SqlSafetyGuard.Tests.TransactionTests.RollbackToSavepoint_KeepsTransactionOpen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:60"
@@ -6255,7 +6255,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:495",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:502",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.TransactionsInBrokenBatch_DontCount @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:136"
       ],
@@ -6268,7 +6268,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:550",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:557",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.PossiblyOpenTransactionsAreReported @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160"
       ],
@@ -6284,7 +6284,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:744",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:804",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
       ],
@@ -6297,7 +6297,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:470",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:477",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6311,7 +6311,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1117",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1178",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RemoteTargets_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaAliasOfTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35"
@@ -6326,7 +6326,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:787",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:847",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6338,7 +6338,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:724",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:732",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
@@ -6352,7 +6352,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:677",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:684",
       "existingTests": [
         "SqlSafetyGuard.Tests.FalseAlarmTests.DropStatistics_FollowsTempRules @ tests/SqlSafetyGuard.Tests/FalseAlarmTests.cs:28"
       ],
@@ -6365,7 +6365,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:730",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738",
       "existingTests": [
         "SqlSafetyGuard.Tests.AstOnlyKindTests.ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution @ tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20"
       ],
@@ -6378,7 +6378,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1240",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1301",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6390,7 +6390,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:798",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
@@ -6405,7 +6405,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:769",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:829",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.InsertExecOfReadOnlyProc_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147",
         "SqlSafetyGuard.Tests.SystemProcedureTests.InsertExecOfKnownWriter_IsRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:37"
@@ -6420,7 +6420,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1237",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1298",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DefinitionAndSecurityChanges_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197"
       ],
@@ -6435,7 +6435,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1192",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1253",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
@@ -6450,7 +6450,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1184",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1245",
       "existingTests": [
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case07_OutputIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65",
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
@@ -6465,7 +6465,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:179",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:183",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ParseErrorInOneBatch_OtherBatchesStillAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UnparseableDynamicSql_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126"
@@ -6479,7 +6479,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:445",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:452",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6491,7 +6491,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:517",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:524",
       "existingTests": [
         "SqlSafetyGuard.Tests.AnalysisResourceTests.EarlyReturnPreservesContinuingTransactionPaths @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:125"
       ],
@@ -6502,7 +6502,7 @@
       "category": "walking",
       "condition": "WHERE, non-percent TOP, restricting joins and CTE/derived resolution change all-rows notes; percent TOP and preserved outer sides do not establish restriction.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1035",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1096",
       "existingTests": [
         "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
       ],
@@ -6517,7 +6517,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:598",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:605",
       "existingTests": [
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case06_SelectIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57",
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case02_SelectIntoTempThenDeleteTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20"
@@ -6532,7 +6532,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:648",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:655",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SwitchClassifiesBothTables @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15"
       ],
@@ -6545,7 +6545,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:437",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:444",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.TargetSwitchesDisableContextualTrust @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99",
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.FederationSwitchInvalidatesTargetContext @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222"
@@ -6559,7 +6559,7 @@
       "verdicts": [
         "TempOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:719",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:726",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TemporaryProcedureDefinitionsDoNotExecuteBodies @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186"
       ],
@@ -6573,7 +6573,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:521",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:528",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
@@ -6587,7 +6587,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:525",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:532",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
@@ -6600,7 +6600,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:541",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:548",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.CommitInCatch_AfterTryOpened_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:84"
       ],
@@ -6616,7 +6616,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:592",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:599",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.WaitForPreservesInnerStatementVerdict @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31"
       ],
@@ -6629,7 +6629,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:509",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:516",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.WhileAndTryCatch_AreWalked @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153"
       ],

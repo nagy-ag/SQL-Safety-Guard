@@ -51,12 +51,14 @@ namespace SqlSafetyGuard.UI
             {
                 if (!Finding.AffectsAllRows)
                     return Finding.Note;
-                bool noteRepeatsSummary = string.IsNullOrEmpty(Finding.Note) || Finding.Note.Contains(Finding.CteOrDerivedTableLimitNote);
+                bool noteRepeatsSummary = string.IsNullOrEmpty(Finding.Note) || Finding.Note == "no WHERE: affects every row" ||
+                    Finding.Note.Contains(Finding.CteOrDerivedTableLimitNote);
                 return noteRepeatsSummary ? Finding.AllRowsSummary : Finding.AllRowsSummary + " · " + Finding.Note;
             }
         }
 
         public Visibility NoteVisibility => string.IsNullOrEmpty(Note) ? Visibility.Collapsed : Visibility.Visible;
+        public bool IsPermanentWholeTarget => Finding.Verdict.IsRed() && Finding.AffectsAllRows;
 
         public Brush Marker => VerdictBrushes.For(Finding.Verdict);
 
@@ -87,6 +89,8 @@ namespace SqlSafetyGuard.UI
         }
 
         public string Key { get; }
+        public IReadOnlyList<PaneProcedureBody> Bodies { get; set; } = new PaneProcedureBody[0];
+        public bool HasBodies => Bodies.Count > 0;
         public IReadOnlyList<PaneFinding> Findings { get; }
         public Verdict Verdict { get; }
         public int FirstOffset { get; }
@@ -131,6 +135,7 @@ namespace SqlSafetyGuard.UI
             .Select(action => action.Key + (action.Count() > 1 ? " ×" + action.Count() : string.Empty)));
         public string LineSummary => "Lines " + string.Join(", ", Findings.Select(finding => finding.EditorLine).Distinct());
         public Visibility MultipleFindingsVisibility => Findings.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility SingleFindingVisibility => Findings.Count == 1 ? Visibility.Visible : Visibility.Collapsed;
         public string Tooltip => Key + Environment.NewLine + string.Join(Environment.NewLine,
             Findings.Select(finding => finding.Header + (string.IsNullOrEmpty(finding.Note) ? string.Empty : " · " + finding.Note)));
         public override string ToString() => Key;
@@ -189,6 +194,50 @@ namespace SqlSafetyGuard.UI
             parts.Add(name.Substring(start));
             return parts;
         }
+    }
+
+    internal sealed class PaneProcedureBody
+    {
+        public PaneProcedureBody(ProcedureBodyAnalysis body, ITextSnapshot snapshot, int baseOffset, string database)
+        {
+            Definition = body.Definition;
+            IsComplete = body.IsComplete;
+            var groups = body.Analysis.Findings.Select(f => new PaneFinding(f, snapshot, baseOffset, database))
+                .GroupBy(f => f.GroupKey, StringComparer.OrdinalIgnoreCase)
+                .Select(g => new PaneGroup(g.Key, g.ToList()))
+                .OrderByDescending(g => g.Verdict).ThenBy(g => g.FirstOffset).ToList();
+            foreach (var group in groups) group.IsExpanded = group.IsWholeTarget;
+            Warnings = groups.Where(g => !g.Verdict.IsGreen()).ToList();
+            Sections = groups.Where(g => g.Section != "Safe").GroupBy(g => g.Section)
+                .Select(g => new PaneBodySection(g.Key, g.ToList())).ToList();
+            Safe = groups.Where(g => g.Section == "Safe").ToList();
+            int writes = body.Analysis.Count(Verdict.RealWrite);
+            int unknown = body.Analysis.Count(Verdict.Unknown);
+            int safe = body.Analysis.Findings.Count(f => f.Verdict.IsGreen());
+            Summary = (IsComplete ? string.Empty : "Body analysis incomplete. ") +
+                $"{writes} permanent writes, {unknown} unknown, {safe} safe operations";
+        }
+
+        public Finding Definition { get; }
+        public bool IsComplete { get; }
+        public string Summary { get; }
+        public string SafeHeading => "No permanent changes detected · " + Safe.Count;
+        public IReadOnlyList<PaneBodySection> Sections { get; }
+        public IReadOnlyList<PaneGroup> Warnings { get; }
+        public IReadOnlyList<PaneGroup> Safe { get; }
+        public Visibility SafeVisibility => Safe.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility IncompleteVisibility => IsComplete ? Visibility.Collapsed : Visibility.Visible;
+        public bool IsSafeExpanded { get; set; }
+        public bool IsExpanded { get; set; }
+    }
+
+    /// <summary>The same section heading and object rows used by the main pane, scoped to one procedure body.</summary>
+    internal sealed class PaneBodySection
+    {
+        public PaneBodySection(string name, IReadOnlyList<PaneGroup> items) { Name = name; Items = items; }
+        public string Name { get; }
+        public IReadOnlyList<PaneGroup> Items { get; }
+        public int ItemCount => Items.Count;
     }
 
     internal sealed class PanePattern

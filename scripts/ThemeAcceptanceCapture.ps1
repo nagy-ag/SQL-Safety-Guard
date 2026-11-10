@@ -18,9 +18,11 @@ The stored values are invariant lowercase hyphenated names, NOT the registration
 [CmdletBinding()]
 param(
     [string] $SettingsPath,
+    [ValidatePattern('^[A-Za-z][A-Za-z0-9]{0,39}$')][string] $RootSuffix = 'Exp',
     [Parameter(Mandatory = $true)][string] $OutputDirectory,
     [switch] $CheckPaneHighlights,
     [switch] $CheckCompactSettings,
+    [switch] $CheckProcedureBody,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
 )
@@ -29,13 +31,13 @@ $ErrorActionPreference = 'Stop'
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\')
 . (Join-Path $PSScriptRoot 'SsmsCommon.ps1')
 $ssmsInfo = Get-Ssms22
-if (-not $SettingsPath) { $SettingsPath = Join-Path $env:LOCALAPPDATA ('Microsoft\SSMS\22.0_' + $ssmsInfo.InstanceId + 'Exp\settings.json') }
+if (-not $SettingsPath) { $SettingsPath = Join-Path $env:LOCALAPPDATA ('Microsoft\SSMS\22.0_' + $ssmsInfo.InstanceId + $RootSuffix + '\settings.json') }
 $OutputDirectory = [IO.Path]::GetFullPath($OutputDirectory).TrimEnd('\')
 $SettingsPath = [IO.Path]::GetFullPath($SettingsPath)
 if ($OutputDirectory -eq $repository -or $OutputDirectory.StartsWith($repository + '\', [StringComparison]::OrdinalIgnoreCase)) {
     throw 'Capture output must be outside the repository.'
 }
-if ($SettingsPath -notmatch '\\22\.0_[^\\]+Exp\\settings\.json$') { throw 'Only an isolated SSMS Exp settings.json is supported.' }
+if ($SettingsPath -notmatch ('\\22\.0_[^\\]+' + [regex]::Escape($RootSuffix) + '\\settings\.json$')) { throw 'Only the named isolated SSMS profile is supported.' }
 if (-not (Test-Path -LiteralPath $SettingsPath -PathType Leaf)) { throw "Settings file not found: $SettingsPath" }
 if ((Test-Path -LiteralPath $OutputDirectory) -and @(Get-ChildItem -LiteralPath $OutputDirectory -Force).Count) {
     throw 'Choose a new or empty output directory so backups and evidence cannot be overwritten.'
@@ -50,13 +52,13 @@ if (-not $Themes.Count) { throw 'Select at least one theme.' }
 foreach ($theme in $Themes) { if (-not $themeValues.Contains($theme)) { throw "Unknown theme: $theme" } }
 if (@($Themes | Select-Object -Unique).Count -ne $Themes.Count) { throw 'Duplicate themes are not supported.' }
 $ssmsExe = Join-Path $ssmsInfo.InstallPath 'Common7\IDE\SSMS.exe'
-if ((Split-Path (Split-Path $SettingsPath -Parent) -Leaf) -ne ('22.0_' + $ssmsInfo.InstanceId + 'Exp')) {
+if ((Split-Path (Split-Path $SettingsPath -Parent) -Leaf) -ne ('22.0_' + $ssmsInfo.InstanceId + $RootSuffix)) {
     throw 'SettingsPath must belong to the installed SSMS 22 instance that will be launched.'
 }
 
 function Assert-ExpClosed {
     $existing = @(Get-CimInstance Win32_Process -Filter "Name = 'SSMS.exe'" | Where-Object {
-        $_.CommandLine -match '(?i)/rootSuffix\s+"?Exp(?:"|\s|$)'
+        $_.CommandLine -match ('(?i)/rootSuffix\s+"?' + [regex]::Escape($RootSuffix) + '(?:"|\s|$)')
     })
     if ($existing.Count) { throw "An Exp process is already running (PID $($existing.ProcessId -join ', ')). It belongs to another run; leave it alone." }
 }
@@ -99,7 +101,7 @@ public static class ThemeCaptureNative {
     [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
     public static uint ForegroundProcessId() { uint pid; GetWindowThreadProcessId(GetForegroundWindow(),out pid); return pid; }
     [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
-    public static int Launch(string exe, string sql, string directory) {
+    public static int Launch(string exe, string sql, string directory, string suffix) {
         // Never switch to this desktop. Even SSMS startup code cannot take the shared desktop's focus.
         string desktopName = "SqlSafetyGuardCapture-"+Guid.NewGuid().ToString("N");
         IntPtr desktop = CreateDesktop(desktopName,IntPtr.Zero,IntPtr.Zero,0,0x10000000,IntPtr.Zero);
@@ -115,7 +117,7 @@ public static class ThemeCaptureNative {
         try {
             var startup = new Startup { cb=Marshal.SizeOf(typeof(Startup)), desktop=desktopName, flags=1, show=7 /* SW_SHOWMINNOACTIVE */ };
             ProcessInfo info;
-            if (!CreateProcess(exe, new StringBuilder("\""+exe+"\" /rootSuffix Exp -nosplash \""+sql+"\""),
+            if (!CreateProcess(exe, new StringBuilder("\""+exe+"\" /rootSuffix "+suffix+" -nosplash \""+sql+"\""),
                 IntPtr.Zero,IntPtr.Zero,false,0x400,ptr,System.IO.Path.GetDirectoryName(exe),ref startup,out info)) throw new Win32Exception();
             CloseHandle(info.thread); CloseHandle(info.process); desktops.Add(info.pid,desktop); return info.pid;
         } catch { CloseDesktop(desktop);throw; } finally { Marshal.FreeHGlobal(ptr); }
@@ -273,7 +275,7 @@ try {
         New-Item -ItemType Directory -Path $script:channelDirectory | Out-Null
         $sql = Join-Path $script:channelDirectory $script:documentName
         [IO.File]::WriteAllText($sql, 'SELECT 1;', $utf8)
-        $startedPid = [ThemeCaptureNative]::Launch($ssmsExe, $sql, $script:channelDirectory)
+        $startedPid = [ThemeCaptureNative]::Launch($ssmsExe, $sql, $script:channelDirectory, $RootSuffix)
         $process = [Diagnostics.Process]::GetProcessById($startedPid)
         [IO.File]::WriteAllText((Join-Path $script:channelDirectory 'ssms.pid'), [string]$startedPid, $utf8)
         $script:eventOffset = 0
@@ -285,12 +287,12 @@ try {
         Send-Command 'widen' '160'
         if ($CheckPaneHighlights) {
             $highlightSql = Join-Path $script:channelDirectory 'highlights.sql'
-            [IO.File]::WriteAllText($highlightSql, "UPDATE dbo.HighlightA SET x = 1;`r`nEXEC dbo.HighlightProc;`r`nSELECT 1;", $utf8)
+            [IO.File]::WriteAllText($highlightSql, "UPDATE dbo.HighlightA SET x = 1;`r`nEXEC dbo.HighlightProc;`r`nSELECT 1;`r`nUPDATE dbo.HighlightA SET x = 2 WHERE id = 1;", $utf8)
             Send-Command 'replacefile' $highlightSql
             Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
             Capture-Surface 'main' 'highlights-initial'
             Send-Command 'highlightcheck'
-            Wait-Receipt '\tpane-highlights\t17\tPASS\r?$'
+            Wait-Receipt '\tpane-highlights\t21\tPASS\r?$'
             Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
             Send-Command 'highlightassertclear'
             Wait-Receipt '\tpane-highlights\treanalysis-clear\tPASS\r?$'
@@ -302,6 +304,17 @@ try {
             Capture-Surface 'pane' 'safe-expanded'
             Send-Command 'safe'
             Capture-Surface 'pane' 'safe-collapsed'
+        }
+        if ($CheckProcedureBody) {
+            Send-Command 'widen' '-160' # Inspect the new content at the normal 300-DIP pane width.
+            $example = Join-Path $repository 'samples\03-procedure-body.sql'
+            Send-Command 'replacefile' $example
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Capture-Surface 'pane' 'procedure-body'
+            Capture-Surface 'main' 'procedure-body-editor'
+            Send-Command 'procedurebodycheck'
+            Wait-Receipt '\tprocedure-body\t25\tPASS\r?$'
+            Send-Command 'widen' '160'
         }
         foreach ($query in @(
             @{ Name = 'green'; Text = 'SELECT 1;'; Verdict = 'ReadOnly' },

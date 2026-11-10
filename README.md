@@ -17,6 +17,8 @@ with applications, or any environment where an accidental `UPDATE` without `WHER
 - **Safety pane.** A narrow pane beside every query editor shows, as you type, what the query would change. It checks
   exactly what F5 would run: the selection if there is one, otherwise the whole window. Objects are grouped into
   *changes to permanent objects*, *can't see inside* and *allowed by your settings*.
+  Procedure definitions also show a nested **Body — potential effects when called** breakdown, separate from the
+  effects of submitting the definition. Single-click an object to highlight its statements; double-click for details.
 - **F5 guard.** When you execute (F5, Ctrl+E, Alt+X or the Execute button), SQL Safety Guard analyzes the exact text
   SSMS is about to run. With the default settings, a yellow or red query pauses for a buttons-only confirmation:
   **Cancel** is the default, **Run anyway** continues. Nothing ever needs to be typed.
@@ -42,7 +44,8 @@ ask first; the warning mode can be changed globally or per server. See [which co
   leads to a question, not a silent run.
 - **Spelling does not matter.** Brackets, missing schemas, `BEGIN/END`, `TRY/CATCH`, `IF`, loops, transactions,
   `EXEC(...)`, `sp_executesql`, CTEs, `OUTPUT INTO` and multiple `GO` batches do not hide a write.
-- **A safety net, not a security boundary.** It cannot see inside procedures, triggers or SQL built at runtime. Use
+- **A safety net, not a security boundary.** It can inspect procedure definitions present in the editor, but cannot
+  retrieve the bodies of called procedures, inspect triggers or resolve SQL built at runtime. Use
   database permissions (for example a read-only login) for real protection. See the [limitations](docs/user/user-guide.md#limitations).
 
 ## Get started

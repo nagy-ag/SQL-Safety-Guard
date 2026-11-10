@@ -10,11 +10,13 @@ namespace SqlSafetyGuard.Analyzer
         {
         }
 
-        public AnalysisResult(IReadOnlyList<Finding> findings, IReadOnlyList<SqlParseError> parseErrors, IReadOnlyList<SkippedRegion> skippedRegions)
+        public AnalysisResult(IReadOnlyList<Finding> findings, IReadOnlyList<SqlParseError> parseErrors, IReadOnlyList<SkippedRegion> skippedRegions,
+            IReadOnlyList<ProcedureBodyAnalysis> procedureBodies = null)
         {
             Findings = findings;
             ParseErrors = parseErrors;
             SkippedRegions = skippedRegions;
+            ProcedureBodies = procedureBodies ?? new ProcedureBodyAnalysis[0];
 
             // Findings in a failing batch count too: they run as soon as the syntax error is fixed.
             var overall = Verdict.ReadOnly;
@@ -26,6 +28,9 @@ namespace SqlSafetyGuard.Analyzer
         }
 
         public IReadOnlyList<Finding> Findings { get; }
+
+        /// <summary>Deferred effects of definitions in this text. Never included in execution verdicts or counts.</summary>
+        public IReadOnlyList<ProcedureBodyAnalysis> ProcedureBodies { get; }
 
         public IReadOnlyList<SqlParseError> ParseErrors { get; }
 

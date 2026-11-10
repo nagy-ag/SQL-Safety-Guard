@@ -62,7 +62,7 @@ try {
         $section.IsExpanded = $expanded
         $geometry = $chevron.Data.GetFlattenedPathGeometry().Figures[0]
         $tip = $geometry.Segments[0].Points[0]
-        Assert-State ($geometry.StartPoint.Y -eq $(if ($expanded) { 0 } else { 4 }) -and $tip.Y -eq $(if ($expanded) { 4 } else { 0 })) 'Collapsed arrow must point up; expanded arrow must point down.'
+        Assert-State ($geometry.StartPoint.Y -eq $(if ($expanded) { 4 } else { 0 }) -and $tip.Y -eq $(if ($expanded) { 0 } else { 4 })) 'Collapsed arrow must point down; expanded arrow must point up.'
         Assert-State ($details.Visibility -eq $(if ($expanded) { [Windows.Visibility]::Visible } else { [Windows.Visibility]::Collapsed })) 'Safe-section content visibility must follow its expanded state.'
         Assert-State ($toggle.IsChecked -eq $expanded) 'Safe-section toggle must track its expanded state.'
     }
@@ -72,21 +72,29 @@ try {
     $toggle.GetType().GetMethod('OnClick', [Reflection.BindingFlags]'Instance,NonPublic').Invoke($toggle, @())
     Assert-State (-not $section.IsExpanded) 'Safe-section button must collapse the section.'
     Invoke-Control ClickGroup @($first)
-    Assert-State $first.IsExpanded 'First click should expand its row.'
+    Assert-State (-not $first.IsExpanded) 'Single click must leave a collapsed row collapsed.'
+    Invoke-Control ToggleGroup @($first)
+    Assert-State $first.IsExpanded 'Double click must expand its row.'
     Invoke-Control ClickGroup @($second)
-    Assert-State (-not $first.IsExpanded -and $second.IsExpanded) 'Opening another row should close the first.'
+    Assert-State ($first.IsExpanded -and -not $second.IsExpanded) 'Selecting another row must not change expansion.'
+    Invoke-Control ToggleGroup @($second)
+    Assert-State ($first.IsExpanded -and $second.IsExpanded) 'Double click must toggle only the chosen row.'
     Invoke-Control ClickGroup @($safe)
-    Assert-State (-not $second.IsExpanded -and $safe.IsExpanded) 'Expansion must be exclusive across both lists.'
+    Assert-State ($second.IsExpanded -and -not $safe.IsExpanded) 'Safe row clicks must also leave expansion unchanged.'
+    Invoke-Control ToggleGroup @($safe)
     $control.FindName('GroupList').SelectedItem = $first
-    Assert-State (-not $safe.IsExpanded -and -not $first.IsExpanded) 'Keyboard-style selection should close old details without opening new ones.'
+    Assert-State ($safe.IsExpanded -and $first.IsExpanded) 'Keyboard-style selection must preserve open details.'
     Invoke-Control ClickGroup @($first)
     Invoke-Control ClickGroup @($first)
-    Assert-State (-not $first.IsExpanded) 'Clicking an open row again should collapse it.'
+    Assert-State $first.IsExpanded 'Repeated single clicks must leave an open row open.'
+    Invoke-Control ToggleGroup @($first)
+    Assert-State (-not $first.IsExpanded) 'Double clicking an open row must collapse it.'
+    Invoke-Control ToggleGroup @($first)
     Invoke-Control ClickGroup @($safe)
     Invoke-Control ShowResult @('Test', 'Nothing executes', $groups)
-    Assert-State $safe.IsExpanded 'Reanalysis should preserve the one expanded object.'
+    Assert-State ($first.IsExpanded -and $second.IsExpanded -and $safe.IsExpanded) 'Reanalysis must preserve every expanded object.'
     Invoke-Control Select @($second)
-    Assert-State (-not $safe.IsExpanded) 'Programmatic selection should collapse previous details.'
+    Assert-State $safe.IsExpanded 'Programmatic selection must preserve previous details.'
     Invoke-Control ClickGroup @($second)
     foreach ($source in @([Windows.Controls.ListBoxItem]::new(), [Windows.Controls.Primitives.ScrollBar]::new(), [Windows.Controls.Primitives.ToggleButton]::new())) {
         $eventArgs = [Windows.Input.MouseButtonEventArgs]::new([Windows.Input.Mouse]::PrimaryDevice, 0, [Windows.Input.MouseButton]::Left)
@@ -99,11 +107,11 @@ try {
     $backgroundClick = [Windows.Input.MouseButtonEventArgs]::new([Windows.Input.Mouse]::PrimaryDevice, 0, [Windows.Input.MouseButton]::Left)
     $backgroundClick.RoutedEvent = [Windows.UIElement]::PreviewMouseLeftButtonDownEvent
     $analysis.RaiseEvent($backgroundClick)
-    Assert-State (-not $second.IsExpanded) 'A routed pane-background click should collapse details.'
+    Assert-State $second.IsExpanded 'A routed pane-background click must preserve expanded details.'
     Assert-State ($null -eq $control.FindName('GroupList').SelectedItem -and $null -eq $control.FindName('SafeList').SelectedItem) 'A pane-background click should clear both list selections.'
     Invoke-Control ClickGroup @($safe)
     Invoke-Control Select @($null)
-    Assert-State (-not $safe.IsExpanded -and $null -eq $control.FindName('SafeList').SelectedItem) 'Editor deselection should close safe details and clear the selected item.'
+    Assert-State ($safe.IsExpanded -and $null -eq $control.FindName('SafeList').SelectedItem) 'Editor deselection must clear selection while keeping details open.'
     Write-Output "Passed $script:checks pane interaction checks; no SSMS interaction or SQL execution."
 }
 finally {

@@ -44,6 +44,7 @@ namespace SqlSafetyGuard.Analyzer
             var findings = new List<Finding>();
             var errors = new List<SqlParseError>();
             var skipped = new List<SkippedRegion>();
+            var bodies = new List<ProcedureBodyAnalysis>();
             foreach (var warning in options.AllowList.Warnings.Concat(options.TrustedProcedures.Warnings).Concat(options.ConfigurationWarnings))
                 findings.Add(new Finding(1, 1, 0, 0, "SETTINGS WARNING", string.Empty, null, Verdict.Unknown, warning));
 
@@ -51,7 +52,7 @@ namespace SqlSafetyGuard.Analyzer
             {
                 if (!string.IsNullOrWhiteSpace(sql))
                 {
-                    var walker = new StatementWalker(options, findings, errors, skipped);
+                    var walker = new StatementWalker(options, findings, errors, skipped, bodies);
 
                     Scope scope;
                     if (!SqlCmdPreprocessor.LooksLikeSqlCmd(sql))
@@ -85,7 +86,8 @@ namespace SqlSafetyGuard.Analyzer
 
             // Text order (stable, so findings of the same dynamic SQL keep their order).
             var ordered = findings.OrderBy(f => f.StartOffset).ToList();
-            return new AnalysisResult(ordered, errors.OrderBy(e => e.Offset).ToList(), skipped.OrderBy(s => s.StartOffset).ToList());
+            return new AnalysisResult(ordered, errors.OrderBy(e => e.Offset).ToList(), skipped.OrderBy(s => s.StartOffset).ToList(),
+                bodies.OrderBy(body => body.Definition.StartOffset).ToList());
         }
     }
 }

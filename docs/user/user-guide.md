@@ -47,16 +47,42 @@ Repeated statements show **×N**, additional statement types **+N**, and transac
 **Transaction**. Empty sections are hidden.
 
 **No permanent changes detected · N** at the bottom lists the green objects. It opens automatically when nothing is red
-or yellow; its arrow points up when collapsed and down when expanded.
+or yellow; its arrow points down when collapsed and up when expanded. The procedure-body and nested safe-section
+arrows use the same directions.
+
+### Procedure definitions in the editor
+
+When the window contains a `CREATE`, `ALTER` or `CREATE OR ALTER PROCEDURE`, its definition keeps its normal verdict:
+red for a permanent procedure, green for a temporary procedure. Submitting a definition does not run its body.
+
+Double-click the procedure row to see **Body — potential effects when called**. A single procedure opens automatically.
+The body nests the normal pane sections and object rows beneath the SP. Each row stays on one line with the
+object name, statement summary and first line number; expand it for individual statement lines and whole-target
+warnings. The nested section counts describe body objects, independently of the execution header. Operations
+allowed by settings keep their own section, and **No permanent changes detected** is collapsed below the warnings.
+Expanded body objects and the nested safe section stay open across reanalysis.
+Single-click an internal object to highlight all its statements; double-click to expand or collapse its details.
+Click an individual statement to jump to and highlight only it without selecting SQL text. Body findings do not enter the
+header counts or the F5 confirmation: those describe only what submitting the current selection/window would do.
+
+Only text present in this window is inspected. Calls to other unknown procedures and SQL strings built at runtime
+remain yellow. **Body analysis incomplete** means parsing, a resource limit or an unavailable T-SQL body prevented
+complete inspection; visible findings must not be treated as a complete list of effects.
+Body allow-list and trust matches use written names; the connection's database and default schema are not assumed
+to prove how unqualified names will resolve when the procedure is called.
+
+Open `samples/03-procedure-body.sql` with nothing selected to try this without a SQL connection or executing anything.
 
 ### Choosing a row
 
-- **Click** a row to show a short explanation; groups with several findings also list their statement types and lines.
-  Only one row is open at a time, and it stays open across reanalysis while it is selected.
+- **Single-click** an object row to highlight all its statements. Clicking again restores the whole-object highlight
+  after choosing an individual statement; it leaves expansion unchanged. This applies to outer and nested objects.
+- **Double-click** an object row to expand or collapse its details. Groups with several findings list individual
+  statement buttons; click one to highlight only that statement. Other open rows stay open, including across reanalysis.
 - Choosing a row highlights only that group's statements in the editor and scrolls to the first one. Nothing is tinted
   automatically, and moving the editor cursor never highlights anything.
-- **Double-click** or **Enter** jumps to the statement. **Space** toggles the details, **Right/Left** expand and
-  collapse, and the arrow keys move across both lists.
+- **Space** highlights an object, **Enter** jumps to its first statement, and **Right/Left** expand and collapse its
+  details. The arrow keys move across both outer lists. Body and safe-section headings toggle with a single click.
 - Clicking in the editor, typing, changing the selection, clicking blank pane space or collapsing the pane clears the
   highlight. Highlighting never selects SQL text or changes what F5 runs.
 - Only permanent whole-target destructive operations show red warning text in the details; temporary-object operations

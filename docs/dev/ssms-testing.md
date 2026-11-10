@@ -21,6 +21,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
+# Add -CheckProcedureBody for definition/body separation and statement navigation checks with no SQL.
 # Add -CheckPaneHighlights for the click-to-highlight checks and both safe-section arrow states.
 # Add -CheckCompactSettings for focus routing, native persistence and page scrolling of the compact controls.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
@@ -29,6 +30,8 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 `-SettingsPath` defaults to the discovered SSMS 22 instance's isolated Exp settings.json. The script refuses a running
 Exp session and launches only Exp minimized on a private Windows desktop that is never displayed or switched to.
 This isolates SSMS's own startup activation from the shared desktop. The channel also vetoes activation on its UI thread.
+Use `-RootSuffix <owned-name>` for a separate isolated profile when Exp already belongs to another run; its settings
+file must already exist. The suffix is validated and the script checks only that exact profile and installed SSMS instance.
 It restores its own window without activation on that private desktop for PrintWindow.
 It uses process-scoped test/fault-injection variables, never dispatches Execute, and closes its own SSMS with WM_CLOSE
 (BM_CLICK only for a shutdown prompt). It backs up settings bytes/hash and restores them in `finally`, including on failure.
@@ -54,12 +57,18 @@ compiled out of Release; this is a visual check, not evidence of F5 execution be
 
 ### Pane highlight checks
 
-`-CheckPaneHighlights` also runs 17 in-process checks on the real editor buffer and adornment layer, followed by a
+`-CheckPaneHighlights` also runs 21 in-process checks on the real editor buffer and adornment layer, followed by a
 fresh-analysis check that cleared highlights stay cleared. It covers initial red/yellow statements without tint,
 choosing and switching groups, editor mouse/key/caret interaction, pane activation with empty and nonempty SQL
 selections, deselection, collapse/expand and a real buffer edit. These checks never dispatch Execute or open a SQL
 connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
 content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
+
+`-CheckProcedureBody` runs 25 checks against the sample procedure: deferred counts, shared single-line rows,
+whole-target warnings, group and individual highlights, exact execution-selection preservation, nested keyboard
+routing and expansion state after reanalysis. Both suites raise control events inside the owned test process;
+they do not synthesize physical clicks or key presses. Single clicks highlight object groups, double clicks toggle
+details, and the individual statement buttons replace the group highlight with one statement at either level.
 
 ### Settings checks
 
