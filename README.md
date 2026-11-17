@@ -53,7 +53,7 @@ ask first; the warning mode can be changed globally or per server. See [which co
 
 ## Release and upgrade
 
-Version **1.1.0 is the acceptance prerelease**; see [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases) for published availability and [status](docs/status.md) for verification. The stable release remains 1.0.5 until acceptance.
+Version **1.1.0 is the stable Latest release**; download it from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.0). See [status](docs/status.md) for verification and the [upgrade instructions](docs/user/install.md#upgrading-to-110) for approval-rule migration.
 Older short approval rules are retained but inactive in 1.1.0. Follow the [upgrade instructions](docs/user/install.md#upgrading-to-110) to review and fully qualify them. Color and context terminology is defined in the [dictionary](docs/user/dictionary.md).
 
 ## Get started

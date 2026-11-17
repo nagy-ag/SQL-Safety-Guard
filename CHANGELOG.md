@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 — 2026-11-17 (prerelease)
+## 1.1.0 — 2026-11-17
 
 - Analyze supported variable-backed dynamic SQL built through straight-line DECLARE, SET, copies, concatenation and append operations. Runtime-dependent, truncated or otherwise unproved strings remain Unknown. Decoded rows have links to their string source and execution statement.
 - Extend visible-body previews to triggers, scalar and table-valued functions, views, remote query strings and stored SQL Agent T-SQL commands. Preserve nested previews and incomplete-body warnings. Potential body effects remain separate from submitted operations; called implementations are not fetched.

@@ -60,7 +60,7 @@ The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
 ### Upgrading to 1.1.0
 
-1. Export your settings and keep the published 1.0.5 package for rollback. Choose the **1.1.0 prerelease** explicitly; GitHub's Latest stable download remains 1.0.5 during acceptance.
+1. Export your settings and keep the published 1.0.5 package for rollback. Download **1.1.0**, the current stable/Latest release.
 2. Save query windows, close SSMS and install the newer VSIX. Existing settings are retained.
 3. Review **Safe tables allow-list**, **Trusted routines** and any environment-rule approvals. Older short rules remain saved but inactive. Each active approval requires an exact server.database.schema.object identity; procedure and function rules are separate.
 4. Use **Use current connection for missing parts** only after checking the displayed connection. Supply and review the schema yourself. Save explicitly; the extension does not guess missing identity parts or migrate authorization automatically.

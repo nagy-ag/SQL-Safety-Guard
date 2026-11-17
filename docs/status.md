@@ -8,8 +8,8 @@ evidence are frozen in [history/](history/README.md). What the colours promise i
 
 | Question | Answer |
 |---|---|
-| Current release | **1.1.0 prerelease**, published 2026-11-17 for acceptance ([release record](history/releases/1.1.0.md)); **1.0.5 remains stable and Latest**. |
-| Current checkout | Published 1.1.0 source plus its documentation-only publication record. Includes variable-backed dynamic SQL, typed previews, fully qualified approvals, blue USE context and the compact six-color pane. See the [changelog](../CHANGELOG.md) and [upgrade guide](user/install.md#upgrading-to-110). |
+| Current release | **1.1.0**, stable and Latest, promoted 2026-11-17 ([promotion record](history/runs/2026-11-17-release-1.1.0-stable.md), [package verification](history/releases/1.1.0.md)). |
+| Current checkout | Published 1.1.0 source plus its documentation-only publication and stable-promotion records. Includes variable-backed dynamic SQL, typed previews, fully qualified approvals, blue USE context and the compact six-color pane. See the [changelog](../CHANGELOG.md) and [upgrade guide](user/install.md#upgrading-to-110). |
 | Known false greens | None confirmed open. All 19 focused probes of the packaged analyzer PASS; five authorized write effects are recorded as policy effects, not read-only proof. The last full campaign remains [2026-10-30](history/runs/2026-10-30-full-run.md). |
 | Offline gate | Published 1.1.0 passes 1,913 .NET tests and 10 Python tests; generated references and the 548-rule inventory are fresh; Debug/Release builds and all 93 Release WPF checks pass. |
 | Latest pane check | Isolated SSMS 22.11: 52 verified Dark Debug captures cover gestures, nested bodies, adaptive filters, summary, settings and migration. The exact Release passed native 1.0.5 upgrade, 24 installed-file comparisons, live six-control UI Automation and native uninstall. Settings restored and owned SSMS closed ([record](history/releases/1.1.0.md)). |
@@ -18,9 +18,9 @@ evidence are frozen in [history/](history/README.md). What the colours promise i
 | Waiting for a decision | Remaining company policy includes permanent tempdb opt-in, logging and other session state. Qualified-trust and USE behavior is owner-approved ([policy questions](safety/policy-questions.md)) |
 | Uninspected runtime effects | Deployed bodies and dependencies are not retrieved. Visible module definitions have separate previews; proven local strings and visible remote/job commands are inspected with context labels. Remote dialects, runtime text, Agent tokens and CLR code remain unproved. Physical F5 keys are not synthesized. |
 
-## Latest published package: 1.1.0 prerelease
+## Latest release: 1.1.0
 
-[SQL Safety Guard 1.1.0](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.0) is available for acceptance.
+[SQL Safety Guard 1.1.0](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.0) is the stable Latest release.
 It adds variable-backed dynamic SQL, typed code previews, qualified authorization, blue database context and the
 compact six-color pane. **Old short approval rules are preserved but inactive** until explicitly migrated;
 read the [upgrade instructions](user/install.md#upgrading-to-110).
@@ -30,8 +30,10 @@ exact Release upgrade/load/uninstall, 19 focused database probes, all five downl
 The [release record](history/releases/1.1.0.md) distinguishes Debug functional evidence, exact Release checks,
 authorized write policy effects and limits. The extension remains text-only and the nesting limits remain 3 and 8.
 
-**Stable/Latest remains [1.0.5](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.0.5)** until the owner
-accepts the prerelease. Its frozen [release record](history/releases/1.0.5.md) remains available.
+The owner requested stable promotion on 2026-11-17. The [promotion record](history/runs/2026-11-17-release-1.1.0-stable.md)
+verifies the stable/Latest metadata and the same five asset identities and checksums. This promotion uses the original
+verified package; it does not represent a new server, routing or theme campaign. The original prerelease verification
+record remains a frozen historical snapshot. Previous releases, including [1.0.5](history/releases/1.0.5.md), remain available.
 
 ## Open limits
 
