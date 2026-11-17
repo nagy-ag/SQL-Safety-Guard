@@ -357,11 +357,12 @@ namespace SqlSafetyGuard.UI
 
             _control.ShowResult(result.Summary, f5, _groups);
             // Background refreshes retain a chosen highlight; edits and execution-scope changes clear it earlier.
-            _selected = selectedGroup == null ? null : _groups.FirstOrDefault(g =>
-                string.Equals(g.Key, selectedGroup.Key, StringComparison.OrdinalIgnoreCase) &&
+            _selected = selectedGroup == null ? null : _groups.SelectMany(g => g.DescendantsAndSelf()).FirstOrDefault(g =>
+                string.Equals(g.StateKey, selectedGroup.StateKey, StringComparison.OrdinalIgnoreCase) &&
                 g.Findings.Select(f => f.StateKey).SequenceEqual(selectedGroup.Findings.Select(f => f.StateKey)));
             _selectedBodyFinding = selectedFinding == null ? null : _groups.SelectMany(g => g.Findings.SelectMany(f => f.DescendantsAndSelf()))
                 .FirstOrDefault(f => f.StateKey == selectedFinding);
+            if (_selectedPreview != null) _selectedPreview = _selectedBodyFinding?.Body;
             _control.Select(_selected);
             Redraw();
         }
@@ -389,7 +390,7 @@ namespace SqlSafetyGuard.UI
             {
                 var finding = group.MatchingOperations.FirstOrDefault();
                 if (finding == null) { ClearGroupSelection(); return; }
-                NavigateFromPane(finding, false, true);
+                NavigateFromPane(finding, false, !group.IsNested);
             }
         }
 
@@ -401,7 +402,7 @@ namespace SqlSafetyGuard.UI
             OnGroupSelected(group);
             var finding = group.MatchingOperations.FirstOrDefault();
             if (finding == null) return;
-            NavigateFromPane(finding, true, true);
+            NavigateFromPane(finding, true, !group.IsNested);
         }
 
         private void NavigateFromPane(PaneFinding finding, bool focusEditor, bool execution = false)
@@ -520,7 +521,7 @@ namespace SqlSafetyGuard.UI
                 ? _selectedPreview.VisibleFindings.SelectMany(f => f.MatchingOperations) : _selectedBodyFinding != null
                 ? new[] { _selectedBodyFinding } : _selected?.MatchingOperations ?? Enumerable.Empty<PaneFinding>();
             var snapshot = _view.TextSnapshot;
-            bool child = _selectedBodyFinding != null;
+            bool child = _selectedBodyFinding != null || _selected?.IsNested == true;
             var operations = highlights.ToArray();
             // A full definition is navigation context. Only its header/selected child gets a risk fill.
             foreach (var context in operations.Select(f => f.DefinitionContextIn(snapshot)).Where(s => s.HasValue)

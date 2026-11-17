@@ -25,6 +25,8 @@ param(
     [switch] $CheckTrustedRoutineStyles,
     [switch] $CheckProcedureBody,
     [switch] $CheckCodeBodies,
+    [switch] $CheckScopeGrouping,
+    [ValidateRange(30,600)][int] $StartupTimeoutSeconds = 120,
     [switch] $CheckBalancedPane,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
@@ -282,7 +284,7 @@ try {
         $process = [Diagnostics.Process]::GetProcessById($startedPid)
         [IO.File]::WriteAllText((Join-Path $script:channelDirectory 'ssms.pid'), [string]$startedPid, $utf8)
         $script:eventOffset = 0
-        Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t' 120
+        Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t' $StartupTimeoutSeconds
         $main = [ThemeCaptureNative]::MainWindow($process.Id)
         if ($main -eq [IntPtr]::Zero) { throw "Cannot find this run's SSMS main window." }
         [ThemeCaptureNative]::ShowMain($main)
@@ -305,6 +307,18 @@ try {
             continue
         }
         Send-Command 'widen' '160'
+        if ($CheckScopeGrouping) {
+            Send-Command 'widen' '-160'
+            Send-Command 'replacefile' (Join-Path $repository 'samples\06-grouped-code-scopes.sql')
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'scopegroupingcheck'
+            Wait-Receipt '\tscope-grouping\t[0-9]+\tPASS\r?$'
+            Capture-Surface 'pane' 'grouped-body'
+            Capture-Surface 'main' 'grouped-body-editor'
+            Close-OwnedSsms
+            $process.Dispose(); $process = $null
+            continue
+        }
         if ($CheckPaneHighlights) {
             $highlightSql = Join-Path $script:channelDirectory 'highlights.sql'
             [IO.File]::WriteAllText($highlightSql, "UPDATE dbo.HighlightA SET x = 1;`r`nEXEC dbo.HighlightProc;`r`nSELECT 1;`r`nUPDATE dbo.HighlightA SET x = 2 WHERE id = 1;", $utf8)

@@ -27,6 +27,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
 # Add -CheckProcedureBody for definition/body separation and statement navigation checks with no SQL.
+# Use -CheckScopeGrouping for a focused body/object/statement hierarchy and source-navigation check.
 # Add -CheckPaneHighlights for click-to-highlight and display-filter captures.
 # Add -CheckBalancedPane for mixed-verdict filtering, compact operations and persistent highlights.
 # Add -CheckCompactSettings for focus routing, native persistence and page scrolling of the compact controls.
@@ -71,9 +72,9 @@ selections, deselection, collapse/expand and a real buffer edit. These checks ne
 connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
 content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
 
-`-CheckProcedureBody` checks the sample procedure's flat inline operations, deferred counts, three verdicts, repeated
-writes, whole-target warnings in expanded reasons, absence of another body expander/object tree/filter bar, and one rendered row per
-operation. Definition risk fill covers only its header while a separate purple outline covers the complete parsed
+`-CheckProcedureBody` checks the sample procedure's scoped operations, deferred counts, three verdicts, repeated
+writes, whole-target warnings in expanded reasons, local object groups, a single filter bar, and one rendered row per
+operation within its scope. Definition risk fill covers only its header while a separate purple outline covers the complete parsed
 definition, excluding GO and the separate EXEC. Body clicks retain that context and navigate/highlight without changing execution
 selection; double-clicks open independent reasons, and matching expansion survives reanalysis. The driver also loads
 `04-compact-pane.sql` to check CREATE/ALTER and EXEC separation and three preview rows, then checks repeated decoded operations,
@@ -92,7 +93,13 @@ outlines through passive reanalysis, including clearing both on a click elsewher
 The driver captures both panes and editor surfaces at the normal compact width. It runs on the same private desktop
 without connections or SQL execution.
 
-It also runs `automaticpanecheck`: 19 checks for circular preview markers, submitted/preview count separation,
+`-CheckScopeGrouping` is a focused lane using `06-grouped-code-scopes.sql`. It verifies repeated targets and standalone
+operations, first-occurrence/source ordering, compact inner object rows, separate EXEC/body scopes, table variables,
+remote/job previews, grouped source highlights, filter counts and scoped selection/expansion restoration after passive
+reanalysis. A synthetic mixed-verdict display fixture verifies color unions without claiming new analyzer proof.
+The Release WPF suite separately checks mixed scope rows and scrolling through an 80-operation grouped decoded object.
+
+The code-body lane also runs `automaticpanecheck`: 19 checks for circular preview markers, submitted/preview count separation,
 all function forms, independent risk/scope toggles, reachable ancestors, body click/double-click behavior and label-mode
 state. Additional captures show the open trigger body at compact/minimum widths and the text-label presentation.
 The Release WPF suite tests automatic resizing, forced labels and independent toggle clicks with large counts.

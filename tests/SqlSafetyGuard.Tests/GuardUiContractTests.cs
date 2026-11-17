@@ -94,8 +94,8 @@ public class GuardUiContractTests
         Assert.Single(body.Descendants(p + "Expander"));
         Assert.Empty(body.Descendants(p + "ToggleButton"));
         Assert.Contains(body.Descendants(p + "ItemsControl"), element =>
-            (string?)element.Attribute("ItemsSource") == "{Binding VisibleFindings}" &&
-            (string?)element.Attribute("ItemTemplate") == "{StaticResource BodyFindingTemplate}");
+            (string?)element.Attribute("ItemsSource") == "{Binding VisibleRows}" &&
+            element.Attribute("ItemTemplate") == null);
         var finding = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "BodyFindingTemplate");
         var row = Assert.Single(finding.Elements(p + "Expander"));
         Assert.Equal("{StaticResource RowExpander}", (string?)row.Attribute("Style"));

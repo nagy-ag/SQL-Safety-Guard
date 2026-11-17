@@ -9,10 +9,10 @@ evidence are frozen in [history/](history/README.md). What the colours promise i
 | Question | Answer |
 |---|---|
 | Current release | **1.1.1**, stable and Latest, published 2026-11-17 ([release verification](history/releases/1.1.1.md)). |
-| Current checkout | Published 1.1.1 source plus its documentation-only publication record. Includes scrolling within oversized expanded objects and the themed trusted-routine selector. See the [changelog](../CHANGELOG.md) and [upgrade guide](user/install.md#upgrading-to-111). |
+| Current checkout | 1.1.2 release preparation: object grouping within visible bodies and decoded EXEC scopes, on top of published 1.1.1. Stable/Latest publication is owner-authorized and pending verification. Existing colors, operation counts and guard policy are retained. See the [changelog](../CHANGELOG.md) and [grouped-scope sample](../samples/06-grouped-code-scopes.sql). |
 | Known false greens | None confirmed open. All 19 focused probes of the packaged 1.1.0 analyzer PASS; five authorized write effects are policy effects, not read-only proof. The 1.1.1 patch changes UI and version metadata only. The last full campaign remains [2026-10-30](history/runs/2026-10-30-full-run.md). |
-| Offline gate | Published 1.1.1 passes 1,913 .NET tests and 10 Python tests; generated references and the 548-rule inventory are fresh. Debug/Release rebuilds and all 98 Release WPF checks pass. |
-| Latest pane check | Exact 1.1.1 Release: native published-1.1.0 upgrade, 24 installed-file comparisons, all six settings retained, three live scrolling fixtures and native uninstall PASS. Owned SSMS closed and settings restored; two verified Dark Debug captures cover the routine selector and popup ([record](history/releases/1.1.1.md)). |
+| Offline gate | Local grouped-scope checkout passes 1,913 .NET tests and 10 Python tests; generated references and the 548-rule inventory are fresh. Debug/Release builds, 82 Debug pane checks and all 111 Release WPF checks pass ([record](history/runs/2026-11-17-grouped-code-scopes.md)). |
+| Latest pane check | Local grouped-scope Debug payload in owned isolated SSMS: 48 focused grouping checks and existing procedure, dynamic SQL, body, nested-body, filtering and collapsed-summary checks PASS; 36 Dark captures retained. Settings restored byte-for-byte and owned SSMS closed ([record](history/runs/2026-11-17-grouped-code-scopes.md)). Published 1.1.1 exact Release installation evidence remains in its [release record](history/releases/1.1.1.md). |
 | Latest focused server check | 19 probes of the packaged 1.1.0 analyzer PASS: variable SQL, failed USE continuation, repeated control flow, dynamic context restoration and typed approvals; owned databases removed ([record](history/releases/1.1.0.md)). Earlier [variable-SQL campaign](history/runs/2026-11-11-variable-dynamic-sql.md) remains separate evidence. |
 | SSMS versions | Focused checks on representative 22.0 to 22.11 builds, including an in-place 22.9 to 22.11 upgrade; the full minor-version matrix is incomplete (open limit 1) |
 | Waiting for a decision | Remaining company policy includes permanent tempdb opt-in, logging and other session state. Qualified-trust and USE behavior is owner-approved ([policy questions](safety/policy-questions.md)) |
@@ -55,7 +55,7 @@ and the owner's temporary publication-hold snapshots remain frozen historical ev
 9. **Object attribution.** The compact pane preserves analyzed operations; ordinary reads are not attributed to every
    referenced object, unknown targets are not guessed, and decoded operations retain their outer EXEC's execution anchor.
    Optional proven string-source ranges support navigation; missing mappings fall back to EXEC. Dynamic SQL is grouped
-   by its EXEC rather than merged into an ordinary object row.
+   by its EXEC, then by identified target within that scope, rather than merged into an ordinary outer object row.
    The mixed three-colour presentation check uses a synthetic fixture, not new analyzer proof.
 
 10. **Visible-body preview limits.** Remote SQL is interpreted as T-SQL without proving its dialect/runtime. Stored Agent

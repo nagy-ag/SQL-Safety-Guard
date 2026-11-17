@@ -287,6 +287,9 @@ namespace SqlSafetyGuard.UI
                 case "balancedcheck":
                     SmokeBalancedPane();
                     break;
+                case "scopegroupingcheck":
+                    SmokeScopeGrouping();
+                    break;
                 case "minimumwidthcheck":
                     var filterButtons = _control.FilterBar.Children.OfType<System.Windows.Controls.Primitives.ToggleButton>().ToList();
                     var filterOrigins = filterButtons.Select(button => button.TranslatePoint(new System.Windows.Point(), _control)).ToList();
@@ -471,6 +474,105 @@ namespace SqlSafetyGuard.UI
             observation.Start();
         }
 
+        private void SmokeScopeGrouping()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
+                throw new InvalidOperationException("Scope checks require a private test directory.");
+            int checks = 0;
+            void Check(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); checks++; }
+            _control.SetFilter(PaneVerdictFilter.All);
+            var roots = _groups.SelectMany(g => g.Findings).ToArray();
+            var bodies = roots.SelectMany(f => f.DescendantsAndSelf()).Where(f => f.Body != null).Select(f => f.Body).ToArray();
+            var definition = roots.Single(f => f.Body?.Kind == CodeBodyKind.Procedure);
+            var body = definition.Body;
+            foreach (var scope in bodies.Select(b => b.ScopeRows).Concat(_groups.Where(g => g.ScopeRows != null).Select(g => g.ScopeRows)))
+            {
+                var rows = scope.Rows.SelectMany(row => row is PaneGroup group ? group.Findings : new[] { (PaneFinding)row }).ToArray();
+                Check(rows.Distinct().Count() == rows.Length, "Scope rows must preserve each finding exactly once.");
+                Check(scope.Groups.All(g => g.Findings.All(f => f.GroupKey == g.Findings[0].GroupKey) || g.IsDynamicContainer),
+                    "An object group must contain only its own target; dynamic containers keep their EXEC scope.");
+                Check(scope.Groups.All(g => g.Findings.Select(f => f.Finding.StartOffset).SequenceEqual(g.Findings.Select(f => f.Finding.StartOffset).OrderBy(n => n))),
+                    "Operations within each object must stay in source order.");
+                Check(scope.Rows.Select(row => row is PaneGroup group ? group.FirstOffset : ((PaneFinding)row).Finding.StartOffset)
+                    .SequenceEqual(scope.Rows.Select(row => row is PaneGroup group ? group.FirstOffset : ((PaneFinding)row).Finding.StartOffset).OrderBy(n => n)),
+                    "Object groups and standalone statements must appear by first occurrence.");
+            }
+            var orders = body.ScopeRows.Groups.Single(g => g.IsScopeObject && g.ObjectName == "dbo.Orders");
+            Check(orders.Findings.Count == 2 && orders.DisplayCounts.Writes == 2, "Repeated body writes must share one object with two operation rows.");
+            Check(body.ScopeRows.Groups.Single(g => g.ObjectName == "#Stage").Findings.Count == 3, "Temp-table creation and writes must group together.");
+            Check(body.ScopeRows.Groups.Single(g => g.ObjectName == "@Rows").Findings.Count >= 2, "Table-variable operations must group locally.");
+            Check(body.ScopeRows.Rows.OfType<PaneFinding>().Any(f => f.Finding.Action == "PRINT") &&
+                body.ScopeRows.Rows.OfType<PaneFinding>().Any(f => f.Finding.Action == "RETURN"), "Statements without targets need direct rows.");
+            Check(body.ScopeRows.Rows.OfType<PaneFinding>().Any(f => f.Body?.Kind == CodeBodyKind.RemoteQuery),
+                "A remote-query expression is a scope operation, not a named object; keep it as a direct row.");
+            var dynamic = body.ScopeRows.Groups.Where(g => g.IsDynamicContainer).ToArray();
+            Check(dynamic.Length == 2 && dynamic.All(g => g.ScopeRows.Groups.Single().ObjectName == "dbo.Orders"),
+                "Separate decoded EXECs need separate local object groups.");
+            Check(!orders.Findings.Intersect(dynamic.SelectMany(g => g.Findings)).Any(), "A decoded object must not merge into its enclosing body's object.");
+            Check(bodies.Any(b => b.Kind == CodeBodyKind.RemoteQuery && b.ScopeRows.Groups.Any(g => g.ObjectName == "dbo.Orders" && g.Findings.Count == 2)) &&
+                bodies.Any(b => b.Kind == CodeBodyKind.JobCommand && b.ScopeRows.Groups.Any(g => g.ObjectName == "dbo.Orders" && g.Findings.Count == 2)),
+                "Remote and stored-command bodies must expose independent object groups.");
+            Check(bodies.Any(b => b.Kind == CodeBodyKind.TableFunction && b.ScopeRows.Groups.Any(g => g.ObjectName == "@Rows" && g.Findings.Count == 2)) &&
+                bodies.Any(b => b.Kind == CodeBodyKind.Trigger && b.ScopeRows.Groups.Any(g => g.Findings.Count == 2)) &&
+                bodies.Any(b => b.Kind == CodeBodyKind.View && b.ScopeRows.Rows.OfType<PaneFinding>().Any()),
+                "Function, trigger and view bodies must retain grouped or standalone operations as applicable.");
+            Check(body.ScopeRows.Groups.All(g => !g.IsExpanded), "New inner object groups must start compact.");
+            var root = _groups.Single(g => g.Findings.Contains(definition));
+            root.IsExpanded = definition.IsExpanded = true;
+            _control.GroupList.ScrollIntoView(root);
+            _control.UpdateLayout();
+            System.Windows.Controls.Button Header(object item)
+            {
+                _control.UpdateLayout();
+                var row = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>().Single(e => ReferenceEquals(e.DataContext, item));
+                return (System.Windows.Controls.Button)row.Template.FindName("RowHeader", row);
+            }
+            var header = Header(orders);
+            header.RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(_selected == orders && !orders.IsExpanded && _view.Selection.IsEmpty &&
+                _view.Caret.Position.BufferPosition == orders.Findings[0].SpanIn(_view.TextSnapshot).Start,
+                "One object click must navigate without expanding or selecting SQL.");
+            Check(PrimaryMarkers.Count > 0 && PrimaryMarkers.All(e => orders.Findings.SelectMany(f => f.PrimarySpansIn(_view.TextSnapshot)).Any(s => e.VisualSpan == s)) &&
+                BodyContextMarkers.Any(e => e.VisualSpan == definition.DefinitionContextIn(_view.TextSnapshot)),
+                "Object highlights must cover only matching operations and retain the full module outline.");
+            header.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice, 0, System.Windows.Input.MouseButton.Left)
+                { RoutedEvent = System.Windows.Controls.Control.MouseDoubleClickEvent });
+            Check(orders.IsExpanded && orders.Findings.All(f => !f.IsExpanded), "Double click must open the object without opening statement reasons.");
+            var totals = new[] { _control.FilterCount(PaneVerdictFilter.Writes), _control.FilterCount(PaneVerdictFilter.Unknown), _control.FilterCount(PaneVerdictFilter.Safe), _control.FilterCount(PaneVerdictFilter.Inside) };
+            _control.SetFilter(PaneVerdictFilter.Unknown | PaneVerdictFilter.Inside);
+            Check(!body.VisibleRows.Contains(orders) && body.VisibleRows.OfType<PaneGroup>().Any(g => g.Findings.Any(f => f.Finding.Verdict.IsYellow())),
+                "Filtering must hide unmatched objects while keeping unknown body operations reachable.");
+            _control.SetFilter(PaneVerdictFilter.All);
+            Check(orders.IsExpanded && totals.SequenceEqual(new[] { _control.FilterCount(PaneVerdictFilter.Writes), _control.FilterCount(PaneVerdictFilter.Unknown), _control.FilterCount(PaneVerdictFilter.Safe), _control.FilterCount(PaneVerdictFilter.Inside) }),
+                "Filters must preserve expanded groups and all original totals.");
+            foreach (var inner in dynamic[0].ScopeRows.Groups) inner.IsExpanded = true;
+            dynamic[0].IsExpanded = true;
+            var decodedObject = dynamic[0].ScopeRows.Groups.Single();
+            Header(decodedObject).RaiseEvent(new System.Windows.RoutedEventArgs(System.Windows.Controls.Button.ClickEvent));
+            Check(_selected == decodedObject && _view.Caret.Position.BufferPosition == decodedObject.Findings[0].SpanIn(_view.TextSnapshot).Start && _view.Selection.IsEmpty,
+                "Decoded-object clicks must navigate to the SQL string, not select the EXEC.");
+            Check(PrimaryMarkers.Count > 0 && PrimaryMarkers.All(e => decodedObject.Findings.SelectMany(f => f.PrimarySpansIn(_view.TextSnapshot)).Any(s => e.VisualSpan == s)) &&
+                _layer.Elements.Any(e => Equals(e.Tag, "support")), "Decoded-object risk fills need proven string sources and a supporting EXEC outline.");
+            // A synthetic display-only mix checks filter unions without changing any analyzer verdict.
+            var seed = orders.Findings[0].Finding;
+            var mixed = new[] { Verdict.RealWrite, Verdict.Unknown, Verdict.TempOnly }.Select((v, i) => new PaneFinding(
+                new Finding(seed.Line, seed.Column, seed.StartOffset, seed.Length, "UPDATE", "dbo.Mixed", null, v, "Synthetic UI fixture"),
+                _view.TextSnapshot, 0, null, i)).ToList();
+            var mix = new PaneScopeRows(mixed).Groups.Single();
+            mix.Filter = PaneVerdictFilter.Writes | PaneVerdictFilter.Unknown;
+            Check(mix.MatchingOperations.Count() == 2 && mix.DisplayCounts.Writes == 1 && mix.DisplayCounts.Unknown == 1 && mix.DisplayCounts.Safe == 1,
+                "Mixed-risk object filtering must retain complete counts and highlight only enabled colors.");
+            OnGroupSelected(orders);
+            Apply(_view.TextSnapshot, new Span(0, _view.TextSnapshot.Length), false, SqlSafetyAnalyzer.Analyze(_view.TextSnapshot.GetText()), _settings, _connection, _paneSettings);
+            var restored = _groups.SelectMany(g => g.DescendantsAndSelf()).Single(g => g.StateKey == orders.StateKey);
+            Check(restored.IsExpanded && _selected == restored && PrimaryMarkers.Count > 0, "Passive reanalysis must restore scoped group expansion and highlights.");
+            ClearHighlightOutside(new System.Windows.Controls.Border());
+            Check(_selected == null && PrimaryMarkers.Count == 0 && BodyContextMarkers.Count == 0 && restored.IsExpanded,
+                "Clicking elsewhere must clear highlights without collapsing the group.");
+            ExtensionCheckTrace.Write("scope-grouping", checks.ToString(), "PASS");
+        }
+
         private void SmokeAutomaticPane()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -547,6 +649,7 @@ namespace SqlSafetyGuard.UI
             Check(definitions.Count == (nested ? 1 : 10), "All visible code bodies must be attached exactly once.");
             System.Windows.Controls.Button Header(PaneFinding finding)
             {
+                foreach (var inner in _groups.SelectMany(g => g.DescendantsAndSelf()).Where(g => g.IsNested)) inner.IsExpanded = true;
                 _control.GroupList.ScrollIntoView(_groups.Single(g => g.Findings.Any(f => f.DescendantsAndSelf().Contains(finding))));
                 _control.UpdateLayout();
                 var row = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>()
@@ -670,7 +773,7 @@ namespace SqlSafetyGuard.UI
             Check(body.IsComplete && body.Counts.Writes > 0 && body.Counts.Unknown > 0 && body.Counts.Safe > 0,
                 "Body preview must preserve all three verdicts.");
             Check(body.Findings.Count == SqlSafetyAnalyzer.Analyze(_view.TextSnapshot.GetText()).ProcedureBodies.Single().Analysis.Findings.Count,
-                "Body operations must not be grouped or discarded.");
+                "Object grouping must preserve every original body operation.");
             Check(body.Findings.Select(f => f.Finding.StartOffset).SequenceEqual(body.Findings.Select(f => f.Finding.StartOffset).OrderBy(n => n)),
                 "Body operations must remain in source order.");
             Check(_control.FilterCount(PaneVerdictFilter.Writes).ToString() == "1" && _control.FilterCount(PaneVerdictFilter.Unknown).ToString() == "0",
@@ -681,15 +784,16 @@ namespace SqlSafetyGuard.UI
             Check(finding.Reason.Contains("No WHERE clause"), "The whole-target warning belongs in the expanded reason.");
             Check(body.Findings.Where(f => f.Finding.Verdict.IsGreen()).All(f => !f.IsPermanentWholeTarget),
                 "Green body operations must not show permanent-write warnings.");
+            foreach (var inner in body.ScopeRows.AllGroups) inner.IsExpanded = true;
             _control.UpdateLayout();
             var rows = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>().ToList();
             Check(rows.Count(row => row.DataContext is PaneCodeBody) == 1, "The preview must expose one scoped body row with its own circle and risk counts.");
-            Check(rows.Count(row => row.DataContext is PaneGroup) == 1, "The preview must have no nested object rows.");
+            Check(rows.Count(row => row.DataContext is PaneGroup) == 1 + body.ScopeRows.AllGroups.Count(), "The preview must render its local object groups exactly once.");
             Check(CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Primitives.ToggleButton>()
                 .Count(button => button.Tag is string tag && new[] { "Writes", "Unknown", "Safe", "Inside", "Context", "Remote" }.Contains(tag)) == 6,
                 "Only the global filter bar may be rendered.");
             Check(body.Findings.All(f => rows.Count(row => ReferenceEquals(row.DataContext, f)) == 1),
-                "Every body operation must render exactly once directly below Definition.");
+                "Every body operation must render exactly once within its scope.");
             var definitionRow = rows.Single(row => ReferenceEquals(row.DataContext, definition));
             var operationRow = rows.Single(row => ReferenceEquals(row.DataContext, finding));
             System.Windows.Controls.Button Header(System.Windows.Controls.Expander row) =>
@@ -763,6 +867,7 @@ namespace SqlSafetyGuard.UI
             Check(runtime.Verdict == Verdict.Unknown && runtime.Findings.Count == 1 && runtime.Bodies.Count == 0,
                 "Runtime SQL must stay unknown without an invented body.");
             decoded.IsExpanded = true;
+            foreach (var inner in decoded.ScopeRows.AllGroups) inner.IsExpanded = true;
             _control.UpdateLayout();
             var operation = decoded.Findings[1];
             var row = CapturePreview.VisualDescendants(_control).OfType<System.Windows.Controls.Expander>()

@@ -19,7 +19,8 @@ with applications, or any environment where an accidental `UPDATE` without `WHER
   its worst verdict and operation counts, with blue context operations counted separately. Six compact toggles combine Writes/Unknown/Safe with Inside/Remote previews and an independent Context category; labels automatically fit the pane.
   Expand a definition's operation row for its purple **Inside** preview, separate from the effects of
   submitting the definition. Procedures, triggers, functions and views have typed visible-body previews;
-  remote query strings use gray previews. Decoded dynamic SQL has one block per EXEC, with its operations directly below it.
+  remote query strings use gray previews. Within each body or decoded EXEC block, identified objects group their
+  operations; statements without an attributed target stay directly in the scope.
   Single-click to navigate and highlight matching SQL until another interaction; double-click an
   object for its operations, or an operation for a short reason. Filters never change the overall warning or F5 scope.
 - **F5 guard.** When you execute (F5, Ctrl+E, Alt+X or the Execute button), SQL Safety Guard analyzes the exact text
@@ -54,6 +55,8 @@ ask first; the warning mode can be changed globally or per server. See [which co
 ## Release and upgrade
 
 Version **1.1.1 is the stable Latest release**; download it from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.1). It fixes scrolling through expanded objects and the trusted-routine dropdown theme. See [status](docs/status.md) for verification and the [upgrade instructions](docs/user/install.md#upgrading-to-111).
+Version **1.1.2 is being prepared** with local object groups inside visible code bodies and decoded SQL. See the
+[grouped-scope sample](samples/06-grouped-code-scopes.sql) and [changelog](CHANGELOG.md).
 Older short approval rules are retained but inactive in 1.1.0. Follow the [upgrade instructions](docs/user/install.md#upgrading-to-110) to review and fully qualify them. Color and context terminology is defined in the [dictionary](docs/user/dictionary.md).
 
 ## Get started

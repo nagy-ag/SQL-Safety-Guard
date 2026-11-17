@@ -42,6 +42,60 @@ try {
         return [Activator]::CreateInstance($groupType, [object[]]@($Key, $findings))
     }
 
+    function New-ScopeFinding([string] $Action, [string] $Target, [SqlSafetyGuard.Analyzer.Verdict] $Verdict, [int] $Offset, [string] $Note = 'Synthetic display fixture') {
+        $finding = (New-Group $Target $Verdict).Findings[0]
+        $value = [SqlSafetyGuard.Analyzer.Finding]::new(1,1,$Offset,8,$Action,$Target,$null,$Verdict,$Note)
+        $findingType.GetField('<Finding>k__BackingField', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($finding,$value)
+        $findingType.GetField('<GroupKey>k__BackingField', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($finding,$Target)
+        return $finding
+    }
+
+    $scopeInput = [Array]::CreateInstance($findingType,7)
+    $scopeInput.SetValue((New-ScopeFinding UPDATE 'dbo.Mixed' RealWrite 50),0)
+    $scopeInput.SetValue((New-ScopeFinding PRINT '' ReadOnly 75),1)
+    $scopeInput.SetValue((New-ScopeFinding EXEC 'dbo.Other' Unknown 100),2)
+    $scopeInput.SetValue((New-ScopeFinding DELETE 'dbo.Mixed' Unknown 125),3)
+    $scopeInput.SetValue((New-ScopeFinding INSERT '#Temp' TempOnly 140),4)
+    $scopeInput.SetValue((New-ScopeFinding SELECT '' ReadOnly 145),5)
+    $scopeInput.SetValue((New-ScopeFinding UPDATE 'dbo.Mixed' TempOnly 150),6)
+    $scopeType = $assembly.GetType('SqlSafetyGuard.UI.PaneScopeRows', $true)
+    $scope = [Activator]::CreateInstance($scopeType,[object[]]@($scopeInput,$true))
+    Assert-State ($scope.Rows.Count -eq 5 -and $scope.Groups.Count -eq 3) 'Scope grouping must combine repeated targets and keep targetless statements direct.'
+    $mix = $scope.Groups[0]
+    Assert-State ($mix.ObjectName -eq 'dbo.Mixed' -and $mix.Findings.Count -eq 3) 'Each object must preserve every operation, including mixed verdicts.'
+    Assert-State ($mix.DisplayCounts.Writes -eq 1 -and $mix.DisplayCounts.Unknown -eq 1 -and $mix.DisplayCounts.Safe -eq 1) 'Object counts must preserve the full risk mix.'
+    Assert-State ($scope.Rows[1].Finding.Action -eq 'PRINT' -and $scope.Rows[4].Finding.Action -eq 'SELECT') 'Rows must follow first occurrence rather than risk sorting.'
+    Assert-State (($mix.Findings | ForEach-Object { $_.Finding.StartOffset }) -join ',' -eq '50,125,150') 'Statements within an object must stay in source order.'
+    Assert-State (-not $mix.IsExpanded -and $mix.IsNested -and $mix.IsScopeObject) 'Inner object groups must start compact and retain their local identity.'
+    $filterEnum = $assembly.GetType('SqlSafetyGuard.UI.PaneVerdictFilter')
+    $scope.ApplyFilter([Enum]::Parse($filterEnum,'Writes, Unknown'))
+    Assert-State ($scope.VisibleRows.Count -eq 2 -and @($mix.MatchingOperations).Count -eq 2 -and $mix.DisplayCounts.Total -eq 3) 'Filtering must hide unmatched rows and preserve complete object counts.'
+    $scope.ApplyFilter([Enum]::Parse($filterEnum,'Context'))
+    Assert-State ($scope.VisibleRows.Count -eq 0) 'A scope with no context changes must be empty under Context only.'
+    $scope.ApplyFilter([Enum]::Parse($filterEnum,'All'))
+    Assert-State ($scope.VisibleRows.Count -eq 5) 'Re-enabling filters must restore all scope rows.'
+    $unqualified = New-ScopeFinding UPDATE 'dbo.Mixed' RealWrite 0
+    $qualified = New-ScopeFinding DELETE 'Sandbox.dbo.Mixed' RealWrite 1
+    # The existing top-level key may qualify a short target using the editor's current database.
+    $findingType.GetField('<GroupKey>k__BackingField', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($unqualified,'Sandbox.dbo.Mixed')
+    $identityInput = [Array]::CreateInstance($findingType,2); $identityInput.SetValue($unqualified,0); $identityInput.SetValue($qualified,1)
+    $identityScope = [Activator]::CreateInstance($scopeType,[object[]]@($identityInput,$true))
+    Assert-State ($identityScope.Groups.Count -eq 2) 'Preview grouping must not assume the editor database resolves an unqualified target.'
+    $embeddedInput = [Array]::CreateInstance($findingType,2)
+    $embeddedInput.SetValue((New-ScopeFinding UPDATE 'dbo.Remote' RealWrite 0 'inside dynamic SQL'),0)
+    $embeddedInput.SetValue((New-ScopeFinding DELETE 'dbo.Remote' RealWrite 0 'inside dynamic SQL'),1)
+    $embeddedScope = [Activator]::CreateInstance($scopeType,[object[]]@($embeddedInput,$false))
+    Assert-State ($embeddedScope.Groups.Count -eq 1 -and $embeddedScope.Groups[0].IsScopeObject -and $embeddedScope.Groups[0].ObjectName -eq 'dbo.Remote') 'An embedded body already defines the scope and must not add another Dynamic SQL container.'
+    $remoteOperation = New-ScopeFinding OPENQUERY "OPENQUERY(srv, 'SELECT dbo.fn();')" Unknown 0
+    $bodyType = $assembly.GetType('SqlSafetyGuard.UI.PaneCodeBody',$true)
+    $remoteBody = [Runtime.Serialization.FormatterServices]::GetUninitializedObject($bodyType)
+    $bodyType.GetField('<Kind>k__BackingField',[Reflection.BindingFlags]'Instance,NonPublic').SetValue($remoteBody,[SqlSafetyGuard.Analyzer.CodeBodyKind]::RemoteQuery)
+    $bodyType.GetField('<Findings>k__BackingField',[Reflection.BindingFlags]'Instance,NonPublic').SetValue($remoteBody,[Array]::CreateInstance($findingType,0))
+    $remoteOperation.Body = $remoteBody
+    $remoteInput = [Array]::CreateInstance($findingType,1); $remoteInput.SetValue($remoteOperation,0)
+    $remoteScope = [Activator]::CreateInstance($scopeType,[object[]]@($remoteInput,$true))
+    Assert-State ($remoteScope.Groups.Count -eq 0 -and [object]::ReferenceEquals($remoteScope.Rows[0],$remoteOperation)) 'Remote expressions must remain operation rows rather than invented named-object groups.'
+
     $context = New-Group 'Sandbox' ReadOnly
     $contextFinding = [SqlSafetyGuard.Analyzer.Finding]::new(1,1,0,12,'USE','Sandbox',$null,[SqlSafetyGuard.Analyzer.Verdict]::ReadOnly,'Context')
     $findingType.GetField('<Finding>k__BackingField', [Reflection.BindingFlags]'Instance,NonPublic').SetValue($context.Findings[0], $contextFinding)
@@ -197,10 +251,12 @@ try {
     Invoke-Control ShowPlaceholder @('Test', 'Scrolling regression')
     $scrollFindings = [Array]::CreateInstance($findingType, 80)
     for ($i = 0; $i -lt $scrollFindings.Length; $i++) {
-        $scrollFindings.SetValue((New-Group ("dbo.Scroll$i") RealWrite).Findings[0], $i)
+        $scrollFindings.SetValue((New-ScopeFinding UPDATE 'dbo.TallTarget' RealWrite 0 'inside dynamic SQL'), $i)
     }
     $scrollGroup = [Activator]::CreateInstance($groupType, [object[]]@('dbo.TallObject', $scrollFindings))
     $scrollGroup.IsExpanded = $true
+    Assert-State ($scrollGroup.ScopeRows.Groups.Count -eq 1 -and $scrollGroup.ScopeRows.Groups[0].ObjectName -eq 'dbo.TallTarget') 'A decoded block must expose its target object rather than another Dynamic SQL label.'
+    $scrollGroup.ScopeRows.Groups[0].IsExpanded = $true
     $scrollGroups = [Array]::CreateInstance($groupType, 1); $scrollGroups.SetValue($scrollGroup, 0)
     Invoke-Control ShowResult @('Test', 'Nothing executes', $scrollGroups)
     $control.Width = 400; $control.Height = 300

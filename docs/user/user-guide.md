@@ -69,7 +69,8 @@ red and yellow operations. No SQL connection or execution is needed.
 When the window contains a `CREATE`, `ALTER` or `CREATE OR ALTER PROCEDURE`, its definition keeps its normal verdict:
 red for a permanent procedure, green for a temporary procedure. Submitting a definition does not run its body.
 
-Double-click the procedure object, then its **CREATE/ALTER PROCEDURE** row to inspect the preview. Its compact **Inside** row has a purple circle on the left and the preview's actual risk counts on the right. It starts open when the definition is expanded, exposing one row per operation in source order. Single-click the preview to navigate and highlight its matching operations; double-click or use its arrow to collapse it. Remote previews use the same structure with a gray circle. There is only one global filter row, and it applies at every nested preview depth.
+Double-click the procedure object, then its **CREATE/ALTER PROCEDURE** row to inspect the preview. Its compact **Inside** row has a purple circle on the left and the preview's actual risk counts on the right. It starts open when the definition is expanded. Identified targets appear as object groups; expand an object for its individual operations. Groups follow their first occurrence, and operations within each group follow source order. Statements without an identified target, such as PRINT and RETURN, remain direct rows. Single-click the preview to navigate and highlight its matching operations; double-click or use its arrow to collapse it. Remote previews use the same structure with a gray circle. There is only one global filter row, and it applies at every nested preview depth.
+Single-click an inner object to navigate to its first matching operation and highlight that object's matching operations. Its actual risk circle and complete counts remain visible while filters hide individual operations. Groups stay within their own body or decoded EXEC; matching names in other scopes never merge. Grouping uses only targets already identified by the analyzer, not every table referenced by a SELECT. Remote-query expressions such as OPENQUERY stay as operation rows; their Remote preview groups its identified objects directly.
 Single-click a body row to move the cursor and highlight that operation; double-click for one short reason.
 A definition click tints its header with the actual verdict and outlines the complete parsed definition in purple,
 from CREATE/ALTER through its ending, excluding GO and separate calls. Selecting an inner operation keeps that context
@@ -88,7 +89,7 @@ Open `samples/03-procedure-body.sql` with nothing selected to try this without a
 ### Other visible code bodies
 
 Triggers, scalar functions, inline and multi-statement table-valued functions, and views use the same compact
-CREATE/ALTER operation and flat inline rows. Hover describes its context: firing for triggers,
+CREATE/ALTER operation and locally grouped preview rows. Hover describes its context: firing for triggers,
 calling for functions, and reading for views. Defining these objects remains a permanent write;
 their preview effects do not enter execution totals. RETURN expressions are inspected, and writes to a function's
 return-table variable remain temporary-only operations.
@@ -113,6 +114,8 @@ opt-ins are not carried into remote or stored-command previews.
 External/CLR implementations and unproven bodies show **Body unavailable** with a yellow diagnostic; broken or limited
 previews are marked incomplete. Nested visible bodies reuse the same rows and navigation, with bounded nesting.
 Open [the code-body sample](../../samples/05-other-code-bodies.sql) to inspect all 13 examples without executing SQL.
+Open [the grouped-scope sample](../../samples/06-grouped-code-scopes.sql) for repeated permanent/temporary targets,
+table variables and separate nested dynamic, remote and stored-command scopes. Inspection requires no connection.
 
 ### Dynamic SQL held in variables
 
@@ -125,12 +128,13 @@ SET @sql = N'DELETE FROM ' + @table + N' WHERE Id = 1';
 EXEC sys.sp_executesql @sql;
 ```
 
-This produces a **Dynamic SQL** row for that EXEC, with a red `DELETE dbo.Orders` operation directly beneath it.
+This produces a **Dynamic SQL** row for that EXEC, with a `dbo.Orders` object group containing the red DELETE operation.
 The **Decoded SQL** label distinguishes these operations from deferred procedure-body previews.
 A proven `SELECT` stays green; proven temporary-only work keeps its normal green verdict. Each EXEC has its own block,
 even when several blocks affect the same table. Clicking the block moves to EXEC and highlights its visible operations
 there, with neutral outlines around their contributing SQL strings. Clicking a decoded operation moves to its actual
-string fragments and highlights them in its verdict colour, with a neutral outline at EXEC. Expanded details include
+string fragments and highlights them in its verdict colour, with a neutral outline at EXEC. Clicking an object inside
+the block highlights that object's matching string fragments using the same source navigation. Expanded details include
 **SQL source** and **Executed at** links. The declaration's own operation stays green: storing text does not execute it.
 Copies, concatenation, reassignment and escaped quotes retain their proven source fragments. If a source cannot be
 mapped, navigation falls back to EXEC. **Runtime SQL** stays yellow when its text is unavailable, with no invented body.
@@ -150,7 +154,7 @@ Open example 9 in `samples/01-try-these.sql` to inspect a variable-backed write 
 - **Single-click** an operation to move the cursor to that operation and highlight its SQL. Adjacent highlighted rows
   share one outer outline; separate ranges stay separate. Supporting dynamic-SQL locations use neutral outlines.
 - **Double-click** an object to expand/collapse its operations, or an operation to expand/collapse one short reason.
-  A Definition operation opens its flat body preview instead.
+  A Definition operation opens its scoped body preview instead.
   Arrow buttons toggle the same details directly. Other open rows stay open.
 - **Space/Enter** navigate using the focused row. **Right/Left** expand and collapse its details.
   Mouse navigation keeps pane focus so a second click can expand the same row.

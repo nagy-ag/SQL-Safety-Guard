@@ -106,6 +106,19 @@ namespace SqlSafetyGuard.UI
         {
             current.IsExpanded = old.IsExpanded;
             RestoreFindings(old.Findings, current.Findings);
+            RestoreScopeRows(old.ScopeRows, current.ScopeRows);
+        }
+
+        private static void RestoreScopeRows(PaneScopeRows old, PaneScopeRows current)
+        {
+            if (old == null || current == null) return;
+            var previous = old.Groups.ToDictionary(g => g.Key, StringComparer.OrdinalIgnoreCase);
+            foreach (var group in current.Groups)
+                if (previous.TryGetValue(group.Key, out var match))
+                {
+                    group.IsExpanded = match.IsExpanded;
+                    RestoreScopeRows(match.ScopeRows, group.ScopeRows);
+                }
         }
 
         private static void RestoreFindings(IReadOnlyList<PaneFinding> old, IReadOnlyList<PaneFinding> current)
@@ -118,6 +131,7 @@ namespace SqlSafetyGuard.UI
                 if (previous.Body != null && finding.Body != null)
                 {
                     finding.Body.IsExpanded = previous.Body.IsExpanded;
+                    RestoreScopeRows(previous.Body.ScopeRows, finding.Body.ScopeRows);
                     RestoreFindings(previous.Body.Findings, finding.Body.Findings);
                 }
             }

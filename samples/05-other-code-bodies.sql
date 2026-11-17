@@ -10,7 +10,7 @@
 */
 
 -- #1 Trigger definition
--- NOW: red definition; expand Definition for When fired and separate INSERT/DELETE rows.
+-- Red definition; expand CREATE/ALTER for Inside, then objects and their INSERT/DELETE rows.
 -- The definition changes an object; the trigger body does not run when defined.
 CREATE OR ALTER TRIGGER dbo.tr_PaneOrders_Audit
 ON dbo.PaneOrders
@@ -24,7 +24,7 @@ END;
 GO
 
 -- #2 Scalar T-SQL function
--- NOW: red definition; expand Definition for Body when called and DECLARE/SELECT/RETURN rows.
+-- Red definition; expand CREATE/ALTER for Inside and the direct DECLARE/SELECT/RETURN rows.
 CREATE OR ALTER FUNCTION dbo.fn_PaneOrderCount()
 RETURNS int
 AS
@@ -36,7 +36,7 @@ END;
 GO
 
 -- #3 Inline table-valued function
--- NOW: red definition; its returned SELECT appears under Body when called.
+-- Red definition; its returned SELECT appears directly under Inside.
 CREATE OR ALTER FUNCTION dbo.fn_PaneOrdersForCustomer(@CustomerId int)
 RETURNS TABLE
 AS
@@ -49,7 +49,7 @@ RETURN
 GO
 
 -- #4 Multi-statement table-valued function
--- NOW: red definition; expand for the local INSERT (green) and RETURN operations.
+-- Red definition; Inside groups the local INSERT under @Rows (green), with a direct RETURN.
 -- The @Rows insert is temporary; preview counts stay separate from execution counts.
 CREATE OR ALTER FUNCTION dbo.fn_PaneOrderRows(@CustomerId int)
 RETURNS @Rows TABLE (OrderId int)
@@ -62,7 +62,7 @@ END;
 GO
 
 -- #5 View definition
--- NOW: red definition; expand for Query when read and the visible SELECT.
+-- Red definition; Inside exposes the visible SELECT. Hover for its query-when-read context.
 CREATE OR ALTER VIEW dbo.v_PaneOrders
 AS
 SELECT OrderId, CustomerId

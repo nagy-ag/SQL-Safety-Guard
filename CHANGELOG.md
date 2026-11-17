@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 — 2026-11-17
+
+- Group operations by their identified object within visible code bodies and decoded SQL blocks. Keep separate bodies and EXEC scopes separate, retain standalone statements without targets, and preserve existing colors, counts, filters, source navigation and persistent highlights.
+- Start inner object groups collapsed; single-click navigates and highlights matching operations, and double-click reveals their statements. Retain expansion and selection through passive reanalysis.
+- Add `samples/06-grouped-code-scopes.sql` to inspect repeated targets across procedures, functions, triggers, views, remote previews and stored job commands. SQL verdicts, F5 behavior, settings format and analysis limits are unchanged.
+
 ## 1.1.1 — 2026-11-17
 
 - Fix scrolling through expanded objects taller than the safety pane, including procedure and function bodies and decoded dynamic SQL. The shared list scrolls by pixels so every inner operation remains reachable.

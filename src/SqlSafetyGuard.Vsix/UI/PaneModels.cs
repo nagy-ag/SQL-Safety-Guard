@@ -184,9 +184,13 @@ namespace SqlSafetyGuard.UI
         private bool _isExpanded;
         private PaneVerdictFilter _filter = PaneVerdictFilter.All;
 
-        public PaneGroup(string key, IReadOnlyList<PaneFinding> findings)
+        public PaneGroup(string key, IReadOnlyList<PaneFinding> findings) : this(key, findings, false, false) { }
+
+        internal PaneGroup(string key, IReadOnlyList<PaneFinding> findings, bool scopeObject, bool nested)
         {
             Key = key;
+            IsScopeObject = scopeObject;
+            IsNested = nested;
             Findings = findings.OrderBy(finding => finding.Finding.StartOffset).ToList();
             Verdict = findings.Max(finding => finding.Finding.Verdict);
             Counts = new PaneVerdictCounts(findings.Select(finding => finding.Finding.Verdict));
@@ -194,15 +198,35 @@ namespace SqlSafetyGuard.UI
             var parts = SplitName(key).Select(Unquote).ToList();
             int prefix = Math.Max(0, parts.Count - 2);
             DatabasePrefix = Findings.All(f => f.Finding.IsContextChange) || prefix == 0 ? string.Empty : string.Join(".", parts.Take(prefix)) + ".";
-            ObjectName = Findings.All(f => f.Finding.IsContextChange) ? "USE " + Findings[0].Finding.Target : Findings.All(f => PaneOperationPresentation.IsDynamic(f.Finding))
+            ObjectName = Findings.All(f => f.Finding.IsContextChange) ? "USE " + Findings[0].Finding.Target : IsDynamicContainer
                 ? Findings.Any(f => PaneOperationPresentation.IsDecodedDynamic(f.Finding)) || Findings.All(f => f.Finding.Verdict.IsGreen()) ? "Dynamic SQL" : "Runtime SQL"
                 : Findings.All(finding => string.IsNullOrEmpty(finding.Finding.ResolvedTarget ?? finding.Finding.Target))
                 ? Findings.All(finding => finding.Finding.Action == "BEGIN TRAN" || finding.Finding.Action == "COMMIT" ||
                     finding.Finding.Action == "ROLLBACK" || finding.Finding.Action == "SAVE TRAN") ? "Transaction" : Findings[0].Finding.Action
                 : string.Join(".", parts.Skip(prefix));
+            if (IsDynamicContainer && Findings.Any(f => PaneOperationPresentation.IsDecodedDynamic(f.Finding)))
+                ScopeRows = new PaneScopeRows(Findings, includeDynamicContainers: false);
+            RefreshBodyBadge();
         }
 
         public string Key { get; }
+        public bool IsScopeObject { get; }
+        public bool IsNested { get; }
+        public bool IsDynamicContainer => !IsScopeObject && Findings.All(f => PaneOperationPresentation.IsDynamic(f.Finding));
+        public string StateKey => (IsNested ? Findings[0].StateKey : string.Empty) + "|" + Key;
+        public PaneScopeRows ScopeRows { get; }
+        public IReadOnlyList<object> VisibleRows => ScopeRows?.VisibleRows ?? VisibleFindings.Cast<object>().ToList();
+        internal IEnumerable<PaneGroup> DescendantsAndSelf()
+        {
+            yield return this;
+            foreach (var group in ScopeRows != null ? ScopeRows.AllGroups : Findings.Where(f => f.Body != null).SelectMany(f => f.Body.ScopeRows.AllGroups))
+                yield return group;
+        }
+        private void RefreshBodyBadge()
+        {
+            _bodies = Findings.Where(f => f.Body != null).Select(f => f.Body).ToList();
+            BodyBadge = _bodies.Count == 0 ? null : new PaneBodyBadge(_bodies);
+        }
         private IReadOnlyList<PaneCodeBody> _bodies = new PaneCodeBody[0];
         public IReadOnlyList<PaneCodeBody> Bodies
         {
@@ -217,20 +241,21 @@ namespace SqlSafetyGuard.UI
                         finding.Finding.Action == "FUNCTION" && value.Any(b => b.Kind == CodeBodyKind.ScalarFunction ||
                             b.Kind == CodeBodyKind.InlineTableFunction || b.Kind == CodeBodyKind.TableFunction);
                 }
-                BodyBadge = value.Count == 0 ? null : new PaneBodyBadge(value);
+                RefreshBodyBadge();
+                foreach (var group in ScopeRows?.AllGroups ?? Enumerable.Empty<PaneGroup>()) group.RefreshBodyBadge();
             }
         }
         public bool HasBodies => Bodies.Count > 0;
         public PaneBodyBadge BodyBadge { get; private set; }
         public Visibility BodyBadgeVisibility => HasBodies ? Visibility.Visible : Visibility.Collapsed;
         public bool IsCodeContainer => Bodies.Any(body => body.IsDeferred);
-        public Visibility DynamicScopeVisibility => Findings.Any(f => PaneOperationPresentation.IsDecodedDynamic(f.Finding)) ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility DynamicScopeVisibility => ScopeRows != null ? Visibility.Visible : Visibility.Collapsed;
         public IReadOnlyList<PaneFinding> Findings { get; }
         public Verdict Verdict { get; }
         public int FirstOffset { get; }
         public string DatabasePrefix { get; }
         public string ObjectName { get; }
-        public string DisplayName => Findings.All(f => PaneOperationPresentation.IsDynamic(f.Finding)) ? ObjectName : DatabasePrefix + ObjectName;
+        public string DisplayName => IsDynamicContainer ? ObjectName : DatabasePrefix + ObjectName;
         public PaneVerdictCounts Counts { get; }
         // Submission and preview effects have separate, explicitly labelled badges.
         public PaneDisplayCounts DisplayCounts => new PaneDisplayCounts(Findings.Select(f => f.Finding));
@@ -248,8 +273,9 @@ namespace SqlSafetyGuard.UI
             set
             {
                 _filter = value;
-                foreach (var finding in Findings) finding.ApplyFilter(value);
-                foreach (string property in new[] { nameof(VisibleFindings), nameof(VisibleLine), nameof(VisibleSummary) })
+                if (ScopeRows != null) ScopeRows.ApplyFilter(value);
+                else foreach (var finding in Findings) finding.ApplyFilter(value);
+                foreach (string property in new[] { nameof(VisibleFindings), nameof(VisibleRows), nameof(VisibleLine), nameof(VisibleSummary) })
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
             }
         }
@@ -258,7 +284,8 @@ namespace SqlSafetyGuard.UI
         // containing operation is present solely to reach a matching preview.
         public IEnumerable<PaneFinding> MatchingOperations => VisibleFindings.SelectMany(f =>
             f.MatchesFilter ? new[] { f } : f.MatchingOperations);
-        public int VisibleLine => VisibleFindings.FirstOrDefault()?.ExecutionLine ?? Line;
+        public int VisibleLine => IsNested ? MatchingOperations.FirstOrDefault()?.EditorLine ?? Findings[0].EditorLine
+            : VisibleFindings.FirstOrDefault()?.ExecutionLine ?? Line;
         public string VisibleSummary => VisibleFindings.Count + " of " + Findings.Count + " operations";
         public string Chevron => IsExpanded ? "⌃" : "⌄";
         public event PropertyChangedEventHandler PropertyChanged;
@@ -373,6 +400,55 @@ namespace SqlSafetyGuard.UI
         }
     }
 
+    /// <summary>Display-only rows within one body or decoded EXEC. Keeps the original findings intact.</summary>
+    internal sealed class PaneScopeRows
+    {
+        public PaneScopeRows(IReadOnlyList<PaneFinding> findings, bool includeDynamicContainers = true)
+        {
+            var buckets = new Dictionary<string, List<PaneFinding>>(StringComparer.OrdinalIgnoreCase);
+            var rows = new List<object>();
+            foreach (var finding in findings.OrderBy(f => f.Finding.StartOffset))
+            {
+                bool dynamic = includeDynamicContainers && PaneOperationPresentation.IsDynamic(finding.Finding);
+                string target = finding.Finding.ResolvedTarget ?? finding.Finding.Target;
+                if (!dynamic && (finding.Finding.IsContextChange || string.IsNullOrEmpty(target) || finding.Body?.Kind == CodeBodyKind.RemoteQuery))
+                {
+                    rows.Add(finding);
+                    continue;
+                }
+                string key = dynamic ? PaneOperationPresentation.DynamicKey(finding.Finding) : ObjectKey(finding);
+                string bucketKey = (dynamic ? "dynamic|" : "object|") + key;
+                if (!buckets.TryGetValue(bucketKey, out var bucket))
+                {
+                    bucket = new List<PaneFinding>();
+                    buckets.Add(bucketKey, bucket);
+                    rows.Add(bucket);
+                }
+                bucket.Add(finding);
+            }
+            Rows = rows.Select(row => row is List<PaneFinding> bucket
+                ? (object)new PaneGroup(includeDynamicContainers && PaneOperationPresentation.IsDynamic(bucket[0].Finding)
+                    ? PaneOperationPresentation.DynamicKey(bucket[0].Finding) : ObjectKey(bucket[0]), bucket,
+                    scopeObject: !(includeDynamicContainers && PaneOperationPresentation.IsDynamic(bucket[0].Finding)), nested: true)
+                : row).ToList();
+        }
+        public IReadOnlyList<object> Rows { get; }
+        // A visible body or remote query does not establish the caller's database/default schema.
+        // Normalize the analyzer's identified target without borrowing the editor connection's database.
+        private static string ObjectKey(PaneFinding finding) => PaneGroup.Qualify(finding.Finding.ResolvedTarget ?? finding.Finding.Target, null);
+        public IReadOnlyList<PaneGroup> Groups => Rows.OfType<PaneGroup>().ToList();
+        public IReadOnlyList<object> VisibleRows => Rows.Where(row => row is PaneGroup group
+            ? group.VisibleFindings.Count > 0 : ((PaneFinding)row).IsVisible).ToList();
+        public IEnumerable<PaneGroup> AllGroups => Rows.SelectMany(row => row is PaneGroup group
+            ? group.DescendantsAndSelf() : ((PaneFinding)row).Body?.ScopeRows.AllGroups ?? Enumerable.Empty<PaneGroup>());
+        public void ApplyFilter(PaneVerdictFilter filter)
+        {
+            foreach (var row in Rows)
+                if (row is PaneGroup group) group.Filter = filter;
+                else ((PaneFinding)row).ApplyFilter(filter);
+        }
+    }
+
     internal sealed class PaneCodeBody : INotifyPropertyChanged
     {
         private PaneVerdictFilter _filter = PaneVerdictFilter.All;
@@ -393,11 +469,14 @@ namespace SqlSafetyGuard.UI
         public bool IsVisible => (_filter & (IsDeferred ? PaneVerdictFilter.Inside : PaneVerdictFilter.Remote)) != 0 &&
             (VisibleFindings.Count > 0 || Findings.Count == 0 && PaneFilterRules.Includes(_filter, Verdict.Unknown));
         public IReadOnlyList<PaneFinding> VisibleFindings => Findings.Where(f => f.IsVisible).ToList();
+        public PaneScopeRows ScopeRows { get; }
+        public IReadOnlyList<object> VisibleRows => ScopeRows.VisibleRows;
         public void ApplyFilter(PaneVerdictFilter filter)
         {
             _filter = filter;
-            foreach (var finding in Findings) finding.ApplyFilter(filter);
+            ScopeRows.ApplyFilter(filter);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VisibleFindings)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(VisibleRows)));
         }
         public PaneCodeBody(CodeBodyAnalysis body, ITextSnapshot snapshot, int baseOffset, string database)
         {
@@ -416,6 +495,9 @@ namespace SqlSafetyGuard.UI
                 if (body.Kind == CodeBodyKind.JobCommand) finding.ExecutionLocationLabel = "Stored at";
                 else if (body.Kind == CodeBodyKind.RemoteQuery) finding.ExecutionLocationLabel = "Sent at";
             }
+            // Embedded previews already represent the decoded string's execution scope.
+            // Their provenance notes also say "inside dynamic SQL"; do not add a second container.
+            ScopeRows = new PaneScopeRows(Findings, includeDynamicContainers: !IsEmbedded);
             Counts = new PaneVerdictCounts(Findings.Select(f => f.Finding.Verdict));
             Summary = (IsComplete ? string.Empty : "Body analysis incomplete. ") +
                 DisplayCounts.Description + ". Body preview, including nested operations; separate from execution totals.";

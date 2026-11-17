@@ -58,15 +58,28 @@ Close SSMS and install the newer VSIX the same way; it replaces the old version.
 new one works, so you can reinstall it (`.\install.ps1 -VsixPath <previous.vsix>`) if something goes wrong.
 The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
+### Upgrading to 1.1.2
+
+Version 1.1.2 is being prepared; the current published stable/Latest release remains 1.1.1 until publication.
+
+1. Save queries, close SSMS and download the 1.1.2 VSIX and checksum file when published.
+2. Verify the checksum and install the VSIX; existing settings are retained.
+3. Expand a definition's operation, then **Inside**, then an object to see its statements. Decoded SQL and remote/job
+   previews also group identified targets within their own scopes. New inner object groups start collapsed.
+
+Colors, operation totals, filters, navigation and persistent highlights retain their existing meanings. SQL verdicts,
+F5 policy, settings format and analysis limits are unchanged. For upgrades from before 1.1.0, also follow the approval-rule
+migration below. The [grouped-scope sample](../../samples/06-grouped-code-scopes.sql) is for inspection without execution.
+
 ### Upgrading to 1.1.1
 
-**1.1.1 is the current stable/Latest release.**
+1.1.1 fixes scrolling and the trusted-routine dropdown theme.
 
 1. Close SSMS and download the 1.1.1 package and checksum file from GitHub Releases.
 2. Verify the checksum and install the VSIX; it upgrades 1.1.0 in place. Existing settings are retained.
 3. Reopen SSMS. Expanded objects and code bodies now scroll through their inner operations, even when taller than the pane.
 
-This patch changes scrolling only. When upgrading from before 1.1.0, also follow the approval-rule migration below.
+When upgrading from before 1.1.0, also follow the approval-rule migration below.
 
 ### Upgrading to 1.1.0
 

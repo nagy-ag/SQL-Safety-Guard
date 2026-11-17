@@ -62,7 +62,18 @@ Selecting a dynamic block uses its EXEC as the primary location; selecting a dec
 fragments, with the other location outlined neutrally. Missing provenance falls back to EXEC without changing proof.
 Rendered text rectangles are unioned before stroking, removing shared borders across adjacent visual rows, including
 wrapped lines. Verdict fills remain separate, ordered from least to most severe; disjoint ranges stay unfilled.
-Typed code bodies attach to their exact containing finding. Object and containing-operation markers retain the actual verdict; their preview badges show purple Inside or gray Remote totals. An expandable preview row uses the matching purple/gray left circle and the real risk breakdown on the right. Child operations retain their risk markers and source order. `Counts` and object `DisplayCounts` stay submission-only; badges count preview descendants separately.
+Typed code bodies attach to their exact containing finding. Object and containing-operation markers retain the actual verdict; their preview badges show purple Inside or gray Remote totals. An expandable preview row uses the matching purple/gray left circle and the real risk breakdown on the right. Child operations retain their risk markers. Top-level `Counts` and `DisplayCounts` stay submission-only; badges count preview descendants separately.
+
+`PaneScopeRows` projects each body and decoded EXEC into local `PaneGroup` object rows plus standalone findings
+without targets. It reuses the original `PaneFinding` instances; no verdict, guard collection or count is rewritten.
+Groups follow first occurrence and their findings retain source order. Decoded EXEC containers are kept separate
+before grouping their target objects; nested scopes never merge by name. Preview keys normalize identified targets
+without assuming that the editor's database resolves a short name. Embedded remote/job bodies already supply a decoded
+scope, so they do not add a redundant Dynamic SQL container. Remote-query expressions stay direct operation rows,
+rather than being parsed as object names. Inner object groups suppress dynamic-container
+labels, reuse the existing header template and navigate/highlight proven string sources where available. Implicit
+row templates render the mixed collection recursively. Expansion restoration follows each scope's group keys and
+existing operation identities; persistent group selection additionally checks the containing operation's scoped identity.
 
 The six display-only flags combine effect colors by union and gate Inside and Remote previews. Context independently matches `IsContextChange`, without requiring Safe. `PaneDisplayCounts` separates those context operations from green display totals while `PaneVerdictCounts` and analyzer verdicts remain unchanged. Recursive matching retains ancestors without changing their verdicts. `MatchingOperations` supplies matched operations for object navigation/highlighting. Full model collections and counts remain unfiltered. Automatic label measurement switches the whole row between text and circles without wrapping; explicit Text raises the minimum width. Modes are available from the filter/Analysis context menu and retain filter selections. Tooltips pair each name/count with its semantic `SafetyDictionary` description.
 

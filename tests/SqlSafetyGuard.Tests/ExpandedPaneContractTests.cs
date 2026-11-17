@@ -76,8 +76,11 @@ public class ExpandedPaneContractTests
             (string?)element.Attribute("Text") == "{Binding RiskLabel}");
         foreach (var rows in new[] { template })
             Assert.Contains(rows.Descendants(Presentation + "ItemsControl"), element =>
-                (string?)element.Attribute("ItemsSource") == "{Binding VisibleFindings}" &&
-                (string?)element.Attribute("ItemTemplate") == "{StaticResource BodyFindingTemplate}");
+                (string?)element.Attribute("ItemsSource") == "{Binding VisibleRows}" &&
+                element.Attribute("ItemTemplate") == null);
+        foreach (string type in new[] { "PaneGroup", "PaneFinding" })
+            Assert.Contains(document.Descendants(Presentation + "DataTemplate"), element =>
+                (string?)element.Attribute("DataType") == "{x:Type ui:" + type + "}");
         var reason = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "GroupReasonTemplate");
         Assert.Contains(reason.Descendants(Presentation + "TextBlock"), element =>
