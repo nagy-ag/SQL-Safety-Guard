@@ -7,6 +7,7 @@ Release records, one per version, are indexed in [releases/](releases/README.md)
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-17 | [releases/1.1.0.md](releases/1.1.0.md) | 1.1.0 acceptance prerelease from `34f8816`; 1,913 .NET/10 Python tests, 93 Release WPF checks, 52 Dark captures, exact upgrade/load/uninstall, 19 focused SQL probes, downloads and source/tag CI PASS; 1.0.5 remains stable/Latest. |
 | 2026-11-17 | [runs/2026-11-17-collapsed-spacing.md](runs/2026-11-17-collapsed-spacing.md) | Spacing between risk and code/context circles in the collapsed summary; both builds, 1,913 .NET/10 Python tests, 64 Release pane checks, 28 Dark captures and local installation verified. |
 | 2026-11-17 | [runs/2026-11-17-collapsed-summary.md](runs/2026-11-17-collapsed-summary.md) | Scope-only expanded header and six-color numbered collapsed summary; 1,913 .NET/10 Python tests, 64 Release WPF checks, 28 Dark captures and verified local installation PASS. |
 | 2026-11-12 | [runs/2026-11-12-context-gutter-themes.md](runs/2026-11-12-context-gutter-themes.md) | Independent blue Context counts, semantic hover, shared measured gutter and themed settings; 1,913 .NET/10 Python tests, 69 Release WPF checks, 31 verified Dark captures and local installation PASS. |

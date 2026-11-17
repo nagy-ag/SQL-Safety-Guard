@@ -16,7 +16,7 @@ and the GitHub release notes for each release.
 - **Major** (2.0.0): changes users must relearn.
 
 Versions normally increase for upgrades. A pre-release uses the real numeric version; it has no manifest suffix.
-GitHub's **Latest** label identifies the latest published release. Main can contain later commits, including a
+GitHub's **Latest** label identifies the current stable release; a newer published acceptance prerelease remains separate. Main can contain later commits, including a
 documentation-only publication record, without a newer release. The “commits to main since this release” link compares
 main with the fixed release tag; it does not describe the installed extension version.
 The November 4 SQLCMD compatibility update also retains 1.0.0 at the owner's request and replaces the older published
@@ -63,8 +63,8 @@ The script never signs, tags, uploads or creates a release. Never commit these f
 
 ## Publish and try it
 
-1. Write the release record `docs/history/releases/<version>.md` (changes, local validation, scope and limits; start it with
-   the snapshot header) and complete the isolated-profile smoke checks described in [ssms-testing.md](ssms-testing.md)
+1. Draft the release record outside the repository (changes, local validation, scope and limits), then complete the
+   isolated-profile smoke checks described in [ssms-testing.md](ssms-testing.md)
    and the [extension UI skill](../../.agents/skills/ssms-extension-ui/SKILL.md).
    Check install, green/yellow/red F5, failure confirmation, settings/import/export, upgrade and uninstall.
    The all-themes pass happens only when the owner asks for it.
@@ -80,9 +80,11 @@ The script never signs, tags, uploads or creates a release. Never commit these f
 4. After the owner's acceptance, the owner changes a GitHub pre-release into a full release and marks it latest.
    The GitHub files remain unsigned; an internally signed copy has its own checksum and distribution record.
 
-After publication, add the published result (source, tag, asset checksums, download and CI checks) to the release
-record, add its row to [history/releases/](../history/releases/README.md), and point the "Current release" and
-"Latest release" sections of [status.md](../status.md) at it.
+After publication and download/CI verification, write the complete frozen record to `docs/history/releases/<version>.md`
+with the snapshot header, source, tag, asset checksums and check results. Add its row to
+[history/releases/](../history/releases/README.md) and the history index, then update [status.md](../status.md).
+Distinguish the acceptance prerelease from stable/Latest. Keep preliminary notes outside the repository so a frozen
+snapshot does not need later editing. Commit this publication record separately without moving the release tag.
 
 A pre-release is a published package marked as still being tried and is not the normal latest release.
 A full release is the accepted package offered as the latest version for general use.
