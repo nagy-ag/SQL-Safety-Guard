@@ -339,6 +339,29 @@ namespace SqlSafetyGuard.UI
         private static void CheckSettingsAppearance(string mode)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            if (mode == "routineclosed" || mode == "routineopen")
+            {
+                var dialog = (PatternListDialog)CaptureDialogs["qualifiedroutine"];
+                var combo = dialog.RoutineType;
+                var style = combo.FindResource(Microsoft.VisualStudio.Shell.VsResourceKeys.ThemedDialogComboBoxStyleKey);
+                if (!ReferenceEquals(combo.Style, style))
+                    throw new InvalidOperationException("Routine rule type must use the supported shell dropdown style.");
+                var original = combo.SelectedIndex;
+                combo.SelectedIndex = 0;
+                if (dialog.NameLabel.Text != "Procedure") throw new InvalidOperationException("Procedure selection did not update the form.");
+                combo.SelectedIndex = 1;
+                if (dialog.NameLabel.Text != "Function") throw new InvalidOperationException("Function selection did not update the form.");
+                combo.SelectedIndex = original;
+                combo.IsDropDownOpen = mode == "routineopen";
+                CaptureAtIdle(() =>
+                {
+                    var popup = combo.Template.FindName("PART_Popup", combo) as System.Windows.Controls.Primitives.Popup;
+                    if (mode == "routineopen" && (popup == null || !popup.IsOpen || popup.Child == null || !popup.Child.IsVisible))
+                        throw new InvalidOperationException("The themed routine dropdown must open.");
+                    ExtensionCheckTrace.Write("settings-appearance", mode, "PASS");
+                });
+                return;
+            }
             var control = AllCompactSettings().First(value => value.IsVisible && Ancestor<ScrollViewer>(value) != null);
             var expected = (System.Windows.Media.Brush)control.FindResource(Microsoft.VisualStudio.PlatformUI.EnvironmentColors.ToolWindowTextBrushKey);
             if (control.ShowConnection.Foreground.ToString() != expected.ToString() ||
@@ -426,9 +449,10 @@ namespace SqlSafetyGuard.UI
             }
             FrameworkElement element = surface == "pane" ? _control :
                 CaptureDialogs.TryGetValue(surface, out var dialog) ? dialog : null;
-            if (surface == "warningdropdown")
+            if (surface == "warningdropdown" || surface == "routinedropdown")
             {
-                var combo = AllCompactSettings().First(value => value.IsVisible).WarningMode;
+                var combo = surface == "warningdropdown" ? AllCompactSettings().First(value => value.IsVisible).WarningMode :
+                    ((PatternListDialog)CaptureDialogs["qualifiedroutine"]).RoutineType;
                 element = (combo.Template.FindName("PART_Popup", combo) as System.Windows.Controls.Primitives.Popup)?.Child as FrameworkElement;
             }
             if (element == null) throw new ArgumentException("Surface is not open: " + surface);

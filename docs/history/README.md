@@ -7,6 +7,9 @@ Release records, one per version, are indexed in [releases/](releases/README.md)
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-17 | [runs/2026-11-17-trusted-routine-dropdown.md](runs/2026-11-17-trusted-routine-dropdown.md) | Themed Procedure/Function selector: clean builds, 1,913 tests, 14 Release settings checks and two verified Dark captures PASS; settings restored, normal 1.1.0 retained and requested 1.1.1 publication on hold. |
+| 2026-11-17 | [runs/2026-11-17-expanded-object-scrolling.md](runs/2026-11-17-expanded-object-scrolling.md) | Unreleased pixel-scroll fix: published baseline reproduces stalled oversized objects; both builds, 1,913 tests, 69 Release pane checks and three isolated live Release scrolling cases PASS; normal GitHub installation retained. |
+| 2026-11-17 | [runs/2026-11-17-github-latest-1.1.0-install.md](runs/2026-11-17-github-latest-1.1.0-install.md) | Fresh Latest VSIX checksums, eight downloaded-analyzer cases, isolated Release pane with six expected counts and normal-profile 1.0.5 to 1.1.0 upgrade PASS; 24 payload files match, settings unchanged and SSMS closed. |
 | 2026-11-17 | [runs/2026-11-17-release-1.1.0-stable.md](runs/2026-11-17-release-1.1.0-stable.md) | Owner-requested stable/Latest promotion of verified 1.1.0; release/tag and all five asset identities, sizes and digests retained. |
 | 2026-11-17 | [releases/1.1.0.md](releases/1.1.0.md) | 1.1.0 acceptance prerelease from `34f8816`; 1,913 .NET/10 Python tests, 93 Release WPF checks, 52 Dark captures, exact upgrade/load/uninstall, 19 focused SQL probes, downloads and source/tag CI PASS; 1.0.5 remains stable/Latest. |
 | 2026-11-17 | [runs/2026-11-17-collapsed-spacing.md](runs/2026-11-17-collapsed-spacing.md) | Spacing between risk and code/context circles in the collapsed summary; both builds, 1,913 .NET/10 Python tests, 64 Release pane checks, 28 Dark captures and local installation verified. |

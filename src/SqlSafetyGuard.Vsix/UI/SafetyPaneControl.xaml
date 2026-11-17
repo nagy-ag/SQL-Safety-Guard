@@ -225,6 +225,8 @@
             <Setter Property="ItemContainerStyle" Value="{StaticResource PaneItem}" />
             <Setter Property="ItemTemplate" Value="{StaticResource GroupTemplate}" />
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <!-- Expanded objects may exceed the viewport; scroll within them while retaining virtualization. -->
+            <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
         </Style>
         <!-- Explicit state arrows: collapsed points down, expanded points up. -->
         <Style x:Key="SafeSectionExpander" TargetType="Expander">

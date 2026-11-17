@@ -58,9 +58,19 @@ Close SSMS and install the newer VSIX the same way; it replaces the old version.
 new one works, so you can reinstall it (`.\install.ps1 -VsixPath <previous.vsix>`) if something goes wrong.
 The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
+### Upgrading to 1.1.1
+
+**1.1.1 is being prepared for stable publication.** These steps apply after publication.
+
+1. Close SSMS and download the 1.1.1 package and checksum file from GitHub Releases.
+2. Verify the checksum and install the VSIX; it upgrades 1.1.0 in place. Existing settings are retained.
+3. Reopen SSMS. Expanded objects and code bodies now scroll through their inner operations, even when taller than the pane.
+
+This patch changes scrolling only. When upgrading from before 1.1.0, also follow the approval-rule migration below.
+
 ### Upgrading to 1.1.0
 
-1. Export your settings and keep the published 1.0.5 package for rollback. Download **1.1.0**, the current stable/Latest release.
+1. Export your settings and keep the published 1.0.5 package for rollback. Download the current stable/Latest release (1.1.0 or later).
 2. Save query windows, close SSMS and install the newer VSIX. Existing settings are retained.
 3. Review **Safe tables allow-list**, **Trusted routines** and any environment-rule approvals. Older short rules remain saved but inactive. Each active approval requires an exact server.database.schema.object identity; procedure and function rules are separate.
 4. Use **Use current connection for missing parts** only after checking the displayed connection. Supply and review the schema yourself. Save explicitly; the extension does not guess missing identity parts or migrate authorization automatically.

@@ -55,6 +55,9 @@ repeated UPDATE, DELETE and INSERT operations. Each operation retains its own ve
 statement can produce several operations, including several at the same line or inside dynamic SQL; none are discarded
 to make the counts smaller. Double-click an operation for a short reason; the SQL stays in the editor.
 
+The pane has one shared scrollbar. Scrolling over an expanded object or body moves through its inner operations,
+even when that object is taller than the pane.
+
 Operations without a known target remain separate from named objects. Ordinary reads are not currently attributed to
 every referenced table, and an unknown dynamic SQL target is never guessed. Transaction operations show **Transaction**.
 

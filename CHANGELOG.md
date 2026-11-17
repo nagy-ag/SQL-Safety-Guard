@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 — 2026-11-17
+
+- Fix scrolling through expanded objects taller than the safety pane, including procedure and function bodies and decoded dynamic SQL. The shared list scrolls by pixels so every inner operation remains reachable.
+- Use the SSMS themed dropdown style for Procedure/Function rule types in the trusted-routine editor, including its open menu in dark mode.
+
 ## 1.1.0 — 2026-11-17
 
 - Analyze supported variable-backed dynamic SQL built through straight-line DECLARE, SET, copies, concatenation and append operations. Runtime-dependent, truncated or otherwise unproved strings remain Unknown. Decoded rows have links to their string source and execution statement.

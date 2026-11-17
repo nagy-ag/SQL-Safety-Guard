@@ -13,6 +13,11 @@ instead of the real mouse, keyboard, clipboard or focus. Read the local machine 
 
 ## Visual and settings checks (no SQL)
 
+`scripts/PaneInteractionTests.ps1 -Configuration Release` also runs without SSMS. Its oversized-object regression
+routes mouse-wheel input through an operation in an 80-operation object, checks movement smaller than a page,
+preserved expansion/selection, access to the final operation and return to the start. The shared list uses
+`VirtualizingPanel.ScrollUnit="Pixel"` so expanded objects remain scrollable without disabling virtualization.
+
 ### Setup and run
 
 Install the **Debug** VSIX in **Exp**, with SSMS closed: uninstall the previous extension, install the VSIX, then
@@ -25,6 +30,7 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 # Add -CheckPaneHighlights for click-to-highlight and display-filter captures.
 # Add -CheckBalancedPane for mixed-verdict filtering, compact operations and persistent highlights.
 # Add -CheckCompactSettings for focus routing, native persistence and page scrolling of the compact controls.
+# Use -CheckTrustedRoutineStyles for a focused closed/open trusted-routine dropdown check and captures.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
 ```
 

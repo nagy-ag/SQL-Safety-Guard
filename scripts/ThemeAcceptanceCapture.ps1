@@ -22,6 +22,7 @@ param(
     [Parameter(Mandatory = $true)][string] $OutputDirectory,
     [switch] $CheckPaneHighlights,
     [switch] $CheckCompactSettings,
+    [switch] $CheckTrustedRoutineStyles,
     [switch] $CheckProcedureBody,
     [switch] $CheckCodeBodies,
     [switch] $CheckBalancedPane,
@@ -290,6 +291,19 @@ try {
         Send-Command 'setcapturetheme' $themeValues[$theme]
         Wait-Receipt ('\tcapture-theme\t' + [regex]::Escape($themeValues[$theme]) + '\t[^\t]+\tPASS\r?$')
         Send-Command 'dismisswelcome'
+        if ($CheckTrustedRoutineStyles) {
+            Send-Command 'showqualifiedroutine'
+            Wait-Receipt '\tshown\tqualifiedroutine\t'
+            Send-Command 'settingsappearancecheck' 'routineclosed'
+            Wait-Receipt '\tsettings-appearance\troutineclosed\tPASS\r?$'
+            Capture-Surface 'qualifiedroutine' 'trusted-routine-closed'
+            Send-Command 'settingsappearancecheck' 'routineopen'
+            Wait-Receipt '\tsettings-appearance\troutineopen\tPASS\r?$'
+            Capture-Surface 'routinedropdown' 'trusted-routine-popup'
+            Close-OwnedSsms
+            $process.Dispose(); $process = $null
+            continue
+        }
         Send-Command 'widen' '160'
         if ($CheckPaneHighlights) {
             $highlightSql = Join-Path $script:channelDirectory 'highlights.sql'

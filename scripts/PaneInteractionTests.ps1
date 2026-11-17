@@ -192,6 +192,43 @@ try {
     $control.GetType().GetEvent('CollapseToggled', [Reflection.BindingFlags]'Instance,NonPublic').GetAddMethod($true).Invoke($control, @($collapseHandler))
     $strip.RaiseEvent($collapsedEvent)
     Assert-State ($script:collapseEvents -eq 1) 'The entire collapsed strip must remain one expand target.'
+    # A single expanded object can be taller than the viewport. Wheel input over its
+    # children must move within it, rather than treating the whole object as one step.
+    Invoke-Control ShowPlaceholder @('Test', 'Scrolling regression')
+    $scrollFindings = [Array]::CreateInstance($findingType, 80)
+    for ($i = 0; $i -lt $scrollFindings.Length; $i++) {
+        $scrollFindings.SetValue((New-Group ("dbo.Scroll$i") RealWrite).Findings[0], $i)
+    }
+    $scrollGroup = [Activator]::CreateInstance($groupType, [object[]]@('dbo.TallObject', $scrollFindings))
+    $scrollGroup.IsExpanded = $true
+    $scrollGroups = [Array]::CreateInstance($groupType, 1); $scrollGroups.SetValue($scrollGroup, 0)
+    Invoke-Control ShowResult @('Test', 'Nothing executes', $scrollGroups)
+    $control.Width = 400; $control.Height = 300
+    $control.Measure([Windows.Size]::new(400,300)); $control.Arrange([Windows.Rect]::new(0,0,400,300)); $control.UpdateLayout()
+    $visuals = [Collections.Generic.List[Windows.DependencyObject]]::new()
+    $pending = [Collections.Generic.Queue[Windows.DependencyObject]]::new(); $pending.Enqueue($list)
+    while ($pending.Count) {
+        $visual = $pending.Dequeue(); $visuals.Add($visual)
+        for ($i = 0; $i -lt [Windows.Media.VisualTreeHelper]::GetChildrenCount($visual); $i++) {
+            $pending.Enqueue([Windows.Media.VisualTreeHelper]::GetChild($visual,$i))
+        }
+    }
+    $scroller = @($visuals | Where-Object { $_ -is [Windows.Controls.ScrollViewer] })[0]
+    $headers = @($visuals | Where-Object { $_ -is [Windows.Controls.Button] -and $_.Name -eq 'RowHeader' -and $_.DataContext -is $findingType })
+    Assert-State ($headers.Count -eq 80 -and $scroller.ScrollableHeight -gt 0) 'A tall expanded object must expose its complete content to the pane scroller.'
+    $header = $headers[0]; $initialY = $header.TranslatePoint([Windows.Point]::new(0,0),$list).Y
+    $wheel = [Windows.Input.MouseWheelEventArgs]::new([Windows.Input.Mouse]::PrimaryDevice,0,-120)
+    $wheel.RoutedEvent = [Windows.UIElement]::PreviewMouseWheelEvent; $header.RaiseEvent($wheel)
+    $wheel.RoutedEvent = [Windows.UIElement]::MouseWheelEvent; $header.RaiseEvent($wheel)
+    $control.UpdateLayout()
+    $distance = $initialY - $header.TranslatePoint([Windows.Point]::new(0,0),$list).Y
+    Assert-State ($wheel.Handled -and $distance -gt 0 -and $distance -lt $list.ActualHeight) 'Wheel input over a nested operation must move less than a page within its object.'
+    Assert-State ($null -eq $list.SelectedItem -and $scrollGroup.IsExpanded) 'Scrolling must preserve expansion without selecting or navigating a row.'
+    $scroller.ScrollToEnd(); $control.UpdateLayout()
+    $last = $headers[-1]; $lastY = $last.TranslatePoint([Windows.Point]::new(0,0),$list).Y
+    Assert-State ($lastY -ge 0 -and $lastY + $last.ActualHeight -le $list.ActualHeight + 1) 'The final operation of an oversized object must be fully reachable.'
+    $scroller.ScrollToHome(); $control.UpdateLayout()
+    Assert-State ([Math]::Abs($header.TranslatePoint([Windows.Point]::new(0,0),$list).Y - $initialY) -lt 1) 'Scrolling back must restore the first operation.'
     Write-Output "Passed $script:checks pane interaction checks; no SSMS interaction or SQL execution."
 }
 finally {
