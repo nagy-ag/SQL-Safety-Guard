@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace SqlSafetyGuard.Analyzer
@@ -24,14 +25,24 @@ namespace SqlSafetyGuard.Analyzer
             public string Action { get; }
 
             public string Note { get; }
+            public StringLiteral Query => (Reference as OpenQueryTableReference)?.Query ?? (Reference as OpenRowsetTableReference)?.Query;
         }
 
-        public static void Scan(TSqlFragment fragment, out List<RemoteSource> remoteSources, out List<NextValueForExpression> sequences)
+        public sealed class FunctionSource
+        {
+            public TSqlFragment Reference;
+            public int NameStart;
+            public int NameLength;
+        }
+
+        public static void Scan(TSqlFragment fragment, out List<RemoteSource> remoteSources, out List<NextValueForExpression> sequences,
+            out List<FunctionSource> functions)
         {
             var collector = new Collector();
             fragment?.Accept(collector);
             remoteSources = collector.RemoteSources;
             sequences = collector.Sequences;
+            functions = collector.Functions;
         }
 
         /// <summary>
@@ -88,6 +99,25 @@ namespace SqlSafetyGuard.Analyzer
             public List<RemoteSource> RemoteSources { get; } = new List<RemoteSource>();
 
             public List<NextValueForExpression> Sequences { get; } = new List<NextValueForExpression>();
+            public List<FunctionSource> Functions { get; } = new List<FunctionSource>();
+            public override void Visit(TSqlFragment node) => AnalysisWork.Check();
+
+            public override void Visit(FunctionCall node)
+            {
+                // Unqualified scalar calls are SQL built-ins; schema/object/UDT calls need implementation proof.
+                if (node.CallTarget == null) return;
+                Functions.Add(new FunctionSource { Reference = node, NameStart = node.CallTarget.StartOffset,
+                    NameLength = node.FunctionName.StartOffset + node.FunctionName.FragmentLength - node.CallTarget.StartOffset });
+            }
+
+            public override void Visit(SchemaObjectFunctionTableReference node)
+            {
+                var name = node.SchemaObject;
+                // These unqualified relational built-ins have no user-supplied implementation.
+                if (name.Identifiers.Count == 1 && (string.Equals(name.BaseIdentifier.Value, "STRING_SPLIT", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(name.BaseIdentifier.Value, "GENERATE_SERIES", StringComparison.OrdinalIgnoreCase))) return;
+                Functions.Add(new FunctionSource { Reference = node, NameStart = name.StartOffset, NameLength = name.FragmentLength });
+            }
 
             public override void Visit(OpenQueryTableReference node) =>
                 RemoteSources.Add(new RemoteSource(node, "OPENQUERY",

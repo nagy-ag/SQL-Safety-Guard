@@ -76,8 +76,8 @@ namespace SqlSafetyGuard.UI
         private void ShowProblem()
         {
             var rule = Selected;
-            FormProblem.Text = rule?.Problem ?? "";
-            FormProblem.Visibility = rule?.HasProblem == true ? Visibility.Visible : Visibility.Collapsed;
+            FormProblem.Text = rule?.Problem ?? (rule == null ? "" : RuleText.QualificationWarning(rule)) ?? "";
+            FormProblem.Visibility = FormProblem.Text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) => ShowSelected();
@@ -145,7 +145,7 @@ namespace SqlSafetyGuard.UI
         private void OnEditAsText(object sender, RoutedEventArgs e)
         {
             var editor = new SettingsListDialog("Environment rules as text",
-                "One rule per line: server | database | label | Off/Red/YellowRed | false | safe tables | trusted procedures. " +
+                "One rule per line: server | database | label | Off/Red/YellowRed | false | safe tables | trusted routines. " +
                 "A line starting with -- is the note for the rule below it. Choosing Save returns to the list; nothing is stored until you choose Save there.",
                 CurrentText);
             editor.Save = LoadText;

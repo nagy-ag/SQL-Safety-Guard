@@ -32,7 +32,7 @@ public class SamplesTests
     [Fact]
     public void AllowListExample_TurnsGreenWithPattern()
     {
-        var result = SqlSafetyAnalyzer.Analyze("UPDATE dbo.Staging_Import SET X = 1;", new AnalyzerOptions(new[] { "dbo.Staging_*" }));
+        var result = SqlSafetyAnalyzer.Analyze("UPDATE dbo.Staging_Import SET X = 1;", new AnalyzerOptions(new[] { "Host.App.dbo.Staging_*" }, currentServer: "Host", currentDatabase: "App"));
         Assert.Equal(Verdict.AllowListed, result.Overall);
     }
 

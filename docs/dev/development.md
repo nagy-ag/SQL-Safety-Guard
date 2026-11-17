@@ -55,14 +55,14 @@ packages.lock.json files, review that diff and run the required checks. Do not d
    `SSMS.exe -log <file>.xml` writes an activity log that shows whether `SqlSafetyGuardPackage` loaded.
 4. To test the failure path, start an isolated SSMS (Debug build installed) with
    `SQLSAFETYGUARD_FAULT_INJECTION=1`. A checked execution throws before classification and shows the failure box:
-   Cancel blocks execution; Run anyway allows that dispatch to continue. Known Off settings skip a verified-target
+   Cancel blocks execution; Run anyway allows that dispatch to continue. Known Off settings without destination context rules skip a verified-target
    check. Output logs the failure, the toolbar shows degraded health, and an InfoBar is attempted once per session.
    The switch is compiled out of Release builds.
 5. Debug builds also write a pane timing trace (no query text) to `%TEMP%\SqlSafetyGuard-pane-trace.log`, and the
    pane accepts test commands from `%TEMP%\SqlSafetyGuard-pane-cmd.txt` (lines `documentName|verb|argument`, e.g.
    `SQLQuery1.sql|caret|12`, `|select|8 10`, `|append|DELETE FROM t;`, `|pick|dbo.Orders`, `|collapse`, `|dump`;
-   see `SafetyPaneMargin.TestChannel.cs`). `page|settings` / `page|analysis` switch pages; `safe` toggles the footer.
-   `dump` includes header counts/scope/environment, sections and all object rows, plus effective settings and pattern
+   see `SafetyPaneMargin.TestChannel.cs`). `page|settings` / `page|analysis` switch pages; `filter|Writes,Unknown` combines display flags and `labels|Automatic` restores adaptive labels.
+   `dump` includes unfiltered operation counts, scope/environment, sections and all object rows, plus effective settings and pattern
    sources. That lets the pane be tested without driving the mouse or keyboard.
    `guardfailurecheck|Cancel` and `guardfailurecheck|Run anyway` invoke the production guard handler with fault
    injection and exercise the themed failure box. They journal CancelDefault instead of dispatching SQL; this checks
@@ -103,7 +103,7 @@ The six `Options/registration.json` properties remain the storage/migration cont
 the duplicate generated controls. Category keywords retain discovery by setting name. Do not rename or retype these
 properties to change layout. The control uses the existing persistence method and command IDs, not a second settings store.
 
-The three list settings show only counts on the page. `UI/PatternListDialog` (safe tables, trusted procedures) and
+The three list settings show only counts on the page. `UI/PatternListDialog` (safe tables, trusted routines) and
 `UI/RulesDialog` (environment rules) edit them as entries with named fields. `Options/SettingsEntries.cs` is the
 editor model, shared as source with the unit tests: it parses the stored text into entries (a `--` line above an entry
 is its note), composes it back, validates each entry and explains or tests a pattern. Matching and validation always go

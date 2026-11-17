@@ -5,7 +5,7 @@ namespace SqlSafetyGuard.Tests;
 public class AdditionalAnalyzerTests
 {
     private static AnalysisResult Analyze(string sql, params string[] allowList) =>
-        SqlSafetyAnalyzer.Analyze(sql, new AnalyzerOptions(allowList));
+        SqlSafetyAnalyzer.Analyze(sql, new AnalyzerOptions(allowList.Select(pattern => "Host.App." + pattern), currentServer: "Host", currentDatabase: "App"));
 
     [Fact]
     public void UsesNewestParser()

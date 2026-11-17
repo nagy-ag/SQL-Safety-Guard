@@ -19,6 +19,7 @@ the VSIX; dotnet builds the offline projects. See [development.md](development.m
 
 - `SqlSafetyAnalyzer` owns preprocessing, limits and the analysis entry point.
 - `StatementWalker` owns statement dispatch, control/transaction flow, DML findings and row-filter annotations.
+- `DynamicSqlVariables` proves supported batch-local string inputs to EXEC without executing SQL or retrieving session values.
 - `Classifier` keeps audited tables; `TargetResolver` follows aliases/CTEs/derived targets before temporary-name classification.
 - `Scope` maps positions from recovered batches and literal dynamic SQL to editor text; it does not query database scope.
 - `SideEffectScanner` detects effects embedded in reads. `AnalysisResult` aggregates findings and parse errors.
@@ -46,6 +47,36 @@ the VSIX; dotnet builds the offline projects. See [development.md](development.m
 The pane uses the active document for display. The guard independently captures SSMS's actual execution target and checks
 other host identities for disagreement. Do not merge these authorities. Shared formatting and settings must never substitute
 pane state for the captured execution snapshot.
+
+`PanePresentation` owns display-only verdict filtering and operation counts. `PaneGroup.Findings` always retains the
+complete findings; `VisibleFindings` is a projection used only for rendering and explicit pane navigation/highlighting.
+Worst object verdicts, unfiltered display totals and guard decisions never use the filtered projection. Operations are not merged
+by editor line or source span: dynamic SQL can map several distinct actions to one EXEC span. `PaneOperationPresentation`
+uses the analyzer's dynamic-SQL provenance note and source span to place decoded operations under one outer EXEC;
+separate EXECs retain separate containers. An ordinal keeps otherwise identical operations independently expandable.
+Highlight rendering combines identical editor spans at the worst visible verdict, so a green decoded operation cannot
+paint over a permanent write at the same EXEC anchor. This combines adornments only, never operation rows or counts.
+Optional `Finding.SourceRanges` track decoded operation characters back through proven literals, variable copies,
+concatenation and nested dynamic text. Existing Finding offsets remain execution anchors for guard compatibility.
+Selecting a dynamic block uses its EXEC as the primary location; selecting a decoded operation uses its string
+fragments, with the other location outlined neutrally. Missing provenance falls back to EXEC without changing proof.
+Rendered text rectangles are unioned before stroking, removing shared borders across adjacent visual rows, including
+wrapped lines. Verdict fills remain separate, ordered from least to most severe; disjoint ranges stay unfilled.
+Typed code bodies attach to their exact containing finding. Object and containing-operation markers retain the actual verdict; their preview badges show purple Inside or gray Remote totals. An expandable preview row uses the matching purple/gray left circle and the real risk breakdown on the right. Child operations retain their risk markers and source order. `Counts` and object `DisplayCounts` stay submission-only; badges count preview descendants separately.
+
+The six display-only flags combine effect colors by union and gate Inside and Remote previews. Context independently matches `IsContextChange`, without requiring Safe. `PaneDisplayCounts` separates those context operations from green display totals while `PaneVerdictCounts` and analyzer verdicts remain unchanged. Recursive matching retains ancestors without changing their verdicts. `MatchingOperations` supplies matched operations for object navigation/highlighting. Full model collections and counts remain unfiltered. Automatic label measurement switches the whole row between text and circles without wrapping; explicit Text raises the minimum width. Modes are available from the filter/Analysis context menu and retain filter selections. Tooltips pair each name/count with its semantic `SafetyDictionary` description.
+
+The expanded header contains the analyzed scope without color badges. The collapsed strip derives passive numbered circles from the same six unfiltered `FilterCount` totals as the display controls; absent categories are omitted. It keeps color meanings and accessible names, shrinks large numbers within circular badges, and clears stale counts on pending/placeholder transitions. All circles share the strip's existing expand target; they are not additional filter controls.
+
+`LineGutterWidth` measures the widest operation line across full model descendants when results change. All header templates bind the same width, including an empty gutter on previews. Tabular, right-aligned digits and spacing separate line numbers from counts; filtering and expansion do not recalculate the width.
+Definition risk fill and navigation use a tracking span for the header line. A separate, unfilled purple rectangle
+outlines the full parsed module span, excluding GO and separate calls. Parent-operation links preserve the nearest
+enclosing module context when selecting nested preview operations. Context adornments use the body-context tag;
+they clear and restore with the existing persistent selection. The pane moves the caret without taking
+editor focus for mouse navigation and preserves the execution selection. Highlights persist through passive analysis
+and clear on another click, editor interaction, edits, selection changes or filter changes. The process-local WPF input
+observer is removed when the margin is disposed. Minimum expanded width is measured from the actual filter buttons and
+counts; whole-target warnings appear only in expanded operation reasons, never row headers.
 
 
 
@@ -78,19 +109,38 @@ stack, not the SSMS UI stack. Cancellation is checked during tokenization, parsi
 - **Composable DML** in derived table sources is classified independently of its outer target. Inserting into
   `#audit` from `(DELETE dbo.Customers OUTPUT deleted.Id)` is red. Nested `OUTPUT … INTO` targets are classified
   separately too. `INSERT … EXEC` adds an Unknown finding.
-- **Literal dynamic SQL** (`EXEC('…')`, `EXEC('a' + 'b')`, `sp_executesql N'…'`) is parsed recursively, up to 3
-  levels deep. Its findings are reported at the EXEC's line with the note "inside dynamic SQL". Anything built
-  at runtime is Unknown.
-- Creating a module does not run its body. Procedure definitions visible in the text additionally produce
-  `AnalysisResult.ProcedureBodies`: deferred findings from a fresh walker with independent transaction and target
-  context, original editor positions, and the shared cancellation/work budget. They never enter execution verdicts,
-  counts or F5 warnings. Recovery in a broken batch, unavailable T-SQL bodies, dynamic parse failures and limits mark
-  body analysis incomplete. Calls do not resolve procedure definitions from the editor or server. Function, trigger
-  and view bodies remain outside this inspection feature.
+- **Dynamic SQL** (`EXEC('…')`, `EXEC('a' + 'b')`, `sp_executesql N'…'`) is parsed recursively, up to 3
+  levels deep. Its findings are reported at the EXEC's line with the note "inside dynamic SQL".
+  `DynamicSqlVariables` additionally proves batch-local `varchar`/`nvarchar` strings from straight-line `DECLARE`,
+  `SET`, copies, `+` and `+=`, including ordinary `BEGIN/END` blocks. It records inputs at each EXEC and gives nested
+  dynamic batches and procedure bodies independent maps. No values cross `GO` or come from text outside the selection.
+  Batches containing branches, loops, jumps or TRY/CATCH do not use variable proof. Other unmodeled statements clear
+  known values, including SELECT/UPDATE assignments, cursor FETCH and procedure outputs. Truncating assignments or
+  expressions, unsupported conversions/types, non-ASCII varchar text and ambiguous variable casing stay Unknown.
+  Expansion is bounded to one million characters and shares the analyzer's work/time budget. Decoded findings use the normal pane and confirmation paths; qualified approval and destination-context policies still apply.
+- Creating a module does not run its body. `AnalysisResult.CodeBodies` contains typed `CodeBodyAnalysis` previews
+  for procedure, DML/DDL/logon trigger, scalar/inline-table/multi-statement-table function and view definitions.
+  (`ProcedureBodies` is a compatibility alias.) Each fresh walker has independent transaction/target/variable context,
+  original editor positions, and the shared cancellation/work budget. RETURN expressions are scanned too.
+  Preview findings never enter execution verdicts, counts or F5 warnings. Recovery in a broken batch, unavailable
+  T-SQL/CLR bodies, dynamic parse failures and limits mark the preview incomplete. A module owns the rest of its batch
+  during recovery, including errors reported inside RETURN or SELECT. Calls never resolve definitions from the editor
+  or server.
+- Embedded remote query strings and SQL Agent T-SQL commands use the same model with separate context labels and
+  source maps. OPENQUERY/query OPENROWSET (sources and write targets) and EXEC AT keep their original outer verdicts;
+  remote T-SQL interpretation never proves a remote runtime safe. Job command previews apply to named proven strings
+  in sp_add_jobstep/update_jobstep. Only add defaults to TSQL; update needs a proven subsystem. Agent tokens, positional
+  arguments and unproven/non-T-SQL commands stay opaque. Remote/job walkers clear local allow/trust/tempdb opt-ins.
+  Previews can nest to eight inspected levels, with an explicit Unknown diagnostic at the limit. Pane models attach
+  nested bodies by exact finding identity and restore expansion/selection recursively. Children use SQL source ranges
+  as primary highlights; Sent at/Stored at links retain the containing execution anchor.
 - **Side effects hidden in reads:**
   - `OPENQUERY`, `OPENROWSET` (query form) and `OPENDATASOURCE` used as a *source* are Unknown. They send text
     to another server, and that text can change data there. This applies in FROM, subqueries, CTEs, `DECLARE`,
     `SET`, cursors and IF/WHILE conditions.
+  - Qualified scalar/object-method and unknown table-valued calls produce Unknown FUNCTION findings; unqualified scalar
+    built-ins and recognized unqualified STRING_SPLIT/GENERATE_SERIES retain their existing behavior. No deployed
+    implementation is inferred, including from a visible definition.
   - `NEXT VALUE FOR` is a Real write: it advances the sequence, and `ROLLBACK` doesn't undo it.
   - Not flagged: `OPENROWSET(BULK …)`, which only reads a file; four-part-name reads (`srv.db.dbo.t`), which read
     a remote table; and a `DEFAULT (NEXT VALUE FOR …)` in `CREATE TABLE`, which doesn't run anything.
@@ -216,3 +266,11 @@ The evidence behind them:
   live-passed kinds, three failed-only kinds and 64 kinds not tested live.
 - [Statement verdicts](../user/statement-verdicts.md) give representative SQL and colours; [status.md](../status.md) has
   the current verification state.
+
+## Qualified authorization and context
+
+AnalyzerOptions uses strict four-part rule matching for production classification. The existing AllowList parser retains a compatibility mode for text import and legacy editor round-trips; that mode is not used to grant analyzer authorization. Object rules require literal server/database/schema and exact case, with globs only in the final name. Procedure and FUNCTION-prefixed function entries are separate. Written linked-server aliases cannot establish a destination. SQL must include a schema; default-schema fallback is not proof of object identity.
+
+StatementWalker retains a conservative union of possible databases after USE, including across GO. Repeated control flow pre-collects visible USE destinations; decoded dynamic execution saves/restores context. Body previews use a fresh walker without verified execution identity. Context-specific allow-list regexes are cached per options instance. Finding.RequiresConfirmation carries destination policy escalation to GuardSettings.ShouldWarn independently of the overall verdict. Context rules prevent an initial Off fast path from bypassing that analysis; errors and unverified switches fail closed.
+
+SafetyDictionary supplies shared semantic descriptions to the toggle tooltips and six structured settings rows. IsContextChange drives the primary blue pane marker, independent Context count/filter, and selection outline. The analyzer still classifies USE as ReadOnly; no execution policy is inferred from its display category. Compact settings use supported shell styles for checkboxes and the warning ComboBox, with theme-resource foregrounds for checkbox labels and the legend.

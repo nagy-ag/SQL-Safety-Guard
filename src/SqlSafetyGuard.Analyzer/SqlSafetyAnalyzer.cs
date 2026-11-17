@@ -20,7 +20,7 @@ namespace SqlSafetyGuard.Analyzer
             cancellationToken.ThrowIfCancellationRequested();
             if (sql != null && sql.Length > MaxTextLength)
                 return new AnalysisResult(new[] { new Finding(1, 1, 0, 0, "NOT ANALYZED", string.Empty, null, Verdict.Unknown,
-                    $"too large to analyze ({sql.Length * 2d / (1024 * 1024):N1} MB of UTF-16 text); no safety check was performed") }, new SqlParseError[0]);
+                    $"too large to analyze ({sql.Length * 2d / (1024 * 1024):N1} MB of UTF-16 text); no safety check was performed", requiresConfirmation: options?.EnvironmentRules?.HasRules == true) }, new SqlParseError[0]);
             AnalysisResult result = null;
             Exception failure = null;
             var worker = new Thread(() =>
@@ -44,7 +44,8 @@ namespace SqlSafetyGuard.Analyzer
             var findings = new List<Finding>();
             var errors = new List<SqlParseError>();
             var skipped = new List<SkippedRegion>();
-            var bodies = new List<ProcedureBodyAnalysis>();
+            var bodies = new List<CodeBodyAnalysis>();
+            StatementWalker walker = null;
             foreach (var warning in options.AllowList.Warnings.Concat(options.TrustedProcedures.Warnings).Concat(options.ConfigurationWarnings))
                 findings.Add(new Finding(1, 1, 0, 0, "SETTINGS WARNING", string.Empty, null, Verdict.Unknown, warning));
 
@@ -52,7 +53,7 @@ namespace SqlSafetyGuard.Analyzer
             {
                 if (!string.IsNullOrWhiteSpace(sql))
                 {
-                    var walker = new StatementWalker(options, findings, errors, skipped, bodies);
+                    walker = new StatementWalker(options, findings, errors, skipped, bodies);
 
                     Scope scope;
                     if (!SqlCmdPreprocessor.LooksLikeSqlCmd(sql))
@@ -81,13 +82,14 @@ namespace SqlSafetyGuard.Analyzer
             }
             catch (AnalysisLimitException exception)
             {
-                findings.Add(new Finding(1, 1, 0, 0, "NOT ANALYZED", string.Empty, null, Verdict.Unknown, exception.Message));
+                findings.Add(new Finding(1, 1, 0, 0, "NOT ANALYZED", string.Empty, null, Verdict.Unknown, exception.Message, requiresConfirmation: options.EnvironmentRules?.HasRules == true));
             }
 
             // Text order (stable, so findings of the same dynamic SQL keep their order).
             var ordered = findings.OrderBy(f => f.StartOffset).ToList();
             return new AnalysisResult(ordered, errors.OrderBy(e => e.Offset).ToList(), skipped.OrderBy(s => s.StartOffset).ToList(),
-                bodies.OrderBy(body => body.Definition.StartOffset).ToList());
+                bodies.OrderBy(body => body.Definition.StartOffset).ToList(),
+                requiresContextConfirmation: errors.Count > 0 && (options.EnvironmentRules?.HasRules == true || walker?.RequiresErrorConfirmation == true));
         }
     }
 }

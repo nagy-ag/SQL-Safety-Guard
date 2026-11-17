@@ -6,6 +6,23 @@
     Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
     FontSize="12" HorizontalContentAlignment="Stretch">
     <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+        </Style>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Static vsshell:VsResourceKeys.ThemedDialogCheckBoxStyleKey}}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+        </Style>
+        <Style TargetType="Expander">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+        </Style>
+        <DataTemplate x:Key="MeaningRow">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="18" /><ColumnDefinition Width="80" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Ellipse Width="8" Height="8" Fill="{Binding Marker}" VerticalAlignment="Top" Margin="0,4,0,0" />
+                <TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="2" Text="{Binding Meaning}" TextWrapping="Wrap" />
+            </Grid>
+        </DataTemplate>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Static vsshell:VsResourceKeys.ThemedDialogButtonStyleKey}}">
             <Setter Property="Padding" Value="10,5" />
             <Setter Property="MinHeight" Value="30" />
@@ -44,6 +61,7 @@
                 <StackPanel><TextBlock Text="F5 warnings" Style="{StaticResource SettingTitle}" />
                     <TextBlock Style="{StaticResource SettingHelp}" Text="Choose when executing SQL requires confirmation. Unknown execution targets always require confirmation." /></StackPanel>
                 <ComboBox x:Name="WarningMode" Grid.Column="1" VerticalAlignment="Top" MinHeight="30" Padding="6,4"
+                    Style="{DynamicResource {x:Static vsshell:VsResourceKeys.ThemedDialogComboBoxStyleKey}}"
                     AutomationProperties.Name="F5 warnings" SelectionChanged="OnModeChanged">
                     <ComboBoxItem Content="Off" /><ComboBoxItem Content="Warn on red only" /><ComboBoxItem Content="Warn on yellow and red" />
                 </ComboBox>
@@ -60,7 +78,7 @@
         <Border Style="{StaticResource SettingRow}">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="310" /></Grid.ColumnDefinitions>
                 <StackPanel><TextBlock Text="Safe tables allow-list" Style="{StaticResource SettingTitle}" />
-                    <TextBlock Style="{StaticResource SettingHelp}" Text="Matching data writes become green. This authorizes the target and its side effects; DDL stays red. Use Edit list to add, change or test patterns." /></StackPanel>
+                    <TextBlock Style="{StaticResource SettingHelp}" Text="Use server.database.schema.table. Matching data writes and their side effects are authorized; DDL stays red. Use Edit list to add, change or test patterns." /></StackPanel>
                 <Grid Grid.Column="1" VerticalAlignment="Top"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                     <StackPanel>
                         <Border x:Name="AllowListBox" Style="{StaticResource Summary}"><TextBlock x:Name="AllowListSummary" AutomationProperties.Name="Safe tables allow-list" /></Border>
@@ -72,14 +90,14 @@
         </Border>
         <Border Style="{StaticResource SettingRow}">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="310" /></Grid.ColumnDefinitions>
-                <StackPanel><TextBlock Text="Trusted procedures" Style="{StaticResource SettingTitle}" />
-                    <TextBlock Style="{StaticResource SettingHelp}" Text="Explicitly authorized procedures become green without inspecting their bodies. Use Edit list to add, change or test procedures." /></StackPanel>
+                <StackPanel><TextBlock Text="Trusted routines" Style="{StaticResource SettingTitle}" />
+                    <TextBlock Style="{StaticResource SettingHelp}" Text="Approve server.database.schema.routine and choose Procedure or Function. Calls and their effects are authorized without retrieving implementations." /></StackPanel>
                 <Grid Grid.Column="1" VerticalAlignment="Top"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Border x:Name="TrustedBox" Style="{StaticResource Summary}"><TextBlock x:Name="TrustedSummary" AutomationProperties.Name="Trusted procedures" /></Border>
+                        <Border x:Name="TrustedBox" Style="{StaticResource Summary}"><TextBlock x:Name="TrustedSummary" AutomationProperties.Name="Trusted routines" /></Border>
                         <TextBlock x:Name="TrustedProblem" Style="{StaticResource Problem}" />
                     </StackPanel>
-                    <Button x:Name="EditTrustedProcedures" Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="262" Click="OnCommand" VerticalAlignment="Top" AutomationProperties.Name="Edit trusted procedures" />
+                    <Button x:Name="EditTrustedProcedures" Grid.Column="1" Content="Edit list..." Margin="8,0,0,0" Tag="262" Click="OnCommand" VerticalAlignment="Top" AutomationProperties.Name="Edit trusted routines" />
                 </Grid>
             </Grid>
         </Border>
@@ -104,6 +122,21 @@
                     AutomationProperties.Name="Permanent tempdb objects are temporary" Checked="OnTempdbChanged" Unchecked="OnTempdbChanged" />
             </Grid>
         </Border>
+        <Expander x:Name="ColorMeanings" Header="Colors and meanings" Margin="0,12,0,0">
+            <StackPanel Margin="18,8,0,0">
+                <TextBlock Text="Effects" FontWeight="SemiBold" Margin="0,0,0,3" />
+                <ItemsControl x:Name="EffectMeanings" ItemTemplate="{StaticResource MeaningRow}" />
+                <TextBlock Text="Code and context" FontWeight="SemiBold" Margin="0,12,0,3" />
+                <ItemsControl x:Name="ContextMeanings" ItemTemplate="{StaticResource MeaningRow}" />
+                <Expander Header="SQL terms" Margin="0,10,0,0">
+                    <StackPanel Margin="18,4,0,0">
+                        <TextBlock Text="Definition — stores or changes code now. The contained operations are previewed separately." TextWrapping="Wrap" Margin="0,4" />
+                        <TextBlock Text="Call — requests execution. A visible definition is a preview, not proof of which implementation runs." TextWrapping="Wrap" Margin="0,4" />
+                        <TextBlock Text="Dynamic SQL — decoded text is assessed at EXEC; a declaration or assignment supplies its source." TextWrapping="Wrap" Margin="0,4" />
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </Expander>
         <TextBlock x:Name="SaveError" Visibility="Collapsed" TextWrapping="Wrap" Margin="0,10,0,0" AutomationProperties.LiveSetting="Assertive" />
         <WrapPanel Margin="0,16,0,0">
             <Button Content="Import Settings..." Tag="258" Click="OnCommand" Margin="0,0,8,8" />

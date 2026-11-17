@@ -281,7 +281,7 @@ public class StatementVerdictsTests
             notes.Add("Unmatched transaction boundary in isolation. " +
                 Variant("for a balanced transaction", "BEGIN TRAN; COMMIT;"));
         if (kind is "UpdateStatement" or "DeleteStatement" or "InsertStatement" or "MergeStatement" or "TruncateTableStatement")
-            notes.Add(Variant("with an allow-listed target", example, new AnalyzerOptions(new[] { "dbo.Items" })));
+            notes.Add(Variant("with an allow-listed target", example, new AnalyzerOptions(new[] { "Host.App.dbo.Items" }, currentServer: "Host", currentDatabase: "App")));
         if (kind == "SelectStatement")
         {
             notes.Add(Variant("for SELECT INTO a permanent table", "SELECT 1 AS Id INTO dbo.Items;"));
@@ -290,9 +290,12 @@ public class StatementVerdictsTests
         if (kind == "ExecuteStatement")
         {
             notes.Add(Variant("for a built-in read-only system procedure", "EXEC sys.sp_help;"));
-            notes.Add(Variant("when this procedure is trusted in settings", example, new AnalyzerOptions(trustedProcedures: new[] { "dbo.CoverageProc" })));
+            notes.Add(Variant("when this procedure is trusted in settings", example, new AnalyzerOptions(currentServer: "Host", currentDatabase: "App", trustedProcedures: new[] { "Host.App.dbo.CoverageProc" })));
             notes.Add(Variant("for literal dynamic SQL that reads", "EXEC(N'SELECT 1');"));
             notes.Add(Variant("for literal dynamic SQL that writes", "EXEC(N'DELETE dbo.Items');"));
+            notes.Add(Variant("for a proven string variable that reads", "DECLARE @sql nvarchar(max)=N'SELECT 1'; EXEC(@sql);"));
+            notes.Add(Variant("for a proven string variable that writes", "DECLARE @sql nvarchar(max)=N'DELETE dbo.Items'; EXEC sp_executesql @sql;"));
+            notes.Add(Variant("when a string variable is unavailable", "EXEC(@sql);"));
             notes.Add(Variant("for a known writing system procedure", "EXEC sys.sp_configure N'maxdop', 1;"));
         }
         if (kind == "DbccStatement")
@@ -315,7 +318,7 @@ public class StatementVerdictsTests
         var targetStatement = Statements(fragment).First(statement => statement.GetType().Name == kind);
         if (targetStatement is BulkInsertBase bulk)
             notes.Add(Variant("with an allow-listed target", example,
-                new AnalyzerOptions(new[] { string.Join(".", bulk.To.Identifiers.Select(identifier => identifier.Value)) })));
+                new AnalyzerOptions(new[] { "Host.App." + string.Join(".", bulk.To.Identifiers.Select(identifier => identifier.Value)) }, currentServer: "Host", currentDatabase: "App")));
         if (kind == "AlterTableSwitchStatement")
         {
             var permanentDestination = AnalyzeColour("ALTER TABLE #Items SWITCH TO dbo.Other;");

@@ -49,7 +49,8 @@ namespace SqlSafetyGuard.UI
                 SettingsText.Text = "SQL Safety Guard settings contain errors. Review Tools > Options > SQL Safety Guard.";
                 SettingsText.Visibility = Visibility.Visible;
             }
-            TargetSwitchText.Visibility = result.Findings.Any(finding => finding.Action == "TARGET SWITCH") ? Visibility.Visible : Visibility.Collapsed;
+            TargetSwitchText.Visibility = result.RequiresConfirmation || result.Findings.Any(finding => finding.Action == "TARGET SWITCH" || finding.IsContextChange) ? Visibility.Visible : Visibility.Collapsed;
+            if (result.RequiresConfirmation) TargetSwitchText.Text = "A destination context requires confirmation. The displayed connection is the initial one; short names may refer to more than one database if a switch fails.";
 #if DEBUG
             if (!string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("SQLSAFETYGUARD_TEST_DIRECTORY")))
                 ShowActivated = false;

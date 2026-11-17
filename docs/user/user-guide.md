@@ -9,9 +9,9 @@ Not installed yet? See the [install guide](install.md). To change what is checke
 
 | Verdict | Colour | Meaning |
 |---|---|---|
-| Read-only | 🟢 | SELECT, variable/session/control statements, balanced transactions, read-only or trusted procedures |
+| Read-only | 🟢 | SELECT, variable/session/control statements, balanced transactions, recognized read-only procedures |
 | Temp only | 🟢 | Writes only to temporary tables/procedures or table variables; permanent tempdb objects require opt-in |
-| Allow-listed | 🟢 | Writes only to tables matching your allow-list |
+| Allow-listed | 🟢 | Explicitly authorized target writes or typed routine calls and their reachable effects |
 | Unknown | 🟡 | Can't see what runs: EXEC of procedures, runtime dynamic SQL, `INSERT ... EXEC`, DBCC/BACKUP/…, parse errors |
 | Real write | 🔴 | Any change to a permanent object (DML, DDL, security, remote writes) |
 
@@ -26,9 +26,8 @@ change the selection; nothing is executed and SSMS does not freeze.
 
 ### Header
 
-The header shows red and yellow circles with the number of affected objects, or a green check when there are none
-(grey before the first result). Next to it, **Whole window** or **Selection, lines N–N** says what was analyzed. Hover
-for the analysis summary and what F5 will do. The header never shows verdict words or the server name.
+The header shows **Whole window** or **Selection, lines N through N** to identify the analyzed text. Color counts live in the
+six display controls below it; the header has no verdict badges. Hover a control for its name, operation count and color meaning.
 
 When an [environment rule](settings.md#environment-rules) matches the connection, a small label tag and a thin line
 appear at the top: red for labels containing **PROD**, slate grey for all others. Unknown connections and unmatched
@@ -36,34 +35,44 @@ rules have no tag.
 
 ### ☰ Analysis
 
-Objects are grouped into three sections, whose counts match the header circles:
+Each object appears once, ordered by its most serious verdict and then source position. Its single-line row shows the
+schema/name, worst overall verdict, counts of submitted red/yellow/green operations, and the first visible source line.
+The left marker keeps the actual safety verdict; database-context operations use blue. On the right, red/yellow/green counts describe submitted operations; a purple circle and total describe operations inside deferred code, and a gray circle and total describe remote previews. For example, a trigger can show red 1 plus purple 2: one definition write, two operations inside. Expanding its preview shows a purple left circle and the actual red/yellow/green breakdown on the right. Individual operations retain their own risk markers. Hover for the execution context. Purple editor outlines describe the full code container, not another safety verdict.
+Dynamic SQL executed now keeps its risk colours. Hover for
+the full name and database. Whole-target warnings appear only in the expanded operation explanation, such as
+**No WHERE clause: can affect every row**. Object and operation headers carry no repeated risk badge.
 
-- **Changes to permanent objects** (red)
-- **Can't see inside** (yellow)
-- **Allowed by your settings** (safe-table patterns and trusted procedures)
+Six independent toggle buttons replace All: **Writes**, **Unknown**, **Safe**, **Inside** (purple), **Context** (blue) and **Remote** (gray). Click to enable or disable each; all enabled shows everything. Risk colors combine as a union; Inside and Remote enable their previews using the selected effect colors. Context independently shows `USE`, even with Safe off. Ancestors remain visible to reach matching descendants, keeping their actual risk markers. If nothing matches, the pane explains the empty state.
 
-Each row is one object and shows its schema/name, statement type and first line number; the database is in the tooltip.
-Repeated statements show **×N**, additional statement types **+N**, and transaction statements without a target show
-**Transaction**. Empty sections are hidden.
+**Automatic** labels use text and counts when space allows, then circles and counts in a narrow pane. Right-click the filter row or Analysis button for Automatic / Text / Circles. Text mode requires a wider minimum pane; all modes keep one row, including large counts. Label changes preserve enabled filters. Hover and accessible names identify circles; inactive circles are outlined.
 
-**No permanent changes detected · N** at the bottom lists the green objects. It opens automatically when nothing is red
-or yellow; its arrow points down when collapsed and up when expanded. The procedure-body and nested safe-section
-arrows use the same directions.
+Risk-control counts and ordinary object counts exclude previews. Context counts submitted context changes separately from Safe. Inside and Remote count their preview operations, so the six totals should not be added. Preview rows show their own effect/context breakdown. All counts and overall warnings stay stable when filtering. Hover a toggle for its name, number and color meaning. Display filters never change execution analysis or the confirmation policy.
+
+Line numbers have a shared, right-aligned gutter sized to the widest operation line in the current results, including collapsed children. The gutter uses spacing only and stays fixed while filtering or expanding, so right-side counts remain aligned. A new analysis can release unused width.
+
+Objects start collapsed. Double-click one, or use its arrow, to see one compact row per analyzed operation, including
+repeated UPDATE, DELETE and INSERT operations. Each operation retains its own verdict and source position. A SQL
+statement can produce several operations, including several at the same line or inside dynamic SQL; none are discarded
+to make the counts smaller. Double-click an operation for a short reason; the SQL stays in the editor.
+
+Operations without a known target remain separate from named objects. Ordinary reads are not currently attributed to
+every referenced table, and an unknown dynamic SQL target is never guessed. Transaction operations show **Transaction**.
+
+Open [the compact-pane sample](../../samples/04-compact-pane.sql) to inspect repeated writes and an object with both
+red and yellow operations. No SQL connection or execution is needed.
 
 ### Procedure definitions in the editor
 
 When the window contains a `CREATE`, `ALTER` or `CREATE OR ALTER PROCEDURE`, its definition keeps its normal verdict:
 red for a permanent procedure, green for a temporary procedure. Submitting a definition does not run its body.
 
-Double-click the procedure row to see **Body — potential effects when called**. A single procedure opens automatically.
-The body nests the normal pane sections and object rows beneath the SP. Each row stays on one line with the
-object name, statement summary and first line number; expand it for individual statement lines and whole-target
-warnings. The nested section counts describe body objects, independently of the execution header. Operations
-allowed by settings keep their own section, and **No permanent changes detected** is collapsed below the warnings.
-Expanded body objects and the nested safe section stay open across reanalysis.
-Single-click an internal object to highlight all its statements; double-click to expand or collapse its details.
-Click an individual statement to jump to and highlight only it without selecting SQL text. Body findings do not enter the
-header counts or the F5 confirmation: those describe only what submitting the current selection/window would do.
+Double-click the procedure object, then its **CREATE/ALTER PROCEDURE** row to inspect the preview. Its compact **Inside** row has a purple circle on the left and the preview's actual risk counts on the right. It starts open when the definition is expanded, exposing one row per operation in source order. Single-click the preview to navigate and highlight its matching operations; double-click or use its arrow to collapse it. Remote previews use the same structure with a gray circle. There is only one global filter row, and it applies at every nested preview depth.
+Single-click a body row to move the cursor and highlight that operation; double-click for one short reason.
+A definition click tints its header with the actual verdict and outlines the complete parsed definition in purple,
+from CREATE/ALTER through its ending, excluding GO and separate calls. Selecting an inner operation keeps that context
+outline and tints the selected operation. A separate **EXEC** row keeps its own verdict: a visible definition
+does not prove which stored body the server will execute. Matching expansion state survives passive reanalysis.
+New objects, definitions and reasons start collapsed. Body findings do not enter submitted-operation risk counts or the F5 confirmation: those describe only what submitting the current selection/window would do. Purple Inside and gray Remote counts describe preview operations separately.
 
 Only text present in this window is inspected. Calls to other unknown procedures and SQL strings built at runtime
 remain yellow. **Body analysis incomplete** means parsing, a resource limit or an unavailable T-SQL body prevented
@@ -73,18 +82,78 @@ to prove how unqualified names will resolve when the procedure is called.
 
 Open `samples/03-procedure-body.sql` with nothing selected to try this without a SQL connection or executing anything.
 
+### Other visible code bodies
+
+Triggers, scalar functions, inline and multi-statement table-valued functions, and views use the same compact
+CREATE/ALTER operation and flat inline rows. Hover describes its context: firing for triggers,
+calling for functions, and reading for views. Defining these objects remains a permanent write;
+their preview effects do not enter execution totals. RETURN expressions are inspected, and writes to a function's
+return-table variable remain temporary-only operations.
+
+Unknown scalar, table-valued and object-method calls have separate yellow **FUNCTION** findings, including calls in
+predicates and temporary-object statements. Recognized built-ins retain their existing behavior. A visible definition
+does not prove the deployed implementation of a separate call; no server lookup or transitive dependency graph is made.
+Some qualified built-ins and XML/spatial methods therefore receive conservative yellow warnings.
+
+Visible query strings in `OPENQUERY`, query-form `OPENROWSET` and `EXEC (...) AT` open a gray **Remote** preview.
+The outer remote operation stays yellow (or red for a remote write), regardless of its preview. This is a T-SQL
+interpretation of visible text, not proof of the remote dialect, provider or runtime. Query sources and write targets
+both support previews. A child click goes to its SQL string; **Sent at** returns to the containing operation.
+
+`sp_add_jobstep` and `sp_update_jobstep` expose a purple **Inside** preview for the stored command for a proven named `@command` with
+T-SQL subsystem. Adding a job step defaults to T-SQL; updating an existing step requires a proven `@subsystem` because
+the old subsystem is unavailable. The outer operation remains a job-metadata write. **Stored at** returns to that call;
+the command is not executed when stored. Positional parameters, runtime strings, SQL Agent tokens and other subsystems
+show an unavailable body instead of an invented SQL interpretation. Local allow-list, procedure-trust and permanent-tempdb
+opt-ins are not carried into remote or stored-command previews.
+
+External/CLR implementations and unproven bodies show **Body unavailable** with a yellow diagnostic; broken or limited
+previews are marked incomplete. Nested visible bodies reuse the same rows and navigation, with bounded nesting.
+Open [the code-body sample](../../samples/05-other-code-bodies.sql) to inspect all 13 examples without executing SQL.
+
+### Dynamic SQL held in variables
+
+The same pane also checks SQL stored in a variable when its full value can be proven from the executed text:
+
+```sql
+DECLARE @table nvarchar(128) = N'dbo.Orders';
+DECLARE @sql nvarchar(max);
+SET @sql = N'DELETE FROM ' + @table + N' WHERE Id = 1';
+EXEC sys.sp_executesql @sql;
+```
+
+This produces a **Dynamic SQL** row for that EXEC, with a red `DELETE dbo.Orders` operation directly beneath it.
+The **Decoded SQL** label distinguishes these operations from deferred procedure-body previews.
+A proven `SELECT` stays green; proven temporary-only work keeps its normal green verdict. Each EXEC has its own block,
+even when several blocks affect the same table. Clicking the block moves to EXEC and highlights its visible operations
+there, with neutral outlines around their contributing SQL strings. Clicking a decoded operation moves to its actual
+string fragments and highlights them in its verdict colour, with a neutral outline at EXEC. Expanded details include
+**SQL source** and **Executed at** links. The declaration's own operation stays green: storing text does not execute it.
+Copies, concatenation, reassignment and escaped quotes retain their proven source fragments. If a source cannot be
+mapped, navigation falls back to EXEC. **Runtime SQL** stays yellow when its text is unavailable, with no invented body.
+
+Supported strings use `varchar` or `nvarchar` declarations, `SET`, variable copies, simple `+` concatenation and `+=`.
+Ordinary `BEGIN/END` blocks are supported. Branches, loops and TRY/CATCH, table/procedure-supplied values, unsupported
+types or conversions, truncation and analysis limits remain yellow. Other statements between assignments and EXEC
+also discard known values conservatively. Only the current batch and executed selection count: selecting just the
+EXEC does not let the extension assume a value from an earlier execution or unselected declarations.
+
+Open example 9 in `samples/01-try-these.sql` to inspect a variable-backed write without executing it.
+
 ### Choosing a row
 
-- **Single-click** an object row to highlight all its statements. Clicking again restores the whole-object highlight
-  after choosing an individual statement; it leaves expansion unchanged. This applies to outer and nested objects.
-- **Double-click** an object row to expand or collapse its details. Groups with several findings list individual
-  statement buttons; click one to highlight only that statement. Other open rows stay open, including across reanalysis.
-- Choosing a row highlights only that group's statements in the editor and scrolls to the first one. Nothing is tinted
-  automatically, and moving the editor cursor never highlights anything.
-- **Space** highlights an object, **Enter** jumps to its first statement, and **Right/Left** expand and collapse its
-  details. The arrow keys move across both outer lists. Body and safe-section headings toggle with a single click.
-- Clicking in the editor, typing, changing the selection, clicking blank pane space or collapsing the pane clears the
-  highlight. Highlighting never selects SQL text or changes what F5 runs.
+- **Single-click** an object to move the cursor to its first visible operation and highlight its visible
+  operations. In Writes view, this means only its red operations. Clicking leaves expansion unchanged.
+- **Single-click** an operation to move the cursor to that operation and highlight its SQL. Adjacent highlighted rows
+  share one outer outline; separate ranges stay separate. Supporting dynamic-SQL locations use neutral outlines.
+- **Double-click** an object to expand/collapse its operations, or an operation to expand/collapse one short reason.
+  A Definition operation opens its flat body preview instead.
+  Arrow buttons toggle the same details directly. Other open rows stay open.
+- **Space/Enter** navigate using the focused row. **Right/Left** expand and collapse its details.
+  Mouse navigation keeps pane focus so a second click can expand the same row.
+- Highlights stay until a click elsewhere, editor interaction, an edit, selection change, filter change or pane collapse.
+  Passive reanalysis preserves a matching highlight; a cleared highlight is not restored. Navigation preserves the
+  existing SQL selection exactly, so choosing a row does not change the text F5 executes.
 - Only permanent whole-target destructive operations show red warning text in the details; temporary-object operations
   stay neutral.
 
@@ -96,8 +165,13 @@ procedures and tempdb handling. Each pattern shows whether it comes from the glo
 
 ### Resizing and collapsing
 
-Drag the pane's left edge to resize it. **»** collapses it to a thin strip that still shows the red/yellow counts or a
-green check; click the strip to expand it. Size and collapsed state apply to all query windows for the session.
+Drag the pane's left edge to resize it. **»** collapses it to a thin strip with numbered circles for every color present:
+red, yellow, green, purple, blue and gray, in the same order as the display controls. A larger gap separates the visible risk colors from the code/context colors when both groups are present. Zero-count colors are omitted.
+These are the same unfiltered operation totals as the controls, including separate Inside and Remote preview totals;
+clicking filters never lowers them. Green is a numbered circle, not a checkmark. Hover a circle for its category, count and meaning.
+Click anywhere on the strip to expand it. During pending analysis or a placeholder, stale counts are removed and a neutral gray marker appears.
+The expanded pane cannot be narrowed past the width needed to keep all six controls on one row; Automatic labels use circles when space is limited.
+Size and collapsed state apply to all query windows for the session.
 
 ## Analyze Query
 
@@ -164,8 +238,9 @@ See [settings](settings.md) for every option, with copyable examples.
 
 ### It is a safety net, not a security boundary
 
-- Triggers fired by a write, the insides of procedures and functions, and dynamic SQL built at runtime can't be seen.
-  Scalar functions called in a SELECT are treated as reads; a CLR or extended function could still have side effects.
+- Triggers fired by a write, the insides of called procedures and functions, and dynamic SQL whose complete text
+  cannot be proven from supported local assignments can't be seen.
+  Uninspected user-function and object-method calls receive yellow findings; visible definitions do not prove deployed code.
   A green verdict means "nothing visible writes", not "nothing can write".
 - Use a read-only login (`db_datareader` + `db_denydatawriter`) for real protection on production.
 - Trusted procedures and allow-list entries are your assertions; their bodies and effects are not verified.
@@ -181,10 +256,9 @@ See [settings](settings.md) for every option, with copyable examples.
 
 ### Connections and names
 
-- The server and database come from the window's initial connection. `USE` and `:connect` switch the target mid-script;
-  they add a warning and disable the contextual allow/trusted lists, but do not re-select the environment rule.
-- Allow-lists and trusted procedures need a known database and schema when a query omits them. The extension does not
-  discover the login's default schema, so qualify names (`dbo.Table`) when you rely on schema-qualified patterns.
+- Connection labels identify the initial server/database. `USE` appears blue under Context while retaining its ReadOnly analyzer verdict. Trust retains all possible databases if a switch fails; destination rules can escalate warnings. Literal dynamic SQL scopes its context. SQLCMD server switches remain unverified. See [settings](settings.md#context-changes-inside-a-script).
+
+- Custom approvals require a full server.database.schema.object rule and an explicit schema in SQL. Exact server/database labels and identifier case must match; legacy short rules are retained but inactive.
 - Views and synonyms are judged by name: a write to a view is red; the view's base tables aren't resolved.
 - Writes through a CTE or derived table that joins several tables list *every* base table (conservative).
 
@@ -225,3 +299,5 @@ unloads and are red; other DBCC commands are judged per command (read-only green
 
 The [statement verdicts](statement-verdicts.md) list every statement kind. The
 [verification status](../status.md) records what has been tested against a real server and the open gaps.
+
+The [dictionary](dictionary.md) explains the safety dots, blue context marker, purple code outline, and separate preview counts.

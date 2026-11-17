@@ -16,7 +16,7 @@
         "F5 warnings",
         "Show connection in confirmation",
         "Safe tables allow-list",
-        "Trusted procedures",
+        "Trusted routines",
         "Environment rules",
         "Permanent tempdb objects are temporary",
         "Import Settings",
@@ -102,8 +102,8 @@
       "visibleWhen": "false"
     },
     "sqlSafetyGuard.trustedProcedures": {
-      "title": "Trusted procedures",
-      "description": "Explicitly authorized procedures become green without inspecting their bodies. Use schema-qualified names; wildcards are allowed only in the final part. Use Edit list for one entry per line.",
+      "title": "Trusted routines",
+      "description": "Qualified procedure and function approvals become green. Use server.database.schema.routine; prefix functions with FUNCTION. Exact case, wildcards only in the name. Legacy short rules are inactive.",
       "type": "string",
       "default": "",
       "order": 30,

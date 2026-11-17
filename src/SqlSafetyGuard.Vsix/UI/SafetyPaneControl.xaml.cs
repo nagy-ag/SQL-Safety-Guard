@@ -14,21 +14,40 @@ namespace SqlSafetyGuard.UI
     public partial class SafetyPaneControl : UserControl
     {
         private bool _settingSelection;
-        private bool _safeOpenedAutomatically;
+        private bool _analysisPending = true;
+        private IReadOnlyList<PaneGroup> _groups = Array.Empty<PaneGroup>();
+        internal PaneVerdictFilter Filter { get; private set; } = PaneVerdictFilter.All;
+        internal PaneFilterLabels FilterLabels { get; private set; } = PaneFilterLabels.Automatic;
+        internal bool CompactFilterLabels { get; private set; }
+        private readonly Dictionary<PaneVerdictFilter, int> _filterCounts = new Dictionary<PaneVerdictFilter, int>();
+        internal event Action ViewFilterChanged;
+        internal event Action MinimumWidthChanged;
+        internal double MinimumExpandedWidth { get; private set; } = 240;
         private readonly Brush _slate = new SolidColorBrush(Color.FromRgb(0x5c, 0x6b, 0x7a));
 
         public SafetyPaneControl()
         {
             InitializeComponent();
-            CollapsedRedDot.Fill = HeaderRedDot.Fill = VerdictBrushes.Red;
-            CollapsedRedCount.Foreground = VerdictBrushes.TextOn(Verdict.RealWrite);
-            CollapsedYellowDot.Fill = HeaderYellowDot.Fill = VerdictBrushes.Yellow;
-            CollapsedYellowCount.Foreground = VerdictBrushes.TextOn(Verdict.Unknown);
+            SizeChanged += (sender, args) => RefreshFilterLayout();
+            AnalysisButton.ContextMenu = FilterBar.ContextMenu;
+
         }
 
         internal event Action<PaneGroup> GroupSelected;
         internal event Action<PaneGroup> GroupActivated;
         internal event Action<PaneFinding> BodyFindingActivated;
+        internal event Action<PaneCodeBody> BodyPreviewActivated;
+        internal event Action<PaneFinding, bool> SqlLocationActivated;
+        private void OnSqlSourceClicked(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is PaneFinding finding) SqlLocationActivated?.Invoke(finding, false);
+            e.Handled = true;
+        }
+        private void OnSqlExecutionClicked(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is PaneFinding finding) SqlLocationActivated?.Invoke(finding, true);
+            e.Handled = true;
+        }
         internal event Action CollapseToggled;
         internal event Action<double> WidthDragged;
         internal event Action EditOptions;
@@ -53,76 +72,213 @@ namespace SqlSafetyGuard.UI
 
         internal void ShowPlaceholder(string headline, string detail)
         {
-            HeaderStatus.Visibility = Visibility.Visible;
-            HeaderDot.Fill = Brushes.Gray;
-            HeaderGlyph.Text = string.Empty;
-            HeaderRed.Visibility = HeaderYellow.Visibility = Visibility.Collapsed;
-            HeaderRedCount.Text = HeaderYellowCount.Text = "0";
             ShowCollapsedPending();
             ShowSummary(headline, detail);
             _settingSelection = true;
-            try { GroupList.ItemsSource = SafeList.ItemsSource = null; }
+            try { _groups = Array.Empty<PaneGroup>(); GroupList.ItemsSource = null; }
             finally { _settingSelection = false; }
-            SafeSection.Visibility = Visibility.Collapsed;
+            FilterBar.Visibility = Visibility.Collapsed;
             EmptyText.Text = headline + ". " + detail;
             EmptyText.Visibility = Visibility.Visible;
         }
 
         internal void ShowResult(string summary, string f5, IReadOnlyList<PaneGroup> groups)
         {
-            int redCount = groups.Count(group => group.Verdict.IsRed());
-            int yellowCount = groups.Count(group => group.Verdict.IsYellow());
-            bool allSafe = redCount == 0 && yellowCount == 0;
-            CollapsedStatus.Visibility = HeaderStatus.Visibility = allSafe ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedDot.Fill = HeaderDot.Fill = VerdictBrushes.Green;
-            CollapsedGlyph.Text = HeaderGlyph.Text = "✓";
-            CollapsedRed.Visibility = HeaderRed.Visibility = redCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedRedCount.Text = HeaderRedCount.Text = redCount.ToString();
-            CollapsedYellow.Visibility = HeaderYellow.Visibility = yellowCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-            CollapsedYellowCount.Text = HeaderYellowCount.Text = yellowCount.ToString();
+            _analysisPending = false;
             ShowSummary(summary, f5);
             _settingSelection = true;
             try
             {
-                var expandedKeys = new HashSet<string>(AllGroups().Where(group => group.IsExpanded).Select(group => group.Key), StringComparer.OrdinalIgnoreCase);
-                var previousKeys = new HashSet<string>(AllGroups().Select(g => g.Key), StringComparer.OrdinalIgnoreCase);
-                var oldBodies = AllGroups().SelectMany(g => g.Bodies).GroupBy(b => b.Definition.Target, StringComparer.OrdinalIgnoreCase)
-                    .ToDictionary(g => g.Key, g => new
-                    {
-                        g.First().IsExpanded,
-                        g.First().IsSafeExpanded,
-                        Groups = g.First().Sections.SelectMany(s => s.Items).Concat(g.First().Safe)
-                            .ToDictionary(nested => nested.Key, nested => nested.IsExpanded, StringComparer.OrdinalIgnoreCase)
-                    }, StringComparer.OrdinalIgnoreCase);
-                bool singleBody = groups.Sum(g => g.Bodies.Count) == 1;
-                bool hasExpandedGroup = groups.Any(group => expandedKeys.Contains(group.Key));
+                var previous = _groups.ToDictionary(g => g.Key, StringComparer.OrdinalIgnoreCase);
                 foreach (var group in groups)
                 {
-                    group.IsExpanded = expandedKeys.Contains(group.Key) ||
-                        (!hasExpandedGroup && singleBody && group.Bodies.Count > 0 && !previousKeys.Contains(group.Key));
-                    foreach (var body in group.Bodies)
-                    {
-                        body.IsExpanded = singleBody;
-                        if (!oldBodies.TryGetValue(body.Definition.Target, out var previous)) continue;
-                        body.IsExpanded = previous.IsExpanded;
-                        body.IsSafeExpanded = previous.IsSafeExpanded;
-                        foreach (var nested in body.Sections.SelectMany(s => s.Items).Concat(body.Safe))
-                            if (previous.Groups.TryGetValue(nested.Key, out bool expanded)) nested.IsExpanded = expanded;
-                    }
+                    if (previous.TryGetValue(group.Key, out var old)) RestoreExpansion(old, group);
                 }
-                var main = new ListCollectionView(groups.Where(group => group.Section != "Safe").ToList());
-                main.GroupDescriptions.Add(new PropertyGroupDescription(nameof(PaneGroup.Section)));
-                GroupList.ItemsSource = main;
-                var safe = groups.Where(group => group.Section == "Safe").ToList();
-                SafeList.ItemsSource = safe;
-                GroupList.SelectedItem = SafeList.SelectedItem = null;
-                SafeHeader.Text = "No permanent changes detected · " + safe.Count;
-                SafeSection.Visibility = safe.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
-                if (allSafe || _safeOpenedAutomatically) SafeSection.IsExpanded = allSafe;
-                _safeOpenedAutomatically = allSafe;
+                _groups = groups;
+                MeasureLineGutter();
+                ApplyViewFilter();
             }
             finally { _settingSelection = false; }
-            EmptyText.Visibility = Visibility.Collapsed;
+            FilterBar.Visibility = Visibility.Visible;
+        }
+
+        private static void RestoreExpansion(PaneGroup old, PaneGroup current)
+        {
+            current.IsExpanded = old.IsExpanded;
+            RestoreFindings(old.Findings, current.Findings);
+        }
+
+        private static void RestoreFindings(IReadOnlyList<PaneFinding> old, IReadOnlyList<PaneFinding> current)
+        {
+            var previousByKey = old.GroupBy(f => f.StateKey).ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
+            foreach (var finding in current)
+            {
+                if (!previousByKey.TryGetValue(finding.StateKey, out var previous)) continue;
+                finding.IsExpanded = previous.IsExpanded;
+                if (previous.Body != null && finding.Body != null)
+                {
+                    finding.Body.IsExpanded = previous.Body.IsExpanded;
+                    RestoreFindings(previous.Body.Findings, finding.Body.Findings);
+                }
+            }
+        }
+
+        internal void SetFilter(PaneVerdictFilter filter)
+        {
+            Filter = filter;
+            ViewFilterChanged?.Invoke(); // Clears highlights before any view is replaced; never navigates.
+            ApplyViewFilter();
+        }
+
+        private void ApplyViewFilter()
+        {
+            _settingSelection = true;
+            try
+            {
+                foreach (var group in _groups) group.Filter = Filter;
+                GroupList.ItemsSource = _groups.Where(g => g.VisibleFindings.Count > 0).ToList();
+                GroupList.SelectedItem = null;
+            }
+            finally { _settingSelection = false; }
+            var operations = _groups.SelectMany(g => g.Findings).ToArray();
+            var counts = new PaneDisplayCounts(operations.Select(f => f.Finding));
+            var all = operations.SelectMany(f => f.DescendantsAndSelf()).ToArray();
+            _filterCounts[PaneVerdictFilter.Writes] = counts.Writes;
+            _filterCounts[PaneVerdictFilter.Unknown] = counts.Unknown;
+            _filterCounts[PaneVerdictFilter.Safe] = counts.Safe;
+            _filterCounts[PaneVerdictFilter.Inside] = all.Where(f => f.Body != null && f.Body.IsDeferred).Sum(f => f.Body.Findings.Count);
+            _filterCounts[PaneVerdictFilter.Context] = counts.Context;
+            _filterCounts[PaneVerdictFilter.Remote] = all.Where(f => f.Body != null && !f.Body.IsDeferred).Sum(f => f.Body.Findings.Count);
+            RefreshFilterLayout();
+            RefreshCollapsedCounts();
+            EmptyText.Text = "No operations match the enabled filters. Enable a color for the content you want to inspect.";
+            EmptyText.Visibility = GroupList.Items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private IEnumerable<ToggleButton> FilterButtons => FilterBar.Children.OfType<ToggleButton>();
+        internal int FilterCount(PaneVerdictFilter bit) => _filterCounts.TryGetValue(bit, out var count) ? count : 0;
+        private static Brush FilterColor(PaneVerdictFilter bit) => bit == PaneVerdictFilter.Writes ? VerdictBrushes.Red :
+            bit == PaneVerdictFilter.Unknown ? VerdictBrushes.Yellow : bit == PaneVerdictFilter.Safe ? VerdictBrushes.Green :
+            bit == PaneVerdictFilter.Inside ? VerdictBrushes.CodeContainer : bit == PaneVerdictFilter.Context ? VerdictBrushes.Context : VerdictBrushes.Remote;
+
+        internal static string FilterMeaning(PaneVerdictFilter bit) => bit == PaneVerdictFilter.Writes ? SafetyDictionary.Writes :
+            bit == PaneVerdictFilter.Unknown ? SafetyDictionary.Unknown : bit == PaneVerdictFilter.Safe ? SafetyDictionary.Safe :
+            bit == PaneVerdictFilter.Inside ? SafetyDictionary.Inside : bit == PaneVerdictFilter.Context ? SafetyDictionary.ContextMeaning : SafetyDictionary.Remote;
+
+        public static readonly DependencyProperty LineGutterWidthProperty = DependencyProperty.Register(
+            nameof(LineGutterWidth), typeof(GridLength), typeof(SafetyPaneControl), new PropertyMetadata(new GridLength(16)));
+        public GridLength LineGutterWidth { get => (GridLength)GetValue(LineGutterWidthProperty); private set => SetValue(LineGutterWidthProperty, value); }
+        private void MeasureLineGutter()
+        {
+            int max = _groups.SelectMany(g => g.Findings).SelectMany(f => f.DescendantsAndSelf())
+                .Select(f => Math.Max(f.EditorLine, f.ExecutionLine)).DefaultIfEmpty(1).Max();
+            var label = new TextBlock { Text = max.ToString(), FontFamily = FontFamily, FontSize = FontSize };
+            System.Windows.Documents.Typography.SetNumeralAlignment(label, FontNumeralAlignment.Tabular);
+            label.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            LineGutterWidth = new GridLength(Math.Ceiling(label.DesiredSize.Width) + 8);
+        }
+
+        internal void SetFilterLabels(PaneFilterLabels labels)
+        {
+            FilterLabels = labels;
+            RefreshFilterLayout();
+        }
+
+        private void RefreshFilterLayout()
+        {
+            if (FilterBar == null) return;
+            var buttons = FilterButtons.ToArray();
+            double compact = FilterBar.Margin.Left + FilterBar.Margin.Right + Grip.Width + 12;
+            double text = compact;
+            foreach (var button in buttons)
+            {
+                var bit = (PaneVerdictFilter)Enum.Parse(typeof(PaneVerdictFilter), (string)button.Tag);
+                var count = FilterCount(bit).ToString();
+                compact += MeasureFilterText(count, button) + 8 + 4 + button.Padding.Left + button.Padding.Right + button.Margin.Right + 2;
+                text += MeasureFilterText(bit + " " + count, button) + button.Padding.Left + button.Padding.Right + button.Margin.Right + 2;
+            }
+            double minimum = Math.Max(240, Math.Ceiling(FilterLabels == PaneFilterLabels.Text ? text : compact));
+            if (minimum != MinimumExpandedWidth)
+            {
+                MinimumExpandedWidth = minimum;
+                MinimumWidthChanged?.Invoke();
+            }
+            bool showText = FilterLabels == PaneFilterLabels.Text || FilterLabels == PaneFilterLabels.Automatic && ActualWidth >= text + 2;
+            CompactFilterLabels = !showText;
+            foreach (var button in buttons)
+            {
+                var bit = (PaneVerdictFilter)Enum.Parse(typeof(PaneVerdictFilter), (string)button.Tag);
+                bool enabled = (Filter & bit) != 0;
+                button.IsChecked = enabled;
+                var panel = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
+                if (!showText)
+                    panel.Children.Add(new System.Windows.Shapes.Ellipse { Width = 8, Height = 8, VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 0, 4, 0), Fill = enabled ? FilterColor(bit) : Brushes.Transparent, Stroke = FilterColor(bit), StrokeThickness = 1 });
+                panel.Children.Add(new TextBlock { Text = (showText ? bit + " " : string.Empty) + FilterCount(bit), VerticalAlignment = VerticalAlignment.Center });
+                button.Content = panel;
+                string meaning = FilterMeaning(bit);
+                button.ToolTip = CountToolTip(bit);
+                System.Windows.Automation.AutomationProperties.SetName(button, bit + ", " + FilterCount(bit));
+                System.Windows.Automation.AutomationProperties.SetHelpText(button, meaning);
+            }
+            LabelsAutomatic.IsChecked = FilterLabels == PaneFilterLabels.Automatic;
+            LabelsText.IsChecked = FilterLabels == PaneFilterLabels.Text;
+            LabelsCircles.IsChecked = FilterLabels == PaneFilterLabels.Circles;
+        }
+
+        private ToolTip CountToolTip(PaneVerdictFilter bit)
+        {
+            var tip = new StackPanel { MaxWidth = 340 };
+            tip.Children.Add(new TextBlock { Text = bit + " \u00b7 " + FilterCount(bit), FontWeight = FontWeights.SemiBold });
+            tip.Children.Add(new TextBlock { Text = FilterMeaning(bit), TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 4, 0, 0) });
+            return new ToolTip { Content = tip };
+        }
+
+        private void RefreshCollapsedCounts()
+        {
+            if (_analysisPending) return;
+            CollapsedCounts.Children.Clear();
+            bool scopeStarted = false;
+            foreach (var bit in new[] { PaneVerdictFilter.Writes, PaneVerdictFilter.Unknown, PaneVerdictFilter.Safe,
+                PaneVerdictFilter.Inside, PaneVerdictFilter.Context, PaneVerdictFilter.Remote })
+            {
+                if (FilterCount(bit) == 0) continue;
+                bool isScope = bit == PaneVerdictFilter.Inside || bit == PaneVerdictFilter.Context || bit == PaneVerdictFilter.Remote;
+                double groupGap = isScope && !scopeStarted && CollapsedCounts.Children.Count > 0 ? 8 : 0;
+                scopeStarted |= isScope;
+                var badge = new Grid { Width = 20, Height = 20, Margin = new Thickness(0, groupGap, 0, 6), Tag = bit,
+                    ToolTip = CountToolTip(bit) };
+                badge.Children.Add(new System.Windows.Shapes.Ellipse { Fill = FilterColor(bit) });
+                var number = new TextBlock { Text = FilterCount(bit).ToString(), FontWeight = FontWeights.Bold,
+                    Foreground = bit == PaneVerdictFilter.Unknown || bit == PaneVerdictFilter.Context || bit == PaneVerdictFilter.Remote
+                        ? Brushes.Black : Brushes.White };
+                badge.Children.Add(new Viewbox { Margin = new Thickness(2), StretchDirection = StretchDirection.DownOnly, Child = number });
+                System.Windows.Automation.AutomationProperties.SetName(badge, bit + ", " + FilterCount(bit));
+                System.Windows.Automation.AutomationProperties.SetHelpText(badge, FilterMeaning(bit));
+                CollapsedCounts.Children.Add(badge);
+            }
+            CollapsedCounts.Visibility = CollapsedCounts.Children.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            CollapsedStatus.Visibility = CollapsedCounts.Children.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private static double MeasureFilterText(string text, ToggleButton button)
+        {
+            var label = new TextBlock { Text = text, FontFamily = button.FontFamily, FontSize = button.FontSize, FontWeight = FontWeights.SemiBold };
+            label.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            return label.DesiredSize.Width;
+        }
+
+        private void OnFilterClick(object sender, RoutedEventArgs e)
+        {
+            var button = (ToggleButton)sender;
+            var bit = (PaneVerdictFilter)Enum.Parse(typeof(PaneVerdictFilter), (string)button.Tag);
+            SetFilter(button.IsChecked == true ? Filter | bit : Filter & ~bit);
+        }
+
+        private void OnFilterLabelsClick(object sender, RoutedEventArgs e)
+        {
+            SetFilterLabels((PaneFilterLabels)Enum.Parse(typeof(PaneFilterLabels), (string)((MenuItem)sender).Tag));
+            e.Handled = true;
         }
 
         internal void ShowNothingToRun(string headline, string detail)
@@ -139,16 +295,15 @@ namespace SqlSafetyGuard.UI
         private void ShowSummary(string headline, string detail)
         {
             Summary = headline + Environment.NewLine + detail;
-            CollapsedStrip.ToolTip = HeaderCounts.ToolTip = Summary;
+            CollapsedStrip.ToolTip = Summary;
         }
 
         private void ShowCollapsedPending()
         {
+            _analysisPending = true;
             CollapsedStatus.Visibility = Visibility.Visible;
-            CollapsedDot.Fill = Brushes.Gray;
-            CollapsedGlyph.Text = string.Empty;
-            CollapsedRed.Visibility = Visibility.Collapsed;
-            CollapsedYellow.Visibility = Visibility.Collapsed;
+            CollapsedCounts.Visibility = Visibility.Collapsed;
+            CollapsedCounts.Children.Clear();
         }
 
         internal void Select(PaneGroup group)
@@ -157,12 +312,9 @@ namespace SqlSafetyGuard.UI
             try
             {
                 GroupList.SelectedItem = GroupList.Items.Contains(group) ? group : null;
-                SafeList.SelectedItem = SafeList.Items.Contains(group) ? group : null;
-                if (group != null)
+                if (group != null && GroupList.Items.Contains(group))
                 {
-                    var list = group.Section == "Safe" ? SafeList : GroupList;
-                    if (list == SafeList) SafeSection.IsExpanded = true;
-                    list.ScrollIntoView(group);
+                    GroupList.ScrollIntoView(group);
                 }
             }
             finally { _settingSelection = false; }
@@ -171,13 +323,14 @@ namespace SqlSafetyGuard.UI
         internal void ClearListSelection()
         {
             _settingSelection = true;
-            try { GroupList.SelectedItem = SafeList.SelectedItem = null; }
+            try { GroupList.SelectedItem = null; }
             finally { _settingSelection = false; }
         }
 
         internal void ClickGroup(PaneGroup group)
         {
-            if (GroupList.Items.Contains(group) || SafeList.Items.Contains(group)) Select(group);
+            if (group != null && group.VisibleFindings.Count == 0) return;
+            if (GroupList.Items.Contains(group)) Select(group);
             else ClearListSelection();
             GroupSelected?.Invoke(group);
         }
@@ -189,11 +342,13 @@ namespace SqlSafetyGuard.UI
         }
 
         private IEnumerable<PaneGroup> AllGroups() =>
-            GroupList.Items.Cast<PaneGroup>().Concat(SafeList.Items.Cast<PaneGroup>());
+            _groups;
 
         private void OnRowClick(object sender, RoutedEventArgs e)
         {
             if (((FrameworkElement)sender).DataContext is PaneGroup group) ClickGroup(group);
+            else if (((FrameworkElement)sender).DataContext is PaneFinding finding) BodyFindingActivated?.Invoke(finding);
+            else if (((FrameworkElement)sender).DataContext is PaneCodeBody body) BodyPreviewActivated?.Invoke(body);
             e.Handled = true;
         }
 
@@ -201,11 +356,27 @@ namespace SqlSafetyGuard.UI
         {
             if (e.ChangedButton != MouseButton.Left) return;
             if (((FrameworkElement)sender).DataContext is PaneGroup group) ToggleGroup(group);
+            else if (((FrameworkElement)sender).DataContext is PaneFinding finding) finding.IsExpanded = !finding.IsExpanded;
+            else if (((FrameworkElement)sender).DataContext is PaneCodeBody body) body.IsExpanded = !body.IsExpanded;
             e.Handled = true;
         }
 
         private void OnRowKeyDown(object sender, KeyEventArgs e)
         {
+            if (((FrameworkElement)sender).DataContext is PaneCodeBody body)
+            {
+                if (e.Key == Key.Right || e.Key == Key.Left) { body.IsExpanded = e.Key == Key.Right; e.Handled = true; }
+                return;
+            }
+            if (((FrameworkElement)sender).DataContext is PaneFinding finding)
+            {
+                if (e.Key == Key.Right || e.Key == Key.Left)
+                {
+                    finding.IsExpanded = e.Key == Key.Right;
+                    e.Handled = true;
+                }
+                return;
+            }
             if (!(((FrameworkElement)sender).DataContext is PaneGroup group)) return;
             if (e.Key == Key.Right || e.Key == Key.Left)
             {
@@ -217,6 +388,15 @@ namespace SqlSafetyGuard.UI
                 GroupActivated?.Invoke(group);
                 e.Handled = true;
             }
+        }
+
+        private void OnRowArrowClick(object sender, RoutedEventArgs e)
+        {
+            var data = ((FrameworkElement)sender).DataContext;
+            if (data is PaneGroup group) group.IsExpanded = !group.IsExpanded;
+            else if (data is PaneFinding finding) finding.IsExpanded = !finding.IsExpanded;
+            else if (data is PaneCodeBody body) body.IsExpanded = !body.IsExpanded;
+            e.Handled = true;
         }
 
         private void OnAnalysisBackgroundMouseDown(object sender, MouseButtonEventArgs e)
@@ -242,6 +422,7 @@ namespace SqlSafetyGuard.UI
         internal void SetPage(bool settings)
         {
             if (AnalysisPage == null || SettingsPage == null) return;
+            ViewFilterChanged?.Invoke();
             AnalysisPage.Visibility = settings ? Visibility.Collapsed : Visibility.Visible;
             SettingsPage.Visibility = settings ? Visibility.Visible : Visibility.Collapsed;
             AnalysisButton.IsChecked = !settings;
@@ -254,9 +435,6 @@ namespace SqlSafetyGuard.UI
             var list = (ListBox)sender;
             var group = list.SelectedItem as PaneGroup;
             if (group == null) return;
-            _settingSelection = true;
-            try { (list == GroupList ? SafeList : GroupList).SelectedItem = null; }
-            finally { _settingSelection = false; }
             GroupSelected?.Invoke(group);
         }
 
@@ -290,22 +468,6 @@ namespace SqlSafetyGuard.UI
             else if (e.Key == Key.Enter && list.SelectedItem is PaneGroup group)
             {
                 GroupActivated?.Invoke(group);
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Down && list == GroupList && list.SelectedIndex == list.Items.Count - 1 && SafeList.HasItems)
-            {
-                SafeSection.IsExpanded = true;
-                SafeList.SelectedIndex = 0;
-                SafeList.UpdateLayout();
-                (SafeList.ItemContainerGenerator.ContainerFromIndex(0) as ListBoxItem)?.Focus();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Up && list == SafeList && list.SelectedIndex == 0 && GroupList.HasItems)
-            {
-                GroupList.SelectedIndex = GroupList.Items.Count - 1;
-                GroupList.ScrollIntoView(GroupList.SelectedItem);
-                GroupList.UpdateLayout();
-                (GroupList.ItemContainerGenerator.ContainerFromIndex(GroupList.SelectedIndex) as ListBoxItem)?.Focus();
                 e.Handled = true;
             }
         }

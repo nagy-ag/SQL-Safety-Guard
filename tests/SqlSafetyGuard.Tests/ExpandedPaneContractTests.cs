@@ -27,8 +27,9 @@ public class ExpandedPaneContractTests
         Assert.Equal("OnAnalysisPage", (string?)Named(header, "AnalysisButton").Attribute("Checked"));
         Assert.Equal("OnSettingsPage", (string?)Named(header, "SettingsButton").Attribute("Checked"));
         Assert.Equal("OnCollapseClicked", (string?)Named(header, "CollapseButton").Attribute("Click"));
-        foreach (string name in new[] { "HeaderGlyph", "HeaderRedCount", "HeaderYellowCount" })
-            Assert.Equal(Presentation + "TextBlock", Named(header, name).Name);
+        Assert.DoesNotContain(header.Descendants(), element =>
+            ((string?)element.Attribute(Markup + "Name"))?.StartsWith("Header", StringComparison.Ordinal) == true);
+        Assert.Empty(header.Descendants(Presentation + "Ellipse"));
         Assert.DoesNotContain(header.Descendants().Attributes(), attribute =>
             new[] { "Safe", "Not safe", "Needs review", "Server:" }.Contains(attribute.Value));
         Assert.DoesNotContain(header, Named(document, "AnalysisPage").Ancestors());
@@ -39,8 +40,9 @@ public class ExpandedPaneContractTests
     public void ObjectRowsUseOneSharedTemplateAndExplicitExpandableDetails()
     {
         var document = ReadPane();
-        Assert.Equal("Bottom", (string?)Named(document, "SafeSection").Attribute("DockPanel.Dock"));
-        foreach (string name in new[] { "GroupList", "SafeList" })
+        Assert.Equal("Top", (string?)Named(document, "FilterBar").Attribute("DockPanel.Dock"));
+        Assert.DoesNotContain(document.Descendants(), element => (string?)element.Attribute(Markup + "Name") == "SafeList");
+        foreach (string name in new[] { "GroupList" })
         {
             var list = Named(document, name);
             Assert.Equal("{StaticResource ObjectList}", (string?)list.Attribute("Style"));
@@ -62,19 +64,19 @@ public class ExpandedPaneContractTests
         Assert.Equal("{Binding IsExpanded, Mode=TwoWay}", (string?)expander.Attribute("IsExpanded"));
         Assert.Null(expander.Attribute("Expanded"));
         Assert.Equal("{StaticResource GroupRowHeaderTemplate}", (string?)expander.Attribute("HeaderTemplate"));
-        var nested = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
+        Assert.DoesNotContain(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "BodyGroupTemplate");
-        Assert.Equal((string?)expander.Attribute("HeaderTemplate"),
-            (string?)Assert.Single(nested.Elements(Presentation + "Expander")).Attribute("HeaderTemplate"));
-        foreach (string binding in new[] { "ObjectName", "Subtitle", "Line" })
+        foreach (string binding in new[] { "ObjectName", "DisplayCounts.Writes", "DisplayCounts.Unknown", "DisplayCounts.Safe", "VisibleLine" })
             Assert.Contains(header.Descendants(Presentation + "TextBlock"), element =>
                 (string?)element.Attribute("Text") == "{Binding " + binding + "}");
         Assert.DoesNotContain(template.Descendants(Presentation + "DataTrigger"), element =>
             ((string?)element.Attribute("Binding"))?.Contains("IsSelected") == true);
         Assert.Empty(header.Descendants(Presentation + "RowDefinition"));
-        foreach (var rows in new[] { template, nested })
+        Assert.DoesNotContain(header.Descendants(Presentation + "TextBlock"), element =>
+            (string?)element.Attribute("Text") == "{Binding RiskLabel}");
+        foreach (var rows in new[] { template })
             Assert.Contains(rows.Descendants(Presentation + "ItemsControl"), element =>
-                (string?)element.Attribute("ItemsSource") == "{Binding Findings}" &&
+                (string?)element.Attribute("ItemsSource") == "{Binding VisibleFindings}" &&
                 (string?)element.Attribute("ItemTemplate") == "{StaticResource BodyFindingTemplate}");
         var reason = Assert.Single(document.Descendants(Presentation + "DataTemplate"),
             element => (string?)element.Attribute(Markup + "Key") == "GroupReasonTemplate");

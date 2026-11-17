@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -68,13 +68,16 @@ namespace SqlSafetyGuard
             return rules.Resolve(connection.Server, connection.Database, global);
         }
 
-        internal AnalyzerOptions CreateAnalyzerOptions(ConnectionContext connection = null, GuardSettings settings = null, EnvironmentRules rules = null)
+        internal AnalyzerOptions CreateAnalyzerOptions(ConnectionContext connection = null, GuardSettings settings = null, EnvironmentRules rules = null, bool? sqlCmdMode = null, bool readSqlCmdMode = true)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             connection = connection ?? ConnectionInfoReader.TryRead(this);
             if (settings == null) settings = ResolveSettings(connection, out rules);
-            return new AnalyzerOptions(settings.AllowList, Options.TempdbIsTemp, sqlCmdMode: SqlCmdModeReader.TryRead(this),
-                currentDatabase: connection.Database, trustedProcedures: settings.TrustedProcedures, configurationWarnings: rules?.Warnings);
+            return new AnalyzerOptions(settings.AllowList, Options.TempdbIsTemp, sqlCmdMode: readSqlCmdMode ? SqlCmdModeReader.TryRead(this) : sqlCmdMode,
+                currentDatabase: connection.Database, trustedProcedures: settings.TrustedProcedures, configurationWarnings: rules?.Warnings,
+                currentServer: connection.Server, environmentRules: rules,
+                globalSettings: new GuardSettings((ExecutionMode)Options.GuardMode, allowList: AllowList.SplitLines(Options.AllowList),
+                    trustedProcedures: AllowList.SplitLines(Options.TrustedProcedures)));
         }
 
         internal void RefreshHealth(GuardSettings settings = null, bool successfulCheck = false, bool queryStatus = false)
@@ -88,7 +91,7 @@ namespace SqlSafetyGuard
                 settings = settings ?? ResolveSettings(connection, out _);
                 if (successfulCheck) _degraded = false;
                 var warnings = new EnvironmentRules(Options.EnvironmentRules).Warnings.Count > 0 ||
-                    new AllowList(settings.AllowList).Warnings.Count > 0 || new AllowList(settings.TrustedProcedures, procedures: true).Warnings.Count > 0;
+                    new AllowList(settings.AllowList, requireQualification: true).Warnings.Count > 0 || new AllowList(settings.TrustedProcedures, procedures: true, requireQualification: true).Warnings.Count > 0;
                 HealthText = !_guardAttached || _degraded ? "SQL Safety Guard: degraded – last check failed" :
                     "SQL Safety Guard: " + (settings.Mode == ExecutionMode.Off ? "off" : "on · " + settings.Environment);
                 if (connection.Server == null) HealthText += " · server unknown";

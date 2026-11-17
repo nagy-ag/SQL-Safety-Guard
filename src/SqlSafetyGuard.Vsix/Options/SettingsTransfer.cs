@@ -147,7 +147,7 @@ namespace SqlSafetyGuard.Options
             AddChange(changes, "Show server and database", before.ShowServerAndDatabase.ToString(), after.ShowServerAndDatabase.ToString());
             AddChange(changes, "Safe tables allow-list", before.AllowList, after.AllowList);
             AddChange(changes, "Treat permanent tempdb objects as temporary", before.TempdbIsTemp.ToString(), after.TempdbIsTemp.ToString());
-            AddChange(changes, "Trusted procedures", before.TrustedProcedures, after.TrustedProcedures);
+            AddChange(changes, "Trusted routines", before.TrustedProcedures, after.TrustedProcedures);
             AddChange(changes, "Server / environment rules (first match wins)", before.EnvironmentRules, after.EnvironmentRules);
             return changes.AsReadOnly();
         }
@@ -243,11 +243,13 @@ namespace SqlSafetyGuard.Options
             var additions = new AllowList(after, procedures).Patterns.Where(pattern =>
             {
                 var parts = AllowList.SplitName(pattern);
+                if (pattern.StartsWith("FUNCTION ", StringComparison.OrdinalIgnoreCase) || parts?.Length == 4)
+                    return !before.Contains(pattern, StringComparer.Ordinal);
                 return !PatternsCover(oldPatterns, parts, currentDatabase);
             }).Distinct(StringComparer.Ordinal).ToArray();
             if (additions.Length == 0) return;
             warnings.Add(scope + (procedures ? ": This file trusts " : ": This file allow-lists ") + additions.Length +
-                (procedures ? " procedure pattern(s): calls matching them will be green. Trust is user asserted, not verified.\n" :
+                (procedures ? " routine pattern(s): qualified calls matching them will be authorized (green). Trust is user asserted, not verified.\n" :
                 " table pattern(s): writes matching them will be green.\n") + string.Join("\n", additions));
         }
 

@@ -55,18 +55,30 @@ internal sealed class AnalyzerHost
         {
             var assembly = _analyze.DeclaringType!.Assembly;
             settings = Activator.CreateInstance(settingsType, Enum.Parse(modeType, options.Mode), "Global", false, options.AllowListPatterns, options.TrustedProcedures, null);
+            object? global = settings;
+            object? rules = null;
             string[] warnings = [];
             if (options.EnvironmentRules != null)
             {
                 var rulesType = assembly.GetType("SqlSafetyGuard.Analyzer.EnvironmentRules", true)!;
-                var rules = Activator.CreateInstance(rulesType, options.EnvironmentRules)!;
+                rules = Activator.CreateInstance(rulesType, options.EnvironmentRules)!;
                 settings = rulesType.GetMethod("Resolve")!.Invoke(rules, [options.Server, options.CurrentDatabase, settings]);
                 warnings = ((IEnumerable<string>)rulesType.GetProperty("Warnings")!.GetValue(rules)!).ToArray();
             }
             var allowList = settingsType.GetProperty("AllowList")!.GetValue(settings);
             var trusted = settingsType.GetProperty("TrustedProcedures")!.GetValue(settings);
             var optionsType = assembly.GetType("SqlSafetyGuard.Analyzer.AnalyzerOptions", true)!;
-            var configured = Activator.CreateInstance(optionsType, allowList, options.TempdbIsTemp, options.MaxDynamicSqlDepth, options.SqlCmdMode, options.CurrentDatabase, options.DefaultSchema, trusted, warnings);
+            var constructor = optionsType.GetConstructors().OrderByDescending(c => c.GetParameters().Length).First();
+            var values = new Dictionary<string, object?>
+            {
+                ["allowListPatterns"] = allowList, ["tempdbIsTemp"] = options.TempdbIsTemp,
+                ["maxDynamicSqlDepth"] = options.MaxDynamicSqlDepth, ["sqlCmdMode"] = options.SqlCmdMode,
+                ["currentDatabase"] = options.CurrentDatabase, ["defaultSchema"] = options.DefaultSchema,
+                ["trustedProcedures"] = trusted, ["configurationWarnings"] = warnings,
+                ["currentServer"] = options.Server, ["environmentRules"] = rules, ["globalSettings"] = global
+            };
+            var configured = constructor.Invoke(constructor.GetParameters().Select(p => values.TryGetValue(p.Name!, out var value) ? value :
+                p.HasDefaultValue ? p.DefaultValue : DefaultOf(p.ParameterType)).ToArray());
             for (int index = 1; index < parameters.Length; index++)
                 if (parameters[index].ParameterType == optionsType) args[index] = configured;
         }

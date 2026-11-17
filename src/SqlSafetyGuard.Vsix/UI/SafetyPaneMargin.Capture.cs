@@ -1,4 +1,4 @@
-#if DEBUG
+﻿#if DEBUG
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,6 +32,30 @@ namespace SqlSafetyGuard.UI
                 throw new InvalidOperationException("Capture commands require a private test directory.");
             switch (verb)
             {
+                case "setcapturetheme":
+                    if (Environment.CommandLine.IndexOf("/rootSuffix", StringComparison.OrdinalIgnoreCase) < 0)
+                        throw new InvalidOperationException("Theme changes require an isolated profile.");
+                    var themes = (Microsoft.VisualStudio.Utilities.UnifiedSettings.ISettingsManager)
+                        Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(NativeSettingsService));
+                    var themeWriter = themes.GetWriter("SQL Safety Guard isolated theme capture");
+                    var queued = themeWriter.EnqueueChange("environment.visualExperience.colorTheme", arg);
+                    var committed = themeWriter.RequestCommit("Isolated theme capture");
+                    ExtensionCheckTrace.Write("capture-theme-write", queued.Outcome.ToString(), committed.Outcome.ToString());
+                    var themeTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
+                    var themeDeadline = DateTime.UtcNow.AddSeconds(15);
+                    themeTimer.Tick += (s, e) =>
+                    {
+                        ThreadHelper.ThrowIfNotOnUIThread();
+                        var color = ((SolidColorBrush)_control.FindResource(Microsoft.VisualStudio.PlatformUI.EnvironmentColors.ToolWindowBackgroundBrushKey)).Color;
+                        bool dark = color.R + color.G + color.B < 384;
+                        if ((arg == "dark" && !dark || arg == "light" && dark) && DateTime.UtcNow < themeDeadline) return;
+                        themeTimer.Stop();
+                        if (arg == "dark" && !dark || arg == "light" && dark)
+                            ExtensionCheckTrace.Write("capture-error", "Requested theme did not reach shell resources: " + arg + " " + color);
+                        else ExtensionCheckTrace.Write("capture-theme", arg, color.ToString(), "PASS");
+                    };
+                    themeTimer.Start();
+                    break;
                 case "showconfirm":
                     var package = TryGetPackage();
                     if (!RefreshSettings()) throw new InvalidOperationException("Pane settings are not ready.");
@@ -62,7 +86,7 @@ namespace SqlSafetyGuard.UI
                             entries = current.AllowList;
                             break;
                         case "trustedProcedures":
-                            title = "Trusted procedures";
+                            title = "Trusted routines";
                             description = Commands.SettingsCommands.TrustedProceduresDescription;
                             entries = current.TrustedProcedures;
                             break;
@@ -97,6 +121,9 @@ namespace SqlSafetyGuard.UI
                     break;
                 case "compactsettingsscroll":
                     CheckCompactSettingsScroll();
+                    break;
+                case "settingsappearancecheck":
+                    CheckSettingsAppearance(arg);
                     break;
                 case "capture":
                     int separator = arg.IndexOf(' ');
@@ -184,7 +211,7 @@ namespace SqlSafetyGuard.UI
                 Check(reader.GetValue<string>("sqlSafetyGuard.allowList").Value == "dbo.CompactSettingsProbe" &&
                     Summary("AllowListSummary") == "1 pattern", "allow-list persistence and summary");
                 Check(reader.GetValue<string>("sqlSafetyGuard.trustedProcedures").Value == "dbo.CompactSettingsReader" &&
-                    Summary("TrustedSummary") == "1 procedure", "trusted persistence and summary");
+                    Summary("TrustedSummary") == "1 routine", "trusted persistence and summary");
                 Check(reader.GetValue<string>("sqlSafetyGuard.environmentRules").Value == "PROBE-* | Sandbox | Probe | YellowRed | false" &&
                     Summary("RulesSummary") == "1 rule", "rules persistence and summary");
                 Check(reader.GetValue<bool>("sqlSafetyGuard.tempdbIsTemp").Value == !original.TempdbIsTemp, "tempdb persistence");
@@ -309,6 +336,36 @@ namespace SqlSafetyGuard.UI
             }
         }
 
+        private static void CheckSettingsAppearance(string mode)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var control = AllCompactSettings().First(value => value.IsVisible && Ancestor<ScrollViewer>(value) != null);
+            var expected = (System.Windows.Media.Brush)control.FindResource(Microsoft.VisualStudio.PlatformUI.EnvironmentColors.ToolWindowTextBrushKey);
+            if (control.ShowConnection.Foreground.ToString() != expected.ToString() ||
+                control.TempdbIsTemp.Foreground.ToString() != expected.ToString() || control.ColorMeanings.Foreground.ToString() != expected.ToString())
+                throw new InvalidOperationException("Settings text must use the current shell foreground.");
+            if (control.WarningMode.Style == null || control.ShowConnection.Style == null || control.TempdbIsTemp.Style == null)
+                throw new InvalidOperationException("Settings controls must resolve the supported shell styles.");
+            if (control.EffectMeanings.Items.Count != 3 || control.ContextMeanings.Items.Count != 3)
+                throw new InvalidOperationException("The legend must contain six structured semantic rows.");
+            control.ColorMeanings.IsExpanded = mode == "legend";
+            control.UpdateLayout();
+            if (mode == "legend") control.ColorMeanings.BringIntoView();
+            else { control.WarningMode.BringIntoView(); control.WarningMode.IsDropDownOpen = true; }
+            CaptureAtIdle(() =>
+            {
+                if (mode == "legend")
+                {
+                    var texts = CapturePreview.VisualDescendants(control.ColorMeanings).OfType<TextBlock>().Where(t => t.IsVisible).ToArray();
+                    if (texts.Length < 14 || texts.Any(t => t.Foreground.ToString() != expected.ToString()))
+                        throw new InvalidOperationException("Every visible legend label and description must use the shell foreground.");
+                }
+                else if (!control.WarningMode.IsDropDownOpen)
+                    throw new InvalidOperationException("The themed warning dropdown must open.");
+                ExtensionCheckTrace.Write("settings-appearance", mode, "PASS");
+            });
+        }
+
         private static IEnumerable<CompactSettingsControl> AllCompactSettings() =>
             PresentationSource.CurrentSources.OfType<HwndSource>()
                 .Where(source => source.RootVisual != null)
@@ -369,6 +426,11 @@ namespace SqlSafetyGuard.UI
             }
             FrameworkElement element = surface == "pane" ? _control :
                 CaptureDialogs.TryGetValue(surface, out var dialog) ? dialog : null;
+            if (surface == "warningdropdown")
+            {
+                var combo = AllCompactSettings().First(value => value.IsVisible).WarningMode;
+                element = (combo.Template.FindName("PART_Popup", combo) as System.Windows.Controls.Primitives.Popup)?.Child as FrameworkElement;
+            }
             if (element == null) throw new ArgumentException("Surface is not open: " + surface);
             element.UpdateLayout();
             // Window.ActualHeight includes native chrome that WPF cannot render. Capture its client root

@@ -35,7 +35,7 @@ namespace SqlSafetyGuard.Analyzer
         private int[] _lineStarts;
 
         private Scope(string text, string displayText, int offsetDelta, int lineDelta, Position? reportAt, int dynamicDepth, int? blockingErrorLine,
-            IReadOnlyDictionary<string, string> variables)
+            IReadOnlyDictionary<string, string> variables, DynamicSqlSourceMap sourceMap = null)
         {
             Variables = variables;
             Text = text;
@@ -45,6 +45,7 @@ namespace SqlSafetyGuard.Analyzer
             ReportAt = reportAt;
             DynamicDepth = dynamicDepth;
             BlockingErrorLine = blockingErrorLine;
+            SourceMap = sourceMap;
         }
 
         /// <summary>The text that is parsed (SQLCMD lines blanked, $(variables) replaced; same length as <see cref="DisplayText"/>).</summary>
@@ -61,6 +62,7 @@ namespace SqlSafetyGuard.Analyzer
         public Position? ReportAt { get; }
 
         public int DynamicDepth { get; }
+        private DynamicSqlSourceMap SourceMap { get; }
 
         public bool IsDynamic => DynamicDepth > 0;
 
@@ -87,16 +89,33 @@ namespace SqlSafetyGuard.Analyzer
 
         public Scope ForBatch(int startOffset, int length, int lineBreaksBefore) =>
             new Scope(Text.Substring(startOffset, length), DisplayText.Substring(startOffset, length),
-                OffsetDelta + startOffset, LineDelta + lineBreaksBefore, ReportAt, DynamicDepth, BlockingErrorLine, Variables);
+                OffsetDelta + startOffset, LineDelta + lineBreaksBefore, ReportAt, DynamicDepth, BlockingErrorLine, Variables, SourceMap);
 
         public Scope WithText(string parsedText) =>
-            new Scope(parsedText, DisplayText, OffsetDelta, LineDelta, ReportAt, DynamicDepth, BlockingErrorLine, Variables);
+            new Scope(parsedText, DisplayText, OffsetDelta, LineDelta, ReportAt, DynamicDepth, BlockingErrorLine, Variables, SourceMap);
 
         public Scope Blocked(int errorLine) =>
-            new Scope(Text, DisplayText, OffsetDelta, LineDelta, ReportAt, DynamicDepth, errorLine, Variables);
+            new Scope(Text, DisplayText, OffsetDelta, LineDelta, ReportAt, DynamicDepth, errorLine, Variables, SourceMap);
 
-        public Scope ForDynamicSql(string sql, TSqlFragment executeStatement) =>
-            new Scope(sql, sql, 0, 0, PositionOf(executeStatement), DynamicDepth + 1, BlockingErrorLine, null);
+        public Scope ForDynamicSql(string sql, TSqlFragment executeStatement, DynamicSqlSourceMap sourceMap = null) =>
+            new Scope(sql, sql, 0, 0, PositionOf(executeStatement), DynamicDepth + 1, BlockingErrorLine, null, sourceMap?.InOriginalScope(this));
+
+        internal IReadOnlyList<SourceRange> OriginalRanges(int start, int length) => SourceMap != null
+            ? SourceMap.Ranges(start + OffsetDelta, length)
+            : IsDynamic || start < 0 || length <= 0 ? Array.Empty<SourceRange>()
+            : new[] { new SourceRange(start + OffsetDelta, length) };
+
+        public IReadOnlyList<SourceRange> SourcesOf(TSqlFragment fragment) => !IsDynamic || fragment == null
+            ? Array.Empty<SourceRange>() : OriginalRanges(fragment.StartOffset, fragment.FragmentLength);
+
+        internal bool TryOriginalRange(int start, int length, out SourceRange range)
+        {
+            range = default;
+            if (SourceMap != null) return SourceMap.TryRange(start + OffsetDelta, length, out range);
+            if (IsDynamic || start < 0 || length <= 0) return false;
+            range = new SourceRange(start + OffsetDelta, length);
+            return true;
+        }
 
         public Position PositionOf(TSqlFragment fragment)
         {

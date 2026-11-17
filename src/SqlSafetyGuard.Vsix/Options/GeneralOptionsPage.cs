@@ -113,11 +113,8 @@ namespace SqlSafetyGuard.Options
 
         [Category("Analysis")]
         [DisplayName("Safe tables allow-list")]
-        [Description("One pattern per line, e.g. dbo.Staging_*. Writes to matching tables count as green. Case-insensitive; " +
-                     "* and ? wildcards. No implicit dbo: schema-qualified patterns require a resolved schema. " +
-                     "Omitted database matches the known current database only; omitted server never matches linked servers. " +
-                     "Wildcard-only patterns are ignored with a warning. Lines starting with -- are comments. " +
-                     "Import settings highlights additions that make writes green before you confirm.")]
+        [Description("One fully qualified server.database.schema.table pattern per line. Exact case; wildcards only in the table name. " +
+                       "Rules authorize effects on a verified connection, not written linked-server aliases. DDL stays red. Legacy short rules are inactive.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [UnifiedSettingsMoniker("SqlSafetyGuard.Options.GeneralOptionsPage.AllowList")]
@@ -131,9 +128,9 @@ namespace SqlSafetyGuard.Options
         public bool TempdbIsTemp { get => _tempdbIsTemp; set => Set(ref _tempdbIsTemp, value); }
 
         [Category("Analysis")]
-        [DisplayName("Trusted procedures")]
-        [Description("One schema-qualified name per line; wildcards only in the last part. No implicit dbo. " +
-                     "Example: dbo.sp_WhoIsActive or master.dbo.sp_Blitz*. Trust is user asserted, not verified.")]
+        [DisplayName("Trusted routines")]
+        [Description("One server.database.schema.routine per line. Prefix functions with FUNCTION. Exact case; wildcards only in the name. " +
+                       "This authorizes the call and its effects without retrieving implementations. Legacy short rules are inactive.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [UnifiedSettingsMoniker("SqlSafetyGuard.Options.GeneralOptionsPage.TrustedProcedures")]
@@ -147,7 +144,7 @@ namespace SqlSafetyGuard.Options
 
         [Category("F5 guard")]
         [DisplayName("Environment rules")]
-        [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted procedures. " +
+        [Description("First match wins. One rule per line: server | database (blank = any) | label | Off/Red/YellowRed | legacy true/false (ignored) | allow-list | trusted routines. " +
                      "Lists are semicolon-separated and ADD to global lists. Unknown server/database uses globals. For examples, see the User guide on the SQL Safety Guard GitHub project page.")]
         [DefaultValue("")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]

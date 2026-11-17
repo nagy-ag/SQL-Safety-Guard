@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SqlSafetyGuard.Analyzer
 {
@@ -13,8 +15,9 @@ namespace SqlSafetyGuard.Analyzer
 
         public Finding(int line, int column, int startOffset, int length, string action, string target,
             string resolvedTarget, Verdict verdict, string note, bool willRun = true, int? blockingErrorLine = null,
-            bool affectsAllRows = false)
+            bool affectsAllRows = false, IReadOnlyList<SourceRange> sourceRanges = null, bool requiresConfirmation = false)
         {
+            RequiresConfirmation = requiresConfirmation;
             Line = line;
             Column = column;
             StartOffset = startOffset;
@@ -27,7 +30,11 @@ namespace SqlSafetyGuard.Analyzer
             WillRun = willRun;
             BlockingErrorLine = blockingErrorLine;
             AffectsAllRows = affectsAllRows;
+            SourceRanges = Array.AsReadOnly((sourceRanges ?? Array.Empty<SourceRange>()).ToArray());
         }
+
+        public bool RequiresConfirmation { get; }
+        public bool IsContextChange => Action == "USE";
 
         public int Line { get; }
 
@@ -36,6 +43,9 @@ namespace SqlSafetyGuard.Analyzer
         public int StartOffset { get; }
 
         public int Length { get; }
+
+        /// <summary>Optional source string fragments for decoded SQL; StartOffset/Length still identify its EXEC.</summary>
+        public IReadOnlyList<SourceRange> SourceRanges { get; }
 
         /// <summary>For example UPDATE, DELETE, OUTPUT INTO, EXEC, CREATE PROCEDURE.</summary>
         public string Action { get; }

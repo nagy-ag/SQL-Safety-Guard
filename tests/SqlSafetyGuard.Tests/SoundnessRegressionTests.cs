@@ -202,9 +202,10 @@ public class SoundnessRegressionTests
         var options = new AnalyzerOptions(new[] { "dbo.Safe" });
         foreach (var name in new[] { "dbo.[Safe\n]", "Safe", "Linked.Db.dbo.Safe", "OtherDb.dbo.Safe" })
             Assert.Equal(Verdict.RealWrite, SqlSafetyAnalyzer.Analyze("DELETE " + name, options).Overall);
-        var known = new AnalyzerOptions(new[] { "dbo.Safe" }, currentDatabase: "App", defaultSchema: "dbo");
-        Assert.Equal(Verdict.AllowListed, SqlSafetyAnalyzer.Analyze("DELETE App.dbo.Safe; DELETE Safe", known).Overall);
+        var known = new AnalyzerOptions(new[] { "Host.App.dbo.Safe" }, currentServer: "Host", currentDatabase: "App", defaultSchema: "dbo");
+        Assert.Equal(Verdict.AllowListed, SqlSafetyAnalyzer.Analyze("DELETE App.dbo.Safe", known).Overall);
         Assert.Equal(Verdict.RealWrite, SqlSafetyAnalyzer.Analyze("DELETE OtherDb.dbo.Safe", known).Overall);
+        Assert.Equal(Verdict.RealWrite, SqlSafetyAnalyzer.Analyze("DELETE Safe", known).Overall);
     }
 
     [Theory]

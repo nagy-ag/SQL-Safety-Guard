@@ -451,14 +451,26 @@ namespace SqlSafetyGuard.Analyzer
         /// </summary>
         private static Region FindModuleRegion(IList<TSqlParserToken> tokens, List<int> starts, string text, int errorOffset)
         {
-            // The statement containing the error; a misplaced CREATE is reported at the CREATE itself.
+            // A module owns the rest of its batch. An error in RETURN/SELECT inside its body must
+            // recover the definition, rather than treating those inner statements as executable SQL.
             int startIndex = -1;
             foreach (var index in starts)
             {
-                if (tokens[index].Offset <= errorOffset)
+                if (tokens[index].Offset > errorOffset) break;
+                if (tokens[index].TokenType != TSqlTokenType.Create && tokens[index].TokenType != TSqlTokenType.Alter) continue;
+                int kindIndex = NextSignificant(tokens, index);
+                if (kindIndex >= 0 && tokens[kindIndex].TokenType == TSqlTokenType.Or)
+                {
+                    kindIndex = NextSignificant(tokens, kindIndex);
+                    if (kindIndex < 0 || tokens[kindIndex].TokenType != TSqlTokenType.Alter) continue;
+                    kindIndex = NextSignificant(tokens, kindIndex);
+                }
+                if (kindIndex >= 0 && new[] { TSqlTokenType.Proc, TSqlTokenType.Procedure, TSqlTokenType.Function,
+                    TSqlTokenType.Trigger, TSqlTokenType.View }.Contains(tokens[kindIndex].TokenType))
+                {
                     startIndex = index;
-                else
                     break;
+                }
             }
 
             if (startIndex < 0)

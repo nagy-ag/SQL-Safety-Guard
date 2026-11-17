@@ -44,7 +44,7 @@
         <TextBlock x:Name="Description" TextWrapping="Wrap" Margin="0,0,0,12" />
         <Border x:Name="TrustWarning" Grid.Row="1" BorderBrush="{StaticResource ProblemBrush}" BorderThickness="3,0,0,0"
             Padding="9,5" Margin="0,0,0,12" Visibility="Collapsed">
-            <TextBlock TextWrapping="Wrap" Text="Only add procedures you know are safe. SQL Safety Guard trusts your word and does not look inside them." />
+            <TextBlock TextWrapping="Wrap" Text="Approve only routines whose effects you accept. This is authorization for the qualified call and its side effects; the extension does not retrieve server definitions." />
         </Border>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -81,6 +81,12 @@
                 Text="No entries. Choose + Add to create one." />
             <ScrollViewer x:Name="FormScroller" Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel x:Name="Form" Margin="0,0,4,0">
+                    <StackPanel x:Name="RoutineTypeRow" Orientation="Horizontal" Margin="0,0,0,10" Visibility="Collapsed">
+                        <TextBlock Text="Rule type" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <ComboBox x:Name="RoutineType" Width="140" SelectionChanged="OnRoutineTypeChanged" AutomationProperties.Name="Routine rule type">
+                            <ComboBoxItem Content="Procedure" /><ComboBoxItem Content="Function" />
+                        </ComboBox>
+                    </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -104,6 +110,8 @@
                         <TextBox x:Name="SchemaBox" Grid.Row="1" Grid.Column="4" FontFamily="Consolas" TextChanged="OnPartChanged" AutomationProperties.Name="Schema" />
                         <TextBox x:Name="NameBox" Grid.Row="1" Grid.Column="6" FontFamily="Consolas" TextChanged="OnPartChanged" AutomationProperties.Name="Name" />
                     </Grid>
+                    <TextBlock x:Name="MigrationHint" Style="{StaticResource Hint}" />
+                    <Button x:Name="QualifyButton" Content="Use current connection for missing parts" Click="OnQualify" HorizontalAlignment="Left" Margin="0,6,0,0" Visibility="Collapsed" />
                     <TextBlock x:Name="PartsHint" Style="{StaticResource Hint}" />
                     <TextBlock Text="Note" Style="{StaticResource FieldLabel}" Margin="0,14,0,3" />
                     <TextBox x:Name="NoteBox" TextChanged="OnNoteChanged" AutomationProperties.Name="Note" />

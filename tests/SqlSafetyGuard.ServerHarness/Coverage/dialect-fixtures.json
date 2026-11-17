@@ -55,7 +55,7 @@
       "dialect": "FabricDW",
       "sql": "CREATE OR ALTER FUNCTION dbo.MyExternalFn AS EXTERNAL FUNCTION mySet.myFn;",
       "expectedVerdict": "RealWrite",
-      "defaultParserErrors": 3
+      "defaultParserErrors": 1
     },
     {
       "statementType": "AlterTableAddClusterByStatement",

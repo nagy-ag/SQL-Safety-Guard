@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 — prerelease
+
+- Analyze supported variable-backed dynamic SQL built through straight-line DECLARE, SET, copies, concatenation and append operations. Runtime-dependent, truncated or otherwise unproved strings remain Unknown. Decoded rows have links to their string source and execution statement.
+- Extend visible-body previews to triggers, scalar and table-valued functions, views, remote query strings and stored SQL Agent T-SQL commands. Preserve nested previews and incomplete-body warnings. Potential body effects remain separate from submitted operations; called implementations are not fetched.
+- Add Unknown findings for unproved function calls, including calls inside predicates, RETURN expressions and dynamic SQL. Recognized safe built-ins retain their existing treatment.
+- Require server.database.schema.object approval rules and separate procedure approvals from function approvals. Approved calls are AllowListed: authorization for their effects, not proof that their implementations are read-only. Definitions retain their actual write verdict.
+- Present USE as blue Context while its analyzer verdict is ReadOnly. Keep prior possible databases after a switch, scope dynamic context changes, and apply stricter destination environment rules when confirmation is needed.
+- Redesign the pane around compact object and individual-operation rows, six independent filters, automatic text/circle labels, a shared measured line-number gutter and semantic hover descriptions. The expanded header shows scope; the collapsed strip shows numbered circles for present categories, with spacing between risk and code/context colors.
+- Keep highlights until another interaction clears them, join adjacent outlines, outline full definitions, and retain source positions and expansion state across reanalysis. Whole-target warnings appear in expanded operation details.
+- Improve dark-theme settings controls and add the shared colors-and-meanings dictionary, code-body samples and qualified-trust examples.
+
+**Upgrade note:** older short approval rules are retained but inactive until explicitly migrated to fully qualified identities. Missing server, database or schema parts are never guessed. Review the [migration instructions](docs/user/install.md#upgrading-to-110) before relying on previous approvals. Existing settings storage and import/export formats are retained, with stricter matching semantics.
+
+Dynamic SQL depth remains three expansions and body-preview depth remains eight inspected levels. The extension remains text-only: no SQL execution, new connections or server metadata lookup is added.
+
 ## 1.0.5 — 2026-11-10
 
 - Procedure definitions in the query editor now show **Body — potential effects when called**, with the usual safety sections and object rows nested inside the procedure. It covers `CREATE`, `ALTER` and `CREATE OR ALTER PROCEDURE`, including visible literal dynamic SQL, and keeps unknown or incomplete body analysis visible. The definition remains one row.

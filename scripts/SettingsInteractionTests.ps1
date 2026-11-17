@@ -53,6 +53,8 @@ try {
     $keys = $shell.GetType('Microsoft.VisualStudio.Shell.VsResourceKeys', $true)
     $buttonKey = $keys.GetProperty('ThemedDialogButtonStyleKey').GetValue($null)
     [Windows.Application]::Current.Resources[$buttonKey] = [Windows.Style]::new([Windows.Controls.Button])
+    $checkBoxKey = $keys.GetProperty('ThemedDialogCheckBoxStyleKey').GetValue($null)
+    [Windows.Application]::Current.Resources[$checkBoxKey] = [Windows.Style]::new([Windows.Controls.CheckBox])
     $pageType = $assembly.GetType('SqlSafetyGuard.Options.GeneralOptionsPage', $true)
     # DialogPage's constructor requires a running VS shell. Its six ordinary
     # backing properties can be exercised without constructing that shell.
@@ -92,9 +94,9 @@ try {
     Set-Option 'AllowList' "-- note`r`ndbo.First`r`ndbo.Second"
     Set-Option 'TrustedProcedures' 'usp_NoSchema'
     Set-Option 'EnvironmentRules' "TEST-* | Sandbox | Test | YellowRed | false`r`nnot a rule"
-    if ((Summary 'AllowListSummary') -ne '2 patterns' -or $control.FindName('AllowListProblem').Visibility -ne 'Collapsed' -or $script:commits -ne 3) {
+    if ((Summary 'AllowListSummary') -ne '2 patterns' -or $control.FindName('AllowListProblem').Visibility -ne 'Visible' -or $script:commits -ne 3) {
         throw 'A list update must refresh its count without saving it again.' }
-    if ((Summary 'TrustedSummary') -ne '1 procedure' -or $control.FindName('TrustedProblem').Visibility -ne 'Visible') { throw 'An invalid procedure must be counted and flagged.' }
+    if ((Summary 'TrustedSummary') -ne '1 routine' -or $control.FindName('TrustedProblem').Visibility -ne 'Visible') { throw 'An invalid procedure must be counted and flagged.' }
     if ((Summary 'RulesSummary') -ne '2 rules' -or $control.FindName('RulesProblem').Text -notlike '*1 rule has a problem*') { throw 'An unreadable rule must be counted and flagged.' }
     $script:failCommit = $true
     $control.FindName('WarningMode').SelectedIndex = 0

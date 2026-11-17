@@ -11,12 +11,13 @@ namespace SqlSafetyGuard.Analyzer
         }
 
         public AnalysisResult(IReadOnlyList<Finding> findings, IReadOnlyList<SqlParseError> parseErrors, IReadOnlyList<SkippedRegion> skippedRegions,
-            IReadOnlyList<ProcedureBodyAnalysis> procedureBodies = null)
+            IReadOnlyList<CodeBodyAnalysis> codeBodies = null, bool requiresContextConfirmation = false)
         {
+            _requiresContextConfirmation = requiresContextConfirmation;
             Findings = findings;
             ParseErrors = parseErrors;
             SkippedRegions = skippedRegions;
-            ProcedureBodies = procedureBodies ?? new ProcedureBodyAnalysis[0];
+            CodeBodies = codeBodies ?? new CodeBodyAnalysis[0];
 
             // Findings in a failing batch count too: they run as soon as the syntax error is fixed.
             var overall = Verdict.ReadOnly;
@@ -29,8 +30,10 @@ namespace SqlSafetyGuard.Analyzer
 
         public IReadOnlyList<Finding> Findings { get; }
 
-        /// <summary>Deferred effects of definitions in this text. Never included in execution verdicts or counts.</summary>
-        public IReadOnlyList<ProcedureBodyAnalysis> ProcedureBodies { get; }
+        /// <summary>Compatibility alias for visible code-body previews.</summary>
+        public IReadOnlyList<CodeBodyAnalysis> ProcedureBodies => CodeBodies;
+        /// <summary>Visible module bodies and embedded commands, separate from execution findings.</summary>
+        public IReadOnlyList<CodeBodyAnalysis> CodeBodies { get; }
 
         public IReadOnlyList<SqlParseError> ParseErrors { get; }
 
@@ -39,6 +42,9 @@ namespace SqlSafetyGuard.Analyzer
 
         /// <summary>The most severe verdict of all findings (at least Unknown when there are parse errors).</summary>
         public Verdict Overall { get; }
+
+        private readonly bool _requiresContextConfirmation;
+        public bool RequiresConfirmation => _requiresContextConfirmation || Findings.Any(f => f.RequiresConfirmation);
 
         public bool IsGreen => Overall.IsGreen();
 
@@ -61,7 +67,7 @@ namespace SqlSafetyGuard.Analyzer
                     switch (Overall)
                     {
                         case Verdict.TempOnly: return "Writes only to temp objects";
-                        case Verdict.AllowListed: return "Writes only to allow-listed tables";
+                        case Verdict.AllowListed: return "Explicitly approved operations";
                         default: return "Read-only";
                     }
                 }

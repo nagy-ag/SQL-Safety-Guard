@@ -117,7 +117,7 @@ public class ProcedureBodyAnalysisTests
         var body = Assert.Single(SqlSafetyAnalyzer.Analyze("CREATE PROC dbo.p AS UPDATE Allowed SET X=1; UPDATE dbo.Other SET X=1;", options).ProcedureBodies);
         Assert.All(body.Analysis.Findings, finding => Assert.Equal(Verdict.RealWrite, finding.Verdict));
         var qualified = Assert.Single(SqlSafetyAnalyzer.Analyze("CREATE PROC dbo.p AS UPDATE CurrentDb.dbo.Other SET X=1;", options).ProcedureBodies);
-        Assert.Equal(Verdict.AllowListed, Assert.Single(qualified.Analysis.Findings).Verdict);
+        Assert.Equal(Verdict.RealWrite, Assert.Single(qualified.Analysis.Findings).Verdict);
     }
 
     [Fact]

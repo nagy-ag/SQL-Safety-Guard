@@ -11,7 +11,7 @@ The verdict columns compare permanent and #temp / @table targets; statements wit
 One representative example per statement kind, not every clause combination; snippets are analyzed, not executed, without fixture setup.
 A query takes the colour of its most serious statement. See [live-server evidence](../history/2026-10-27-all-kinds/README.md).
 
-Jump to: [Common statements](#common-statements) · [Green (44)](#green) · [Yellow (12)](#yellow) · [Red (271)](#red) · [No standalone SQL (7)](#no-standalone-sql)
+Jump to: [Common statements](#common-statements) · [Green (45)](#green) · [Yellow (11)](#yellow) · [Red (271)](#red) · [No standalone SQL (7)](#no-standalone-sql)
 
 ## Common statements
 
@@ -34,13 +34,13 @@ The statements most queries are made of. Every kind, including these, is listed 
 | CREATE PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `CREATE PROCEDURE p1 AS RETURN 0;` |
 | ALTER PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `ALTER PROCEDURE dbo.P AS SELECT 2;` |
 | DROP PROCEDURE | 🔴 Red | 🟢 Green (#temp) · — (@table) |  | `DROP PROCEDURE p1` |
-| EXEC | 🟡 Yellow | — | 🟢 Green for a built-in read-only system procedure. 🟢 Green when this procedure is trusted in settings. 🟢 Green for literal dynamic SQL that reads. 🔴 Red for literal dynamic SQL that writes. 🔴 Red for a known writing system procedure. | `EXEC dbo.CoverageProc;` |
+| EXEC | 🟡 Yellow | — | 🟢 Green for a built-in read-only system procedure. 🟢 Green when this procedure is trusted in settings. 🟢 Green for literal dynamic SQL that reads. 🔴 Red for literal dynamic SQL that writes. 🟢 Green for a proven string variable that reads. 🔴 Red for a proven string variable that writes. 🟡 Yellow when a string variable is unavailable. 🔴 Red for a known writing system procedure. | `EXEC dbo.CoverageProc;` |
 | BEGIN TRANSACTION | 🟡 Yellow | — | Unmatched transaction boundary in isolation. 🟢 Green for a balanced transaction. | `BEGIN TRAN;` |
 | COMMIT TRANSACTION | 🟡 Yellow | — | Unmatched transaction boundary in isolation. 🟢 Green for a balanced transaction. | `COMMIT;` |
 | ROLLBACK TRANSACTION | 🟢 Green | — |  | `ROLLBACK` |
 | DECLARE @variable | 🟢 Green | — |  | `DECLARE @value int;` |
 | SET @variable | 🟢 Green | — |  | `SET @a ^= 1` |
-| USE | 🟡 Yellow | — |  | `USE master` |
+| USE | 🟢 Green | — |  | `USE master` |
 | GRANT | 🔴 Red | — |  | `GRANT BACKUP LOG TO [guest]` |
 | REVOKE | 🔴 Red | — |  | `REVOKE all TO PUBLIC CASCADE` |
 | DENY | 🔴 Red | — |  | `DENY all TO PUBLIC CASCADE` |
@@ -49,7 +49,7 @@ The statements most queries are made of. Every kind, including these, is listed 
 
 ## Green
 
-Runs without asking. 44 statement kinds.
+Runs without asking. 45 statement kinds.
 
 | Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
 |---|---|---|---|---|---|
@@ -95,12 +95,13 @@ Runs without asking. 44 statement kinds.
 | SET TRANSACTION ISOLATION LEVEL | 🟢 Green | — |  | `SET TRANSACTION ISOLATION LEVEL SNAPSHOT` | `SetTransactionIsolationLevelStatement` |
 | SETUSER | 🟢 Green | — |  | `SETUSER` | `SetUserStatement` |
 | THROW | 🟢 Green | — |  | `THROW` | `ThrowStatement` |
+| USE | 🟢 Green | — |  | `USE master` | `UseStatement` |
 | WAITFOR | 🟢 Green | — | Contained statements are analyzed too. 🔴 Red when dequeuing from a queue. 🟢 Green when getting a conversation group. | `WAITFOR DELAY '00:00:01';` | `WaitForStatement` |
 | label: | 🟢 Green | — |  | `gogo:` | `LabelStatement` |
 
 ## Yellow
 
-Asks first under the default warning mode: the effect cannot be seen from the text. 12 statement kinds.
+Asks first under the default warning mode: the effect cannot be seen from the text. 11 statement kinds.
 
 | Statement | On a permanent table | On a #temp table / @table variable | Other cases | Example | Kind |
 |---|---|---|---|---|---|
@@ -111,10 +112,9 @@ Asks first under the default warning mode: the effect cannot be seen from the te
 | CHECKPOINT | 🟡 Yellow | — |  | `CHECKPOINT` | `CheckpointStatement` |
 | COMMIT TRANSACTION | 🟡 Yellow | — | Unmatched transaction boundary in isolation. 🟢 Green for a balanced transaction. | `COMMIT;` | `CommitTransactionStatement` |
 | DISK | 🟡 Yellow | — | Alternate-dialect fixture (80); colour is the default analyzer response, including parse errors. | `DISK INIT NAME='DEVICE1',PHYSNAME='c:\sql80\data\device1.dat',VDEVNO=1,SIZE=6144;` | `DiskStatement` |
-| EXEC | 🟡 Yellow | — | 🟢 Green for a built-in read-only system procedure. 🟢 Green when this procedure is trusted in settings. 🟢 Green for literal dynamic SQL that reads. 🔴 Red for literal dynamic SQL that writes. 🔴 Red for a known writing system procedure. | `EXEC dbo.CoverageProc;` | `ExecuteStatement` |
+| EXEC | 🟡 Yellow | — | 🟢 Green for a built-in read-only system procedure. 🟢 Green when this procedure is trusted in settings. 🟢 Green for literal dynamic SQL that reads. 🔴 Red for literal dynamic SQL that writes. 🟢 Green for a proven string variable that reads. 🔴 Red for a proven string variable that writes. 🟡 Yellow when a string variable is unavailable. 🔴 Red for a known writing system procedure. | `EXEC dbo.CoverageProc;` | `ExecuteStatement` |
 | RAISERROR (legacy) | 🟡 Yellow | — | Alternate-dialect fixture (80); colour is the default analyzer response, including parse errors. | `RAISERROR 50001 'legacy message';` | `RaiseErrorLegacyStatement` |
 | UPDATE STATISTICS | 🟡 Yellow | 🟡 Yellow (#temp) · — (@table) |  | `UPDATE STATISTICS dbo.Items;` | `UpdateStatisticsStatement` |
-| USE | 🟡 Yellow | — |  | `USE master` | `UseStatement` |
 | USE FEDERATION | 🟡 Yellow | — |  | `USE FEDERATION ROOT WITH RESET` | `UseFederationStatement` |
 
 ## Red
@@ -373,7 +373,7 @@ Asks first: a permanent change, or treated as one. 271 statement kinds.
 | GRANT | 🔴 Red | — |  | `GRANT BACKUP LOG TO [guest]` | `GrantStatement` |
 | GRANT | 🔴 Red | — | Alternate-dialect fixture (80); colour is the default analyzer response, including parse errors. | `GRANT SELECT ON dbo.Coverage TO public;` | `GrantStatement80` |
 | INSERT | 🔴 Red | 🟢 Green | 🟢 Green with an allow-listed target. | `INSERT dbo.Items VALUES (3,30);` | `InsertStatement` |
-| INSERT BULK | 🔴 Red | 🟢 Green (#temp) · — (@table) | 🟢 Green with an allow-listed target. | `INSERT BULK db1.dbo.t1` | `InsertBulkStatement` |
+| INSERT BULK | 🔴 Red | 🟢 Green (#temp) · — (@table) | 🔴 Red with an allow-listed target. | `INSERT BULK db1.dbo.t1` | `InsertBulkStatement` |
 | KILL | 🔴 Red | — |  | `KILL 12` | `KillStatement` |
 | KILL QUERY NOTIFICATION SUBSCRIPTION | 🔴 Red | — |  | `KILL QUERY NOTIFICATION SUBSCRIPTION 12` | `KillQueryNotificationSubscriptionStatement` |
 | KILL STATS JOB | 🔴 Red | — |  | `KILL STATS JOB 12` | `KillStatsJobStatement` |

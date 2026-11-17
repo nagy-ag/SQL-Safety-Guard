@@ -14,6 +14,7 @@ namespace SqlSafetyGuard.Options
     internal sealed class PatternEntry : INotifyPropertyChanged
     {
         private string _server = "", _database = "", _schema = "", _name = "", _note = "";
+        private bool _function;
 
         internal PatternEntry(bool procedures) { Procedures = procedures; }
 
@@ -31,6 +32,9 @@ namespace SqlSafetyGuard.Options
         public string Database { get => _database; set => SetPart(ref _database, value); }
         public string Schema { get => _schema; set => SetPart(ref _schema, value); }
         public string Name { get => _name; set => SetPart(ref _name, value); }
+        public bool Function { get => _function; set { if (_function == value) return; _function = value; Raw = null; Changed(); } }
+        public bool NeedsQualification => Readable && new[] { Server, Database, Schema }.Any(string.IsNullOrEmpty);
+        public string Migration => NeedsQualification ? "Inactive: enter the server, database and schema explicitly. Existing text is preserved until edited." : "";
 
         public string Note
         {
@@ -38,7 +42,7 @@ namespace SqlSafetyGuard.Options
             set { _note = value ?? ""; Changed(); }
         }
 
-        public string Pattern => Raw ?? PatternText.ComposePattern(Server, Database, Schema, Name);
+        public string Pattern => Raw ?? (Function ? "FUNCTION " : "") + PatternText.ComposePattern(Server, Database, Schema, Name);
         public string Display => Pattern.Length == 0 ? (Procedures ? "(new procedure)" : "(new pattern)") : Pattern;
         public string Problem => PatternText.Validate(this);
         public bool HasNote => Note.Length > 0;
@@ -47,7 +51,9 @@ namespace SqlSafetyGuard.Options
         internal static PatternEntry FromText(string text, string note, bool procedures)
         {
             var entry = new PatternEntry(procedures) { _note = note ?? "", Raw = text };
-            if (PatternText.TryRead(text, out var server, out var database, out var schema, out var name))
+            entry._function = procedures && text.StartsWith("FUNCTION ", StringComparison.OrdinalIgnoreCase);
+            string nameText = entry._function ? text.Substring(9).Trim() : text.StartsWith("PROCEDURE ", StringComparison.OrdinalIgnoreCase) ? text.Substring(10).Trim() : text;
+            if (PatternText.TryRead(nameText, out var server, out var database, out var schema, out var name))
             {
                 entry._server = server; entry._database = database; entry._schema = schema; entry._name = name;
             }
@@ -68,7 +74,7 @@ namespace SqlSafetyGuard.Options
         private void Changed()
         {
             foreach (var name in new[] { nameof(Server), nameof(Database), nameof(Schema), nameof(Name), nameof(Note),
-                nameof(Pattern), nameof(Display), nameof(Problem), nameof(HasNote), nameof(HasProblem) })
+                nameof(Pattern), nameof(Display), nameof(Problem), nameof(HasNote), nameof(HasProblem), nameof(Function), nameof(Migration), nameof(NeedsQualification) })
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
@@ -136,11 +142,9 @@ namespace SqlSafetyGuard.Options
             var parts = new[] { entry.Server, entry.Database, entry.Schema, entry.Name };
             if (parts.Any(part => part.IndexOfAny(new[] { ';', '\r', '\n' }) >= 0)) return "Names can't contain ; or line breaks.";
             if (entry.Name.Length == 0) return "Enter a " + kind + " name.";
-            if (entry.Server.Length > 0 && entry.Database.Length == 0) return "A server also needs a database and a schema.";
-            if (entry.Database.Length > 0 && entry.Schema.Length == 0) return "A database also needs a schema, for example dbo.";
-            if (entry.Procedures && entry.Schema.Length == 0) return "Enter a schema, for example dbo. Procedures must be schema-qualified.";
-            if (entry.Procedures && new[] { entry.Server, entry.Database, entry.Schema }.Any(part => part.IndexOfAny(new[] { '*', '?' }) >= 0))
-                return "Wildcards are allowed only in the procedure name.";
+            if (entry.Raw == null && entry.NeedsQualification) return "Full qualification required: server, database, schema and object.";
+            if (entry.Raw == null && new[] { entry.Server, entry.Database, entry.Schema }.Any(part => part.IndexOfAny(new[] { '*', '?' }) >= 0))
+                return "Wildcards are allowed only in the object name.";
             var list = new AllowList(new[] { entry.Pattern }, entry.Procedures);
             if (list.Warnings.Count == 0) return null;
             return parts.Where(part => part.Length > 0).All(part => part.All(character => character == '*' || character == '?'))
@@ -152,14 +156,11 @@ namespace SqlSafetyGuard.Options
         internal static string Describe(PatternEntry entry)
         {
             if (entry.Problem != null) return "";
-            string objects = entry.Procedures ? "Procedures" : "Tables";
-            string text = objects + " named " + entry.Name + (entry.Schema.Length == 0 ? " in any schema" : " in schema " + entry.Schema);
-            if (entry.Database.Length == 0) text += ", in the window's current database";
-            else text += ", in database " + entry.Database + " (also unqualified names when it is the current database)";
-            text += entry.Server.Length == 0 ? ". Not on linked servers." : ", on linked server " + entry.Server + ".";
-            if (entry.Schema.Length > 0)
-                text += " Write the schema in the query too, for example " + (entry.Procedures ? "EXEC " : "UPDATE ") + entry.Schema + "." + Example(entry.Name) + ".";
-            return text;
+            if (entry.NeedsQualification) return entry.Migration;
+            return (entry.Function ? "Function calls" : entry.Procedures ? "Procedure calls" : "Data writes") +
+                " for " + entry.Schema + "." + entry.Name + " in " + entry.Database + " on connection " + entry.Server +
+                ". Exact case is required. A shorter SQL name is approved only when every possible database context matches. " +
+                "A written linked-server alias is not a verified destination.";
         }
 
         private static string Example(string name) => name.Replace("*", "Orders").Replace("?", "X");
@@ -176,23 +177,17 @@ namespace SqlSafetyGuard.Options
             if (entry.Procedures && space > 0 && text[0] != '[' && text[0] != '"') text = text.Substring(0, space);
             if (!TryRead(text, out var server, out var database, out var schema, out var name) || name.Length == 0)
                 return "Type a name such as dbo.Orders.";
-            var list = new AllowList(new[] { entry.Pattern }, entry.Procedures);
-            string green = entry.Procedures ? "calls to it would be green." : "writes to it would be green.";
-            if (list.Matches(Null(server), Null(database), Null(schema), name)) return "✓ Matches: " + green;
-            if (database.Length == 0 && entry.Database.Length > 0 && entry.Database.IndexOfAny(new[] { '*', '?' }) < 0 &&
-                list.Matches(Null(server), null, Null(schema), name, entry.Database))
-                return "✓ Matches only when the window's current database is " + entry.Database + ".";
-            if (schema.Length == 0 && entry.Schema.Length > 0)
-                return "✗ Doesn't match: write the schema too, for example " + entry.Schema + "." + name + ".";
-            if (server.Length > 0 && entry.Server.Length == 0) return "✗ Doesn't match: names on a linked server need a server part in the pattern.";
-            if (database.Length > 0 && entry.Database.Length == 0) return "✗ Doesn't match: a pattern without a database matches only the current database.";
-            return "✗ Doesn't match.";
+            if (entry.NeedsQualification) return "Inactive: qualify this entry before testing it.";
+            var list = new AllowList(new[] { entry.Pattern }, entry.Procedures, true, entry.Function);
+            if (list.Matches(Null(server), Null(database), Null(schema), name, entry.Database, currentServer: entry.Server))
+                return "Matches on connection " + entry.Server + " with database " + entry.Database + ". This is explicit authorization, not proof of no writes.";
+            return "Doesn't match. Check exact case and schema; written four-part names are linked aliases and remain unverified.";
         }
 
         internal static (int Count, int Problems) Summarize(string text, bool procedures)
         {
-            var list = new AllowList(AllowList.SplitLines(text), procedures);
-            return (list.Patterns.Count + list.Warnings.Count, list.Warnings.Count);
+            var list = new AllowList(AllowList.SplitLines(text), procedures, requireQualification: true);
+            return (AllowList.SplitLines(text).Count(piece => !IsComment(piece.Trim())), list.Warnings.Count);
         }
 
         internal static bool IsComment(string text) => text.StartsWith("--", StringComparison.Ordinal) || text.StartsWith("#", StringComparison.Ordinal);
@@ -331,13 +326,18 @@ namespace SqlSafetyGuard.Options
                 return "Server, database and label must be one line.";
             if (entry.Server.Trim().Length == 0) return "Enter a server name or pattern.";
             if (entry.Label.Trim().Length == 0) return "Enter a label.";
-            var tables = new AllowList(AllowList.SplitLines(entry.SafeTables));
+            var tables = new AllowList(AllowList.SplitLines(entry.SafeTables), requireQualification: entry.Raw == null);
             if (tables.Warnings.Count > 0) return "Extra safe tables: " + tables.Warnings[0];
-            var procedures = new AllowList(AllowList.SplitLines(entry.TrustedProcedures), procedures: true);
-            if (procedures.Warnings.Count > 0) return "Extra trusted procedures: " + procedures.Warnings[0];
+            var procedures = new AllowList(AllowList.SplitLines(entry.TrustedProcedures), procedures: true, requireQualification: entry.Raw == null);
+            if (procedures.Warnings.Count > 0) return "Extra trusted routines: " + procedures.Warnings[0];
             var warnings = new EnvironmentRules(entry.Line).Warnings;
             return warnings.Count == 0 ? null : warnings[0].Replace("Environment rule line 1 ignored: ", "");
         }
+
+        internal static string QualificationWarning(RuleEntry entry) =>
+            new AllowList(AllowList.SplitLines(entry.SafeTables), requireQualification: true).Warnings
+                .Concat(new AllowList(AllowList.SplitLines(entry.TrustedProcedures), procedures: true, requireQualification: true).Warnings)
+                .FirstOrDefault();
 
         internal static (int Count, int Problems) Summarize(string text) =>
             (Parse(text, out _).Count, new EnvironmentRules(text).Warnings.Count);

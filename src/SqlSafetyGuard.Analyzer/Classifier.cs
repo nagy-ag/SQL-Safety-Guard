@@ -276,8 +276,7 @@ namespace SqlSafetyGuard.Analyzer
             if (IsTemp(name, options))
                 return Verdict.TempOnly;
             if (allowListApplies && name?.BaseIdentifier != null &&
-                options.AllowList.Matches(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value, name.SchemaIdentifier?.Value, name.BaseIdentifier.Value,
-                    options.CurrentDatabase, options.DefaultSchema))
+                options.IsApproved(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value, name.SchemaIdentifier?.Value, name.BaseIdentifier.Value))
                 return Verdict.AllowListed;
             return Verdict.RealWrite;
         }

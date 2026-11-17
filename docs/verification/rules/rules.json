@@ -10,20 +10,21 @@
   "categories": {
     "action-name": 31,
     "aggregation": 3,
-    "allow-list": 9,
+    "allow-list": 10,
     "changing-dbcc": 33,
     "classification": 8,
-    "entry": 4,
+    "dynamic-sql": 5,
+    "entry": 5,
     "environment": 10,
     "green-statement": 43,
-    "hidden-effects": 7,
+    "hidden-effects": 8,
     "limits": 7,
     "msdb-procedure": 19,
-    "options": 1,
+    "options": 3,
     "parser": 1,
     "positions": 1,
     "presentation": 1,
-    "recovery": 1,
+    "recovery": 2,
     "recovery-keyword": 18,
     "resolution": 10,
     "safe-dbcc": 28,
@@ -35,7 +36,7 @@
     "sqlcmd-command": 18,
     "unknown-dbcc": 48,
     "unknown-statement": 3,
-    "walking": 48,
+    "walking": 58,
     "writing-procedure": 72
   },
   "rules": [
@@ -449,7 +450,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:27",
+      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:28",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
@@ -460,7 +461,7 @@
       "category": "aggregation",
       "condition": "Warnings exclude green findings and sort by severity then offset; summary counts runnable writes, nondiagnostic unknowns, syntax errors and blocked warnings separately without changing Overall.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:55",
+      "source": "src/SqlSafetyGuard.Analyzer/AnalysisResult.cs:61",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
       ],
@@ -486,9 +487,9 @@
     {
       "id": "allow.cross-database",
       "category": "allow-list",
-      "condition": "A cross-database target needs at least a three-part pattern unless its database equals current context.",
+      "condition": "Compatibility parsing retains legacy short names for settings round-trips; production authorization separately requires full qualification.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:48",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:63",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
@@ -497,9 +498,9 @@
     {
       "id": "allow.default-context",
       "category": "allow-list",
-      "condition": "Resolve absent schema/database using supplied default schema/current database, never invent dbo.",
+      "condition": "The low-level compatibility matcher can use supplied defaults; production authorization requires a written schema and known server/database.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:44",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:59",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
@@ -510,7 +511,7 @@
       "category": "allow-list",
       "condition": "A missing target name never matches.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:43",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:56",
       "existingTests": [
         "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
       ],
@@ -519,9 +520,9 @@
     {
       "id": "allow.glob",
       "category": "allow-list",
-      "condition": "Glob * and ? match identifier parts case-insensitively with exact start/end and 100ms regex timeout.",
+      "condition": "Environment and legacy compatibility globs are case-insensitive; strict authorization compiles exact-case patterns with globs only in the final name.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:58",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:73",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
@@ -532,7 +533,7 @@
       "category": "allow-list",
       "condition": "Ignore empty, --comment and #comment pattern lines.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:18",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:20",
       "existingTests": [
         "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33"
       ],
@@ -545,9 +546,9 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:21",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:27",
       "existingTests": [
-        "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214",
+        "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:215",
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
       ],
       "reviewStatus": "reviewed-semantic"
@@ -555,12 +556,12 @@
     {
       "id": "allow.match",
       "category": "allow-list",
-      "condition": "Quote-aware name parsing and anchored case-insensitive glob matching restrict explicit cross-database/server targets; invalid patterns warn.",
+      "condition": "Quote-aware parsing preserves legacy text; strict analyzer matching requires exact-case four-part identity and rejects unverified linked aliases.",
       "verdicts": [
         "AllowListed",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:35",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:48",
       "existingTests": [
         "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26",
         "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33",
@@ -569,11 +570,25 @@
       "reviewStatus": "reviewed-semantic"
     },
     {
+      "id": "allow.migration",
+      "category": "allow-list",
+      "condition": "Legacy short or wildcard-context rules remain visible but inactive with a full-qualification warning.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:35",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.LegacyUnqualifiedTrustNeedsMigrationRatherThanGrantingPermission @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:26",
+        "SqlSafetyGuard.Tests.SettingsEntriesTests.LegacyEntriesRemainVisibleAndInactiveUntilExplicitlyQualified @ tests/SqlSafetyGuard.Tests/SettingsEntriesTests.cs:97"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "allow.quoted-parts",
       "category": "allow-list",
       "condition": "Quoted dots stay within identifiers, doubled delimiters unescape, trailing junk or unclosed quote rejects pattern.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:65",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:80",
       "existingTests": [
         "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
       ],
@@ -582,9 +597,9 @@
     {
       "id": "allow.remote",
       "category": "allow-list",
-      "condition": "A remote target needs an explicit four-part pattern; a shorter pattern cannot confer trust.",
+      "condition": "Strict production trust requires the verified execution server and never equates a written linked-server alias with that destination.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:47",
+      "source": "src/SqlSafetyGuard.Analyzer/AllowList.cs:58",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.AllowListHonorsQualificationAndExactIdentifierEnd @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:200"
       ],
@@ -1195,13 +1210,85 @@
       "reviewStatus": "reviewed-semantic"
     },
     {
+      "id": "exec.variable-barriers",
+      "category": "dynamic-sql",
+      "condition": "Unmodeled statements discard values, including SELECT/UPDATE assignments, procedure OUTPUT values and cursor FETCH.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/DynamicSqlVariables.cs:110",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "exec.variable-control-flow",
+      "category": "dynamic-sql",
+      "condition": "Branches, loops, jumps, RETURN and TRY/CATCH disable variable proof for the entire batch; source order does not prove execution order.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/DynamicSqlVariables.cs:62",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "exec.variable-expansion",
+      "category": "dynamic-sql",
+      "condition": "Variable expansion is bounded to one million characters and shares the analyzer work/time budget; lost proof warns.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/DynamicSqlVariables.cs:17",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.DepthAndExpansionLimitsStayClosed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:111"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "exec.variable-proof",
+      "category": "dynamic-sql",
+      "condition": "Straight-line varchar/nvarchar DECLARE and SET values, copies, + and += can prove EXEC text; existing inner classification is reused.",
+      "verdicts": [
+        "ReadOnly",
+        "TempOnly",
+        "AllowListed",
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/DynamicSqlVariables.cs:48",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProvenStringsAreAnalyzed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:18",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.EveryResolvedWriteKeepsItsExistingClassification @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:98"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "exec.variable-truncation",
+      "category": "dynamic-sql",
+      "condition": "Truncating assignments, unsupported types/conversions and non-ASCII varchar values do not establish exact text.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/DynamicSqlVariables.cs:184",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.AssignmentTruncationIsRespected @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:55",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.IntermediateConcatenationTruncationIsNotHiddenByMaxDestination @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:63",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "entry.empty",
       "category": "entry",
       "condition": "Empty or whitespace SQL produces no actions when settings are valid.",
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:53",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:54",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.EmptyText_IsReadOnlyWithNoFindings @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:18"
       ],
@@ -1228,7 +1315,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:82",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:83",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1239,9 +1326,22 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:48",
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:49",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "environment.context-error",
+      "category": "entry",
+      "condition": "Parse failures with configured context rules cannot prove that initial Off still applies.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/SqlSafetyAnalyzer.cs:92",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.UnverifiedContextOrBrokenTextCannotInheritOff @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:127"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1252,7 +1352,7 @@
       "verdicts": [],
       "source": "src/SqlSafetyGuard.Analyzer/GuardDecision.cs:28",
       "existingTests": [
-        "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82"
+        "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:85"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -1263,7 +1363,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:29",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:30",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
@@ -1276,7 +1376,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:38",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:39",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.BadRulesAreReportedAndIgnored @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:32"
       ],
@@ -1326,7 +1426,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:54",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:55",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16",
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.PerRuleListsAddToGlobalWithoutLeakingToOtherEnvironments @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:65"
@@ -1350,7 +1450,7 @@
       "category": "environment",
       "condition": "Missing server or database bypasses environment matching and returns global policy.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:57",
+      "source": "src/SqlSafetyGuard.Analyzer/EnvironmentRules.cs:58",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.FirstMatchingRuleWinsAndUnknownContextUsesGlobal @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:16"
       ],
@@ -2005,13 +2105,28 @@
       "table": "ReadOnlyStatementTypes"
     },
     {
+      "id": "effects.function-calls",
+      "category": "hidden-effects",
+      "condition": "Uninspected qualified scalar/object-method and table-valued calls remain Unknown across wrappers; existing recognized built-ins are preserved.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:105",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.UninspectedFunctionCallsCannotDisappearBehindGreenStatements @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:197",
+        "SqlSafetyGuard.Tests.CodeBodyTests.FunctionWarningsSurviveWrappersAndTemporaryTargets @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:55",
+        "SqlSafetyGuard.Tests.CodeBodyTests.RecognizedBuiltinsKeepTheirExistingBehaviour @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:212"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "hidden.adhoc",
       "category": "hidden-effects",
       "condition": "OPENDATASOURCE source warns about opaque remote effects.",
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:102",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:132",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
@@ -2024,7 +2139,7 @@
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:105",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:135",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenRowsetBulk_ReadsAFile_IsReadOnly @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:57"
       ],
@@ -2037,7 +2152,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:41",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:52",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteWriteTarget_IsReportedOnceAsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:49"
       ],
@@ -2050,7 +2165,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:99",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:129",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
@@ -2063,7 +2178,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:92",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:122",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.OpenQuerySource_IsUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:11"
       ],
@@ -2076,7 +2191,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:96",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:126",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
@@ -2089,7 +2204,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:107",
+      "source": "src/SqlSafetyGuard.Analyzer/SideEffectScanner.cs:137",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.NextValueFor_AnywhereThatRuns_IsRealWrite @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:96"
       ],
@@ -2189,7 +2304,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2205,7 +2320,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2221,7 +2336,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2237,7 +2352,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2253,7 +2368,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2269,7 +2384,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2285,7 +2400,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2301,7 +2416,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2317,7 +2432,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2333,7 +2448,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2349,7 +2464,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2365,7 +2480,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2381,7 +2496,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2397,7 +2512,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2413,7 +2528,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1059",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1201",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2429,7 +2544,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2445,7 +2560,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1061",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1203",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2461,7 +2576,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2477,7 +2592,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1060",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1202",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SystemNamesOutsideSystemNamespaceAreUnknown @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:121",
         "SqlSafetyGuard.Tests.SystemProcedureTests.KnownWriters_AreRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:14"
@@ -2486,11 +2601,40 @@
       "reviewStatus": "reviewed-table"
     },
     {
+      "id": "allow.qualified",
+      "category": "options",
+      "condition": "Production authorization requires known server, written schema and approval in every possible database; procedure/function rule kinds are separate.",
+      "verdicts": [
+        "AllowListed"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/AnalyzerOptions.cs:48",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.FullIdentityAuthorizesTheSameTargetThroughWrappers @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:50",
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.RoutineKindsAreSeparateAndMissingSchemaIsNotGuessed @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:87"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "environment.destination",
+      "category": "options",
+      "condition": "Stricter possible destinations or explicit database targets can require confirmation despite initial Off; unverified remote destinations cannot inherit it.",
+      "verdicts": [
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/AnalyzerOptions.cs:69",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.DestinationEnvironmentCannotInheritAnOffBypass @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:99",
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.UnverifiedContextOrBrokenTextCannotInheritOff @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:127"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "options.defaults",
       "category": "options",
       "condition": "Defaults are empty allow/trust lists, permanent tempdb, dynamic depth three and unknown SQLCMD mode; negative depth clamps to zero and caller context is preserved.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/AnalyzerOptions.cs:11",
+      "source": "src/SqlSafetyGuard.Analyzer/AnalyzerOptions.cs:12",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -2527,9 +2671,23 @@
       "category": "presentation",
       "condition": "Finding stores as-written Target independently from ResolvedTarget; display arrows and all-rows notes are presentation only and must not be parsed as object identity. Null strings normalize to empty.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Finding.cs:14",
+      "source": "src/SqlSafetyGuard.Analyzer/Finding.cs:16",
       "existingTests": [
         "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "recovery.module-owner",
+      "category": "recovery",
+      "condition": "Errors inside module statements recover an incomplete definition, never independently executable body findings.",
+      "verdicts": [
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/BatchRecovery.cs:454",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.BrokenBodiesCannotLookCompleteOrSafe @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:123"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -4098,7 +4256,7 @@
       "category": "scope",
       "condition": "GO batch substrings preserve original offset and line deltas.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:88",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:90",
       "existingTests": [
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case15_SecondGoBatch_ReportsCorrectLine @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:137"
       ],
@@ -4109,7 +4267,7 @@
       "category": "scope",
       "condition": "Recovered batch retains blocking syntax-error line for WillRun metadata.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:95",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:97",
       "existingTests": [
         "SqlSafetyGuard.Tests.RecoveryTests.OnlyTheBrokenBatchIsBlocked @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:38"
       ],
@@ -4120,7 +4278,7 @@
       "category": "scope",
       "condition": "Display text collapses whitespace and truncates long snippets; substitutions are offset-aware and do not confer trust.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:144",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:163",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Positions_AreRelativeToAnalyzedText @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:272"
       ],
@@ -4137,7 +4295,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:98",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:100",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlInsideBatch_ReportedAtExecLine @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:283"
       ],
@@ -4148,7 +4306,7 @@
       "category": "scope",
       "condition": "CRLF is one line break; CR and LF individually also advance source positions.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:121",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:140",
       "existingTests": [
         "SqlSafetyGuard.Tests.RecoveryTests.RecoveredFindings_KeepExactPositions @ tests/SqlSafetyGuard.Tests/RecoveryTests.cs:128"
       ],
@@ -4159,7 +4317,7 @@
       "category": "scope",
       "condition": "Display targets truncate at 200 characters; classification must use AST rather than display.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:152",
+      "source": "src/SqlSafetyGuard.Analyzer/Scope.cs:171",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.DbccUsesParsedArgumentsBeyondDisplayTruncation @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:94"
       ],
@@ -5959,6 +6117,82 @@
       "table": "UnknownStatementTypes"
     },
     {
+      "id": "body.context-isolation",
+      "category": "walking",
+      "condition": "Remote and stored command previews never inherit local allow-list, procedure-trust or permanent-tempdb opt-ins.",
+      "verdicts": [
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:843",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.RemoteAndStoredContextsCannotInheritLocalTrust @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:89"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "body.job-command",
+      "category": "walking",
+      "condition": "Named proven T-SQL Agent commands are stored previews, with add-only TSQL default; runtime/subsystem/token ambiguity stays opaque.",
+      "verdicts": [
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1045",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.JobCommandIsStoredRatherThanExecutedNow @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:235",
+        "SqlSafetyGuard.Tests.CodeBodyTests.UnprovenJobLanguageTokensAndPositionalArgumentsStayOpaque @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:106"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "body.preview-limit",
+      "category": "walking",
+      "condition": "Nested previews are bounded and uninspected bodies contain an Unknown diagnostic.",
+      "verdicts": [
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:828",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.PreviewNestingIsBoundedAndFailsClosed @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:133",
+        "SqlSafetyGuard.Tests.CodeBodyTests.BrokenBodiesCannotLookCompleteOrSafe @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:123"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "body.remote-query",
+      "category": "walking",
+      "condition": "Visible remote SQL has a source-mapped T-SQL preview while the outer remote operation keeps its verdict.",
+      "verdicts": [
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:915",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.RemotePreviewDoesNotTurnUnknownExecutionIntoProvenLocalSql @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:219",
+        "SqlSafetyGuard.Tests.CodeBodyTests.RemoteWriteTargetsAlsoExposeTheQueryWithoutDuplicateWarnings @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:11"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "body.typed-modules",
+      "category": "walking",
+      "condition": "Visible trigger/function/view/procedure definitions have separate typed previews; no preview effects enter execution totals.",
+      "verdicts": [
+        "ReadOnly",
+        "TempOnly",
+        "AllowListed",
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:786",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.CodeBodyTests.DefinitionsHaveSeparateTypedPreviews @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:177",
+        "SqlSafetyGuard.Tests.CodeBodyTests.AllModuleVerbsPreservePreviewPositionsAcrossBatches @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:26"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "exec.dispatch",
       "category": "walking",
       "condition": "Remote/variable execution is Unknown; qualify system names before built-in writer/safe tables or trusted procedures.",
@@ -5967,7 +6201,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:968",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ProcedureNameInVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:134",
@@ -5986,7 +6220,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1076",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1218",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlConcatenatedLiterals_AreAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:101",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DynamicSqlWithVariablePart_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:108",
@@ -5995,13 +6229,30 @@
       "reviewStatus": "reviewed-semantic"
     },
     {
+      "id": "exec.dynamic-context",
+      "category": "walking",
+      "condition": "Decoded dynamic SQL saves and restores database and unverified-server policy context without erasing findings.",
+      "verdicts": [
+        "ReadOnly",
+        "TempOnly",
+        "AllowListed",
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1229",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.DynamicUseIsScopedButGoPreservesPossibleOuterContexts @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:73"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
       "id": "exec.empty",
       "category": "walking",
-      "condition": "No findings from literal dynamic text yields empty-dynamic-SQL green finding.",
+      "condition": "No findings from analyzed dynamic text yields empty-dynamic-SQL green finding.",
       "verdicts": [
         "ReadOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1089",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1237",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6012,7 +6263,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:880",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:977",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.LinkedServerExec_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:226"
       ],
@@ -6025,7 +6276,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:874",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:971",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6038,7 +6289,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1048",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1190",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SchemaQualifiedReadOnlyProc_IsReadOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:141"
       ],
@@ -6051,7 +6302,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:937",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1063",
       "existingTests": [
         "SqlSafetyGuard.Tests.SystemProcedureTests.UnknownProcedure_StaysYellow @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:31",
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case13_InsertExec_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:120"
@@ -6061,7 +6312,7 @@
     {
       "id": "exec.sp-executesql",
       "category": "walking",
-      "condition": "Only qualified system sp_executesql with literal first/@stmt argument recurses; runtime argument warns.",
+      "condition": "Only qualified system sp_executesql with literal or proven batch-local first/@stmt argument recurses; unavailable runtime argument warns.",
       "verdicts": [
         "ReadOnly",
         "TempOnly",
@@ -6069,10 +6320,11 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:902",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1012",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86",
-        "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93"
+        "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProvenStringsAreAnalyzed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:18"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6084,7 +6336,7 @@
         "ReadOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1065",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1207",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.RealWritesAreNeverGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:75",
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.OrdinaryReadsRemainReadOnly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:107"
@@ -6098,7 +6350,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:871",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:968",
       "existingTests": [
         "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingProcedureIsRedInEveryWrapper @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:224",
         "SqlSafetyGuard.Tests.MetamorphicVerificationTests.StreamingParserHotswapIsOnlyAtBatchLevel @ tests/SqlSafetyGuard.Tests/MetamorphicVerificationTests.cs:265",
@@ -6109,13 +6361,47 @@
     {
       "id": "exec.trusted",
       "category": "walking",
-      "condition": "A qualified trusted-procedure pattern grants ReadOnly after built-in writer overrides. Body not inspected.",
+      "condition": "An exact fully qualified procedure approval authorizes the call after built-in writer overrides; it does not prove a read-only implementation.",
       "verdicts": [
-        "ReadOnly"
+        "AllowListed"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:930",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1056",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "exec.variable-scope",
+      "category": "walking",
+      "condition": "Each GO batch and nested dynamic invocation has independent variable proof; findings keep the outer EXEC position.",
+      "verdicts": [
+        "ReadOnly",
+        "TempOnly",
+        "AllowListed",
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:452",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ReassignmentAndSeparateBatchesDoNotReuseOldText @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:71",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.FindingsPointAtExecAndKeepRowScope @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:79",
+        "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProcedureBodiesUseTheirOwnVariableProof @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:121"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "function.trusted",
+      "category": "walking",
+      "condition": "Qualified function approvals are separate from procedure approvals; unverified call targets remain Unknown.",
+      "verdicts": [
+        "AllowListed",
+        "Unknown"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:907",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.RoutineKindsAreSeparateAndMissingSchemaIsNotGuessed @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:87",
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.TrustedCallsDoNotAuthorizeDefinitionWritesOrPotentialBodies @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:91"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6126,7 +6412,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:352",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:364",
       "existingTests": [
         "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_SqlCmdLinesAreSyntaxErrors_WithHint @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:72",
         "SqlSafetyGuard.Tests.SqlCmdTests.ModeOff_DollarParenInAString_IsJustAString @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:97"
@@ -6141,7 +6427,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:357",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:369",
       "existingTests": [
         "SqlSafetyGuard.Tests.SqlCmdTests.Directives_AreReported @ tests/SqlSafetyGuard.Tests/SqlCmdTests.cs:42"
       ],
@@ -6155,7 +6441,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:72",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:77",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.BalancedTransaction_IsGreen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:25",
         "SqlSafetyGuard.Tests.TransactionTests.NestedTransactions_Balanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:33"
@@ -6170,7 +6456,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:88",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:93",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.LoneCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:10",
         "SqlSafetyGuard.Tests.TransactionTests.ExtraCommit_IsUnknown @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:18"
@@ -6184,7 +6470,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:159",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:164",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.BeginWithoutCommit_ReportsOpenTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:39",
         "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_LeftOpen_IsReported @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:119"
@@ -6199,7 +6485,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:970",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1112",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.GuardedCommit_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:91",
         "SqlSafetyGuard.Tests.TransactionTests.XactStateGuard_ClosesTheTransaction @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:98"
@@ -6213,7 +6499,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:141",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:146",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.ImplicitTransactions_Committed_IsFine @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:128"
       ],
@@ -6226,7 +6512,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:119",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:124",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.IfCommitElseRollback_IsBalanced @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:67",
         "SqlSafetyGuard.Tests.TransactionTests.UnguardedIf_StaysConservative @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:105"
@@ -6241,7 +6527,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:97",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:102",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.RollbackCloses @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:52",
         "SqlSafetyGuard.Tests.TransactionTests.RollbackToSavepoint_KeepsTransactionOpen @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:60"
@@ -6255,7 +6541,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:502",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:527",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.TransactionsInBrokenBatch_DontCount @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:136"
       ],
@@ -6268,7 +6554,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:557",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:591",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.PossiblyOpenTransactionsAreReported @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:160"
       ],
@@ -6284,7 +6570,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:804",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:874",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
       ],
@@ -6297,7 +6583,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:477",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:502",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6311,7 +6597,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1178",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1326",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.RemoteTargets_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:220",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UpdateViaAliasOfTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:35"
@@ -6326,7 +6612,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:847",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:944",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6338,7 +6624,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:732",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:766",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
@@ -6352,7 +6638,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:684",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:718",
       "existingTests": [
         "SqlSafetyGuard.Tests.FalseAlarmTests.DropStatistics_FollowsTempRules @ tests/SqlSafetyGuard.Tests/FalseAlarmTests.cs:28"
       ],
@@ -6365,7 +6651,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:738",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:772",
       "existingTests": [
         "SqlSafetyGuard.Tests.AstOnlyKindTests.ConstructedAstUsesReviewedFallbackWithoutClaimingSqlExecution @ tests/SqlSafetyGuard.Tests/AstOnlyKindTests.cs:20"
       ],
@@ -6378,7 +6664,7 @@
       "verdicts": [
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1301",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1455",
       "existingTests": [],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6390,7 +6676,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:798",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:868",
       "existingTests": [
         "SqlSafetyGuard.Tests.HiddenSideEffectTests.RemoteSources_AreUnknown @ tests/SqlSafetyGuard.Tests/HiddenSideEffectTests.cs:30"
       ],
@@ -6405,7 +6691,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:829",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:926",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.InsertExecOfReadOnlyProc_IsTempOnly @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:147",
         "SqlSafetyGuard.Tests.SystemProcedureTests.InsertExecOfKnownWriter_IsRed @ tests/SqlSafetyGuard.Tests/SystemProcedureTests.cs:37"
@@ -6420,7 +6706,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1298",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1452",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.DefinitionAndSecurityChanges_AreRealWrite @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:197"
       ],
@@ -6435,7 +6721,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1253",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1407",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.TableDdlAndTruncate @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:180"
       ],
@@ -6450,7 +6736,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1245",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1399",
       "existingTests": [
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case07_OutputIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:65",
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.NestedModificationOutputIsAlsoClassified @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:83"
@@ -6465,7 +6751,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:183",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:188",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.ParseErrorInOneBatch_OtherBatchesStillAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:232",
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.UnparseableDynamicSql_IsUnknown @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:126"
@@ -6479,8 +6765,23 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:452",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:477",
       "existingTests": [],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "walk.repeated-context",
+      "category": "walking",
+      "condition": "Loops and backward jumps pre-collect visible USE destinations before authorizing repeatable statements.",
+      "verdicts": [
+        "AllowListed",
+        "Unknown",
+        "RealWrite"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:196",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.RepeatedControlFlowCannotReuseTrustFromOnlyTheFirstDatabase @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:112"
+      ],
       "reviewStatus": "reviewed-semantic"
     },
     {
@@ -6491,7 +6792,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:524",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:557",
       "existingTests": [
         "SqlSafetyGuard.Tests.AnalysisResourceTests.EarlyReturnPreservesContinuingTransactionPaths @ tests/SqlSafetyGuard.Tests/AnalysisResourceTests.cs:125"
       ],
@@ -6502,7 +6803,7 @@
       "category": "walking",
       "condition": "WHERE, non-percent TOP, restricting joins and CTE/derived resolution change all-rows notes; percent TOP and preserved outer sides do not establish restriction.",
       "verdicts": [],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1096",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:1244",
       "existingTests": [
         "SqlSafetyGuard.Tests.NoWhereTests.AllRowsSummary_DescribesTheActualChange @ tests/SqlSafetyGuard.Tests/NoWhereTests.cs:68"
       ],
@@ -6517,7 +6818,7 @@
         "AllowListed",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:605",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:639",
       "existingTests": [
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case06_SelectIntoPermanentTable_IsRealWrite @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:57",
         "SqlSafetyGuard.Tests.RequiredCasesTests.Case02_SelectIntoTempThenDeleteTemp_IsTempOnly @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:20"
@@ -6532,7 +6833,7 @@
         "TempOnly",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:655",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:689",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.SwitchClassifiesBothTables @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:15"
       ],
@@ -6541,11 +6842,11 @@
     {
       "id": "walk.target-switch",
       "category": "walking",
-      "condition": "USE or federation/context switch invalidates contextual allow lists and trusted procedures for following statements.",
+      "condition": "SQLCMD server and federation switches invalidate object trust and remain Unknown; ordinary USE retains conservative database contexts instead.",
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:444",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:468",
       "existingTests": [
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.TargetSwitchesDisableContextualTrust @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:99",
         "SqlSafetyGuard.Tests.EnvironmentRuleTests.FederationSwitchInvalidatesTargetContext @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:222"
@@ -6559,7 +6860,7 @@
       "verdicts": [
         "TempOnly"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:726",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:760",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TemporaryProcedureDefinitionsDoNotExecuteBodies @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:186"
       ],
@@ -6573,7 +6874,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:528",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:562",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
@@ -6587,7 +6888,7 @@
         "ReadOnly",
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:532",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:566",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.TransactionUncertaintyIsNotGreen @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:177"
       ],
@@ -6600,9 +6901,23 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:548",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:582",
       "existingTests": [
         "SqlSafetyGuard.Tests.TransactionTests.CommitInCatch_AfterTryOpened_IsNotLone @ tests/SqlSafetyGuard.Tests/TransactionTests.cs:84"
+      ],
+      "reviewStatus": "reviewed-semantic"
+    },
+    {
+      "id": "walk.use-context",
+      "category": "walking",
+      "condition": "USE itself changes database context only; retain prior and requested databases because a switch can fail.",
+      "verdicts": [
+        "ReadOnly"
+      ],
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:535",
+      "existingTests": [
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.UseIsAContextOperationRatherThanAnUnknownEffect @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:10",
+        "SqlSafetyGuard.Tests.QualifiedTrustTests.PossibleFailedUseRequiresApprovalForEveryPossibleDatabase @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:64"
       ],
       "reviewStatus": "reviewed-semantic"
     },
@@ -6616,7 +6931,7 @@
         "Unknown",
         "RealWrite"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:599",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:633",
       "existingTests": [
         "SqlSafetyGuard.Tests.SoundnessRegressionTests.WaitForPreservesInnerStatementVerdict @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:31"
       ],
@@ -6629,7 +6944,7 @@
       "verdicts": [
         "Unknown"
       ],
-      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:516",
+      "source": "src/SqlSafetyGuard.Analyzer/StatementWalker.cs:549",
       "existingTests": [
         "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.WhileAndTryCatch_AreWalked @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:153"
       ],

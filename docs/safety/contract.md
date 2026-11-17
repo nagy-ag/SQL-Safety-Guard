@@ -6,7 +6,7 @@ This is the campaign's desired safety contract, not a claim that every current r
 
 - **ReadOnly (green):** no intentional persistent change at all, and no unapproved session state left behind. Engine-internal incidental bookkeeping (plan cache, automatic statistics, telemetry) must be reported separately, not silently treated as a user write.
 - **TempOnly (green):** only this session's local `#temp` and `@table` objects may change; no persistent, remote, shared-global-temp or unrelated session effects. Invoked code does not inherit permission to mutate elsewhere.
-- **AllowListed (green):** writes authorized only to resolved targets matched by the effective allow list. Other effects, triggers, cascades and session residue still need accounting. A trusted-procedure declaration is an administrator assertion, not proof of read-only behavior.
+- **AllowListed (green):** writes authorized only to resolved targets matched by the effective allow list. Other effects, triggers, cascades and session residue still need accounting. A qualified procedure/function approval is authorization for that call and its effects, not proof of read-only behavior. Rule types are separate; server/database/schema are literal and no alias equivalence is assumed.
 - **Unknown (yellow):** no safety promise; confirmation required under yellow-and-red warning policy. Missing evidence is not evidence of safety.
 - **RealWrite (red):** operation capable of a non-authorized persistent or external change; confirmation required under an enabled red warning policy. Zero affected rows or execution failure does not invalidate this capability classification.
 
@@ -34,3 +34,9 @@ Measure on the **same live execution connection before disposal or cleanup**: tr
 ## Oracle blind spots
 
 Snapshot equality cannot prove universal absence of effects. Transient reverted writes, cache/log/identity changes, asynchronous Broker/Agent/mail work, external hosts/files, encrypted procedures, triggers/cascades, inaccessible catalogs and permission-filtered metadata can escape an oracle. Concurrency contaminates attribution; isolation and repeats reduce but do not eliminate it. Feature/version/collation/context differences limit generalization. Instrumentation can alter timing and state. Offline rewrites prove only classification relationships, never actual SQL Server behavior.
+
+## Context presentation
+
+`USE` changes session database context without itself changing permanent data. Its analyzer verdict is ReadOnly; the pane presents it as blue Context, counted and filtered separately from Safe. This does not prove that a switch succeeded: contextual trust retains previous possible databases, including across GO and repeated control flow. Literal dynamic contexts are scoped. Stricter destination environment policies can still require confirmation. SQLCMD server switches and federation switches remain unverified; production code never opens a connection to resolve them.
+
+Purple remains container context, separate from the red/yellow/green safety classification. Submitted definition writes and potential body effects are counted separately. The [dictionary](../user/dictionary.md) defines the UI terms.

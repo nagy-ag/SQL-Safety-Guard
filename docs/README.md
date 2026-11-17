@@ -18,7 +18,8 @@ dated evidence lives in [history/](history/README.md) and is never edited again.
 |---|---|
 | [install.md](user/install.md) | Requirements, downloads, installing, updating and uninstalling for yourself. |
 | [user-guide.md](user/user-guide.md) | The colours, the safety pane, the F5 confirmation, samples to try, troubleshooting and limitations. |
-| [settings.md](user/settings.md) | Every option and its editor, with copyable allow-list, trusted-procedure and environment-rule examples; sharing settings. |
+| [settings.md](user/settings.md) | Every option and its editor, with copyable qualified-target, typed-routine and environment-rule examples; sharing settings. |
+| [dictionary.md](user/dictionary.md) | Colors, context accents, definitions, calls, previews and qualified authorization terms. |
 | [statement-verdicts.md](user/statement-verdicts.md) | The colour of every T-SQL statement kind, for permanent and temporary targets. Generated, test-guarded. |
 
 ## it/ — deploying in a company

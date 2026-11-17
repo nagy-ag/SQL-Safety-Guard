@@ -7,6 +7,12 @@
              Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
              FontSize="12">
     <UserControl.Resources>
+        <Style x:Key="LineNumber" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="8,0,0,0" />
+            <Setter Property="Typography.NumeralAlignment" Value="Tabular" />
+        </Style>
         <!-- Keep verdict shapes visible when their semantic fill is close to the theme background. -->
         <Style TargetType="Ellipse">
             <Setter Property="Stroke" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
@@ -58,6 +64,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="FilterButton" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="FontSize" Value="11" /><Setter Property="Padding" Value="5,3" /><Setter Property="Margin" Value="0,0,3,0" />
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton">
+                <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="{TemplateBinding Padding}"><ContentPresenter /></Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="True"><Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static platformUi:TreeViewColors.SelectedItemInactiveBrushKey}}" /><Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" /><Setter Property="FontWeight" Value="SemiBold" /></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemHighlightBrushKey}}" /></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
         <Style x:Key="RowExpander" TargetType="Expander">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -65,7 +82,10 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Expander">
                         <StackPanel>
+                          <Grid>
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="18" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                             <Button x:Name="RowHeader" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                          Grid.Column="1"
                                           HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0"
                                           Foreground="{TemplateBinding Foreground}"
                                           AutomationProperties.Name="{Binding Tooltip}"
@@ -83,6 +103,11 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
+                            <Button x:Name="RowArrow" Grid.Column="0" Content="{Binding Chevron}" Click="OnRowArrowClick"
+                                    Foreground="{TemplateBinding Foreground}" Background="Transparent" BorderThickness="0" Padding="0"
+                                    ToolTip="Expand or collapse details" AutomationProperties.Name="Expand or collapse details"
+                                    AutomationProperties.HelpText="{Binding Tooltip}" />
+                          </Grid>
                             <ContentPresenter x:Name="RowDetails" Visibility="Collapsed" />
                         </StackPanel>
                         <ControlTemplate.Triggers>
@@ -92,12 +117,38 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <DataTemplate x:Key="BodyBadgeTemplate">
+            <StackPanel Orientation="Horizontal" ToolTip="{Binding Tooltip}" VerticalAlignment="Center" Margin="8,0,0,0">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding InsideVisibility}" Margin="0,0,5,0"><Ellipse Width="7" Height="7" Fill="{Binding InsideMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding InsideTotal}" FontSize="11" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding RemoteVisibility}" Margin="0,0,5,0"><Ellipse Width="7" Height="7" Fill="{Binding RemoteMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding RemoteTotal}" FontSize="11" /></StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="PreviewHeaderTemplate">
+            <Grid ToolTip="{Binding Tooltip}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="13" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="{Binding LineGutterWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" /></Grid.ColumnDefinitions>
+                <Ellipse Width="7" Height="7" Fill="{Binding Marker}" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding PreviewLabel}" TextTrimming="CharacterEllipsis" Margin="0,0,5,0" />
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding RedVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding RedMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Writes}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding YellowVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding YellowMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Unknown}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding GreenVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding GreenMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Safe}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ContextVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding ContextMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Context}" FontSize="11" /></StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="GroupRowHeaderTemplate">
             <Grid ToolTip="{Binding Tooltip}">
-                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding ObjectName}" Margin="0,0,10,0" ToolTip="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
-                <TextBlock Grid.Column="1" Text="{Binding Subtitle}" Margin="0,0,10,0" HorizontalAlignment="Right" />
-                <TextBlock Grid.Column="2" Text="{Binding Line}" HorizontalAlignment="Right" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+                <Grid.ColumnDefinitions><ColumnDefinition Width="14" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="{Binding LineGutterWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" /></Grid.ColumnDefinitions>
+                <Ellipse Width="8" Height="8" Fill="{Binding Marker}" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding ObjectName}" Margin="0,0,8,0" ToolTip="{Binding DisplayName}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" />
+                <StackPanel Grid.Column="2" Orientation="Horizontal" ToolTip="{Binding CountTooltip}" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding RedVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding RedMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Writes}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding YellowVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding YellowMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Unknown}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding GreenVisibility}" Margin="0,0,5,0"><Ellipse Width="6" Height="6" Fill="{Binding GreenMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Safe}" FontSize="11" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ContextVisibility}" Margin="0,0,5,0" ToolTip="{Binding ContextTooltip}"><Ellipse Width="6" Height="6" Fill="{Binding ContextMarker}" Margin="0,0,3,0" /><TextBlock Text="{Binding DisplayCounts.Context}" FontSize="11" /></StackPanel>
+                    <ContentControl Content="{Binding BodyBadge}" Visibility="{Binding BodyBadgeVisibility}" ContentTemplate="{StaticResource BodyBadgeTemplate}" />
+                </StackPanel>
+                <TextBlock Grid.Column="3" Text="{Binding VisibleLine}" Style="{StaticResource LineNumber}" ToolTip="First visible operation's source line" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="GroupReasonTemplate">
@@ -117,54 +168,43 @@
                 <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" />
             </DockPanel>
         </DataTemplate>
+        <DataTemplate x:Key="FindingHeaderTemplate">
+            <Grid ToolTip="{Binding Tooltip}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="13" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="{Binding LineGutterWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" /></Grid.ColumnDefinitions>
+                <Ellipse Width="7" Height="7" Fill="{Binding Marker}" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding InlineLabel}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="0,0,5,0" />
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ContentControl Content="{Binding Body.Badge}" Visibility="{Binding BodyVisibility}" ContentTemplate="{StaticResource BodyBadgeTemplate}" />
+                </StackPanel>
+                <TextBlock Grid.Column="3" Text="{Binding EditorLine}" Style="{StaticResource LineNumber}" />
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="BodyFindingTemplate">
-            <Button Click="OnBodyFindingClick" HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0"
-                    Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}"
-                    Padding="3,5" ToolTip="Jump to this statement without selecting SQL text" AutomationProperties.Name="{Binding SafeText}">
+            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Header="{Binding}" HeaderTemplate="{StaticResource FindingHeaderTemplate}" Margin="0,1">
                 <StackPanel>
-                    <TextBlock Text="{Binding Note}" Visibility="{Binding NoteVisibility}" FontSize="11" TextWrapping="Wrap">
+                    <TextBlock Text="{Binding Reason}" Visibility="{Binding ReasonVisibility}" FontSize="11" TextWrapping="Wrap" Margin="18,2,0,5">
                         <TextBlock.Style><Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
                             <Style.Triggers><DataTrigger Binding="{Binding IsPermanentWholeTarget}" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowValidationErrorTextBrushKey}}" />
                                 <Setter Property="FontWeight" Value="SemiBold" />
                             </DataTrigger></Style.Triggers>
                         </Style></TextBlock.Style>
                     </TextBlock>
-                    <DockPanel Margin="0,2,0,0">
-                        <TextBlock DockPanel.Dock="Right" Text="{Binding EditorLine, StringFormat=Line {0}}" FontSize="11" Margin="6,0,0,0" />
-                        <TextBlock Text="{Binding Finding.Action}" FontWeight="SemiBold" TextWrapping="Wrap" />
-                    </DockPanel>
-                </StackPanel>
-            </Button>
-        </DataTemplate>
-        <DataTemplate x:Key="BodyGroupTemplate">
-            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="8,5"
-                      Header="{Binding}" HeaderTemplate="{StaticResource GroupRowHeaderTemplate}">
-                <StackPanel Margin="0,5,0,3">
-                    <ItemsControl ItemsSource="{Binding Findings}" ItemTemplate="{StaticResource BodyFindingTemplate}" Margin="0,3,0,0" />
+                    <WrapPanel Visibility="{Binding SourceLocationVisibility}" Margin="18,0,0,5">
+                        <Button Content="{Binding SourceLocation}" IsEnabled="{Binding HasSource}" Click="OnSqlSourceClicked" ToolTip="Go to the contributing SQL string" FontSize="11" Padding="0" Margin="0,0,8,0" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+                        <Button Content="{Binding ExecutionLocation}" Click="OnSqlExecutionClicked" ToolTip="Go to the containing operation" FontSize="11" Padding="0" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+                    </WrapPanel>
+                    <ContentControl Content="{Binding Body}" Visibility="{Binding BodyVisibility}" ContentTemplate="{DynamicResource ProcedureBodyTemplate}" />
                 </StackPanel>
             </Expander>
         </DataTemplate>
-        <DataTemplate x:Key="BodySectionTemplate">
-            <StackPanel>
-                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SectionHeaderTemplate}" />
-                <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{StaticResource BodyGroupTemplate}" />
-            </StackPanel>
-        </DataTemplate>
         <DataTemplate x:Key="ProcedureBodyTemplate">
-            <Expander Style="{DynamicResource SafeSectionExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="0,8,0,0"
-                      Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}">
-                <Expander.Header><TextBlock Text="Body — potential effects when called" TextWrapping="Wrap" FontWeight="SemiBold" ToolTip="{Binding Summary}" /></Expander.Header>
-                <Border Margin="10,6,0,0" Padding="4,0,0,0" BorderThickness="1,0,0,0"
-                        BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
+            <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Header="{Binding}" HeaderTemplate="{StaticResource PreviewHeaderTemplate}" Margin="18,4,0,4">
+                <Border Margin="18,3,0,0" Padding="4,0,0,0" BorderThickness="1,0,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}">
                     <StackPanel>
-                        <TextBlock Text="Body analysis incomplete." Visibility="{Binding IncompleteVisibility}" FontSize="11" TextWrapping="Wrap" Margin="8,0,0,6" />
-                        <ItemsControl ItemsSource="{Binding Sections}" ItemTemplate="{StaticResource BodySectionTemplate}" />
-                        <Expander Style="{DynamicResource SafeSectionExpander}" Visibility="{Binding SafeVisibility}" IsExpanded="{Binding IsSafeExpanded, Mode=TwoWay}" Margin="8,12,0,0"
-                                  Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}">
-                            <Expander.Header><TextBlock Text="{Binding SafeHeading}" TextWrapping="Wrap" FontSize="11" /></Expander.Header>
-                            <ItemsControl ItemsSource="{Binding Safe}" ItemTemplate="{StaticResource BodyGroupTemplate}" />
-                        </Expander>
+                        <TextBlock Text="Body analysis incomplete." Visibility="{Binding IncompleteVisibility}" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,6" />
+                        <ItemsControl ItemsSource="{Binding VisibleFindings}" ItemTemplate="{StaticResource BodyFindingTemplate}" />
                     </StackPanel>
                 </Border>
             </Expander>
@@ -173,9 +213,8 @@
             <Expander Style="{StaticResource RowExpander}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
                       Header="{Binding}" HeaderTemplate="{StaticResource GroupRowHeaderTemplate}">
                 <StackPanel Margin="0,5,0,3">
-                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GroupReasonTemplate}" Visibility="{Binding SingleFindingVisibility}" />
-                    <ItemsControl ItemsSource="{Binding Findings}" ItemTemplate="{StaticResource BodyFindingTemplate}" Visibility="{Binding MultipleFindingsVisibility}" Margin="0,3,0,0" />
-                    <ItemsControl ItemsSource="{Binding Bodies}" ItemTemplate="{StaticResource ProcedureBodyTemplate}" />
+                    <TextBlock Text="Decoded SQL" Visibility="{Binding DynamicScopeVisibility}" Margin="18,0,0,3" FontSize="11" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.SystemGrayTextBrushKey}}" />
+                    <ItemsControl ItemsSource="{Binding VisibleFindings}" ItemTemplate="{StaticResource BodyFindingTemplate}" Margin="18,3,0,0" />
                 </StackPanel>
             </Expander>
         </DataTemplate>
@@ -249,22 +288,9 @@
                 MouseLeftButtonUp="OnToggleClicked">
             <StackPanel Margin="2,10,2,0">
                 <Grid x:Name="CollapsedStatus" Width="20" Height="20">
-                    <Ellipse x:Name="CollapsedDot" Fill="Gray" />
-                    <TextBlock x:Name="CollapsedGlyph" Foreground="White" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Ellipse Fill="Gray" />
                 </Grid>
-                <Grid x:Name="CollapsedRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,0,6">
-                    <Ellipse x:Name="CollapsedRedDot" StrokeThickness="0" />
-                    <Viewbox Margin="2" StretchDirection="DownOnly">
-                        <TextBlock x:Name="CollapsedRedCount" FontWeight="Bold" />
-                    </Viewbox>
-                </Grid>
-                <Grid x:Name="CollapsedYellow" Width="20" Height="20" Visibility="Collapsed">
-                    <Ellipse x:Name="CollapsedYellowDot" StrokeThickness="0" />
-                    <Viewbox Margin="2" StretchDirection="DownOnly">
-                        <TextBlock x:Name="CollapsedYellowCount" FontWeight="Bold" />
-                    </Viewbox>
-                </Grid>
+                <StackPanel x:Name="CollapsedCounts" Visibility="Collapsed" />
             </StackPanel>
         </Border>
 
@@ -280,11 +306,6 @@
                             <RadioButton x:Name="SettingsButton" Content="⚙" ToolTip="Settings" AutomationProperties.Name="Settings" GroupName="Page" Style="{StaticResource PageButton}" Checked="OnSettingsPage" />
                         </StackPanel>
                     </Border>
-                    <StackPanel x:Name="HeaderCounts" DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,7,0">
-                        <Grid x:Name="HeaderStatus" Width="20" Height="20"><Ellipse x:Name="HeaderDot" Fill="Gray" /><TextBlock x:Name="HeaderGlyph" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" /></Grid>
-                        <Grid x:Name="HeaderRed" Width="20" Height="20" Visibility="Collapsed" Margin="0,0,4,0"><Ellipse x:Name="HeaderRedDot" StrokeThickness="0" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderRedCount" Foreground="White" FontWeight="Bold" /></Viewbox></Grid>
-                        <Grid x:Name="HeaderYellow" Width="20" Height="20" Visibility="Collapsed"><Ellipse x:Name="HeaderYellowDot" StrokeThickness="0" /><Viewbox Margin="2" StretchDirection="DownOnly"><TextBlock x:Name="HeaderYellowCount" Foreground="Black" FontWeight="Bold" /></Viewbox></Grid>
-                    </StackPanel>
                     <Grid VerticalAlignment="Center">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                         <TextBlock x:Name="ScopeText" Text="Whole window" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
@@ -294,16 +315,26 @@
             </Border>
             <Grid>
                 <DockPanel x:Name="AnalysisPage" Background="Transparent" PreviewMouseLeftButtonDown="OnAnalysisBackgroundMouseDown">
-                    <Expander Style="{StaticResource SafeSectionExpander}" Foreground="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowTextBrushKey}}" x:Name="SafeSection" DockPanel.Dock="Bottom" Visibility="Collapsed" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource {x:Static platformUi:EnvironmentColors.ToolWindowBorderBrushKey}}" Padding="4,6" MaxHeight="300">
-                        <Expander.Header><TextBlock x:Name="SafeHeader" FontSize="11" /></Expander.Header>
-                        <ListBox x:Name="SafeList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" KeyDown="OnGroupKeyDown" />
-                    </Expander>
+                    <StackPanel x:Name="FilterBar" Orientation="Horizontal" DockPanel.Dock="Top" Margin="8,6,5,6" ToolTip="Filter displayed operations only. Overall warnings and counts remain unchanged.">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Filter labels">
+                                    <MenuItem x:Name="LabelsAutomatic" Header="Automatic" Tag="Automatic" IsCheckable="True" IsChecked="True" Click="OnFilterLabelsClick" />
+                                    <MenuItem x:Name="LabelsText" Header="Text" Tag="Text" IsCheckable="True" Click="OnFilterLabelsClick" />
+                                    <MenuItem x:Name="LabelsCircles" Header="Circles" Tag="Circles" IsCheckable="True" Click="OnFilterLabelsClick" />
+                                </MenuItem>
+                            </ContextMenu>
+                        </StackPanel.ContextMenu>
+                        <ToggleButton x:Name="FilterWrites" Tag="Writes" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                        <ToggleButton x:Name="FilterUnknown" Tag="Unknown" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                        <ToggleButton x:Name="FilterSafe" Tag="Safe" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                        <Separator Width="1" Margin="2,3,5,3" />
+                        <ToggleButton x:Name="FilterInside" Tag="Inside" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                        <ToggleButton x:Name="FilterContext" Tag="Context" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                        <ToggleButton x:Name="FilterRemote" Tag="Remote" Style="{StaticResource FilterButton}" Click="OnFilterClick" />
+                    </StackPanel>
                     <TextBlock x:Name="EmptyText" DockPanel.Dock="Top" Margin="10" Opacity="0.7" TextWrapping="Wrap" Visibility="Collapsed" />
-                    <ListBox x:Name="GroupList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" KeyDown="OnGroupKeyDown">
-                        <ListBox.GroupStyle>
-                            <GroupStyle HeaderTemplate="{StaticResource SectionHeaderTemplate}" />
-                        </ListBox.GroupStyle>
-                    </ListBox>
+                    <ListBox x:Name="GroupList" Style="{StaticResource ObjectList}" SelectionChanged="OnGroupSelectionChanged" KeyDown="OnGroupKeyDown" />
                 </DockPanel>
                 <ScrollViewer x:Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <StackPanel Margin="12,10">

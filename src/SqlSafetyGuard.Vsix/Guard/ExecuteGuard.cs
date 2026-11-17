@@ -103,8 +103,9 @@ namespace SqlSafetyGuard.Guard
             var settings = _package.ResolveSettings(connection, out var rules);
             check.Settings = settings;
             _package.RefreshHealth(settings);
-            if (settings.Mode == ExecutionMode.Off && check.TargetVerified)
-                return false;
+            if (settings.Mode == ExecutionMode.Off && check.TargetVerified && !rules.HasRules) return false;
+            // If context rules exist, a failed analysis cannot prove that Off still applies after a switch.
+            if (settings.Mode == ExecutionMode.Off && rules.HasRules) check.Settings = new GuardSettings(ExecutionMode.YellowRed);
 
 #if DEBUG
             // Exercise failure confirmation without changing Release behaviour.
@@ -116,8 +117,7 @@ namespace SqlSafetyGuard.Guard
             if (string.IsNullOrWhiteSpace(snapshot.Text) && check.TargetVerified)
                 return false;
 
-            var analyzerOptions = new AnalyzerOptions(settings.AllowList, options.TempdbIsTemp, sqlCmdMode: target.SqlCmdMode,
-                currentDatabase: connection.Database, trustedProcedures: settings.TrustedProcedures, configurationWarnings: rules?.Warnings);
+            var analyzerOptions = _package.CreateAnalyzerOptions(connection, settings, rules, target.SqlCmdMode, readSqlCmdMode: false);
             switch (AnalysisRunner.Run(snapshot.Text, analyzerOptions, out check.Result))
             {
                 case AnalysisOutcome.Cancelled:

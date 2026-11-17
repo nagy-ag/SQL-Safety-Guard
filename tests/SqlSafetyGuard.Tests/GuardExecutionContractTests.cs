@@ -32,7 +32,10 @@ public class GuardExecutionContractTests
     public static IEnumerable<object[]> Decisions()
     {
         foreach (var mode in Enum.GetValues<ExecutionMode>())
-        foreach (var sql in new[] { "SELECT 1;", "INSERT #temp VALUES (1);", "EXEC dbo.Opaque;", "DELETE dbo.Orders;" })
+        foreach (var sql in new[] { "SELECT 1;", "INSERT #temp VALUES (1);", "EXEC dbo.Opaque;", "DELETE dbo.Orders;",
+            "DECLARE @sql nvarchar(max)=N'SELECT 1'; EXEC(@sql);",
+            "DECLARE @sql nvarchar(max)=N'DELETE dbo.Orders'; EXEC(@sql);",
+            "EXEC(@sql);", "SELECT dbo.fn_External();", "SELECT * FROM dbo.fn_Rows();" })
         foreach (bool approved in new[] { false, true })
             yield return new object[] { mode, sql, approved };
     }

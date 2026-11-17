@@ -66,7 +66,7 @@ EXEC ('SELECT TOP (1) * FROM dbo.Orders');
 EXEC dbo.usp_Cleanup;
 
 -- #9 Dynamic SQL in a variable
--- expect: Unknown
+-- expect: RealWrite
 DECLARE @sql nvarchar(200) = N'DELETE FROM dbo.Orders WHERE Id = 1';
 EXEC sp_executesql @sql;
 

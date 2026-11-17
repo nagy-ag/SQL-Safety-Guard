@@ -58,6 +58,18 @@ Close SSMS and install the newer VSIX the same way; it replaces the old version.
 new one works, so you can reinstall it (`.\install.ps1 -VsixPath <previous.vsix>`) if something goes wrong.
 The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
+### Upgrading to 1.1.0
+
+1. Export your settings and keep the published 1.0.5 package for rollback. Choose the **1.1.0 prerelease** explicitly; GitHub's Latest stable download remains 1.0.5 during acceptance.
+2. Save query windows, close SSMS and install the newer VSIX. Existing settings are retained.
+3. Review **Safe tables allow-list**, **Trusted routines** and any environment-rule approvals. Older short rules remain saved but inactive. Each active approval requires an exact server.database.schema.object identity; procedure and function rules are separate.
+4. Use **Use current connection for missing parts** only after checking the displayed connection. Supply and review the schema yourself. Save explicitly; the extension does not guess missing identity parts or migrate authorization automatically.
+5. Inspect representative queries before relying on approvals. New unproved function warnings can be yellow. USE appears as blue Context, separately from green Safe; purple Inside and gray Remote counts describe previews rather than submitted writes.
+
+See [settings](settings.md#existing-rules-and-migration), the [color dictionary](dictionary.md) and the [changelog](../../CHANGELOG.md). Approval authorizes effects; green AllowListed does not promise a read-only implementation. Matching uses exact identifier case and permits wildcards only in the object name.
+
+If you roll back, review your exported settings before importing them: 1.0.5 uses the older matching semantics. Do not assume a new qualified rule has the same meaning in an older extension.
+
 ## Uninstall
 
 For a normal per-user installation:

@@ -25,11 +25,16 @@ namespace SqlSafetyGuard.Analyzer
         };
 
         private AnalyzerOptions _options;
+        private bool _unknownTargetPolicy;
+        internal bool RequiresErrorConfirmation => _unknownTargetPolicy || _options.RequiresConfirmation(Verdict.Unknown, null);
         private readonly List<Finding> _findings;
         private readonly List<SqlParseError> _errors;
         private readonly List<SkippedRegion> _skipped;
-        private readonly List<ProcedureBodyAnalysis> _bodies;
+        private readonly List<CodeBodyAnalysis> _bodies;
         private bool _incompleteAnalysis;
+        private DynamicSqlVariables _dynamicSqlVariables;
+        private int _previewDepth;
+        private const int MaxPreviewDepth = 8;
 
         /// <summary>Transaction nesting across the whole text (a transaction outlives GO batches).</summary>
         private TransactionState _transactions = new TransactionState();
@@ -171,7 +176,7 @@ namespace SqlSafetyGuard.Analyzer
         }
 
         public StatementWalker(AnalyzerOptions options, List<Finding> findings, List<SqlParseError> errors, List<SkippedRegion> skipped,
-            List<ProcedureBodyAnalysis> bodies = null)
+            List<CodeBodyAnalysis> bodies = null)
         {
             _options = options;
             _findings = findings;
@@ -186,8 +191,12 @@ namespace SqlSafetyGuard.Analyzer
             var fragment = Parse(parser, scope.Text, out var errors);
             var tokens = fragment?.ScriptTokenStream ?? BatchRecovery.Tokenize(parser, scope.Text);
             CheckBatchRepetition(tokens, scope);
-            var use = tokens.FirstOrDefault(token => token.TokenType == TSqlTokenType.Use);
-            if (use != null) InvalidateTargetContext(scope, scope.PositionOfOffset(use.Offset, use.Text.Length));
+            if (tokens.Any(t => t.TokenType == TSqlTokenType.While || t.TokenType == TSqlTokenType.GoTo))
+            {
+                var contexts = new UseCollector();
+                fragment?.Accept(contexts);
+                foreach (var database in contexts.Databases) _options = _options.WithDatabase(database);
+            }
             if (errors.Count == 0)
             {
                 WalkScript(fragment, scope);
@@ -266,8 +275,11 @@ namespace SqlSafetyGuard.Analyzer
                     : "has a syntax error; its body is not analyzed";
                 var position = scope.PositionOfOffset(region.Start, region.End - region.Start);
                 AddAt(blocked, position, module.Action, module.Name, null, Verdict.RealWrite, note);
-                if (_bodies != null && module.Action.EndsWith("PROCEDURE", StringComparison.Ordinal))
-                    AddIncompleteBody(_findings[_findings.Count - 1], "Body analysis incomplete: " + note);
+                if (_bodies != null)
+                    AddIncompleteBody(_findings[_findings.Count - 1], "Body analysis incomplete: " + note,
+                        module.Action.EndsWith("TRIGGER", StringComparison.Ordinal) ? CodeBodyKind.Trigger :
+                        module.Action.EndsWith("FUNCTION", StringComparison.Ordinal) ? CodeBodyKind.ScalarFunction :
+                        module.Action.EndsWith("VIEW", StringComparison.Ordinal) ? CodeBodyKind.View : CodeBodyKind.Procedure);
                 RecordSkipped(scope, region.Start, region.End - region.Start,
                     module.Misplaced ? module.Action + " is not the first statement in its batch" : module.Action + " could not be parsed");
             }
@@ -437,16 +449,29 @@ namespace SqlSafetyGuard.Analyzer
             foreach (var batch in script.Batches)
             {
                 _transactions.Terminated = false;
-                WalkStatements(batch.Statements, scope);
+                var previousVariables = _dynamicSqlVariables;
+                try
+                {
+                    _dynamicSqlVariables = scope.BlockingErrorLine.HasValue ? null : DynamicSqlVariables.Collect(batch.Statements);
+                    WalkStatements(batch.Statements, scope);
+                }
+                finally { _dynamicSqlVariables = previousVariables; }
             }
+        }
+
+        private sealed class UseCollector : TSqlFragmentVisitor
+        {
+            public readonly List<string> Databases = new List<string>();
+            public override void Visit(UseStatement node) { AnalysisWork.Check(); Databases.Add(node.DatabaseName.Value); }
         }
 
         private void InvalidateTargetContext(Scope scope, Position position)
         {
+            _unknownTargetPolicy |= _options.EnvironmentRules?.HasRules == true;
             _options = new AnalyzerOptions(tempdbIsTemp: _options.TempdbIsTemp, maxDynamicSqlDepth: _options.MaxDynamicSqlDepth,
                 sqlCmdMode: _options.SqlCmdMode);
             AddAt(scope, position, "TARGET SWITCH", string.Empty, null, Verdict.Unknown,
-                "USE or :connect changes the target within this script; connection rules describe only the initial connection; custom allow-lists and procedure trust are disabled");
+                ":connect changes the server within this script; its destination cannot be verified; custom object trust is disabled");
         }
 
         private void CheckBatchRepetition(IList<TSqlParserToken> tokens, Scope scope)
@@ -504,6 +529,14 @@ namespace SqlSafetyGuard.Analyzer
 
             switch (statement)
             {
+                case UseFederationStatement federation:
+                    InvalidateTargetContext(scope, scope.PositionOf(federation));
+                    return;
+                case UseStatement use:
+                    Add(scope, use, "USE", use.DatabaseName.Value, null, Verdict.ReadOnly,
+                        "changes database context; does not itself write permanent data. Later short names retain prior possible databases because a switch can fail");
+                    _options = _options.WithDatabase(use.DatabaseName.Value);
+                    return;
                 // Control flow: recurse.
                 case BeginEndBlockStatement block: // includes BEGIN ATOMIC blocks
                     WalkStatements(block.StatementList?.Statements, scope);
@@ -523,6 +556,7 @@ namespace SqlSafetyGuard.Analyzer
                 }
                 case ReturnStatement returned:
                     Add(scope, returned, "RETURN", string.Empty, null, Verdict.ReadOnly, null);
+                    AddHiddenSideEffects(scope, returned.Expression, null);
                     _transactions.Terminated = true;
                     return;
                 case ThrowStatement thrown:
@@ -726,7 +760,7 @@ namespace SqlSafetyGuard.Analyzer
             if (statement is ProcedureStatementBody procedureDefinition && Classifier.IsTemp(procedureDefinition.ProcedureReference?.Name, _options))
             {
                 Add(scope, statement, Classifier.ActionName(statement), GuessTarget(statement, scope), null, Verdict.TempOnly, "temporary procedure definition; the body is not run now");
-                InspectProcedureBody(procedureDefinition, scope);
+                InspectModuleBody(procedureDefinition, scope);
                 return;
             }
             if (statement is DropProcedureStatement dropProcedures)
@@ -737,48 +771,84 @@ namespace SqlSafetyGuard.Analyzer
             }
             var note = IsModuleDefinition(statement) ? "changes a definition; the body is not run now" : null;
             Add(scope, statement, Classifier.ActionName(statement), GuessTarget(statement, scope), null, Verdict.RealWrite, note);
-            if (statement is ProcedureStatementBody procedure)
-                InspectProcedureBody(procedure, scope);
+            if (IsModuleDefinition(statement))
+                InspectModuleBody(statement, scope);
         }
 
-        private void AddIncompleteBody(Finding definition, string reason)
+        private void AddIncompleteBody(Finding definition, string reason, CodeBodyKind kind = CodeBodyKind.Procedure)
         {
             var diagnostic = new Finding(definition.Line, definition.Column, definition.StartOffset, 0,
                 "NOT ANALYZED", string.Empty, null, Verdict.Unknown, reason);
-            _bodies.Add(new ProcedureBodyAnalysis(definition,
-                new AnalysisResult(new[] { diagnostic }, new SqlParseError[0]), false));
+            _bodies.Add(new CodeBodyAnalysis(definition,
+                new AnalysisResult(new[] { diagnostic }, new SqlParseError[0]), false, kind));
         }
 
-        private void InspectProcedureBody(ProcedureStatementBody procedure, Scope scope)
+        private void InspectModuleBody(TSqlStatement module, Scope scope)
         {
             if (_bodies == null) return;
             var definition = _findings[_findings.Count - 1];
+            CodeBodyKind kind;
+            IList<TSqlStatement> statements;
+            if (module is FunctionStatementBody function)
+            {
+                kind = function.ReturnType is SelectFunctionReturnType ? CodeBodyKind.InlineTableFunction :
+                    function.ReturnType is TableValuedFunctionReturnType ? CodeBodyKind.TableFunction : CodeBodyKind.ScalarFunction;
+                statements = function.ReturnType is SelectFunctionReturnType inline
+                    ? new[] { inline.SelectStatement } : function.StatementList?.Statements;
+            }
+            else if (module is TriggerStatementBody trigger)
+            {
+                kind = CodeBodyKind.Trigger; statements = trigger.StatementList?.Statements;
+            }
+            else if (module is ViewStatementBody view)
+            {
+                kind = CodeBodyKind.View; statements = view.SelectStatement == null ? null : new[] { view.SelectStatement };
+            }
+            else if (module is ProcedureStatementBody procedure)
+            {
+                kind = CodeBodyKind.Procedure; statements = procedure.StatementList?.Statements;
+            }
+            else return;
+            InspectBody(definition, scope, kind, statements == null ? null : (Action<StatementWalker>)(walker =>
+            {
+                walker._dynamicSqlVariables = DynamicSqlVariables.Collect(statements);
+                walker.WalkStatements(statements, scope);
+                walker.FinishTransactions(scope);
+            }));
+        }
+
+        private void InspectBody(Finding definition, Scope scope, CodeBodyKind kind, Action<StatementWalker> inspect)
+        {
+            if (_bodies == null) return;
             if (scope.BlockingErrorLine.HasValue)
             {
-                AddIncompleteBody(definition, "Body analysis incomplete: this batch has a syntax error; recovered text cannot establish the complete body");
+                AddIncompleteBody(definition, "Body analysis incomplete: this batch has a syntax error; recovered text cannot establish the complete body", kind);
                 return;
             }
-            if (procedure.StatementList == null)
+            if (inspect == null || _previewDepth >= MaxPreviewDepth)
             {
-                AddIncompleteBody(definition, "Body analysis incomplete: no T-SQL body is available in this definition");
+                AddIncompleteBody(definition, _previewDepth >= MaxPreviewDepth ? "Body analysis incomplete: preview nesting limit reached" :
+                    "Body unavailable: no proven T-SQL body is available in the analyzed text; external implementations are not inspected", kind);
                 return;
             }
 
             var findings = new List<Finding>();
             var errors = new List<SqlParseError>();
             var skipped = new List<SkippedRegion>();
+            var bodies = new List<CodeBodyAnalysis>();
             // A fresh walker prevents transaction/target context from leaking into or out of a body.
             // It shares the thread's work budget and cancellation token. Nested module definitions remain DDL.
             // The connection's default schema/database are not proof of a module's later name resolution.
             // Keep explicit opt-ins, but require written qualification for context-dependent matches.
-            var bodyOptions = new AnalyzerOptions(_options.AllowList.Patterns, _options.TempdbIsTemp, _options.MaxDynamicSqlDepth,
-                _options.SqlCmdMode, trustedProcedures: _options.TrustedProcedures.Patterns);
-            var walker = new StatementWalker(bodyOptions, findings, errors, skipped);
+            bool separateContext = kind == CodeBodyKind.RemoteQuery || kind == CodeBodyKind.JobCommand;
+            var bodyOptions = new AnalyzerOptions(separateContext ? new string[0] : _options.AllowList.Patterns,
+                separateContext ? false : _options.TempdbIsTemp, _options.MaxDynamicSqlDepth,
+                separateContext ? false : _options.SqlCmdMode, trustedProcedures: separateContext ? new string[0] : _options.TrustedProcedures.Patterns);
+            var walker = new StatementWalker(bodyOptions, findings, errors, skipped, bodies) { _previewDepth = _previewDepth + 1 };
             bool complete = true;
             try
             {
-                walker.WalkStatements(procedure.StatementList.Statements, scope);
-                walker.FinishTransactions(scope);
+                inspect(walker);
             }
             catch (AnalysisLimitException exception)
             {
@@ -787,8 +857,8 @@ namespace SqlSafetyGuard.Analyzer
                     "NOT ANALYZED", string.Empty, null, Verdict.Unknown, "Body analysis incomplete: " + exception.Message));
             }
             complete &= !walker._incompleteAnalysis && errors.Count == 0 && skipped.Count == 0;
-            _bodies.Add(new ProcedureBodyAnalysis(definition,
-                new AnalysisResult(findings.OrderBy(f => f.StartOffset).ToList(), errors, skipped), complete));
+            _bodies.Add(new CodeBodyAnalysis(definition,
+                new AnalysisResult(findings.OrderBy(f => f.StartOffset).ToList(), errors, skipped, bodies), complete, kind));
         }
 
         /// <summary>
@@ -797,7 +867,7 @@ namespace SqlSafetyGuard.Analyzer
         /// </summary>
         private void AddHiddenSideEffects(Scope scope, TSqlFragment fragment, TSqlStatement writer)
         {
-            SideEffectScanner.Scan(fragment, out var remoteSources, out var sequences);
+            SideEffectScanner.Scan(fragment, out var remoteSources, out var sequences, out var functions);
             var nested = new ModificationCollector();
             fragment?.Accept(nested);
             var with = (writer as StatementWithCtesAndXmlNamespaces)?.WithCtesAndXmlNamespaces;
@@ -816,7 +886,11 @@ namespace SqlSafetyGuard.Analyzer
             foreach (var source in remoteSources)
             {
                 if (!written.Contains(source.Reference))
+                {
                     Add(scope, source.Reference, source.Action, scope.TextOf(source.Reference), null, Verdict.Unknown, source.Note);
+                    InspectEmbeddedSql(_findings[_findings.Count - 1], scope, source.Query?.Value, source.Reference,
+                        source.Query == null ? null : DynamicSqlSourceMap.FromLiteral(source.Query), CodeBodyKind.RemoteQuery);
+                }
             }
 
             foreach (var sequence in sequences)
@@ -824,6 +898,29 @@ namespace SqlSafetyGuard.Analyzer
                 Add(scope, sequence, "NEXT VALUE FOR", scope.TextOf(sequence.SequenceName), null, Verdict.RealWrite,
                     "advances the sequence; ROLLBACK does not undo it");
             }
+            foreach (var function in functions)
+            {
+                var target = scope.TextOf(function.NameStart, function.NameLength);
+                var parts = AllowList.SplitName(target);
+                bool named = function.Reference is SchemaObjectFunctionTableReference ||
+                    (function.Reference is FunctionCall call && call.CallTarget is MultiPartIdentifierCallTarget);
+                bool approved = named && parts != null && (parts.Length == 2 || parts.Length == 3) &&
+                    _options.IsApproved(null, parts.Length == 3 ? parts[0] : null, parts[parts.Length - 2], parts[parts.Length - 1], routine: true, function: true);
+                Add(scope, function.Reference, "FUNCTION", target, null, approved ? Verdict.AllowListed : Verdict.Unknown,
+                    approved ? "explicitly approved function; authorization does not prove a read-only body" :
+                    "function implementation is not proven for this call; built-in, T-SQL or external behavior cannot be established");
+            }
+        }
+
+        private void InspectEmbeddedSql(Finding definition, Scope scope, string sql, TSqlFragment anchor,
+            DynamicSqlSourceMap sources, CodeBodyKind kind)
+        {
+            InspectBody(definition, scope, kind, sql == null ? null : (Action<StatementWalker>)(walker =>
+            {
+                var inner = scope.ForDynamicSql(sql, anchor, sources);
+                walker.AnalyzeText(inner);
+                walker.FinishTransactions(inner);
+            }));
         }
 
         private void WalkInsert(InsertStatement insert, Scope scope)
@@ -880,6 +977,19 @@ namespace SqlSafetyGuard.Analyzer
             if (spec.LinkedServer != null)
             {
                 Add(scope, statement, action, "AT " + spec.LinkedServer.Value, null, Verdict.Unknown, "runs on a linked server");
+                string remoteSql = null;
+                DynamicSqlSourceMap remoteSources = null;
+                if (spec.ExecutableEntity is ExecutableStringList remoteStrings)
+                {
+                    if (remoteStrings.Strings.Count > 0 && remoteStrings.Strings.All(s => s is StringLiteral))
+                    {
+                        remoteSql = string.Concat(remoteStrings.Strings.Cast<StringLiteral>().Select(l => l.Value));
+                        remoteSources = DynamicSqlSourceMap.Join(remoteStrings.Strings.Cast<StringLiteral>().Select(DynamicSqlSourceMap.FromLiteral));
+                    }
+                    else if (_dynamicSqlVariables != null && _dynamicSqlVariables.TryGet(remoteStrings, out remoteSql))
+                        remoteSources = _dynamicSqlVariables.SourceOf(remoteStrings);
+                }
+                InspectEmbeddedSql(_findings[_findings.Count - 1], scope, remoteSql, statement, remoteSources, CodeBodyKind.RemoteQuery);
                 return;
             }
 
@@ -904,7 +1014,9 @@ namespace SqlSafetyGuard.Analyzer
                         var statementParameter = procedure.Parameters.FirstOrDefault(p =>
                             p.Variable == null || string.Equals(p.Variable.Name, "@stmt", StringComparison.OrdinalIgnoreCase));
                         if (statementParameter?.ParameterValue is StringLiteral literal)
-                            AnalyzeDynamicSql(literal.Value, statement, scope, action, target);
+                            AnalyzeDynamicSql(literal.Value, statement, scope, action, target, DynamicSqlSourceMap.FromLiteral(literal));
+                        else if (_dynamicSqlVariables != null && _dynamicSqlVariables.TryGet(procedure, out var variableSql))
+                            AnalyzeDynamicSql(variableSql, statement, scope, action, target, _dynamicSqlVariables.SourceOf(procedure));
                         else
                             Add(scope, statement, action, target, null, Verdict.Unknown, "dynamic SQL is built at runtime");
                         return;
@@ -924,17 +1036,31 @@ namespace SqlSafetyGuard.Analyzer
                     if (system && Classifier.WritingProcedures.TryGetValue(baseName, out var writes))
                     {
                         Add(scope, statement, action, target, null, Verdict.RealWrite, "system procedure that " + writes);
+                        if (string.Equals(baseName, "sp_add_jobstep", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(baseName, "sp_update_jobstep", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var command = procedure.Parameters.FirstOrDefault(p => string.Equals(p.Variable?.Name, "@command", StringComparison.OrdinalIgnoreCase));
+                            var subsystem = procedure.Parameters.FirstOrDefault(p => string.Equals(p.Variable?.Name, "@subsystem", StringComparison.OrdinalIgnoreCase));
+                            string jobSql = null; DynamicSqlSourceMap jobSources = null;
+                            bool defaultTsql = subsystem == null && string.Equals(baseName, "sp_add_jobstep", StringComparison.OrdinalIgnoreCase) &&
+                                procedure.Parameters.All(p => p.Variable != null);
+                            if (defaultTsql || TryStringParameter(subsystem, out var language, out _) && string.Equals(language, "TSQL", StringComparison.OrdinalIgnoreCase))
+                                TryStringParameter(command, out jobSql, out jobSources);
+                            // Agent substitutes tokens at runtime, so these are not proven SQL text.
+                            if (jobSql != null && jobSql.IndexOf("$(", StringComparison.Ordinal) >= 0) { jobSql = null; jobSources = null; }
+                            if (command != null || procedure.Parameters.Any(p => p.Variable == null)) InspectEmbeddedSql(_findings[_findings.Count - 1], scope, jobSql, statement, jobSources, CodeBodyKind.JobCommand);
+                        }
                         return;
                     }
 
-                    if (_options.TrustedProcedures.Matches(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value,
-                        name.SchemaIdentifier?.Value, baseName, _options.CurrentDatabase, _options.DefaultSchema))
+                    if (_options.IsApproved(name.ServerIdentifier?.Value, name.DatabaseIdentifier?.Value,
+                        name.SchemaIdentifier?.Value, baseName, routine: true))
                     {
-                        Add(scope, statement, action, target, null, Verdict.ReadOnly, "trusted procedure");
+                        Add(scope, statement, action, target, null, Verdict.AllowListed, "explicitly approved procedure; authorization does not prove a read-only body");
                         return;
                     }
                     Add(scope, statement, action, target, null, Verdict.Unknown,
-                        insertExec ? "the procedure may write" : "procedure body is not analyzed");
+                        insertExec ? "the procedure may write" : "procedure body is not proven for this call; server definitions are not retrieved");
                     return;
                 }
 
@@ -945,7 +1071,12 @@ namespace SqlSafetyGuard.Analyzer
                         var sql = new StringBuilder();
                         foreach (StringLiteral literal in strings.Strings)
                             sql.Append(literal.Value);
-                        AnalyzeDynamicSql(sql.ToString(), statement, scope, action, "dynamic SQL");
+                        AnalyzeDynamicSql(sql.ToString(), statement, scope, action, "dynamic SQL",
+                            DynamicSqlSourceMap.Join(strings.Strings.Cast<StringLiteral>().Select(DynamicSqlSourceMap.FromLiteral)));
+                    }
+                    else if (_dynamicSqlVariables != null && _dynamicSqlVariables.TryGet(strings, out var variableSql))
+                    {
+                        AnalyzeDynamicSql(variableSql, statement, scope, action, "dynamic SQL", _dynamicSqlVariables.SourceOf(strings));
                     }
                     else
                     {
@@ -959,6 +1090,17 @@ namespace SqlSafetyGuard.Analyzer
                     Add(scope, statement, action, scope.TextOf(spec.ExecutableEntity), null, Verdict.Unknown, "could not analyze EXEC");
                     return;
             }
+        }
+
+        private bool TryStringParameter(ExecuteParameter parameter,
+            out string text, out DynamicSqlSourceMap source)
+        {
+            text = null; source = null;
+            if (parameter?.ParameterValue is StringLiteral literal)
+            {
+                text = literal.Value; source = DynamicSqlSourceMap.FromLiteral(literal); return true;
+            }
+            return _dynamicSqlVariables != null && _dynamicSqlVariables.TryGetParameter(parameter, out text, out source);
         }
 
         private sealed class TableCollector : TSqlFragmentVisitor
@@ -1073,7 +1215,8 @@ namespace SqlSafetyGuard.Analyzer
             return literal == null || !(string.Equals(literal.Value, "false", StringComparison.OrdinalIgnoreCase) || literal.Value == "0");
         }
 
-        private void AnalyzeDynamicSql(string sql, TSqlStatement executeStatement, Scope scope, string action, string target)
+        private void AnalyzeDynamicSql(string sql, TSqlStatement executeStatement, Scope scope, string action, string target,
+            DynamicSqlSourceMap sourceMap = null)
         {
             if (scope.DynamicDepth >= _options.MaxDynamicSqlDepth)
             {
@@ -1083,8 +1226,13 @@ namespace SqlSafetyGuard.Analyzer
             }
 
             int before = _findings.Count;
-            if (!string.IsNullOrWhiteSpace(sql))
-                AnalyzeText(scope.ForDynamicSql(sql, executeStatement));
+            var outerOptions = _options;
+            bool outerPolicy = _unknownTargetPolicy;
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(sql)) AnalyzeText(scope.ForDynamicSql(sql, executeStatement, sourceMap));
+            }
+            finally { _options = outerOptions; _unknownTargetPolicy = outerPolicy; }
 
             if (_findings.Count == before)
                 Add(scope, executeStatement, action, target, null, Verdict.ReadOnly, "empty dynamic SQL");
@@ -1238,7 +1386,13 @@ namespace SqlSafetyGuard.Analyzer
                 if (string.Equals(resolved, written, StringComparison.OrdinalIgnoreCase))
                     resolved = null;
 
-                AddAt(scope, scope.PositionOf(at), action, written, resolved, verdict, string.Join(", ", notes), allRows);
+                AddAt(scope, scope.PositionOf(at), action, written, resolved, verdict, string.Join(", ", notes), allRows, scope.SourcesOf(at));
+                if (baseTarget.Kind == BaseTargetKind.Remote && baseTarget.Fragment is TableReference remote)
+                {
+                    var query = new SideEffectScanner.RemoteSource(remote, action, null).Query;
+                    InspectEmbeddedSql(_findings[_findings.Count - 1], scope, query?.Value, remote,
+                        query == null ? null : DynamicSqlSourceMap.FromLiteral(query), CodeBodyKind.RemoteQuery);
+                }
             }
         }
 
@@ -1258,14 +1412,14 @@ namespace SqlSafetyGuard.Analyzer
                 notes.Add("removes every row");
             if (verdict == Verdict.AllowListed)
                 notes.Add("matches allow-list");
-            AddAt(scope, scope.PositionOf(at), action, scope.TextOf(name), null, verdict, string.Join(", ", notes), allRows);
+            AddAt(scope, scope.PositionOf(at), action, scope.TextOf(name), null, verdict, string.Join(", ", notes), allRows, scope.SourcesOf(at));
         }
 
         private void Add(Scope scope, TSqlFragment at, string action, string target, string resolved, Verdict verdict, string note) =>
-            AddAt(scope, scope.PositionOf(at), action, target, resolved, verdict, note);
+            AddAt(scope, scope.PositionOf(at), action, target, resolved, verdict, note, sourceRanges: scope.SourcesOf(at));
 
         private void AddAt(Scope scope, Position position, string action, string target, string resolved, Verdict verdict, string note,
-            bool affectsAllRows = false)
+            bool affectsAllRows = false, IReadOnlyList<SourceRange> sourceRanges = null)
         {
             var notes = new List<string>();
             if (scope.IsDynamic)
@@ -1279,7 +1433,7 @@ namespace SqlSafetyGuard.Analyzer
 
             _findings.Add(new Finding(position.Line, position.Column, position.Offset, position.Length, action, target, resolved, verdict,
                 string.Join(", ", notes), willRun: !scope.BlockingErrorLine.HasValue, blockingErrorLine: scope.BlockingErrorLine,
-                affectsAllRows: affectsAllRows));
+                affectsAllRows: affectsAllRows, sourceRanges: sourceRanges, requiresConfirmation: _unknownTargetPolicy || _options.RequiresConfirmation(verdict, resolved ?? target)));
         }
 
         private static string TargetText(TableReference target, Scope scope)

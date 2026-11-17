@@ -23,6 +23,7 @@ CATEGORIES = {
     "SqlSafetyAnalyzer": "entry", "AnalysisResult": "aggregation",
     "AnalyzerOptions": "options", "ParserFactory": "parser", "Verdict": "aggregation",
     "Finding": "presentation", "TextPosition": "positions",
+    "DynamicSqlVariables": "dynamic-sql",
 }
 
 

@@ -23,6 +23,8 @@ param(
     [switch] $CheckPaneHighlights,
     [switch] $CheckCompactSettings,
     [switch] $CheckProcedureBody,
+    [switch] $CheckCodeBodies,
+    [switch] $CheckBalancedPane,
     [string[]] $Themes = @('Light', 'Cool Breeze', 'Icy Mint', 'Sunny Day', 'Juicy Plum', 'Mango Paradise',
         'Bubblegum', 'Silky Pink', 'Dark', 'Cool Slate', 'Moonlight Glow', 'Mystical Forest', 'Spicy Red')
 )
@@ -283,6 +285,10 @@ try {
         $main = [ThemeCaptureNative]::MainWindow($process.Id)
         if ($main -eq [IntPtr]::Zero) { throw "Cannot find this run's SSMS main window." }
         [ThemeCaptureNative]::ShowMain($main)
+        # The shell can migrate/overwrite startup JSON. Apply through the live native settings manager
+        # in the owned profile, and verify actual resource colors before claiming Dark/Light coverage.
+        Send-Command 'setcapturetheme' $themeValues[$theme]
+        Wait-Receipt ('\tcapture-theme\t' + [regex]::Escape($themeValues[$theme]) + '\t[^\t]+\tPASS\r?$')
         Send-Command 'dismisswelcome'
         Send-Command 'widen' '160'
         if ($CheckPaneHighlights) {
@@ -300,10 +306,33 @@ try {
             Capture-Surface 'main' 'highlights-picked'
             Send-Command 'caret' '3'
             Capture-Surface 'main' 'highlights-cleared'
-            Send-Command 'safe'
-            Capture-Surface 'pane' 'safe-expanded'
-            Send-Command 'safe'
-            Capture-Surface 'pane' 'safe-collapsed'
+            Send-Command 'filter' 'Safe'
+            Capture-Surface 'pane' 'safe-filter'
+            Send-Command 'filter' 'All'
+            Capture-Surface 'pane' 'all-filter'
+        }
+        if ($CheckBalancedPane) {
+            $balancedSql = Join-Path $script:channelDirectory 'balanced.sql'
+            [IO.File]::WriteAllText($balancedSql, "UPDATE dbo.Balanced SET x = 1 WHERE id = 1;`r`nDELETE dbo.Balanced;`r`nEXEC dbo.BalancedProc;`r`nSELECT 1;", $utf8)
+            Send-Command 'replacefile' $balancedSql
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'balancedcheck'
+            Wait-Receipt '\tbalanced-pane\t[0-9]+\tPASS\r?$'
+            Wait-Receipt '\tbalanced-pane\thighlight-persistence\tPASS\r?$'
+            Send-Command 'widen' '-10000'
+            Capture-Surface 'pane' 'balanced-minimum-width'
+            Send-Command 'minimumwidthcheck'
+            Wait-Receipt '\tpane-minimum-width\t[^\t]+\tPASS\r?$'
+            Send-Command 'widen' '10000'
+            Send-Command 'widen' '-240' # Restore the 460-DIP capture width after checking the minimum.
+            Send-Command 'filter' 'Writes'
+            Capture-Surface 'pane' 'balanced-writes'
+            Send-Command 'filter' 'Unknown'
+            Capture-Surface 'pane' 'balanced-unknown'
+            Send-Command 'filter' 'Safe'
+            Capture-Surface 'pane' 'balanced-safe'
+            Send-Command 'filter' 'All'
+            Capture-Surface 'pane' 'balanced-all'
         }
         if ($CheckProcedureBody) {
             Send-Command 'widen' '-160' # Inspect the new content at the normal 300-DIP pane width.
@@ -313,13 +342,86 @@ try {
             Capture-Surface 'pane' 'procedure-body'
             Capture-Surface 'main' 'procedure-body-editor'
             Send-Command 'procedurebodycheck'
-            Wait-Receipt '\tprocedure-body\t25\tPASS\r?$'
+            Wait-Receipt '\tprocedure-body\t[0-9]+\tPASS\r?$'
+            Wait-Receipt '\tprocedure-body\thighlight-persistence\tPASS\r?$'
+            Capture-Surface 'pane' 'procedure-body-expanded'
+            Send-Command 'replacefile' (Join-Path $repository 'samples\04-compact-pane.sql')
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'inlinecompactcheck'
+            Wait-Receipt '\tinline-compact\tPASS\r?$'
+            Capture-Surface 'pane' 'inline-compact'
+            Capture-Surface 'main' 'inline-compact-editor'
+            $dynamic = Join-Path $script:channelDirectory 'inline-dynamic.sql'
+            [IO.File]::WriteAllText($dynamic, "DECLARE @sql nvarchar(max) = N'UPDATE dbo.T SET a=1 WHERE id=1;`r`nUPDATE dbo.T SET a=1 WHERE id=1;`r`nSELECT 1;';`r`nEXEC sp_executesql @sql;`r`nEXEC(N'SELECT 2;');`r`nEXEC(@runtime);", $utf8)
+            Send-Command 'replacefile' $dynamic
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'inlinedynamiccheck'
+            Wait-Receipt '\tinline-dynamic\t[0-9]+\tPASS\r?$'
+            Wait-Receipt '\tinline-dynamic\thighlight-persistence\tPASS\r?$'
+            Capture-Surface 'pane' 'inline-dynamic'
             Send-Command 'widen' '160'
+        }
+        if ($CheckCodeBodies) {
+            Send-Command 'widen' '-160'
+            Send-Command 'replacefile' (Join-Path $repository 'samples\05-other-code-bodies.sql')
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'automaticpanecheck'
+            Wait-Receipt '\tautomatic-pane\t[0-9]+\tPASS\r?$'
+            Capture-Surface 'pane' 'automatic-body'
+            Send-Command 'widen' '-10000'
+            Send-Command 'minimumwidthcheck'
+            Wait-Receipt '\tpane-minimum-width\t[^\t]+\tPASS\r?$'
+            Capture-Surface 'pane' 'automatic-compact'
+            Send-Command 'widen' '10000'
+            Send-Command 'labels' 'Text'
+            Capture-Surface 'pane' 'automatic-text'
+            Send-Command 'labels' 'Automatic'
+            Send-Command 'widen' '-240'
+            Send-Command 'codebodiescheck'
+            Wait-Receipt '\tcode-bodies\t[0-9]+\tPASS\r?$'
+            Capture-Surface 'pane' 'code-bodies'
+            Capture-Surface 'main' 'code-bodies-editor'
+            $nested = Join-Path $script:channelDirectory 'nested-code-bodies.sql'
+            [IO.File]::WriteAllText($nested, "CREATE PROC dbo.PaneNested AS`r`nEXEC msdb.dbo.sp_add_jobstep @job_name=N'demo',`r`n@command=N'SELECT * FROM OPENQUERY(srv, ''DELETE dbo.T;'');';", $utf8)
+            Send-Command 'replacefile' $nested
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'nestedcodebodiescheck'
+            Wait-Receipt '\tnested-code-bodies\t[0-9]+\tPASS\r?$'
+            Wait-Receipt '\tnested-code-bodies\thighlight-persistence\tPASS\r?$'
+            Capture-Surface 'pane' 'nested-code-bodies'
+            Capture-Surface 'main' 'nested-code-bodies-editor'
+            Send-Command 'widen' '160'
+        }
+        if ($CheckCodeBodies) {
+            $polish = Join-Path $script:channelDirectory 'pane-polish.sql'
+            $text = "USE Sandbox;`r`nSELECT 1;`r`nEXEC(N'USE Sandbox; SELECT 2;');`r`nGO`r`nCREATE PROC dbo.Polish AS BEGIN SELECT 3; END;`r`nGO`r`n"
+            $text += ("`r`n" * 993) + 'UPDATE dbo.PolishTarget SET x=1 WHERE id=1;'
+            [IO.File]::WriteAllText($polish, $text, $utf8)
+            Send-Command 'replacefile' $polish
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'panepolishcheck'
+            Wait-Receipt '\tpane-polish\t[0-9]+\tPASS\r?$'
+            Capture-Surface 'pane' 'pane-context-gutter'
+        }
+        if ($CheckCodeBodies) {
+            $summary = Join-Path $script:channelDirectory 'collapsed-summary.sql'
+            [IO.File]::WriteAllText($summary, "USE Sandbox;`r`nUPDATE dbo.Orders SET x=1 WHERE id=1;`r`nEXEC dbo.Unknown;`r`nSELECT 1;`r`nGO`r`nCREATE PROC dbo.P AS BEGIN DELETE dbo.T WHERE id=1; END;`r`nGO`r`nSELECT * FROM OPENQUERY(ServerA, 'SELECT 1;');", $utf8)
+            Send-Command 'replacefile' $summary
+            Wait-Receipt '\tanalysis\tThemeAcceptance\.sql\t[^\t]+\tRealWrite\r?$'
+            Send-Command 'collapsedsummarycheck'
+            Wait-Receipt '\tcollapsed-summary\t[0-9]+\tPASS\r?$'
+            Capture-Surface 'pane' 'summary-expanded'
+            Send-Command 'collapse'
+            Capture-Surface 'pane' 'summary-collapsed'
+            Send-Command 'collapse'
         }
         foreach ($query in @(
             @{ Name = 'green'; Text = 'SELECT 1;'; Verdict = 'ReadOnly' },
             @{ Name = 'yellow'; Text = 'EXEC dbo.SomeProc;'; Verdict = 'Unknown' },
-            @{ Name = 'red'; Text = 'UPDATE dbo.T SET x = 1;'; Verdict = 'RealWrite' }
+            @{ Name = 'red'; Text = 'UPDATE dbo.T SET x = 1;'; Verdict = 'RealWrite' },
+            @{ Name = 'variable-green'; Text = "DECLARE @sql nvarchar(max)=N'SELECT 1'; EXEC(@sql);"; Verdict = 'ReadOnly' },
+            @{ Name = 'variable-yellow'; Text = "DECLARE @sql nvarchar(max)=N'SELECT 1'; SELECT @sql=SqlText FROM dbo.Templates; EXEC(@sql);"; Verdict = 'Unknown' },
+            @{ Name = 'variable-red'; Text = "DECLARE @sql nvarchar(max)=N'DELETE dbo.T'; EXEC sys.sp_executesql @sql;"; Verdict = 'RealWrite' }
         )) {
             $queryFile = Join-Path $script:channelDirectory ($query.Name + '.sql')
             [IO.File]::WriteAllText($queryFile, $query.Text, $utf8)
@@ -328,7 +430,7 @@ try {
             Send-Command 'replacefile' $queryFile
             Wait-Receipt ('\tanalysis\tThemeAcceptance\.sql\t[^\t]+\t' + $query.Verdict + '\r?$')
             Capture-Surface 'pane' ('pane-' + $query.Name)
-            if ($query.Name -ne 'green') {
+            if ($query.Verdict -ne 'ReadOnly') {
                 Send-Command 'showconfirm'
                 Wait-Receipt '\tshown\tconfirm\t'
                 Capture-Surface 'confirm' ('confirm-' + $query.Name)
@@ -384,6 +486,15 @@ try {
             Wait-Receipt '\tshown\toptions\tF5 warnings\r?$'
         }
         Capture-Surface 'main' 'options'
+        if ($CheckCompactSettings) {
+            Send-Command 'settingsappearancecheck' 'legend'
+            Wait-Receipt '\tsettings-appearance\tlegend\tPASS\r?$'
+            Capture-Surface 'main' 'options-color-meanings'
+            Send-Command 'settingsappearancecheck' 'dropdown'
+            Wait-Receipt '\tsettings-appearance\tdropdown\tPASS\r?$'
+            Capture-Surface 'main' 'options-warning-dropdown'
+            Capture-Surface 'warningdropdown' 'warning-dropdown-popup'
+        }
         Close-OwnedSsms
         $process.Dispose(); $process = $null
     }

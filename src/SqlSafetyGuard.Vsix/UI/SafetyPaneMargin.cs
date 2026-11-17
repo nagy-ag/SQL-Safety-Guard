@@ -71,6 +71,10 @@ namespace SqlSafetyGuard.UI
             _control.GroupSelected += OnGroupSelected;
             _control.GroupActivated += OnGroupActivated;
             _control.BodyFindingActivated += OnBodyFindingActivated;
+            _control.BodyPreviewActivated += OnBodyPreviewActivated;
+            _control.SqlLocationActivated += OnSqlLocationActivated;
+            _control.ViewFilterChanged += ClearGroupSelection;
+            _control.MinimumWidthChanged += OnMinimumWidthChanged;
             _control.CollapseToggled += OnCollapseToggled;
             _control.WidthDragged += OnWidthDragged;
             _control.EditOptions += OnEditOptions;
@@ -91,6 +95,7 @@ namespace SqlSafetyGuard.UI
             _view.VisualElement.PreviewKeyDown += OnEditorKeyDown;
             _view.LayoutChanged += OnLayoutChanged;
             _view.GotAggregateFocus += OnGotFocus;
+            InputManager.Current.PreProcessInput += OnHostInput;
             _view.Closed += (s, e) => Dispose();
 
             _control.ShowPlaceholder("Analyzing…", "Nothing is executed.");
@@ -137,6 +142,7 @@ namespace SqlSafetyGuard.UI
             _view.VisualElement.PreviewKeyDown -= OnEditorKeyDown;
             _view.LayoutChanged -= OnLayoutChanged;
             _view.GotAggregateFocus -= OnGotFocus;
+            InputManager.Current.PreProcessInput -= OnHostInput;
         }
 
         /// <summary>
@@ -276,7 +282,10 @@ namespace SqlSafetyGuard.UI
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     OutputLog.Error("Safety pane: analysis failed.", ex);
                     if (!_disposed && version == _version)
+                    {
+                        ClearGroupSelection();
                         _control.ShowPlaceholder("Analysis failed", "See the SQL Safety Guard Output pane. The F5 guard still checks before running.");
+                    }
                 }
             });
         }
@@ -318,21 +327,15 @@ namespace SqlSafetyGuard.UI
             ConnectionContext connection, PaneSettings paneSettings)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _selectedBodyFinding = null;
+            var selectedGroup = _selected;
+            string selectedFinding = _selectedBodyFinding?.StateKey;
+            var findings = result.Findings.Select((f, index) => new PaneFinding(f, snapshot, analyzed.Start, connection.Database, index)).ToList();
 
-            var findings = result.Findings.Select(f => new PaneFinding(f, snapshot, analyzed.Start, connection.Database)).ToList();
-
-            string selectedKey = _groups.Contains(_selected) ? _selected?.Key : null;
-            _groups = findings
-                .GroupBy(f => f.GroupKey, StringComparer.OrdinalIgnoreCase)
-                .Select(g => new PaneGroup(g.Key, g.ToList()))
-                .OrderByDescending(g => g.Verdict)
-                .ThenBy(g => g.FirstOffset)
-                .ToList();
+            _groups = PaneGroup.Create(findings).ToList();
 
             foreach (var group in _groups)
-                group.Bodies = result.ProcedureBodies.Where(body => group.Findings.Any(f => ReferenceEquals(f.Finding, body.Definition)))
-                    .Select(body => new PaneProcedureBody(body, snapshot, analyzed.Start, connection.Database)).ToList();
+                group.Bodies = result.CodeBodies.Where(body => group.Findings.Any(f => ReferenceEquals(f.Finding, body.Definition)))
+                    .Select(body => new PaneCodeBody(body, snapshot, analyzed.Start, connection.Database)).ToList();
 
             int firstLine = snapshot.GetLineNumberFromPosition(analyzed.Start) + 1;
             int lastLine = snapshot.GetLineNumberFromPosition(Math.Max(analyzed.Start, analyzed.End - 1)) + 1;
@@ -344,19 +347,22 @@ namespace SqlSafetyGuard.UI
                 bool blank = snapshot.GetText(analyzed).Trim().Length == 0;
                 _control.ShowNothingToRun(blank ? "Nothing to analyze" : "Nothing that runs",
                     blank ? $"{scope} is empty." : $"{scope} has only comments.");
-                _selected = null;
+                ClearGroupSelection();
                 Redraw();
                 return;
             }
 
-            string f5 = settings.Mode == ExecutionMode.Off ? "F5 guard is off"
-                : !settings.ShouldWarn(result) ? "F5 runs without asking"
-                : "F5 will ask first";
+            string f5 = settings.ShouldWarn(result) ? "F5 will ask first"
+                : settings.Mode == ExecutionMode.Off ? "F5 guard is off" : "F5 runs without asking";
 
             _control.ShowResult(result.Summary, f5, _groups);
-
-            _selected = selectedKey == null ? null : _groups.FirstOrDefault(g => string.Equals(g.Key, selectedKey, StringComparison.OrdinalIgnoreCase));
-            if (_selected != null) _control.Select(_selected);
+            // Background refreshes retain a chosen highlight; edits and execution-scope changes clear it earlier.
+            _selected = selectedGroup == null ? null : _groups.FirstOrDefault(g =>
+                string.Equals(g.Key, selectedGroup.Key, StringComparison.OrdinalIgnoreCase) &&
+                g.Findings.Select(f => f.StateKey).SequenceEqual(selectedGroup.Findings.Select(f => f.StateKey)));
+            _selectedBodyFinding = selectedFinding == null ? null : _groups.SelectMany(g => g.Findings.SelectMany(f => f.DescendantsAndSelf()))
+                .FirstOrDefault(f => f.StateKey == selectedFinding);
+            _control.Select(_selected);
             Redraw();
         }
 
@@ -374,14 +380,16 @@ namespace SqlSafetyGuard.UI
             ThreadHelper.ThrowIfNotOnUIThread();
             if (_collapsed) return;
             _selectedBodyFinding = null;
+            _selectedPreview = null;
             _selected = group;
             _highlightSelection = CurrentSelection();
             Redraw();
             PaneTrace.Write($"select '{group?.Key}' source=pane");
             if (group != null)
             {
-                var span = group.Findings[0].SpanIn(_view.TextSnapshot);
-                _view.ViewScroller.EnsureSpanVisible(span, EnsureSpanVisibleOptions.ShowStart);
+                var finding = group.MatchingOperations.FirstOrDefault();
+                if (finding == null) { ClearGroupSelection(); return; }
+                NavigateFromPane(finding, false, true);
             }
         }
 
@@ -391,7 +399,14 @@ namespace SqlSafetyGuard.UI
             if (group == null)
                 return;
             OnGroupSelected(group);
-            var span = group.Findings[0].SpanIn(_view.TextSnapshot);
+            var finding = group.MatchingOperations.FirstOrDefault();
+            if (finding == null) return;
+            NavigateFromPane(finding, true, true);
+        }
+
+        private void NavigateFromPane(PaneFinding finding, bool focusEditor, bool execution = false)
+        {
+            var span = execution ? finding.ExecutionSpanIn(_view.TextSnapshot) : finding.SpanIn(_view.TextSnapshot);
             // Pane navigation is the one caret move that keeps the explicitly requested highlight.
             // Do not select text: SSMS executes the selection when one exists.
             _navigatingFromPane = true;
@@ -399,10 +414,25 @@ namespace SqlSafetyGuard.UI
             {
                 _view.Caret.MoveTo(span.Start);
                 _view.ViewScroller.EnsureSpanVisible(span, EnsureSpanVisibleOptions.ShowStart);
-                ((UIElement)_view).Focus();
+                if (focusEditor) ((UIElement)_view).Focus();
             }
             finally { _navigatingFromPane = false; }
-            PaneTrace.Write($"activate '{group.Key}' caretLine={_view.Caret.Position.BufferPosition.GetContainingLine().LineNumber + 1}");
+            PaneTrace.Write($"navigate '{finding.GroupKey}' caretLine={_view.Caret.Position.BufferPosition.GetContainingLine().LineNumber + 1}");
+        }
+
+        private PaneCodeBody _selectedPreview;
+        private void OnBodyPreviewActivated(PaneCodeBody body)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (_collapsed || body == null) return;
+            _control.ClearListSelection();
+            _selected = null;
+            _selectedBodyFinding = body.Parent;
+            _selectedPreview = body;
+            _highlightSelection = CurrentSelection();
+            var first = body.VisibleFindings.SelectMany(f => f.MatchingOperations).FirstOrDefault() ?? body.Parent;
+            if (first != null) NavigateFromPane(first, false);
+            Redraw();
         }
 
         private void OnBodyFindingActivated(PaneFinding finding)
@@ -412,19 +442,19 @@ namespace SqlSafetyGuard.UI
             _control.ClearListSelection();
             _selected = null;
             _selectedBodyFinding = finding;
+            _selectedPreview = null;
             _highlightSelection = CurrentSelection();
-            var span = finding.SpanIn(_view.TextSnapshot);
-            _navigatingFromPane = true;
-            try
-            {
-                _view.Caret.MoveTo(span.Start);
-                _view.ViewScroller.EnsureSpanVisible(span, EnsureSpanVisibleOptions.ShowStart);
-                // Do not select text: SSMS executes the selection when one exists.
-                ((UIElement)_view).Focus();
-            }
-            finally { _navigatingFromPane = false; }
+            // Keep focus on the clicked pane row so the second click can expand it.
+            NavigateFromPane(finding, false);
             Redraw();
             PaneTrace.Write($"body activate '{finding.Finding.Action}' caretLine={finding.EditorLine}");
+        }
+
+        private void OnSqlLocationActivated(PaneFinding finding, bool execution)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            OnBodyFindingActivated(finding);
+            NavigateFromPane(finding, false, execution);
         }
 
         // ---- editor → pane ------------------------------------------------------------------------------
@@ -436,11 +466,34 @@ namespace SqlSafetyGuard.UI
 
         private void OnEditorKeyDown(object sender, KeyEventArgs e) => ClearGroupSelection();
 
+        private void OnHostInput(object sender, PreProcessInputEventArgs e)
+        {
+            if (e.StagingItem.Input is MouseButtonEventArgs mouse && mouse.RoutedEvent == Mouse.PreviewMouseDownEvent)
+                ClearHighlightOutside((mouse.OriginalSource ?? mouse.MouseDevice.DirectlyOver) as DependencyObject);
+        }
+
+        private void ClearHighlightOutside(DependencyObject source)
+        {
+            if (_selected == null && _selectedBodyFinding == null) return;
+            while (source != null)
+            {
+                // WPF elements in this SSMS process only; no desktop input is synthesized or intercepted.
+                if (source is FrameworkElement element && (element.DataContext is PaneGroup || element.DataContext is PaneFinding || element.DataContext is PaneCodeBody))
+                {
+                    if (ReferenceEquals(element.DataContext, _selected) || ReferenceEquals(element.DataContext, _selectedBodyFinding) || ReferenceEquals(element.DataContext, _selectedPreview)) return;
+                    break;
+                }
+                source = source is Visual ? VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
+            }
+            ClearGroupSelection();
+        }
+
         private void ClearGroupSelection()
         {
             if (_disposed || (_selected == null && _selectedBodyFinding == null)) return;
             _selected = null;
             _selectedBodyFinding = null;
+            _selectedPreview = null;
             _highlightSelection = null;
             _control.ClearListSelection();
             Redraw();
@@ -463,24 +516,70 @@ namespace SqlSafetyGuard.UI
             var redrawTime = Stopwatch.StartNew();
             _layer.RemoveAllAdornments();
 
-            var highlights = _collapsed ? Enumerable.Empty<PaneFinding>() : _selectedBodyFinding != null
-                ? new[] { _selectedBodyFinding } : _selected?.Findings ?? Enumerable.Empty<PaneFinding>();
-            foreach (var finding in highlights)
+            var highlights = _collapsed ? Enumerable.Empty<PaneFinding>() : _selectedPreview != null
+                ? _selectedPreview.VisibleFindings.SelectMany(f => f.MatchingOperations) : _selectedBodyFinding != null
+                ? new[] { _selectedBodyFinding } : _selected?.MatchingOperations ?? Enumerable.Empty<PaneFinding>();
+            var snapshot = _view.TextSnapshot;
+            bool child = _selectedBodyFinding != null;
+            var operations = highlights.ToArray();
+            // A full definition is navigation context. Only its header/selected child gets a risk fill.
+            foreach (var context in operations.Select(f => f.DefinitionContextIn(snapshot)).Where(s => s.HasValue)
+                .Select(s => s.Value).Distinct())
             {
-                var color = ((SolidColorBrush)VerdictBrushes.For(finding.Finding.Verdict)).Color;
-                var fill = new SolidColorBrush(Color.FromArgb(0x48, color.R, color.G, color.B));
+                if (!_view.TextViewLines.IntersectsBufferSpan(context)) continue;
+                var bounds = _view.TextViewLines.GetNormalizedTextBounds(context).ToArray();
+                if (bounds.Length == 0) continue;
+                var rectangle = new Rect(bounds.Min(b => b.Left), bounds.Min(b => b.Top),
+                    Math.Max(1, bounds.Max(b => b.Right) - bounds.Min(b => b.Left)),
+                    bounds.Max(b => b.Bottom) - bounds.Min(b => b.Top));
+                _layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, context, "body-context",
+                    new Shapes.Path { Data = new RectangleGeometry(rectangle), Stroke = VerdictBrushes.CodeContainer,
+                        StrokeThickness = 1, IsHitTestVisible = false }, null);
+            }
+            var primary = operations.SelectMany(f => (child ? f.PrimarySpansIn(snapshot) : new[] { f.ExecutionSpanIn(snapshot) })
+                .Select(span => new { Span = span, f.Finding.Verdict })).ToArray();
+            var rectangles = new List<Rect>();
+            var visibleSpans = new List<SnapshotSpan>();
+            foreach (var item in primary.GroupBy(p => p.Span).Select(g => g.OrderByDescending(p => p.Verdict).First())
+                .OrderBy(p => p.Verdict))
+            {
+                var span = item.Span;
+                if (!_view.TextViewLines.IntersectsBufferSpan(span)) continue;
+                var bounds = _view.TextViewLines.GetNormalizedTextBounds(span)
+                    .Select(b => new Rect(b.Left, b.Top, b.Width, b.Height)).ToArray();
+                if (bounds.Length == 0) continue;
+                var geometry = HighlightGeometry.Union(bounds);
+                rectangles.AddRange(bounds);
+                visibleSpans.Add(span);
+                var color = ((SolidColorBrush)VerdictBrushes.For(item.Verdict)).Color;
+                var fill = new SolidColorBrush(Color.FromArgb(0x30, color.R, color.G, color.B));
                 fill.Freeze();
-                var pen = new Pen(new SolidColorBrush(Color.FromArgb(0xB0, color.R, color.G, color.B)), 1);
-                pen.Freeze();
+                _layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, span, "primary",
+                    new Shapes.Path { Data = geometry, Fill = fill, IsHitTestVisible = false }, null);
+            }
 
-                var span = finding.SpanIn(_view.TextSnapshot);
-                if (!_view.TextViewLines.IntersectsBufferSpan(span))
-                    continue;
-                var geometry = _view.TextViewLines.GetMarkerGeometry(span);
-                if (geometry == null)
-                    continue;
-                var path = new Shapes.Path { Data = geometry, Fill = fill, Stroke = pen?.Brush, StrokeThickness = pen?.Thickness ?? 0 };
-                _layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, span, null, path, null);
+            if (visibleSpans.Count > 0)
+            {
+                var color = ((SolidColorBrush)(operations.All(f => f.Finding.IsContextChange) ? VerdictBrushes.Context : VerdictBrushes.For(operations.Max(f => f.Finding.Verdict)))).Color;
+                var stroke = new SolidColorBrush(Color.FromArgb(0xB0, color.R, color.G, color.B));
+                stroke.Freeze();
+                var anchor = new SnapshotSpan(snapshot, Span.FromBounds(visibleSpans.Min(s => s.Start.Position), visibleSpans.Max(s => s.End.Position)));
+                _layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, anchor, "outline",
+                    new Shapes.Path { Data = HighlightGeometry.Union(rectangles), Stroke = stroke, StrokeThickness = 1, IsHitTestVisible = false }, null);
+            }
+
+            // Supporting provenance uses a neutral outline, never a verdict-coloured declaration.
+            var support = operations.SelectMany(f => child && f.SourceSpansIn(snapshot).Count > 0
+                ? new[] { f.ExecutionSpanIn(snapshot) } : child ? Array.Empty<SnapshotSpan>() : f.SourceSpansIn(snapshot));
+            var supportSpans = support.Distinct().Where(s => _view.TextViewLines.IntersectsBufferSpan(s)).ToArray();
+            if (supportSpans.Length > 0)
+            {
+                var geometry = HighlightGeometry.Union(supportSpans.SelectMany(s => _view.TextViewLines.GetNormalizedTextBounds(s))
+                    .Select(b => new Rect(b.Left, b.Top, b.Width, b.Height)));
+                var anchor = new SnapshotSpan(snapshot, Span.FromBounds(supportSpans.Min(s => s.Start.Position), supportSpans.Max(s => s.End.Position)));
+                _layer.AddAdornment(AdornmentPositioningBehavior.TextRelative, anchor, "support",
+                    new Shapes.Path { Data = geometry, Stroke = SystemColors.GrayTextBrush, StrokeThickness = 1,
+                        StrokeDashArray = new DoubleCollection { 3, 2 }, IsHitTestVisible = false }, null);
             }
 
             if (redrawTime.ElapsedMilliseconds > 8)
@@ -506,7 +605,7 @@ namespace SqlSafetyGuard.UI
         {
             if (_collapsed)
                 return;
-            _expandedWidth = Math.Max(240, Math.Min(700, _expandedWidth - delta));
+            _expandedWidth = Math.Max(Live.Max(m => m._control.MinimumExpandedWidth), Math.Min(700, _expandedWidth - delta));
             foreach (var margin in Live)
                 margin.ApplyWidth();
             PaneTrace.Write($"width={_expandedWidth:0}");
@@ -517,6 +616,12 @@ namespace SqlSafetyGuard.UI
             if (_collapsed) ClearGroupSelection();
             _control.SetCollapsed(_collapsed);
             _control.Width = _collapsed ? CollapsedWidth : _expandedWidth;
+        }
+
+        private void OnMinimumWidthChanged()
+        {
+            _expandedWidth = Math.Max(_expandedWidth, Live.Max(m => m._control.MinimumExpandedWidth));
+            foreach (var margin in Live) margin.ApplyWidth();
         }
 
         /// <summary>True when SSMS's active document is this query window.</summary>

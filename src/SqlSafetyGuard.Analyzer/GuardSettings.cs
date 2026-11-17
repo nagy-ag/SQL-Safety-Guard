@@ -25,7 +25,7 @@ namespace SqlSafetyGuard.Analyzer
         public IReadOnlyList<string> TrustedProcedures { get; }
         public string MatchedRule { get; }
 
-        public bool ShouldWarn(AnalysisResult result) => Mode != ExecutionMode.Off &&
+        public bool ShouldWarn(AnalysisResult result) => result.RequiresConfirmation || Mode != ExecutionMode.Off &&
             (Mode == ExecutionMode.Red ? result.Overall == Verdict.RealWrite : !result.IsGreen);
 
         public bool NeedsTypedConfirmation(AnalysisResult result) => false;

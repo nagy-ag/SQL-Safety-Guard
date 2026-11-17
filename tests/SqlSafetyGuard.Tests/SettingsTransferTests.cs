@@ -26,7 +26,7 @@ public class SettingsTransferTests
         var imported = SettingsTransfer.PrepareImport(json, Defaults).Proposed;
         Assert.Empty(SettingsTransfer.Diff(settings, imported));
         Assert.Equal(6, Import(Defaults, settings).Changes.Count);
-        Assert.Contains(Import(Defaults, settings).Changes, change => change.Name == "Trusted procedures");
+        Assert.Contains(Import(Defaults, settings).Changes, change => change.Name == "Trusted routines");
     }
 
     [Theory]

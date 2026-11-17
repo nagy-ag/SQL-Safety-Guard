@@ -15,10 +15,13 @@ with applications, or any environment where an accidental `UPDATE` without `WHER
 ## How it works
 
 - **Safety pane.** A narrow pane beside every query editor shows, as you type, what the query would change. It checks
-  exactly what F5 would run: the selection if there is one, otherwise the whole window. Objects are grouped into
-  *changes to permanent objects*, *can't see inside* and *allowed by your settings*.
-  Procedure definitions also show a nested **Body — potential effects when called** breakdown, separate from the
-  effects of submitting the definition. Single-click an object to highlight its statements; double-click for details.
+  exactly what F5 would run: the selection if there is one, otherwise the whole window. Each object appears once with
+  its worst verdict and operation counts, with blue context operations counted separately. Six compact toggles combine Writes/Unknown/Safe with Inside/Remote previews and an independent Context category; labels automatically fit the pane.
+  Expand a definition's operation row for its purple **Inside** preview, separate from the effects of
+  submitting the definition. Procedures, triggers, functions and views have typed visible-body previews;
+  remote query strings use gray previews. Decoded dynamic SQL has one block per EXEC, with its operations directly below it.
+  Single-click to navigate and highlight matching SQL until another interaction; double-click an
+  object for its operations, or an operation for a short reason. Filters never change the overall warning or F5 scope.
 - **F5 guard.** When you execute (F5, Ctrl+E, Alt+X or the Execute button), SQL Safety Guard analyzes the exact text
   SSMS is about to run. With the default settings, a yellow or red query pauses for a buttons-only confirmation:
   **Cancel** is the default, **Run anyway** continues. Nothing ever needs to be typed.
@@ -30,7 +33,7 @@ with applications, or any environment where an accidental `UPDATE` without `WHER
 |---|---|---|
 | Read-only | 🟢 Green | Reads, variables, session settings, balanced transactions, known read-only procedures |
 | Temp only | 🟢 Green | Writes only `#temp` tables, table variables or temporary procedures |
-| Allow-listed | 🟢 Green | Writes only tables you listed as safe in the settings |
+| Allow-listed | 🟢 Green | Explicitly authorized target writes or routine calls, including their side effects |
 | Unknown | 🟡 Yellow | Cannot see what runs: procedures, dynamic SQL built at runtime, parse errors |
 | Real write | 🔴 Red | Changes a permanent table, schema, permission or server setting |
 
@@ -44,9 +47,14 @@ ask first; the warning mode can be changed globally or per server. See [which co
   leads to a question, not a silent run.
 - **Spelling does not matter.** Brackets, missing schemas, `BEGIN/END`, `TRY/CATCH`, `IF`, loops, transactions,
   `EXEC(...)`, `sp_executesql`, CTEs, `OUTPUT INTO` and multiple `GO` batches do not hide a write.
-- **A safety net, not a security boundary.** It can inspect procedure definitions present in the editor, but cannot
-  retrieve the bodies of called procedures, inspect triggers or resolve SQL built at runtime. Use
+- **A safety net, not a security boundary.** It previews visible procedure, trigger, function and view definitions, remote query strings
+  and stored T-SQL job commands. It cannot retrieve deployed definitions, discover fired triggers or resolve SQL built at runtime. Use
   database permissions (for example a read-only login) for real protection. See the [limitations](docs/user/user-guide.md#limitations).
+
+## Release and upgrade
+
+Version **1.1.0 is the acceptance prerelease**; see [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases) for published availability and [status](docs/status.md) for verification. The stable release remains 1.0.5 until acceptance.
+Older short approval rules are retained but inactive in 1.1.0. Follow the [upgrade instructions](docs/user/install.md#upgrading-to-110) to review and fully qualify them. Color and context terminology is defined in the [dictionary](docs/user/dictionary.md).
 
 ## Get started
 
@@ -64,7 +72,7 @@ installs, updates, uninstalling and checking downloads.
 
 - [Install guide](docs/user/install.md): download, install, update and uninstall.
 - [User guide](docs/user/user-guide.md): the pane, the F5 confirmation, samples to try, troubleshooting and limitations.
-- [Settings](docs/user/settings.md): warning modes, safe tables, trusted procedures and per-server environment rules.
+- [Settings](docs/user/settings.md): warning modes, qualified safe targets, trusted routines and per-server environment rules.
 - [Statement verdicts](docs/user/statement-verdicts.md): the colour of every T-SQL statement kind.
 
 **Deploying it in a company**

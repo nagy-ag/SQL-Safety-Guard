@@ -20,22 +20,23 @@ namespace SqlSafetyGuard.UI
         private readonly ObservableCollection<PatternEntry> _entries = new ObservableCollection<PatternEntry>();
         private List<string> _trailing = new List<string>();
         private bool _loading;
+        private readonly string _server, _database;
 
         internal Action<string> Save { get; set; }
 
-        internal PatternListDialog(string title, string description, string text, bool procedures)
+        internal PatternListDialog(string title, string description, string text, bool procedures, string server = null, string database = null)
         {
             InitializeComponent();
             DialogChrome.Apply(this);
             _procedures = procedures;
+            _server = server; _database = database;
+            RoutineTypeRow.Visibility = procedures ? Visibility.Visible : Visibility.Collapsed;
             _title = title;
             Title = "SQL Safety Guard — " + title;
             Description.Text = description;
             TrustWarning.Visibility = procedures ? Visibility.Visible : Visibility.Collapsed;
             NameLabel.Text = procedures ? "Procedure" : "Table";
-            PartsHint.Text = procedures
-                ? "Schema is required. * and ? are allowed only in the procedure name. Leave Server and Database empty for the usual case."
-                : "Leave Server and Database empty for the usual case, and Schema empty to match any schema. * and ? are allowed in every part.";
+            PartsHint.Text = "Server, database, schema and object are required. Use the exact connection label and identifier case. Wildcards (* and ?) are allowed only in the object name. No schema is assumed.";
             EntryList.ItemsSource = _entries;
             LoadText(text);
         }
@@ -73,6 +74,7 @@ namespace SqlSafetyGuard.UI
                 SchemaBox.Text = entry.Schema;
                 NameBox.Text = entry.Name;
                 NoteBox.Text = entry.Note;
+                RoutineType.SelectedIndex = entry.Function ? 1 : 0;
             }
             finally { _loading = false; }
             ShowDetails();
@@ -82,6 +84,9 @@ namespace SqlSafetyGuard.UI
         {
             var entry = Selected;
             if (entry == null) return;
+            NameLabel.Text = _procedures ? (entry.Function ? "Function" : "Procedure") : "Table";
+            MigrationHint.Text = entry.Migration;
+            QualifyButton.Visibility = entry.NeedsQualification && !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_database) ? Visibility.Visible : Visibility.Collapsed;
             FormProblem.Text = entry.Problem ?? "";
             FormProblem.Visibility = entry.HasProblem ? Visibility.Visible : Visibility.Collapsed;
             ExplainText.Text = PatternText.Describe(entry);
@@ -108,6 +113,22 @@ namespace SqlSafetyGuard.UI
             if (_loading || Selected == null) return;
             Selected.Note = NoteBox.Text;
             ShowDetails();
+        }
+
+        private void OnRoutineTypeChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_loading || Selected == null) return;
+            Selected.Function = RoutineType.SelectedIndex == 1;
+            ShowDetails();
+        }
+
+        private void OnQualify(object sender, RoutedEventArgs e)
+        {
+            if (Selected == null) return;
+            // Explicit action fills only verified labels. The schema still needs the user's input.
+            if (Selected.Server.Length == 0) Selected.Server = _server;
+            if (Selected.Database.Length == 0) Selected.Database = _database;
+            ShowSelected();
         }
 
         private void OnTryChanged(object sender, TextChangedEventArgs e) => ShowDetails();

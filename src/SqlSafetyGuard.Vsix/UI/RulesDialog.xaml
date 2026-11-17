@@ -130,12 +130,12 @@
                         <StackPanel>
                             <TextBlock Text="Extra safe tables" Style="{StaticResource FieldLabel}" />
                             <TextBox x:Name="SafeTablesBox" Style="{StaticResource ListBox}" TextChanged="OnFieldChanged" AutomationProperties.Name="Extra safe tables" />
-                            <TextBlock Text="One pattern per line, e.g. dbo.Test_*" Style="{StaticResource Hint}" />
+                            <TextBlock Text="server.database.schema.table; wildcard only in the table name." Style="{StaticResource Hint}" />
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Extra trusted procedures" Style="{StaticResource FieldLabel}" />
-                            <TextBox x:Name="TrustedBox" Style="{StaticResource ListBox}" TextChanged="OnFieldChanged" AutomationProperties.Name="Extra trusted procedures" />
-                            <TextBlock Text="One per line, schema-qualified, e.g. dbo.usp_Read_*" Style="{StaticResource Hint}" />
+                            <TextBlock Text="Extra trusted routines" Style="{StaticResource FieldLabel}" />
+                            <TextBox x:Name="TrustedBox" Style="{StaticResource ListBox}" TextChanged="OnFieldChanged" AutomationProperties.Name="Extra trusted routines" />
+                            <TextBlock Text="server.database.schema.routine; prefix functions with FUNCTION." Style="{StaticResource Hint}" />
                         </StackPanel>
                     </Grid>
                     <TextBlock Text="Note" Style="{StaticResource FieldLabel}" Margin="0,12,0,3" />

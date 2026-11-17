@@ -15,6 +15,7 @@ namespace SqlSafetyGuard.Analyzer
         }
 
         private readonly List<Rule> _rules = new List<Rule>();
+        public bool HasRules => _rules.Count > 0;
         public IReadOnlyList<string> Warnings { get; }
 
         public EnvironmentRules(string text)

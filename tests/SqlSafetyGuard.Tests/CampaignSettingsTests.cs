@@ -10,7 +10,7 @@ public class CampaignSettingsTests
     [Fact]
     public void AppliesAllowListAndRetainsAuthorizedTargets()
     {
-        var result = Host.Analyze("UPDATE dbo.Target SET Value=1;", new(AllowListPatterns: ["dbo.Target"]));
+        var result = Host.Analyze("UPDATE dbo.Target SET Value=1;", new(AllowListPatterns: ["Host.App.dbo.Target"], Server: "Host", CurrentDatabase: "App"));
         Assert.Null(result.Error);
         Assert.Equal("AllowListed", result.Overall);
         Assert.Contains("dbo.Target", result.Targets);
@@ -22,7 +22,7 @@ public class CampaignSettingsTests
     public void ResolvesEnvironmentBeforeAnalysis()
     {
         var result = Host.Analyze("UPDATE dbo.Target SET Value=1;", new(CurrentDatabase: "SgPlay_Core", Server: "dev01",
-            EnvironmentRules: "dev* | *Core | Dev | Red | true | dbo.Target"));
+            EnvironmentRules: "dev* | *Core | Dev | Red | true | dev01.SgPlay_Core.dbo.Target"));
         Assert.Null(result.Error);
         Assert.Equal("AllowListed", result.Overall);
         Assert.Equal("Red", result.Mode);

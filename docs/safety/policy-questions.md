@@ -2,6 +2,12 @@
 
 Living list; update it when a decision is made. Keep typed confirmation disabled regardless of these discussions.
 
+## Owner-approved behavior for 1.1.0
+
+The qualified-trust update separates procedure and function approvals, requires an exact server.database.schema.object identity, and labels successful call approvals AllowListed rather than ReadOnly. Trust explicitly authorizes reachable effects. The focused disposable-server checks observed permanent writes from an approved table target and an approved procedure; these are policy effects, not evidence of read-only implementations. Legacy short rules are retained but inactive.
+
+The owner approved ReadOnly analysis for USE and a blue Context presentation with independent counts and filtering. USE itself changes session context rather than permanent data; failed switches, repeated control flow and destination environment policy remain conservative. This does not decide the other session-state questions below. See [settings](../user/settings.md) and the [dictionary](../user/dictionary.md).
+
 ## Short list for the company (2026-10-30)
 
 None of these is a bug against the current design; each needs a decision. Evidence: the
@@ -9,13 +15,13 @@ None of these is a bug against the current design; each needs a decision. Eviden
 
 Each item carries a **recommended answer** so the company only has to agree or override. The recommendations follow the product
 principle (a false green is the worst bug; noise is acceptable but not free) and the fact that the analyzer only reads query text:
-it never connects to the server, so it cannot see triggers, cascades or procedure bodies. Every recommended change moves a verdict
+it never connects to the server, so it cannot retrieve deployed triggers, cascades or routine implementations. Visible definitions have separate text-only previews. Every recommended change moves a verdict
 toward yellow or red, never toward green. Nothing is implemented until the company decides.
 
 | # | Question | Today | Recommended answer | Verdict change |
 |---|---|---|---|---|
 | 1 | **Allow-listed objects with side effects.** Allow-listing `sales.Orders`, a view or a synonym also authorizes its trigger writes (`audit.Changes`), cross-database writes (`Archive.dbo.Counter`), temporal history and sequence advances. Does authorizing the entry point authorize everything it reaches? | Green | Keep. Define allow-listing as "I accept everything a write to this object does, including its triggers" and say so in the options text and the pane note. Guidance: allow-list only tables without triggers or cascades. The allow-list is empty by default. | None (wording) |
-| 2 | **Trusted procedures.** A trusted procedure is shown green even when it writes. Should trust mean "authorized", a different label, or a claim that it has no effects? | Green, labelled Read-only | Keep green (an administrator authorized it), but label it **Trusted** instead of Read-only so the pane never claims a writing procedure only reads. | None (label) |
+| 2 | **Trusted procedures.** A trusted procedure is shown green even when it writes. Should trust mean "authorized", a different label, or a claim that it has no effects? | Green, labelled AllowListed in 1.1.0 | Keep green (an administrator authorized it), but label it **Trusted** instead of Read-only so the pane never claims a writing procedure only reads. | None (label) |
 | 3 | **`tempdb` opt-in (`TempdbIsTemp`).** With the setting on, permanent shared `tempdb.dbo.*` objects are green. Keep the opt-in, restrict it to session-local objects, or remove it? | Green with opt-in, red without | Remove the opt-in: permanent `tempdb` objects are shared by every session and survive until restart. Scratch work belongs in `#temp`, which stays green. Fallback if the company relies on it: keep the setting but make those writes yellow. | Green → red |
 | 4 | **`RAISERROR … WITH LOG`.** Writes the server error log but is green. Treat log writes as writes? | Green | Yellow with the note "writes to the SQL Server error log": not a data change, but a permanent trace on the server, and rare in normal scripts. | Green → yellow |
 | 5 | **Session-state changes that outlive the script**: `EXECUTE AS`/`SETUSER`, `SET IDENTITY_INSERT`, `SET IMPLICIT_TRANSACTIONS`/`ANSI_DEFAULTS`, `sp_set_session_context`, session-owned `sp_getapplock`, global `##temp` tables. | All green | The SSMS session survives between runs in the same window. **Yellow**: `SET IMPLICIT_TRANSACTIONS ON`, `SET ANSI_DEFAULTS ON` (later statements open transactions that are never committed) and `EXECUTE AS`/`SETUSER` without `REVERT` (later queries run as someone else). **Green with an information note** ("stays active in this window"): `SET IDENTITY_INSERT`, `sp_set_session_context`, session-owned `sp_getapplock`, `##global` temp tables. **Green, no note**: `SET NOCOUNT` and other everyday options. | Some green → yellow |

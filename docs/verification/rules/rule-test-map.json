@@ -1413,7 +1413,7 @@
     "SqlSafetyGuard.Tests.EnvironmentRuleTests.PresentationOrLoggingFailuresCannotAuthorizeWarning @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:139"
   ],
   "environment.confirm-failure": [
-    "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:82"
+    "SqlSafetyGuard.Tests.GuardExecutionContractTests.ConfirmationFailureAlwaysPreventsExecution @ tests/SqlSafetyGuard.Tests/GuardExecutionContractTests.cs:85"
   ],
   "allow.empty-name": [
     "SqlSafetyGuard.Tests.AllowListTests.Matches @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:26"
@@ -1422,7 +1422,7 @@
     "SqlSafetyGuard.Tests.AllowListTests.IgnoresBlankAndCommentLines @ tests/SqlSafetyGuard.Tests/AllowListTests.cs:33"
   ],
   "allow.invalid": [
-    "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:214",
+    "SqlSafetyGuard.Tests.SoundnessRegressionTests.WildcardOnlyAllowListIsIgnoredVisibly @ tests/SqlSafetyGuard.Tests/SoundnessRegressionTests.cs:215",
     "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
   ],
   "allow.remote": [
@@ -1491,7 +1491,31 @@
   ],
   "exec.sp-executesql": [
     "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.SpExecuteSqlWithLiteral_IsAnalyzed @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:86",
-    "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93"
+    "SqlSafetyGuard.Tests.RequiredCasesTests.Case10_SpExecuteSqlWithVariable_IsUnknown @ tests/SqlSafetyGuard.Tests/RequiredCasesTests.cs:93",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProvenStringsAreAnalyzed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:18"
+  ],
+  "exec.variable-proof": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProvenStringsAreAnalyzed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:18",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.EveryResolvedWriteKeepsItsExistingClassification @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:98"
+  ],
+  "exec.variable-control-flow": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+  ],
+  "exec.variable-barriers": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+  ],
+  "exec.variable-truncation": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.AssignmentTruncationIsRespected @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:55",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.IntermediateConcatenationTruncationIsNotHiddenByMaxDestination @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:63",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.UnprovenValuesStayUnknown @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:47"
+  ],
+  "exec.variable-scope": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ReassignmentAndSeparateBatchesDoNotReuseOldText @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:71",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.FindingsPointAtExecAndKeepRowScope @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:79",
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.ProcedureBodiesUseTheirOwnVariableProof @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:121"
+  ],
+  "exec.variable-expansion": [
+    "SqlSafetyGuard.Tests.VariableDynamicSqlTests.DepthAndExpansionLimitsStayClosed @ tests/SqlSafetyGuard.Tests/VariableDynamicSqlTests.cs:111"
   ],
   "exec.trusted": [
     "SqlSafetyGuard.Tests.EnvironmentRuleTests.ProcedureTrustRequiresResolvedQualification @ tests/SqlSafetyGuard.Tests/EnvironmentRuleTests.cs:84"
@@ -1596,5 +1620,61 @@
   ],
   "aggregate.presentation": [
     "SqlSafetyGuard.Tests.AdditionalAnalyzerTests.Warnings_AndSummary @ tests/SqlSafetyGuard.Tests/AdditionalAnalyzerTests.cs:263"
+  ],
+  "body.typed-modules": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.DefinitionsHaveSeparateTypedPreviews @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:177",
+    "SqlSafetyGuard.Tests.CodeBodyTests.AllModuleVerbsPreservePreviewPositionsAcrossBatches @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:26"
+  ],
+  "body.remote-query": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.RemotePreviewDoesNotTurnUnknownExecutionIntoProvenLocalSql @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:219",
+    "SqlSafetyGuard.Tests.CodeBodyTests.RemoteWriteTargetsAlsoExposeTheQueryWithoutDuplicateWarnings @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:11"
+  ],
+  "body.job-command": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.JobCommandIsStoredRatherThanExecutedNow @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:235",
+    "SqlSafetyGuard.Tests.CodeBodyTests.UnprovenJobLanguageTokensAndPositionalArgumentsStayOpaque @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:106"
+  ],
+  "body.context-isolation": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.RemoteAndStoredContextsCannotInheritLocalTrust @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:89"
+  ],
+  "body.preview-limit": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.PreviewNestingIsBoundedAndFailsClosed @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:133",
+    "SqlSafetyGuard.Tests.CodeBodyTests.BrokenBodiesCannotLookCompleteOrSafe @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:123"
+  ],
+  "effects.function-calls": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.UninspectedFunctionCallsCannotDisappearBehindGreenStatements @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:197",
+    "SqlSafetyGuard.Tests.CodeBodyTests.FunctionWarningsSurviveWrappersAndTemporaryTargets @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:55",
+    "SqlSafetyGuard.Tests.CodeBodyTests.RecognizedBuiltinsKeepTheirExistingBehaviour @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:212"
+  ],
+  "recovery.module-owner": [
+    "SqlSafetyGuard.Tests.CodeBodyTests.BrokenBodiesCannotLookCompleteOrSafe @ tests/SqlSafetyGuard.Tests/CodeBodyTests.cs:123"
+  ],
+  "allow.qualified": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.FullIdentityAuthorizesTheSameTargetThroughWrappers @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:50",
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.RoutineKindsAreSeparateAndMissingSchemaIsNotGuessed @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:87"
+  ],
+  "allow.migration": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.LegacyUnqualifiedTrustNeedsMigrationRatherThanGrantingPermission @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:26",
+    "SqlSafetyGuard.Tests.SettingsEntriesTests.LegacyEntriesRemainVisibleAndInactiveUntilExplicitlyQualified @ tests/SqlSafetyGuard.Tests/SettingsEntriesTests.cs:97"
+  ],
+  "walk.use-context": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.UseIsAContextOperationRatherThanAnUnknownEffect @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:10",
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.PossibleFailedUseRequiresApprovalForEveryPossibleDatabase @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:64"
+  ],
+  "walk.repeated-context": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.RepeatedControlFlowCannotReuseTrustFromOnlyTheFirstDatabase @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:112"
+  ],
+  "exec.dynamic-context": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.DynamicUseIsScopedButGoPreservesPossibleOuterContexts @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:73"
+  ],
+  "function.trusted": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.RoutineKindsAreSeparateAndMissingSchemaIsNotGuessed @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:87",
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.TrustedCallsDoNotAuthorizeDefinitionWritesOrPotentialBodies @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:91"
+  ],
+  "environment.destination": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.DestinationEnvironmentCannotInheritAnOffBypass @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:99",
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.UnverifiedContextOrBrokenTextCannotInheritOff @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:127"
+  ],
+  "environment.context-error": [
+    "SqlSafetyGuard.Tests.QualifiedTrustTests.UnverifiedContextOrBrokenTextCannotInheritOff @ tests/SqlSafetyGuard.Tests/QualifiedTrustTests.cs:127"
   ]
 }

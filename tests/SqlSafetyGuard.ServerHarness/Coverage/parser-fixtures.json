@@ -303,7 +303,7 @@
 {"statementType":"UpdateStatisticsStatement","sql":"UPDATE STATISTICS t1","expectedVerdict":"Unknown","source":"UpdateStatisticsStatementTests.sql"},
 {"statementType":"UpdateTextStatement","sql":"UPDATETEXT t1.c1 @var @var1 -15\r\nWITH LOG 0xFF","expectedVerdict":"RealWrite","source":"UpdateTextStatementTests.sql"},
 {"statementType":"UseFederationStatement","sql":"USE FEDERATION ROOT WITH RESET","expectedVerdict":"Unknown","source":"UseFederationTests110.sql"},
-{"statementType":"UseStatement","sql":"USE master","expectedVerdict":"Unknown","source":"TrivialStatementTests.sql"},
+{"statementType":"UseStatement","sql":"USE master","expectedVerdict":"ReadOnly","source":"TrivialStatementTests.sql"},
 {"statementType":"WaitForStatement","sql":"WAITFOR TIME 'time'","expectedVerdict":"ReadOnly","source":"WaitForStatementTests.sql"},
 {"statementType":"WhileStatement","sql":"WHILE @a > 10\r\n    CREATE TABLE t1 (\r\n        c1 INT\r\n    );","expectedVerdict":"RealWrite","source":"WhileStatementTests.sql"},
 {"statementType":"WriteTextStatement","sql":"WRITETEXT t1.c1 @var 0xFF","expectedVerdict":"RealWrite","source":"WriteTextStatementTests.sql"},

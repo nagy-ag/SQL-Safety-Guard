@@ -53,11 +53,11 @@ public class SettingsEntriesTests
 
     [Theory]
     [InlineData(false, "", "", "", "", "Enter a table name.")]
-    [InlineData(false, "", "Sandbox", "", "T", "A database also needs a schema, for example dbo.")]
-    [InlineData(false, "Srv", "", "dbo", "T", "A server also needs a database and a schema.")]
-    [InlineData(false, "", "", "*", "*", "Only wildcards: this pattern would be ignored. Name at least one part.")]
-    [InlineData(true, "", "", "", "usp_Read", "Enter a schema, for example dbo. Procedures must be schema-qualified.")]
-    [InlineData(true, "", "", "db*", "usp_Read", "Wildcards are allowed only in the procedure name.")]
+    [InlineData(false, "", "Sandbox", "", "T", "Full qualification required: server, database, schema and object.")]
+    [InlineData(false, "Srv", "", "dbo", "T", "Full qualification required: server, database, schema and object.")]
+    [InlineData(false, "", "", "*", "*", "Full qualification required: server, database, schema and object.")]
+    [InlineData(true, "", "", "", "usp_Read", "Full qualification required: server, database, schema and object.")]
+    [InlineData(true, "", "", "db*", "usp_Read", "Full qualification required: server, database, schema and object.")]
     [InlineData(false, "", "", "dbo", "A;B", "Names can't contain ; or line breaks.")]
     public void InvalidPartsExplainTheProblem(bool procedures, string server, string database, string schema, string name, string problem)
     {
@@ -82,24 +82,42 @@ public class SettingsEntriesTests
     }
 
     [Theory]
-    [InlineData("dbo.SgDemo_Staging_*", "dbo.SgDemo_Staging_Orders", "✓ Matches: writes to it would be green.")]
-    [InlineData("dbo.SgDemo_Staging_*", "SgDemo_Staging_Orders", "✗ Doesn't match: write the schema too, for example dbo.SgDemo_Staging_Orders.")]
-    [InlineData("dbo.SgDemo_Staging_*", "Other.dbo.SgDemo_Staging_Orders", "✗ Doesn't match: a pattern without a database matches only the current database.")]
-    [InlineData("Sandbox.dbo.T_*", "dbo.T_1", "✓ Matches only when the window's current database is Sandbox.")]
-    [InlineData("Staging_*", "sales.Staging_1", "✓ Matches: writes to it would be green.")]
-    [InlineData("dbo.Staging_*", "dbo.Other", "✗ Doesn't match.")]
-    public void TryANameUsesTheAnalyzerMatcher(string pattern, string candidate, string expected)
+    [InlineData("Host.Sandbox.dbo.T_*", "dbo.T_1", true)]
+    [InlineData("Host.Sandbox.dbo.T_*", "Sandbox.dbo.T_1", true)]
+    [InlineData("Host.Sandbox.dbo.T_*", "Other.dbo.T_1", false)]
+    [InlineData("Host.Sandbox.dbo.T_*", "T_1", false)]
+    [InlineData("Host.Sandbox.dbo.T_*", "Host.Sandbox.dbo.T_1", false)]
+    public void TryANameUsesTheQualifiedAnalyzerMatcher(string pattern, string candidate, bool expected)
     {
         var entry = PatternText.Parse(pattern, false, out _).Single();
-        Assert.Equal(expected, PatternText.Try(entry, candidate));
+        Assert.Equal(expected, PatternText.Try(entry, candidate).StartsWith("Matches on connection"));
     }
 
     [Fact]
-    public void TryAcceptsAnExecStatementForProcedures()
+    public void LegacyEntriesRemainVisibleAndInactiveUntilExplicitlyQualified()
     {
-        var entry = PatternText.Parse("dbo.usp_Read_*", true, out _).Single();
-        Assert.Equal("✓ Matches: calls to it would be green.", PatternText.Try(entry, "EXEC dbo.usp_Read_Orders @id = 1;"));
-        Assert.Equal("✗ Doesn't match: write the schema too, for example dbo.usp_Read_Orders.", PatternText.Try(entry, "EXEC usp_Read_Orders"));
+        var entry = PatternText.Parse("dbo.T", false, out _).Single();
+        Assert.Null(entry.Problem);
+        Assert.True(entry.NeedsQualification);
+        Assert.StartsWith("Inactive:", PatternText.Try(entry, "dbo.T"));
+        Assert.Equal((1, 1), PatternText.Summarize("dbo.T", false));
+        entry.Server = "Host";
+        Assert.NotNull(entry.Problem);
+        entry.Database = "Sandbox";
+        Assert.Null(entry.Problem);
+        Assert.False(entry.NeedsQualification);
+    }
+
+    [Fact]
+    public void FunctionRuleTypeRoundTripsAndDoesNotBecomeProcedureTrust()
+    {
+        var entry = PatternText.Parse("FUNCTION Host.Sandbox.dbo.F", true, out _).Single();
+        Assert.True(entry.Function);
+        Assert.Equal("Host", entry.Server);
+        entry.Name = "G";
+        Assert.Equal("FUNCTION Host.Sandbox.dbo.G", entry.Pattern);
+        Assert.False(new AllowList(new[] { entry.Pattern }, true, true).Matches(null, null, "dbo", "G", "Sandbox", currentServer: "Host"));
+        Assert.True(new AllowList(new[] { entry.Pattern }, true, true, true).Matches(null, null, "dbo", "G", "Sandbox", currentServer: "Host"));
     }
 
     [Fact]
@@ -156,12 +174,26 @@ public class SettingsEntriesTests
         rule.Server = "SRV";
         rule.Label = "Label";
         rule.TrustedProcedures = "usp_NoSchema";
-        Assert.StartsWith("Extra trusted procedures: ", rule.Problem);
+        Assert.StartsWith("Extra trusted routines: ", rule.Problem);
         var unreadable = RuleText.Parse("not a rule", out _).Single();
         Assert.False(unreadable.Readable);
         Assert.NotNull(unreadable.Problem);
         Assert.Equal("not a rule", RuleText.Compose(new[] { unreadable }));
         Assert.Equal((1, 1), RuleText.Summarize("-- only a note\nnot a rule"));
+    }
+
+    [Fact]
+    public void EnvironmentRuleEditsRequireQualifiedObjectApprovals()
+    {
+        var rule = RuleText.Parse("Host | Sales | Demo | YellowRed | false | dbo.T", out _).Single();
+        Assert.Null(rule.Problem);
+        Assert.NotNull(RuleText.QualificationWarning(rule));
+        rule.Label = "Edited";
+        Assert.StartsWith("Extra safe tables:", rule.Problem);
+        rule.SafeTables = "Host.Sales.dbo.T";
+        rule.TrustedProcedures = "FUNCTION Host.Sales.dbo.F";
+        Assert.Null(rule.Problem);
+        Assert.Null(RuleText.QualificationWarning(rule));
     }
 
     [Fact]
@@ -204,7 +236,7 @@ public class SettingsEntriesTests
     [Fact]
     public void SummariesCountEntriesAndProblems()
     {
-        Assert.Equal((3, 0), PatternText.Summarize(Tables, procedures: false));
+        Assert.Equal((3, 3), PatternText.Summarize(Tables, procedures: false));
         Assert.Equal((0, 0), PatternText.Summarize("", procedures: false));
         Assert.Equal((3, 0), RuleText.Summarize(Rules));
         Assert.Equal((0, 0), RuleText.Summarize("-- just a comment"));

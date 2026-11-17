@@ -94,6 +94,8 @@
       <DependentUpon>SettingsListDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\PaneModels.cs" />
+    <Compile Include="UI\HighlightGeometry.cs" />
+    <Compile Include="UI\PanePresentation.cs" />
     <Compile Include="UI\PaneTrace.cs" />
     <Compile Include="UI\SafetyPaneControl.xaml.cs">
       <DependentUpon>SafetyPaneControl.xaml</DependentUpon>

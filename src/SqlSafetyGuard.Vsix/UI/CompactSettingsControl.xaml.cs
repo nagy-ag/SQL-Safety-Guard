@@ -24,6 +24,14 @@ namespace SqlSafetyGuard.UI
             _command = command ?? throw new ArgumentNullException(nameof(command));
             _refreshing = true;
             InitializeComponent();
+            EffectMeanings.ItemsSource = new[] {
+                new ColorMeaning("Writes", VerdictBrushes.Red, Analyzer.SafetyDictionary.Writes),
+                new ColorMeaning("Unknown", VerdictBrushes.Yellow, Analyzer.SafetyDictionary.Unknown),
+                new ColorMeaning("Safe", VerdictBrushes.Green, Analyzer.SafetyDictionary.Safe) };
+            ContextMeanings.ItemsSource = new[] {
+                new ColorMeaning("Inside", VerdictBrushes.CodeContainer, Analyzer.SafetyDictionary.Inside),
+                new ColorMeaning("Context", VerdictBrushes.Context, Analyzer.SafetyDictionary.ContextMeaning),
+                new ColorMeaning("Remote", VerdictBrushes.Remote, Analyzer.SafetyDictionary.Remote) };
             // SSMS's GEL content container marks preview focus events handled.
             // This content is an editable settings form: allow focus within our
             // own subtree, without changing the host or any other preview.
@@ -38,6 +46,14 @@ namespace SqlSafetyGuard.UI
                 RefreshValues();
             };
             Unloaded += (s, e) => _page.Changed -= OnSettingsChanged;
+        }
+
+        internal sealed class ColorMeaning
+        {
+            public ColorMeaning(string name, Brush marker, string meaning) { Name = name; Marker = marker; Meaning = meaning; }
+            public string Name { get; }
+            public Brush Marker { get; }
+            public string Meaning { get; }
         }
 
         /// <summary>
@@ -68,7 +84,7 @@ namespace SqlSafetyGuard.UI
                 ShowConnection.IsChecked = _page.ShowServerAndDatabase;
                 TempdbIsTemp.IsChecked = _page.TempdbIsTemp;
                 ShowSummary(AllowListSummary, AllowListProblem, PatternText.Summarize(_page.AllowList, procedures: false), "pattern", "patterns");
-                ShowSummary(TrustedSummary, TrustedProblem, PatternText.Summarize(_page.TrustedProcedures, procedures: true), "procedure", "procedures");
+                ShowSummary(TrustedSummary, TrustedProblem, PatternText.Summarize(_page.TrustedProcedures, procedures: true), "routine", "routines");
                 ShowSummary(RulesSummary, RulesProblem, RuleText.Summarize(_page.EnvironmentRules), "rule", "rules");
             }
             finally { _refreshing = false; }

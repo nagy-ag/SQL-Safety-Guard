@@ -55,9 +55,10 @@ public class GuardUiContractTests
             element => element.Attribute("Text") != null);
         Assert.DoesNotContain(strip.Descendants().Attributes(),
             attribute => attribute.Name.LocalName.StartsWith("Mouse", StringComparison.Ordinal));
-        foreach (string name in new[] { "CollapsedGlyph", "CollapsedRedCount", "CollapsedYellowCount" })
-            Assert.Single(strip.Descendants(presentation + "TextBlock"), element =>
-                (string?)element.Attribute(markup + "Name") == name);
+        Assert.Single(strip.Descendants(presentation + "StackPanel"), element =>
+            (string?)element.Attribute(markup + "Name") == "CollapsedCounts");
+        Assert.DoesNotContain(strip.Descendants(), element =>
+            (string?)element.Attribute(markup + "Name") == "CollapsedGlyph");
     }
 
     [Theory]
@@ -87,11 +88,42 @@ public class GuardUiContractTests
         XNamespace p = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
         var body = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "ProcedureBodyTemplate");
-        Assert.Contains("potential effects when called", body.ToString());
+        Assert.DoesNotContain("{Binding ContextLabel}", body.ToString());
         Assert.DoesNotContain("Based on this window's text", body.ToString());
         Assert.Contains("Body analysis incomplete", body.ToString());
+        Assert.Single(body.Descendants(p + "Expander"));
+        Assert.Empty(body.Descendants(p + "ToggleButton"));
+        Assert.Contains(body.Descendants(p + "ItemsControl"), element =>
+            (string?)element.Attribute("ItemsSource") == "{Binding VisibleFindings}" &&
+            (string?)element.Attribute("ItemTemplate") == "{StaticResource BodyFindingTemplate}");
         var finding = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "BodyFindingTemplate");
-        Assert.Equal("OnBodyFindingClick", (string?)Assert.Single(finding.Descendants(p + "Button")).Attribute("Click"));
+        var row = Assert.Single(finding.Elements(p + "Expander"));
+        Assert.Equal("{StaticResource RowExpander}", (string?)row.Attribute("Style"));
+        Assert.Equal("{StaticResource FindingHeaderTemplate}", (string?)row.Attribute("HeaderTemplate"));
+        Assert.Single(finding.Descendants(p + "TextBlock")); // One short reason, without repeating SQL.
+        var operationHeader = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "FindingHeaderTemplate");
+        Assert.Contains("{Binding Body.Badge}", operationHeader.ToString());
+        var badge = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "BodyBadgeTemplate");
+        Assert.DoesNotContain("{Binding Label}", badge.ToString());
+        Assert.DoesNotContain("{Binding Context}", badge.ToString());
+        Assert.Equal(2, badge.Descendants(p + "TextBlock").Count()); // One scoped total for each kind of preview.
+        Assert.Contains("{Binding Tooltip}", badge.ToString());
+        foreach (var count in new[] { "InsideTotal", "RemoteTotal" })
+            Assert.Contains("{Binding " + count + "}", badge.ToString());
+        var preview = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "PreviewHeaderTemplate");
+        Assert.Contains("{Binding Marker}", preview.ToString());
+        foreach (var risk in new[] { "Writes", "Unknown", "Safe" }) Assert.Contains("{Binding DisplayCounts." + risk + "}", preview.ToString());
+        Assert.DoesNotContain("RiskLabel", operationHeader.ToString());
+        Assert.Contains(finding.Descendants(p + "Button"), e => (string?)e.Attribute("Click") == "OnSqlSourceClicked");
+        Assert.Contains(finding.Descendants(p + "Button"), e => (string?)e.Attribute("Click") == "OnSqlExecutionClicked");
+        Assert.DoesNotContain("executes now", document.ToString());
+
+        Assert.Contains(finding.Descendants(p + "ContentControl"), element =>
+            (string?)element.Attribute("Content") == "{Binding Body}" &&
+            (string?)element.Attribute("ContentTemplate") == "{DynamicResource ProcedureBodyTemplate}");
+        var group = Assert.Single(document.Descendants(p + "DataTemplate"), e => (string?)e.Attribute(x + "Key") == "GroupTemplate");
+        Assert.DoesNotContain(group.Descendants(p + "ItemsControl"), element =>
+            (string?)element.Attribute("ItemsSource") == "{Binding Bodies}");
     }
 
     [Fact]

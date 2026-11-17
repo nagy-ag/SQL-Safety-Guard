@@ -98,7 +98,7 @@
         <Strings><ButtonText>Edit safe tables allow-list...</ButtonText></Strings>
       </Button>
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidEditTrustedProcedures" priority="0x0100" type="Button">
-        <Strings><ButtonText>Edit trusted procedures...</ButtonText></Strings>
+        <Strings><ButtonText>Edit trusted routines...</ButtonText></Strings>
       </Button>
       <Button guid="guidSqlSafetyGuardCmdSet" id="cmdidEditEnvironmentRules" priority="0x0100" type="Button">
         <Strings><ButtonText>Edit environment rules...</ButtonText></Strings>

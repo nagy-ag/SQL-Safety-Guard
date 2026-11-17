@@ -22,7 +22,8 @@ Run Windows PowerShell 5.1 from the repository root (use an absolute output dire
 ```powershell
 .\scripts\ThemeAcceptanceCapture.ps1 -OutputDirectory C:\capture-out\trial -Themes Light,Dark
 # Add -CheckProcedureBody for definition/body separation and statement navigation checks with no SQL.
-# Add -CheckPaneHighlights for the click-to-highlight checks and both safe-section arrow states.
+# Add -CheckPaneHighlights for click-to-highlight and display-filter captures.
+# Add -CheckBalancedPane for mixed-verdict filtering, compact operations and persistent highlights.
 # Add -CheckCompactSettings for focus routing, native persistence and page scrolling of the compact controls.
 # Omit -Themes for all 13, only when the owner authorizes the complete theme pass.
 ```
@@ -64,11 +65,48 @@ selections, deselection, collapse/expand and a real buffer edit. These checks ne
 connection. The normal Release pane interaction script separately checks the rendered arrow geometry, section
 content visibility and toggle actions. These are UI checks, not a new execution/server campaign.
 
-`-CheckProcedureBody` runs 25 checks against the sample procedure: deferred counts, shared single-line rows,
-whole-target warnings, group and individual highlights, exact execution-selection preservation, nested keyboard
-routing and expansion state after reanalysis. Both suites raise control events inside the owned test process;
-they do not synthesize physical clicks or key presses. Single clicks highlight object groups, double clicks toggle
-details, and the individual statement buttons replace the group highlight with one statement at either level.
+`-CheckProcedureBody` checks the sample procedure's flat inline operations, deferred counts, three verdicts, repeated
+writes, whole-target warnings in expanded reasons, absence of another body expander/object tree/filter bar, and one rendered row per
+operation. Definition risk fill covers only its header while a separate purple outline covers the complete parsed
+definition, excluding GO and the separate EXEC. Body clicks retain that context and navigate/highlight without changing execution
+selection; double-clicks open independent reasons, and matching expansion survives reanalysis. The driver also loads
+`04-compact-pane.sql` to check CREATE/ALTER and EXEC separation and three preview rows, then checks repeated decoded operations,
+distinct EXEC containers, unknown runtime SQL, scoped filtering, source/EXEC links, neutral supporting outlines and
+persistent dynamic-SQL highlights. A shared EXEC
+anchor uses the worst visible verdict; a green child must not paint over a red sibling in All view. The suites raise
+control events inside the owned test process; they do not synthesize physical clicks or key presses.
+
+`-CheckCodeBodies` loads all 13 examples in `05-other-code-bodies.sql`, checks typed previews, context tooltips,
+actual object/operation risk markers, purple Inside/gray Remote totals, complete descendant badges,
+and a scoped preview row with a circular marker and actual risk counts on the right,
+execution/preview count separation, yellow function-call rows, opaque CLR bodies and the existing click/double-click
+paths on every body type. A second fixture nests a stored job command and a remote query inside a procedure; it checks
+literal-source navigation, recursive expansion restoration and persistent risk fills and full-definition context
+outlines through passive reanalysis, including clearing both on a click elsewhere.
+The driver captures both panes and editor surfaces at the normal compact width. It runs on the same private desktop
+without connections or SQL execution.
+
+It also runs `automaticpanecheck`: 19 checks for circular preview markers, submitted/preview count separation,
+all function forms, independent risk/scope toggles, reachable ancestors, body click/double-click behavior and label-mode
+state. Additional captures show the open trigger body at compact/minimum widths and the text-label presentation.
+The Release WPF suite tests automatic resizing, forced labels and independent toggle clicks with large counts.
+The same lane runs `panepolishcheck` with context-only filtering, a mixed decoded USE/SELECT block, a body preview,
+and one- through four-digit lines. It verifies semantic toggle tooltips, context counts independent of Safe, and the
+actual shared gutter edge across object, operation and preview headers. The Release WPF suite also verifies that
+filtering keeps the gutter stable and that a new analysis releases unused width.
+
+The same code-body lane runs `collapsedsummarycheck` on a six-color fixture. It verifies operation totals and hover meanings against the filter controls, independence from All/Writes/None display masks, and removal of stale circles while pending. Captures show the scope-only expanded header and the real collapsed strip. Release WPF checks additionally cover zero-category omission, numbered safe-only results, five-digit counts and the single expand target.
+
+`-CheckBalancedPane` checks a synthetic object containing two red, one yellow and one green operation. It verifies
+one object row, full counts under every filter, first-visible-operation navigation, matching highlights, preserved SQL
+selection, independent reason expansion, empty-filter recovery and state after reanalysis. This fixture tests presentation;
+it does not establish that the analyzer associates arbitrary reads with an object. Dispatcher receipts check object and
+operation highlights at outer, procedure-body and dynamic-SQL levels: they persist beyond the former timeout and through passive
+analysis, remain on the chosen row and clear on a click elsewhere. Captures then use actual analyzed SQL with each display filter.
+Filters never change the execution verdict or the SQL submitted by F5.
+The driver also shrinks the real pane, captures its minimum width, and checks the filter row after host layout settles,
+allowing one DIP for pixel rounding. The Release WPF script separately checks minimum width with five-digit counts,
+and verifies that temporary-only operations have no permanent-write risk label.
 
 ### Settings checks
 
@@ -82,6 +120,11 @@ each list editor through its real command and fills its form as a user would (`s
 allow-list and rule editors with sample entries. Dialog previews also record a `chrome` receipt with the title-bar
 colours applied; the native title bar itself is not part of the WPF captures. SSMS supplies the Preview caption around the custom GEL content area; the
 compact settings themselves are live, with immediate persistence. No SQL or Execute command is used.
+The `settingsappearancecheck` steps expand the six-row legend and open the warning ComboBox. They require supported
+shell styles and theme foregrounds, then capture both states and the separate popup for visual inspection.
+After startup, `setcapturetheme` applies the requested theme through the native settings manager in the isolated profile;
+Dark/Light captures require the corresponding live shell background brightness. Startup JSON alone is insufficient
+because the shell can overwrite it during settings migration. The driver still restores the original settings file.
 
 ### Theme values
 
@@ -140,3 +183,6 @@ the separate integration observations described in the driver README.
 
 For current qualified evidence, use [status.md](../status.md); for component responsibilities, use
 [architecture.md](architecture.md).
+
+Adjacent-row outline coverage uses both the offline WPF geometry checks (including a gap) and `-CheckBalancedPane`
+in the real editor. Primary fill adornments carry no stroke; one union geometry carries the outer outline.

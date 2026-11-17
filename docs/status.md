@@ -9,12 +9,14 @@ evidence are frozen in [history/](history/README.md). What the colours promise i
 | Question | Answer |
 |---|---|
 | Current release | **1.0.5**, stable and Latest, published 2026-11-10 ([release record](history/releases/1.0.5.md)) |
-| Source on main | Published 1.0.5 source plus its documentation and verification records; procedure-body inspection, unified row gestures and reversed section chevrons ([functional verification](history/runs/2026-11-10-row-gestures.md)) |
-| Known false greens | None open. The last full server campaign (2026-10-30, about 11 hours) found no real false green after single-worker triage ([report](history/runs/2026-10-30-full-run.md)) |
-| Offline gate | 1.0.5 passes 1,693 .NET tests and 10 Python tests; the generated rule inventory and statement verdicts are checked for freshness |
+| Current checkout | **1.1.0 acceptance candidate**, prepared for prerelease packaging. Includes variable-backed dynamic SQL, typed previews, fully qualified approvals, blue USE context, six adaptive filters, shared line gutter and numbered collapsed summary. The [changelog](../CHANGELOG.md) and [upgrade guide](user/install.md#upgrading-to-110) describe the changes; stable/Latest remains 1.0.5 until acceptance. |
+| Known false greens | None confirmed open. The qualified-trust update adds conservative context and approval coverage; 14 focused disposable SQL probes PASS. Approved writes are explicitly authorized policy effects, not proof of read-only implementations. The last full campaign remains [2026-10-30](history/runs/2026-10-30-full-run.md) |
+| Offline gate | 1.1.0 preparation passes 1,913 .NET tests and 10 Python tests; generated references and the 548-rule inventory are fresh; Debug and Release builds pass |
+| Latest pane check | Isolated SSMS 22.11, verified Dark: 28 captures; 43 collapsed-summary, 19 automatic-pane, 175 typed-body, 21 nested-body and 15 context/gutter/hover checks PASS. Release WPF: 64 pane checks PASS. Isolated settings restored and owned SSMS closed; all 25 normal-profile installed payloads verified with settings unchanged ([report](history/runs/2026-11-17-collapsed-spacing.md)). Earlier themed settings checks remain in the [previous report](history/runs/2026-11-12-context-gutter-themes.md) |
+| Latest focused server check | 14 qualified-trust/context probes PASS, including failed USE continuation, repeated control flow, dynamic context restoration, typed approvals and authorized write effects; own disposable databases removed ([report](history/runs/2026-11-12-qualified-trust.md)). Earlier variable-dynamic evidence remains [here](history/runs/2026-11-11-variable-dynamic-sql.md) |
 | SSMS versions | Focused checks on representative 22.0 to 22.11 builds, including an in-place 22.9 to 22.11 upgrade; the full minor-version matrix is incomplete (open limit 1) |
-| Waiting for a decision | Trusted procedures, allow-list effects, permanent tempdb opt-in, logging and session state ([policy questions](safety/policy-questions.md)) |
-| Uninspected runtime effects | Bodies of called procedures are not retrieved; triggers and SQL built at runtime are not inspected (yellow, never green). Procedure definitions present in the editor have a separate potential-effects breakdown. Physical F5 key presses are not synthesized in tests. |
+| Waiting for a decision | Remaining company policy includes permanent tempdb opt-in, logging and other session state. Qualified-trust and USE behavior is owner-approved ([policy questions](safety/policy-questions.md)) |
+| Uninspected runtime effects | Deployed bodies and dependencies are not retrieved. Visible module definitions have separate previews; proven local strings and visible remote/job commands are inspected with context labels. Remote dialects, runtime text, Agent tokens and CLR code remain unproved. Physical F5 keys are not synthesized. |
 
 ## Latest release: 1.0.5
 
@@ -48,6 +50,19 @@ and [functional verification](history/runs/2026-11-10-row-gestures.md).
    company computer; GitHub packages stay unsigned.
 7. **Cloud test resources.** Resources are deleted and billing unlinked; removal of approval-blocked keys and the actual
    billed cost are still pending.
+8. **Variable SQL proof.** Straight-line supported string assignments only; branches/loops/TRY-CATCH, unmodeled
+   statements, runtime values, truncation and unsupported types/conversions discard proof. The focused server run
+   is representative evidence, not exhaustive coverage of string semantics or existing indirect effects.
+9. **Object attribution.** The compact pane preserves analyzed operations; ordinary reads are not attributed to every
+   referenced object, unknown targets are not guessed, and decoded operations retain their outer EXEC's execution anchor.
+   Optional proven string-source ranges support navigation; missing mappings fall back to EXEC. Dynamic SQL is grouped
+   by its EXEC rather than merged into an ordinary object row.
+   The mixed three-colour presentation check uses a synthetic fixture, not new analyzer proof.
+
+10. **Visible-body preview limits.** Remote SQL is interpreted as T-SQL without proving its dialect/runtime. Stored Agent
+    commands require proven named inputs and a known T-SQL subsystem; positional arguments, tokens and runtime values
+    remain opaque. Calls never resolve deployed definitions or dependencies. Qualified built-ins and object methods may
+    conservatively warn. Preview counts are not execution counts; nesting and resource limits stay explicit.
 
 ## Where the evidence is
 

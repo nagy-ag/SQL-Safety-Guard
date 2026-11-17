@@ -76,7 +76,7 @@ public class EnvironmentRuleTests
     [Theory]
     [InlineData("dbo.sp_WhoIsActive", null, Verdict.ReadOnly)]
     [InlineData("sp_WhoIsActive", null, Verdict.Unknown)]
-    [InlineData("sp_WhoIsActive", "dbo", Verdict.ReadOnly)]
+    [InlineData("sp_WhoIsActive", "dbo", Verdict.Unknown)]
     [InlineData("sp_WhoIsActive", "custom", Verdict.Unknown)]
     [InlineData("other.dbo.sp_WhoIsActive", "dbo", Verdict.Unknown)]
     [InlineData("master.dbo.sp_BlitzFirst", null, Verdict.ReadOnly)]
@@ -84,10 +84,10 @@ public class EnvironmentRuleTests
     public void ProcedureTrustRequiresResolvedQualification(string procedure, string? schema, Verdict expected)
     {
         var result = SqlSafetyAnalyzer.Analyze("EXEC " + procedure,
-            new AnalyzerOptions(currentDatabase: "Orders", defaultSchema: schema,
-                trustedProcedures: new[] { "dbo.sp_WhoIsActive", "master.dbo.sp_Blitz*" }));
-        Assert.Equal(expected, result.Overall);
-        if (expected == Verdict.ReadOnly) Assert.Contains(result.Findings, finding => finding.Note.Contains("trusted procedure"));
+            new AnalyzerOptions(currentServer: "Host", currentDatabase: "Orders", defaultSchema: schema,
+                trustedProcedures: new[] { "Host.Orders.dbo.sp_WhoIsActive", "Host.master.dbo.sp_Blitz*" }));
+        Assert.Equal(expected == Verdict.ReadOnly ? Verdict.AllowListed : expected, result.Overall);
+        if (expected == Verdict.ReadOnly) Assert.Contains(result.Findings, finding => finding.Note.Contains("approved procedure"));
     }
 
     [Theory]
@@ -98,10 +98,10 @@ public class EnvironmentRuleTests
     [InlineData("EXEC(N'USE Other; DELETE dbo.Safe')", Verdict.RealWrite)]
     public void TargetSwitchesDisableContextualTrust(string sql, Verdict expected)
     {
-        var result = SqlSafetyAnalyzer.Analyze(sql, new AnalyzerOptions(new[] { "dbo.Safe" }, currentDatabase: "Orders",
-            trustedProcedures: new[] { "dbo.SafeProc" }));
-        Assert.Equal(expected, result.Overall);
-        if (expected != Verdict.ReadOnly) Assert.Contains(result.Findings, finding => finding.Action == "TARGET SWITCH");
+        var result = SqlSafetyAnalyzer.Analyze(sql, new AnalyzerOptions(new[] { "Host.Orders.dbo.Safe" }, currentServer: "Host", currentDatabase: "Orders",
+            trustedProcedures: new[] { "Host.Orders.dbo.SafeProc" }));
+        Assert.Equal(expected == Verdict.ReadOnly ? Verdict.AllowListed : expected, result.Overall);
+        if (expected != Verdict.ReadOnly) Assert.Contains(result.Findings, finding => finding.Action == (sql.StartsWith(":") ? "TARGET SWITCH" : "USE"));
     }
 
     [Theory]
