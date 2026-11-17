@@ -60,7 +60,7 @@ The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
 ### Upgrading to 1.1.1
 
-**1.1.1 is being prepared for stable publication.** These steps apply after publication.
+**1.1.1 is the current stable/Latest release.**
 
 1. Close SSMS and download the 1.1.1 package and checksum file from GitHub Releases.
 2. Verify the checksum and install the VSIX; it upgrades 1.1.0 in place. Existing settings are retained.

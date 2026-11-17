@@ -7,6 +7,7 @@ Release records, one per version, are indexed in [releases/](releases/README.md)
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-17 | [releases/1.1.1.md](releases/1.1.1.md) | 1.1.1 published stable/Latest from `ff4928f`: scrolling and routine-dropdown fixes; 1,913 .NET/10 Python tests, 98 Release WPF checks, exact upgrade/load/uninstall, all five downloads and source/tag CI PASS. |
 | 2026-11-17 | [runs/2026-11-17-trusted-routine-dropdown.md](runs/2026-11-17-trusted-routine-dropdown.md) | Themed Procedure/Function selector: clean builds, 1,913 tests, 14 Release settings checks and two verified Dark captures PASS; settings restored, normal 1.1.0 retained and requested 1.1.1 publication on hold. |
 | 2026-11-17 | [runs/2026-11-17-expanded-object-scrolling.md](runs/2026-11-17-expanded-object-scrolling.md) | Unreleased pixel-scroll fix: published baseline reproduces stalled oversized objects; both builds, 1,913 tests, 69 Release pane checks and three isolated live Release scrolling cases PASS; normal GitHub installation retained. |
 | 2026-11-17 | [runs/2026-11-17-github-latest-1.1.0-install.md](runs/2026-11-17-github-latest-1.1.0-install.md) | Fresh Latest VSIX checksums, eight downloaded-analyzer cases, isolated Release pane with six expected counts and normal-profile 1.0.5 to 1.1.0 upgrade PASS; 24 payload files match, settings unchanged and SSMS closed. |
