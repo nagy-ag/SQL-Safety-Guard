@@ -60,9 +60,9 @@ The [changelog](../../CHANGELOG.md) lists what changed in each version.
 
 ### Upgrading to 1.1.2
 
-Version 1.1.2 is being prepared; the current published stable/Latest release remains 1.1.1 until publication.
+**1.1.2 is the current stable/Latest release.**
 
-1. Save queries, close SSMS and download the 1.1.2 VSIX and checksum file when published.
+1. Save queries, close SSMS and download the 1.1.2 VSIX and checksum file from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.2).
 2. Verify the checksum and install the VSIX; existing settings are retained.
 3. Expand a definition's operation, then **Inside**, then an object to see its statements. Decoded SQL and remote/job
    previews also group identified targets within their own scopes. New inner object groups start collapsed.

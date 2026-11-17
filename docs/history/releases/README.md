@@ -6,7 +6,8 @@ releases are documented by the dated records they were published with. Version c
 
 | Version | Published | Records |
 |---|---|---|
-| 1.1.1 (stable/Latest) | 2026-11-17 | [Release verification](1.1.1.md) · [scrolling fix](../runs/2026-11-17-expanded-object-scrolling.md) · [dropdown fix](../runs/2026-11-17-trusted-routine-dropdown.md) |
+| 1.1.2 (stable/Latest) | 2026-11-17 | [Release verification](1.1.2.md) · [grouped scopes](../runs/2026-11-17-grouped-code-scopes.md) · [upgrade instructions](../../user/install.md#upgrading-to-112) |
+| 1.1.1 | 2026-11-17 | [Release verification](1.1.1.md) · [scrolling fix](../runs/2026-11-17-expanded-object-scrolling.md) · [dropdown fix](../runs/2026-11-17-trusted-routine-dropdown.md) |
 | 1.1.0 | 2026-11-17 | [Package verification](1.1.0.md) · [stable promotion](../runs/2026-11-17-release-1.1.0-stable.md) · [upgrade instructions](../../user/install.md#upgrading-to-110) |
 | 1.0.5 | 2026-11-10 | [Release record](1.0.5.md) · [preparation](../runs/2026-11-10-release-1.0.5-preparation.md) · [functional verification](../runs/2026-11-10-row-gestures.md) |
 | 1.0.4 | 2026-11-09 | [Release record](1.0.4.md) · [verification](../runs/2026-11-09-settings-editors-1.0.4.md) · [publication](../runs/2026-11-09-release-1.0.4-publication.md) |

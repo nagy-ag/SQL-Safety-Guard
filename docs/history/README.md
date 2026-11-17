@@ -7,6 +7,7 @@ Release records, one per version, are indexed in [releases/](releases/README.md)
 
 | Date | Snapshot | What it was |
 |---|---|---|
+| 2026-11-17 | [releases/1.1.2.md](releases/1.1.2.md) | 1.1.2 published stable/Latest from `964506d`: grouped targets inside bodies and decoded SQL; 1,913 .NET/10 Python tests, 111 Release WPF checks, exact 1.1.1 upgrade/load/uninstall, all five downloads and source/tag CI PASS. |
 | 2026-11-17 | [runs/2026-11-17-grouped-code-scopes.md](runs/2026-11-17-grouped-code-scopes.md) | Local object groups inside bodies and decoded EXEC scopes; 1,913 .NET/10 Python tests, 111 Release WPF checks, 48 focused native checks, existing body regressions and 36 Dark captures PASS. Isolated settings restored and owned SSMS closed; published 1.1.1 and normal installation unchanged. |
 | 2026-11-17 | [releases/1.1.1.md](releases/1.1.1.md) | 1.1.1 published stable/Latest from `ff4928f`: scrolling and routine-dropdown fixes; 1,913 .NET/10 Python tests, 98 Release WPF checks, exact upgrade/load/uninstall, all five downloads and source/tag CI PASS. |
 | 2026-11-17 | [runs/2026-11-17-trusted-routine-dropdown.md](runs/2026-11-17-trusted-routine-dropdown.md) | Themed Procedure/Function selector: clean builds, 1,913 tests, 14 Release settings checks and two verified Dark captures PASS; settings restored, normal 1.1.0 retained and requested 1.1.1 publication on hold. |

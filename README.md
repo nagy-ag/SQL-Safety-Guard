@@ -54,9 +54,10 @@ ask first; the warning mode can be changed globally or per server. See [which co
 
 ## Release and upgrade
 
-Version **1.1.1 is the stable Latest release**; download it from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.1). It fixes scrolling through expanded objects and the trusted-routine dropdown theme. See [status](docs/status.md) for verification and the [upgrade instructions](docs/user/install.md#upgrading-to-111).
-Version **1.1.2 is being prepared** with local object groups inside visible code bodies and decoded SQL. See the
-[grouped-scope sample](samples/06-grouped-code-scopes.sql) and [changelog](CHANGELOG.md).
+Version **1.1.2 is the stable Latest release**; download it from [GitHub Releases](https://github.com/nagy-ag/SQL-Safety-Guard/releases/tag/v1.1.2).
+It groups identified objects inside visible code bodies and decoded SQL, with statements beneath each object.
+See [status](docs/status.md) for verification, the [upgrade instructions](docs/user/install.md#upgrading-to-112),
+the [grouped-scope sample](samples/06-grouped-code-scopes.sql) and [changelog](CHANGELOG.md).
 Older short approval rules are retained but inactive in 1.1.0. Follow the [upgrade instructions](docs/user/install.md#upgrading-to-110) to review and fully qualify them. Color and context terminology is defined in the [dictionary](docs/user/dictionary.md).
 
 ## Get started
